@@ -39,8 +39,12 @@ class Person(APerson) {
 }
 
 class Population([APerson]) {
-  persons():[APerson] { this.select(p -> p.age < 100); }
-  addPerson(v:PersonAdder): Unit { this = Array(this).addTail(APerson{v.firstname,v.name,v.age}); }
+  persons():[APerson] { 
+    this.select(p -> p.age < 100); 
+  }
+  addPerson(v:PersonAdder): Unit { 
+    this = Array(this).addTail(APerson{v.firstname,v.name,v.age}); 
+  }
 }
 ```
 
