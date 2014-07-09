@@ -2,11 +2,9 @@ MovicoJS
 ========
 
 Language dedicated to Model/View/Control web application design based on Object/Class and View separation.
-In this approach an object denotes an set of data (atomic or object) federated in a named structure. A class
+In this approach an object denotes a set of data (atomic or object) federated in a named structure. A class
 is a set of behaviors applied to a given object and finally a view denotes an extended DOM fragment used for
 UI management.
-
-References: AngularJS, ReactJS
 
 Language Overview
 =================
@@ -76,7 +74,8 @@ view PopulationView(Population) {
 More informations and References
 ================================
 
-This language has been inspired by major projects and frameworks like AngularJS, ReactJS ...
+This language has been inspired by major projects and frameworks like AngularJS, ReactJS ... In addition the 
+Virtual DOM approach is also adopted for optimal DOM update and management.
 
 License
 =======
