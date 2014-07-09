@@ -8,8 +8,11 @@ UI management.
 
 References: AngularJS, ReactJS
 
-example
-=======
+Language Overview
+=================
+
+An simple example
+-----------------
 
 ```
 object APerson { firstname: string, name: string, age: int }
