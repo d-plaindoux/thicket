@@ -14,9 +14,38 @@ Language Overview
 An simple example
 -----------------
 
-```
-object APerson { firstname: string, name: string, age: int }
+First informations and data are stored in object. In our approach an object is not meant to have behaviors
+but only provides a common and simple way for data structuration and storage. It's the model definition in
+the illustrated MVC design pattern.
 
+```
+object APerson { 
+   firstname: string, 
+   name: string, 
+   age: int 
+}
+```
+
+A class provides a set of behaviors where the internal state is represented by a model. For instance in the next 
+code two classes `Person` and `Popuation` are proposed for objects `APerson` and `[APerson]`.
+
+```
+class Person(APerson) {
+  firstname(): string { this.firstname; }
+  name(): string { this.name; }
+  age(): int { this.age; }
+  tick(): Unit { this = this.age(this.age+1); }
+}
+
+class Population([APerson]) {
+  persons():[APerson] { this.select(p -> p.age < 100); }
+  addPerson(v:PersonAdder): Unit { this = Array(this).addTail(APerson{v.firstname,v.name,v.age}); }
+}
+```
+
+Finally views can be designed and linked to controllers.
+
+```
 view PersonView(Person) {
   <div onClick=this.tick()> 
     <div>this.firstname()</div>
@@ -37,18 +66,6 @@ view PersonAdder(Population) {
 view PopulationView(Population) {
   this.persons().map(p -> <PersonView>Person(p)</PersonView>)
   <PersonAdder>this</PersonAdder>
-}
-
-class Person(APerson) {
-  firstname(): string { this.firstname; }
-  name(): string { this.name; }
-  age(): int { this.age; }
-  tick(): Unit { this = this.age(this.age+1); }
-}
-
-class Population([APerson]) {
-  persons():[APerson] { this.select(p -> p.age < 100); }
-  addPerson(v:PersonAdder): Unit { this = Array(this).addTail(APerson{v.firstname,v.name,v.age}); }
 }
 
 // starter
