@@ -3,6 +3,8 @@ movicojs
 
 Language dedicated to Model/View/Control web application design
 
+References: AngularJS, ReactJS
+
 example
 =======
 
