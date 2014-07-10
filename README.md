@@ -9,13 +9,13 @@ UI management.
 Language Overview
 =================
 
-The Movico language came from research done about strong [object/class separation](http://d.plaindoux.free.fr/clump/index.html). In addition UI management done using DOM fragment
-is added in order to define view facet in addition to object (model) and class (controller).
+The Movico language came from research done about strong [object and class separation](http://d.plaindoux.free.fr/clump/index.html). In addition UI management done using DOM fragment
+is provided in order to define view facet in addition to object (model) and class (controller).
 
-An simple example
+A simple example
 -----------------
 
-First informations and data are stored in object. In our approach an object is not meant to have behaviors
+First information and data are stored in object. In our approach an object is not meant to have behaviors
 but only provides a common and simple way for data structuration and storage. It's the model definition in
 the illustrated MVC design pattern.
 
