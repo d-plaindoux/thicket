@@ -92,8 +92,9 @@ More informations and References
 ================================
 
 This language has been inspired  by major projects and frameworks like
-AngularJS, ReactJS  ... In addition  the Virtual DOM approach  is also
-adopted for optimal DOM update and management.
+[AngularJS](https://angularjs.org),
+[React](http://facebook.github.io/react/) ...  In addition the Virtual
+DOM approach is also adopted for optimal DOM update and management.
 
 License
 =======
