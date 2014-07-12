@@ -80,7 +80,9 @@ view PersonAdder(Population) {
 }
 
 view PopulationView(Population) {
-  this.persons().map(p -> <PersonView>Person(p)</PersonView>)
+  <foreach var=p in=this.persons()>
+    <PersonView>Person(p)</PersonView>
+  </foreach>
   <PersonAdder>this</PersonAdder>
 }
 
