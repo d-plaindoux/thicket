@@ -80,13 +80,11 @@ view PersonAdder(Population) {
 }
 
 view PopulationView(Population) {
-  <foreach var=p in=this.persons()>
-    <PersonView>Person(p)</PersonView>
-  </foreach>
+  this.persons().map(p -> <PersonView>Person(p)</PersonView>)
   <PersonAdder>this</PersonAdder>
 }
 
-// Document(document).byId("content").setValue(PopulationView(Population([]))
+// Document(document).byId("content").setValue(<PopulationView>Population([])</PopulationView>)
 // Document(document).import("...") -> Creates a view
 ```
 
