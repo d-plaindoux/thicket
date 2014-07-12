@@ -46,12 +46,12 @@ class Person(APerson) {
   tick(): Unit { this = this.age(this.age+1); }
 }
 
-class Population(List[APerson]) {
+class Population([APerson]) {
   persons():[APerson] { 
     this.select(p -> p.age < 100); 
   }
   addPerson(v:PersonAdder): Unit { 
-    this = Array(this).addTail(APerson{v.firstname,v.name,v.age}); 
+    this = Array(this).addFirst(APerson{v.firstname,v.name,v.age}); 
   }
 }
 ```
@@ -59,8 +59,7 @@ class Population(List[APerson]) {
 Finally  views can  be  designed  and linked  to  controllers. In  the
 example  we   propose  views  dedicated   to  a  `Person`  and   to  a
 `Population`. These  views define  the UI  using HTML  fragments. This
-approach is similar to [Reac](http://facebook.github.io/react/) but UI
-and code is separated in our approach in order to break coupling.
+approach is similar to [Reac](http://facebook.github.io/react/).
 
 ```
 view PersonView(Person) {
@@ -73,10 +72,10 @@ view PersonView(Person) {
  
 view PersonAdder(Population) {
   <form onSubmit=this.addPerson(self)>
-     <input type="text" id="firstname"/>
-     <input type="text" id="name"/>
-     <input type="text" id="age"/>
-     <input type="submit" value="Add"/>
+    <input type="text" id="firstname"/>
+    <input type="text" id="name"/>
+    <input type="text" id="age"/>
+    <input type="submit" value="Add"/>
   </form>
 }
 
@@ -85,8 +84,7 @@ view PopulationView(Population) {
   <PersonAdder>this</PersonAdder>
 }
 
-// starter
-// Document(document).render("content",PopulationView(Population([]))
+// Document(document).byId("content").setValue(PopulationView(Population([]))
 // Document(document).import("...") -> Creates a view
 ```
 
