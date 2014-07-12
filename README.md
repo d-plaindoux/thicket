@@ -64,27 +64,27 @@ approach is similar to [Reac](http://facebook.github.io/react/).
 ```
 view PersonView(Person) {
   <div onClick=this.tick()> 
-    <div>this.firstname()</div>
-    <div>this.name()</div>
-    <div>this.age()</div>
-  </div>
+    <div>this.firstname()</>
+    <div>this.name()</>
+    <div>this.age()</>
+  </>
 }
  
 view PersonAdder(Population) {
-  <form onSubmit=this.addPerson(self)>
+  <form onSubmit=this.addPerson(self)[
     <input type="text" id="firstname"/>
     <input type="text" id="name"/>
     <input type="text" id="age"/>
     <input type="submit" value="Add"/>
-  </form>
+  ]>
 }
 
 view PopulationView(Population) {
-  this.persons().map(p -> <PersonView>Person(p)</PersonView>)
-  <PersonAdder>this</PersonAdder>
+  this.persons().map(p -> <PersonView>Person(p)</>)
+  <PersonAdder>this</>
 }
 
-// Document(document).byId("content").setValue(<PopulationView>Population([])</PopulationView>)
+// Document(document).byId("content").setValue(<PopulationView>Population([])</>)
 // Document(document).import("...") -> Creates a view
 ```
 
