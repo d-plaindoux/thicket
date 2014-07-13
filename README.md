@@ -71,16 +71,16 @@ view PersonView(Person) {
 }
  
 view PersonAdder(Population) {
-  <form onSubmit=this.addPerson(self)[
+  <form onSubmit=this.addPerson(self)>
     <input type="text" id="firstname"/>
     <input type="text" id="name"/>
     <input type="text" id="age"/>
     <input type="submit" value="Add"/>
-  ]>
+  </>
 }
 
 view PopulationView(Population) {
-  this.persons().map(p -> <PersonView>Person(p)</>)
+  this.persons().map((p) -> <PersonView>Person(p)</> )
   <PersonAdder>this</>
 }
 

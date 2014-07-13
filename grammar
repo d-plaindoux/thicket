@@ -1,0 +1,37 @@
+entity  ::= objectDef | classDef | viewDef
+
+// ----------------------------------------------------------------------
+
+objectDef ::= "object" IDENT "{" params "}"
+
+params    ::= (param ("," param)*)?
+param     ::= IDENT (":" type)?
+
+type      ::= IDENT | "(" type ")" | type "," type | "[" type "]" | type "->" type 
+
+// ----------------------------------------------------------------------
+
+classDef  ::= "class" IDENT "(" type ")" "{" methods "}"
+
+methods   ::= IDENT = expr
+
+exprs     ::= expr ";" exprs
+expr      ::= NUMBER | STRING | CHAR
+	    | "this" | "self" | "none"
+            | "{" exprs "}"
+            | expr "." expr 
+            | IDENT "(" args ")" | IDENT  "{" args "}"
+            | "(" params ")" (":" type)? "->" expr
+	    | tag
+	    | ifExpr
+
+ifExpr    ::= "if" "(" expr ")" expr ("else" expr)?
+
+args      ::= (expr ("," expr)*)?
+
+// ----------------------------------------------------------------------
+
+viewDef   ::= "view" IDENT "(" type ")" "{" content "}"
+content   ::= (expr | tag)*
+tag       ::= "<" IDENT attr* ">" content "</" IDENT? ">" | "<" IDENT attr* "/>"
+attr      ::= IDENT=expr
