@@ -40,15 +40,15 @@ represented by  a model.  For instance  in the  next code  two classes
 
 ```
 class Person(APerson) {
-  firstname(): string { this.firstname; }
-  name(): string { this.name; }
-  age(): int { this.age; }
-  tick(): Unit { this = this.age(this.age+1); }
+  firstname(): string { this.firstname }
+  name(): string { this.name }
+  age(): int { this.age }
+  tick(): Unit { this = this.age(this.age+1) }
 }
 
 class Population([APerson]) {
   persons():[APerson] { 
-    this.select(p -> p.age < 100); 
+    this.select((p) -> p.age < 100); 
   }
   addPerson(v:PersonAdder): Unit { 
     this = Array(this).addFirst(APerson{v.firstname,v.name,v.age}); 
@@ -94,7 +94,8 @@ More informations and References
 This language has been inspired  by major projects and frameworks like
 [AngularJS](https://angularjs.org),
 [React](http://facebook.github.io/react/) ...  In addition the Virtual
-DOM approach is also adopted for optimal DOM update and management.
+DOM  approach is  also  studied in  order to  provide  a reactive  and
+efficient DOM management process.
 
 License
 =======

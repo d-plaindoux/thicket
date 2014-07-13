@@ -13,12 +13,11 @@ type      ::= IDENT | "(" type ")" | type "," type | "[" type "]" | type "->" ty
 
 classDef  ::= "class" IDENT "(" type ")" "{" methods "}"
 
-methods   ::= IDENT = expr
+methods   ::= IDENT "(" params ")" (":" type) "{" expr "}"
 
-exprs     ::= expr ";" exprs
 expr      ::= NUMBER | STRING | CHAR
 	    | "this" | "self" | "none"
-            | "{" exprs "}"
+            | "{" expr* "}"
             | expr "." expr 
             | IDENT "(" args ")" | IDENT  "{" args "}"
             | "(" params ")" (":" type)? "->" expr
@@ -34,4 +33,4 @@ args      ::= (expr ("," expr)*)?
 viewDef   ::= "view" IDENT "(" type ")" "{" content "}"
 content   ::= (expr | tag)*
 tag       ::= "<" IDENT attr* ">" content "</" IDENT? ">" | "<" IDENT attr* "/>"
-attr      ::= IDENT=expr
+attr      ::= IDENT "=" expr
