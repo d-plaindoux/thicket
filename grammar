@@ -4,7 +4,7 @@ entity    ::= objectDef
             | import
 
 objectDef ::= "object" IDENT "{" params "}"
-classDef  ::= "class" IDENT "(" type ")" "{" methods "}"
+classDef  ::= "class" IDENT "(" type ")" "{" method* "}"
 viewDef   ::= "view" IDENT "(" type ")" "{" expr "}"
 import    ::= "import" STRING
 
@@ -18,21 +18,22 @@ type      ::= IDENT
             | "[" type "]" 
             | type "->" type 
 
-methods   ::= IDENT "(" params ")" (":" type) "{" expr "}"
+method    ::= IDENT "(" params ")" (":" type) "{" expr "}"
 
-expr      ::= NUMBER 
-            | STRING 
-            | CHAR
-	    | "this" 
-            | "self"
-            | "{" (expr ";"?)* "}"
-            | expr "." expr 
-            | IDENT "(" args ")" 
-            | IDENT  "{" args "}"
-            | "(" params ")" (":" type)? "->" expr
-	    | tag
-	    | ifExpr
-            | forExpr
+expr      ::= NUMBER						// An integer
+            | STRING						// A string
+            | CHAR						// A character
+	    | "this"						// Denoted data
+            | "self"						// Current data
+            | "{" (expr ";"?)* "}"				// New block
+            | expr "." expr    					// Invocation/Access
+            | IDENT "(" args ")"				// Class instanciation
+            | IDENT "{" args "}"				// Object construction
+            | "(" params ")" (":" type)? "->" expr		// Abstraction/Function
+            | "var" param init					// Variable declaration
+	    | tag 	     	  	      			// UI Structured data
+	    | ifExpr						// If control structure
+            | forExpr						// Loop control structure
 
 args      ::= (expr ("," expr)*)?
 
