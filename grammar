@@ -1,36 +1,46 @@
-entity  ::= objectDef | classDef | viewDef
-
-// ----------------------------------------------------------------------
+entity    ::= objectDef 
+            | classDef
+            | viewDef
+            | import
 
 objectDef ::= "object" IDENT "{" params "}"
-
-params    ::= (param ("," param)*)?
-param     ::= IDENT (":" type)?
-
-type      ::= IDENT | "(" type ")" | type "," type | "[" type "]" | type "->" type 
-
-// ----------------------------------------------------------------------
-
 classDef  ::= "class" IDENT "(" type ")" "{" methods "}"
+viewDef   ::= "view" IDENT "(" type ")" "{" expr "}"
+import    ::= "import" STRING
+
+params    ::= (param init? ("," param init?)*)?
+param     ::= IDENT (":" type)?
+init      ::= "=" expr
+
+type      ::= IDENT 
+            | "(" type ")" 
+            | type "," type 
+            | "[" type "]" 
+            | type "->" type 
 
 methods   ::= IDENT "(" params ")" (":" type) "{" expr "}"
 
-expr      ::= NUMBER | STRING | CHAR
-	    | "this" | "self" | "none"
-            | "{" expr* "}"
+expr      ::= NUMBER 
+            | STRING 
+            | CHAR
+	    | "this" 
+            | "self"
+            | "{" (expr ";"?)* "}"
             | expr "." expr 
-            | IDENT "(" args ")" | IDENT  "{" args "}"
+            | IDENT "(" args ")" 
+            | IDENT  "{" args "}"
             | "(" params ")" (":" type)? "->" expr
 	    | tag
 	    | ifExpr
-
-ifExpr    ::= "if" "(" expr ")" expr ("else" expr)?
+            | forExpr
 
 args      ::= (expr ("," expr)*)?
 
-// ----------------------------------------------------------------------
+tag       ::= "<" IDENT attr* ">" content "</" IDENT? ">" 
+            | "<" IDENT attr* "/>"
 
-viewDef   ::= "view" IDENT "(" type ")" "{" content "}"
-content   ::= (expr | tag)*
-tag       ::= "<" IDENT attr* ">" content "</" IDENT? ">" | "<" IDENT attr* "/>"
 attr      ::= IDENT "=" expr
+
+ifExpr    ::= "if" "(" expr ")" expr ("else" expr)?
+ifExpr    ::= "for" IDENT "in" expr expr
+

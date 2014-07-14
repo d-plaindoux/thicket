@@ -27,9 +27,9 @@ definition in the illustrated MVC design pattern.
 
 ```
 object APerson { 
-   firstname: string, 
-   name: string, 
-   age: int 
+   firstname: String, 
+   name: String, 
+   age: Int = 0
 }
 ```
 
@@ -40,18 +40,18 @@ represented by  a model.  For instance  in the  next code  two classes
 
 ```
 class Person(APerson) {
-  firstname(): string { this.firstname }
-  name(): string { this.name }
-  age(): int { this.age }
+  firstname(): String { this.firstname }
+  name(): String { this.name }
+  age(): Int { this.age }
   tick(): Unit { this = this.age(this.age+1) }
 }
 
 class Population([APerson]) {
   persons():[APerson] { 
-    this.select((p) -> p.age < 100); 
+    this.select((p) -> p.age < 100) 
   }
   addPerson(v:PersonAdder): Unit { 
-    this = Array(this).addFirst(APerson{v.firstname,v.name,v.age}); 
+    this = Array(this).addFirst(APerson{v.firstname,v.name,v.age}) 
   }
 }
 ```
