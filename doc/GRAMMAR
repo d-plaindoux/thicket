@@ -1,0 +1,48 @@
+entity    ::= objectDef 
+            | classDef
+            | viewDef
+            | import
+
+objectDef ::= "object" IDENT "{" params "}"
+classDef  ::= "class" IDENT "(" type ")" "{" method* "}"
+viewDef   ::= "view" IDENT "(" type ")" "{" expr "}"
+import    ::= "import" STRING
+
+params    ::= (param init? ("," param init?)*)?
+param     ::= IDENT (":" type)?
+init      ::= "=" expr
+
+type      ::= IDENT 
+            | "(" type ")" 
+            | type "," type 
+            | "[" type "]" 
+            | type "->" type 
+
+method    ::= IDENT "(" params ")" (":" type) "{" expr "}"
+
+expr      ::= NUMBER						// An integer
+            | STRING						// A string
+            | CHAR						// A character
+	    | IDENT 						// An identifier
+	    | "this"						// Denoted data
+            | "self"						// Current data
+            | "{" (expr ";"?)* "}"				// New block
+            | expr "." expr    					// Invocation/Access
+            | IDENT "(" expr ")"				// Class instanciation
+            | IDENT "{" args "}"				// Object construction
+            | "(" params ")" (":" type)? "->" expr		// Abstraction/Function
+            | "var" param init					// Variable declaration
+	    | tag 	     	  	      			// UI Structured data
+	    | ifExpr						// Selection control structure
+            | forExpr						// Loop control structure
+
+args      ::= (expr ("," expr)*)?
+
+tag       ::= "<" IDENT attr* ">" content "</" IDENT? ">" 
+            | "<" IDENT attr* "/>"
+
+attr      ::= IDENT "=" expr
+
+ifExpr    ::= "if" "(" expr ")" expr ("else" expr)?
+ifExpr    ::= "for" IDENT "in" expr expr
+

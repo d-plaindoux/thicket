@@ -51,7 +51,7 @@ class Population([APerson]) {
     this.select((p) -> p.age < 100) 
   }
   addPerson(v:PersonAdder): Unit { 
-    this = Array(this).addFirst(APerson{v.firstname,v.name,v.age}) 
+    this = Array(this).addFirst(APerson{v.firstname,v.name}) 
   }
 }
 ```
@@ -74,7 +74,6 @@ view PersonAdder(Population) {
   <form onSubmit=this.addPerson(self)>
     <input type="text" id="firstname"/>
     <input type="text" id="name"/>
-    <input type="text" id="age"/>
     <input type="submit" value="Add"/>
   </>
 }
