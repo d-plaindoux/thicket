@@ -26,7 +26,7 @@ simple  way  for  data  structuration and  storage.   It's  the  model
 definition in the illustrated MVC design pattern.
 
 ```
-object APerson { 
+object APerson {
    firstname: String, 
    name: String, 
    age: Int = 0
@@ -59,7 +59,7 @@ class Population([APerson]) {
 Finally  views can  be  designed  and linked  to  controllers. In  the
 example  we   propose  views  dedicated   to  a  `Person`  and   to  a
 `Population`. These  views define  the UI  using HTML  fragments. This
-approach is similar to [Reac](http://facebook.github.io/react/).
+approach is  similar to  [Reac](http://facebook.github.io/react/).
 
 ```
 view PersonView(Person) {
@@ -69,7 +69,17 @@ view PersonView(Person) {
     <div>this.age()</>
   </>
 }
- 
+```
+
+The main  purpose of views is  the capability to define  a specific UI
+(HTML  fragment) in  a  single and  isolated  block.  Then  identified
+elements become  part of  the definition in  opposite to  anonymous UI
+definition.   In  the  next  definition  a  `PersonAdder`  has  always
+identified  elements  like  `firstname`  and  `name`.  Based  on  such
+definition each `PersonAdder` instance  provides these definitions and
+then can be referenced as we do in the `Population#addPerson` method.
+
+```
 view PersonAdder(Population) {
   <form onSubmit=this.addPerson(self)>
     <input type="text" id="firstname"/>

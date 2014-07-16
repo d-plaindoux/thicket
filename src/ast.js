@@ -2,78 +2,113 @@
  * Entities and expressions
  */
 
-// MISSING types and entities
+// ----------------------------------------------------------------------
+// Types 
+// ----------------------------------------------------------------------
+
+// IDENT
+function TypeIdent(name) {
+    this.name = name;
+}
+
+// Tuple type
+function TypeTuple(types) {
+    this.types = types;
+}
+
+// Function type
+function TypeFun(type, type) {
+    this.requires = type;
+    this.provides = type;
+}
+
+// Array type
+function TypeArray(type) {
+    this.type = type;
+}
+
+// ----------------------------------------------------------------------
+// Expressions 
+// ----------------------------------------------------------------------
+
+function Expression() {
+    // Nothing
+}
 
 // NUMBER, STRING, CHAR
-var Atom = function(value) {
+// signature: String -> Atom
+function Atom(value) {
+    // super
     this.value = value;
 }
 
 // IDENT
-var Identifier = function(name) {
+// signature: String -> Identifier
+function Identifier(name) {
     this.name = name;
 }
 
 // this and self are part of the environment
 
 // Sequence
-var Sequence = function (expressions) {
+// signature: expression* -> Sequence
+function Sequence(expressions) {
     this.expressions = expressions;
 }
 
 // Dot expression
-var Access = function (leftExpression, rightExpression) {
+function Access(leftExpression, rightExpression) {
     this.leftExpression = leftExpression;
     this.rightExpression = rightExpression;
 }
 
 // Class instance
-var NewInstance = function(name, expression) {
+function NewInstance(name, expression) {
     this.name = name;
     this.parameters = parameters;
 }
 
 // Object structure
-var NewObject = function(name, parameters) {
+function NewObject(name, parameters) {
     this.name = name;
     this.parameters = parameters;
 }
 
 // Abstraction
-var Abstraction = function(parameters, type, expression) {
+function Abstraction(parameters, type, expression) {
     this.parameters = parameters;
     this.type = type;
     this.expression = expression;
 }
 
-// Variable declaration and initialisation
-var Variable = function (name, type, value) {
+// and variable declaration initialisation
+function Variable(name, type, value) {
     this.name = name;
     this.type = type;
     this.value = expression;
 }
 
 // Tag
-var Tag = function(name, attributes, expression) {
+function Tag(name, attributes, expression) {
     this.name = name;
     this.attributes = attributes;
     this.content = expression;
 }
 
-var Attribute = function (name, expression) {
+function Attribute(name, expression) {
     this.name = name;
     this.value = expression;
 }
 
 // Selection control structure
-var If = function(condition, thenExpression, elseExpression) {
+function If(condition, thenExpression, elseExpression) {
     this.condition = condition;
     this.thenExpression = thenExpression;
     this.elseExpression = elseExpression;
 }
 
 // Loop control structure
-var For = function(name, values, expression) {
+function For(name, values, expression) {
     this.name = name;
     this.values = values;
     this.expression = expression;

@@ -1,12 +1,14 @@
 entity    ::= objectDef 
             | classDef
             | viewDef
-            | import
+            | require
+            | module
 
 objectDef ::= "object" IDENT "{" params "}"
 classDef  ::= "class" IDENT "(" type ")" "{" method* "}"
 viewDef   ::= "view" IDENT "(" type ")" "{" expr "}"
-import    ::= "import" STRING
+require   ::= "require" STRING
+module    ::= "module" IDENT "{" entity* "}"
 
 params    ::= (param init? ("," param init?)*)?
 param     ::= IDENT (":" type)?
