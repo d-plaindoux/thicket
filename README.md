@@ -62,7 +62,7 @@ example  we   propose  views  dedicated   to  a  `Person`  and   to  a
 approach is  similar to  [Reac](http://facebook.github.io/react/).
 
 ```
-view PersonView(Person) {
+view PersonView(this:Person) {
   <div onClick=this.tick()> 
     <div>this.firstname()</>
     <div>this.name()</>
@@ -80,7 +80,7 @@ definition each `PersonAdder` instance  provides these definitions and
 then can be referenced as we do in the `Population#addPerson` method.
 
 ```
-view PersonAdder(Population) {
+view PersonAdder(this:Population) {
   <form onSubmit=this.addPerson(firstname,name)>
     <input type="text" id="firstname"/>
     <input type="text" id="name"/>
@@ -88,7 +88,7 @@ view PersonAdder(Population) {
   </>
 }
 
-view PopulationView(Population) {
+view PopulationView(this:Population) {
   [<PersonView>Person(p)</> | p <- this.persons()]
   <PersonAdder>this</>
 }
