@@ -51,6 +51,16 @@ exports.stream = function(value) {
         return null;
     };
     
+    Stream.prototype.nextRegexp = function(value) {
+        var result = new RegExp("^" + value ).exec(this.value);
+        
+        if (result && result[0].length > 0) {
+            return new Lexeme(result[0].length, this);
+        }
+        
+        return null;
+    };
+        
     return new Stream(value);
 };
 
