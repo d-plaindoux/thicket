@@ -1,4 +1,4 @@
-Movico
+Movico [![Build Status](https://travis-ci.org/d-plaindoux/movicojs.svg)](https://travis-ci.org/d-plaindoux/movicojs)
 ======
 
 Language dedicated to Model/View/Control  web application design based
