@@ -20,6 +20,7 @@ exports.stream = function(value) {
 
     Lexeme.prototype.accept = function() {
         this.stream.offset += this.length;
+        this.length = 0; // Idempotent
         return this;    
     };
     

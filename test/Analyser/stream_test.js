@@ -87,4 +87,14 @@ exports['stream'] = {
     test.equal(stream.nextToken("b"), undefined, 'should be a reject.');
     test.done();
   },
+    
+        
+  'stream accepts two tokens and provide it': function(test) {
+    test.expect(2);
+    // tests here      
+    var stream = movico.stream("ab");
+    test.equal(stream.nextToken("a").accept().value, "a", 'should be a lexeme.');
+    test.equal(stream.nextToken("b").accept().value, "b", 'should be a lexeme.');
+    test.done();
+  },
 };
