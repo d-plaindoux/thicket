@@ -40,15 +40,15 @@ represented by  a model.  For instance  in the  next code  two classes
 
 ```
 controller Person(this:APerson) {
-  firstname() String { this.firstname }
-  name() String { this.name }
-  age() Int { this.age }
-  tick() Person { self(this.age(this.age+1)) }
+  firstname() { this.firstname }
+  name() { this.name }
+  age() { this.age }
+  tick() { self(this.age(this.age+1)) }
 }
 
 controller Population([APerson]) {
-  persons() [APerson] { [p | p <- this if p.age < 100] }
-  addPerson(f,n) string,string -> Population { self(APerson{f,n} : this) }
+  persons() { [p | p <- this if p.age < 100] }
+  addPerson(f,n) { self(APerson{f,n} : this) }
 }
 ```
 
