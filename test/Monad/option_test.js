@@ -40,4 +40,32 @@ exports['options'] = {
     test.equal(option.option(12).isPresent(), true, 'should not be empty option.');
     test.done();
   },
+    
+  'option not empty mapped': function(test) {
+    test.expect(1);
+    // tests here      
+    test.equal(option.option(12).map(function(a){return a;}).get(), 12, 'should not be empty option.');
+    test.done();
+  },
+    
+  'option not empty flat mapped': function(test) {
+    test.expect(1);
+    // tests here      
+    test.equal(option.option(12).flatMap(function(a){return a;}), 12, 'should not be empty option.');
+    test.done();
+  },
+    
+  'option empty or else': function(test) {
+    test.expect(1);
+    // tests here      
+    test.equal(option.option().orElse(12), 12, 'should be empty option.');
+    test.done();
+  },
+    
+  'option not empty or else': function(test) {
+    test.expect(1);
+    // tests here      
+    test.equal(option.option(12).orElse(14), 12, 'should be empty option.');
+    test.done();
+  },
 };

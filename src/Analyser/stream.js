@@ -12,7 +12,9 @@ exports.stream = function(value) {
     
     var option = require('../Monad/option.js');
     
+    //
     // Lexeme internal class
+    //
     
     function Lexeme(length, stream) {
         this.length = length;
@@ -39,6 +41,14 @@ exports.stream = function(value) {
         return this.value.length - this.offset;
     };
     
+    Stream.prototype.checkpoint = function() {
+        var that = this, offset = this.offset;
+        
+        return function() {
+            that.offset = offset;
+        };
+    };
+    
     Stream.prototype.isEmpty = function() {
         return this.value.length == this.offset;
     };
@@ -56,6 +66,10 @@ exports.stream = function(value) {
     };
     
     Stream.prototype.nextRegexp = function(value) {
+        if (this.isEmpty()) {
+            return option.option();
+        } 
+
         var result = new RegExp("^" + value ).exec(this.value);
         
         if (result && result[0].length > 0) {
