@@ -26,27 +26,27 @@ simple  way  for  data  structuration and  storage.   It's  the  model
 definition in the illustrated MVC design pattern.
 
 ```
-object APerson {
-   firstname: String, 
-   name: String, 
+model APerson {
+   firstname: String
+   name: String
    age: Int = 0
 }
 ```
 
-A  class provides  a  set of  behaviors where  the  internal state  is
+A  controller provides  a  set of  behaviors where  the  internal state  is
 represented by  a model.  For instance  in the  next code  two classes
-`Person`  and  `Popuation`  are  proposed for  objects  `APerson`  and
+`Person`  and  `Population`  are  proposed for  objects  `APerson`  and
 `[APerson]`.
 
 ```
-class Person(APerson) {
+controller Person(APerson) {
   firstname(): String { this.firstname }
   name(): String { this.name }
   age(): Int { this.age }
   tick(): Unit { this = this.age(this.age+1) }
 }
 
-class Population([APerson]) {
+controller Population([APerson]) {
   persons():[APerson] { 
     this.select((p) -> p.age < 100) 
   }
