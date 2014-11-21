@@ -50,8 +50,8 @@ controller Population([APerson]) {
   persons(): [APerson] { 
     [p | p <- this if p.age < 100]
   }
-  addPerson(f,n): string,string -> Unit { 
-    this = Array(this).addFirst(APerson{f,n}) 
+  addPerson(f,n): string,string -> Population { 
+    self(APerson{f,n} : this) 
   }
 }
 ```
