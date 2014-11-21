@@ -39,11 +39,11 @@ represented by  a model.  For instance  in the  next code  two classes
 `[APerson]`.
 
 ```
-controller Person(APerson) {
+controller Person(this:APerson) {
   firstname(): String { this.firstname }
   name(): String { this.name }
   age(): Int { this.age }
-  tick(): Unit { this = this.age(this.age+1) }
+  tick(): Person { self(this.age(this.age+1)) }
 }
 
 controller Population([APerson]) {
@@ -63,7 +63,7 @@ approach is  similar to  [Reac](http://facebook.github.io/react/).
 
 ```
 view PersonView(this:Person) {
-  <div onClick=this.tick()> 
+  <div onClick=self(this.tick())> 
     <div>this.firstname()</>
     <div>this.name()</>
     <div>this.age()</>
