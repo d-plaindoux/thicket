@@ -10,6 +10,8 @@
 
 exports.stream = function(value) {
     
+    var option = require('../Monad/option.js');
+    
     // Lexeme internal class
     
     function Lexeme(length, stream) {
@@ -24,14 +26,16 @@ exports.stream = function(value) {
         return this;    
     };
     
+    //
     // Stream class
+    //
     
     function Stream(value) {            
         this.offset = 0;
         this.value = value;
     };
     
-    Stream.prototype.length = function() {
+    Stream.prototype.remaining = function() {
         return this.value.length - this.offset;
     };
     
@@ -40,27 +44,31 @@ exports.stream = function(value) {
     };
     
     Stream.prototype.nextToken = function(value) {
-        if (this.isEmpty() || value.length > this.length()) {
-            return undefined;
+        if (this.isEmpty() || value.length > this.remaining()) {
+            return option.option();
         } 
         
         if (this.value.substring(this.offset, this.offset + value.length) === value) {            
-            return new Lexeme(value.length, this);
+            return option.option(new Lexeme(value.length, this));
         } 
         
-        return null;
+        return option.option();
     };
     
     Stream.prototype.nextRegexp = function(value) {
         var result = new RegExp("^" + value ).exec(this.value);
         
         if (result && result[0].length > 0) {
-            return new Lexeme(result[0].length, this);
+            return option.option(new Lexeme(result[0].length, this));
         }
         
-        return null;
+        return option.option();
     };
         
+    //
+    // Constructor
+    //
+    
     return new Stream(value);
 };
 
