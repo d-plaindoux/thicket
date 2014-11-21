@@ -48,7 +48,7 @@ controller Person(APerson) {
 
 controller Population([APerson]) {
   persons(): [APerson] { 
-    this.select((p) -> p.age < 100) 
+    [p | p <- this if p.age < 100]
   }
   addPerson(f,n): string,string -> Unit { 
     this = Array(this).addFirst(APerson{f,n}) 
@@ -89,7 +89,7 @@ view PersonAdder(Population) {
 }
 
 view PopulationView(Population) {
-  this.persons().map((p) -> <PersonView>Person(p)</> )
+  [<PersonView>Person(p)</> | p <- this.persons()]
   <PersonAdder>this</>
 }
 
