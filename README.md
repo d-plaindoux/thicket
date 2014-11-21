@@ -47,11 +47,11 @@ controller Person(APerson) {
 }
 
 controller Population([APerson]) {
-  persons():[APerson] { 
+  persons(): [APerson] { 
     this.select((p) -> p.age < 100) 
   }
-  addPerson(v:PersonAdder): Unit { 
-    this = Array(this).addFirst(APerson{v.firstname,v.name}) 
+  addPerson(f,n): string,string -> Unit { 
+    this = Array(this).addFirst(APerson{f,n}) 
   }
 }
 ```
@@ -81,7 +81,7 @@ then can be referenced as we do in the `Population#addPerson` method.
 
 ```
 view PersonAdder(Population) {
-  <form onSubmit=this.addPerson(self)>
+  <form onSubmit=this.addPerson(firstname,name)>
     <input type="text" id="firstname"/>
     <input type="text" id="name"/>
     <input type="submit" value="Add"/>
