@@ -1,0 +1,38 @@
+{
+  "name": "movico",
+  "description": "Language dedicated to Model/View/Control web application design",
+  "version": "0.1.0",
+  "homepage": "https://github.com/d-plaindoux/movico",
+  "author": {
+    "name": "Didier Plaindoux",
+    "email": "d.plaindoux@free.fr",
+    "url": "d.plaindoux.free.fr"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/d-plaindoux/movico"
+  },
+  "bugs": {
+    "url": "https://github.com/d-plaindoux/movico/issues"
+  },
+  "licenses": [
+    {
+      "type": "LGPL2",
+      "url": "https://github.com/d-plaindoux/movico/blob/master/LICENSE-LGPL2"
+    }
+  ],
+  "main": "src",
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "scripts": {
+    "test": "grunt nodeunit"
+  },
+  "devDependencies": {
+    "grunt-contrib-jshint": "~0.6.4",
+    "grunt-contrib-nodeunit": "~0.2.0",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt": "~0.4.5"
+  },
+  "keywords": []
+}

@@ -1,50 +1,40 @@
-entity    ::= objectDef 
-            | classDef
-            | viewDef
-            | require
-            | module
+   MovicoJS grammar definition   
+--------------------------------- 
+ V1                   11/21/2014               
+---------------------------------
 
-objectDef ::= "object" IDENT "{" params "}"
-classDef  ::= "class" IDENT "(" type ")" "{" method* "}"
-viewDef   ::= "view" IDENT "(" type ")" "{" expr "}"
-require   ::= "require" STRING
-module    ::= "module" IDENT "{" entity* "}"
+entity  ::= objectDef | classDef | viewDef
 
-params    ::= (param init? ("," param init?)*)?
-param     ::= IDENT (":" type)?
-init      ::= "=" expr
+// ----------------------------------------------------------------------
 
-type      ::= IDENT 
-            | "(" type ")" 
-            | type "," type 
-            | "[" type "]" 
-            | type "->" type 
+objectDef ::= "data" IDENT "{" param* "}"
+param     ::= IDENT ":" type
 
-method    ::= IDENT "(" params ")" (":" type) "{" expr "}"
+type      ::= IDENT | "(" types ")" | "[" type "]"
+types     ::= type ("," type)*
 
-expr      ::= NUMBER						// An integer
-            | STRING						// A string
-            | CHAR						// A character
-	    | IDENT 						// An identifier
-	    | "this"						// Denoted data
-            | "self"						// Current data
-            | "{" (expr ";"?)* "}"				// New block
-            | expr "." expr    					// Invocation/Access
-            | IDENT "(" expr ")"				// Class instanciation
-            | IDENT "{" args "}"				// Object construction
-            | "(" params ")" (":" type)? "->" expr		// Abstraction/Function
-            | "var" param init					// Variable declaration
-	    | tag 	     	  	      			// UI Structured data
-	    | ifExpr						// Selection control structure
-            | forExpr						// Loop control structure
+// ----------------------------------------------------------------------
 
-args      ::= (expr ("," expr)*)?
+classDef  ::= "controller" IDENT "(" IDENT ")" "{" methods "}"
 
-tag       ::= "<" IDENT attr* ">" content "</" IDENT? ">" 
-            | "<" IDENT attr* "/>"
+methods   ::= IDENT (IDENT+ | ()) "=" exprs
 
-attr      ::= IDENT "=" expr
+exprs     ::= expr? (\n expr)*
+expr      ::= NUMBER 
+            | STRING 
+            | "self"  
+            | expr expr
+            | IDENT  "(" expr ")"
+            | IDENT  "{" args "}"
+            | "(" exprs ")"
+            | expr "," expr
+            | expr "." expr
+            | "[" expr | (IDENT <- expr) (if expr)? "]"
 
-ifExpr    ::= "if" "(" expr ")" expr ("else" expr)?
-ifExpr    ::= "for" IDENT "in" expr expr
+// ----------------------------------------------------------------------
 
+viewDef   ::= "view" IDENT "(" IDENT ")" "{" content "}"
+
+content   ::= (expr | tag)*
+tag       ::= "<" IDENT attr* ">" content "</" IDENT? ">" | "<" IDENT attr* "/>"
+attr      ::= IDENT=expr
