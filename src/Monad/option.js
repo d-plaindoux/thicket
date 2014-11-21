@@ -1,3 +1,5 @@
+/*global exports, require*/
+
 /*
  * Movico
  * https://github.com/d-plaindoux/movico
@@ -6,15 +8,15 @@
  * Licensed under the LGPL2 license.
  */
 
-'use strict';
-
-exports.option = function(value) {
+exports.option = function (value) {
     
+    'use strict';
+
     function Option(value) {
         this.value = value;
     }
     
-    Option.prototype.isPresent = function() {
+    Option.prototype.isPresent = function () {
         if (this.value) {
             return true;
         } else {
@@ -22,7 +24,7 @@ exports.option = function(value) {
         }
     };
     
-    Option.prototype.map = function(bindCall) {
+    Option.prototype.map = function (bindCall) {
         if (this.isPresent()) {
             return new Option(bindCall(this.value));
         } else {
@@ -30,7 +32,7 @@ exports.option = function(value) {
         }
     };
 
-    Option.prototype.flatMap = function(bindCall) {
+    Option.prototype.flatMap = function (bindCall) {
         if (this.isPresent()) {
             return bindCall(this.value);
         } else {
@@ -38,11 +40,11 @@ exports.option = function(value) {
         }
     };
 
-    Option.prototype.get = function() {
+    Option.prototype.get = function () {
         return this.value;
     };
     
-    Option.prototype.orElse = function(value) {
+    Option.prototype.orElse = function (value) {
         if (this.isPresent()) {
             return this.value;
         } else {
@@ -51,4 +53,4 @@ exports.option = function(value) {
     };
     
     return new Option(value);
-}
+};

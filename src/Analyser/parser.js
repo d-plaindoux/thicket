@@ -1,3 +1,5 @@
+/*global exports, require*/
+
 /*
  * Movico
  * https://github.com/d-plaindoux/movico
@@ -6,11 +8,15 @@
  * Licensed under the LGPL2 license.
  */
 
-'use strict';
-
-exports.parser = function() {
+exports.parser = function () {
     
+    'use strict';
+
     var movico = require('./rule.js');
+    
+    //
+    // Parser class
+    //
     
     function Parser() {
         this.skipped = [];
@@ -22,39 +28,39 @@ exports.parser = function() {
             array.push(movico.rule(true, value.source, parseFn));
         } else if (typeof value === 'string') {
             array.push(movico.rule(false, value, parseFn));
-        } else {
-            // Reject
         }
     }
     
-    Parser.prototype.addSkip = function(value) {
-        add(this.skipped, value, function(_){ return true; });
+    Parser.prototype.addSkip = function (value) {
+        add(this.skipped, value, function (a) { return true; });
     };
     
-    Parser.prototype.addRule = function(value, parseFn) {
+    Parser.prototype.addRule = function (value, parseFn) {
         add(this.skip, value, parseFn);
     };
     
-    Parser.prototype.skip = function(stream) {                
-        var skipped;
+    Parser.prototype.skip = function (stream) {
+        var skipped, rule;
         
         do {
-            skipped = false;            
-            for(var rule in this.skipped) {
-                skipped = skipped || this.skipped[rule].apply(stream).orElse(false);
-            };
-        } while(skipped);
+            skipped = false;
+            for (rule in this.skipped) {
+                if (this.skipped.hasOwnProperty(rule)) {
+                    skipped = skipped || this.skipped[rule].apply(stream).orElse(false);
+                }
+            }
+        } while (skipped);
     };
       
-    Parser.prototype.step = function(stream) {
+    Parser.prototype.step = function (stream) {
         var checkpoint = stream.checkpoint(), result;
         
-        this.skip(stream);  
-        
-        for(rule in this.rules) {
-                
-        }        
-    };   
+        this.skip(stream);
+    };
+            
+    //
+    // Constructor
+    //
     
     return new Parser();
 };

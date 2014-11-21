@@ -1,3 +1,5 @@
+/*global exports, require*/
+
 /*
  * Movico
  * https://github.com/d-plaindoux/movico
@@ -6,10 +8,10 @@
  * Licensed under the LGPL2 license.
  */
 
-'use strict';
+exports.stream = function (value) {
 
-exports.stream = function(value) {
-    
+    'use strict';
+
     var option = require('../Monad/option.js');
     
     //
@@ -19,58 +21,58 @@ exports.stream = function(value) {
     function Lexeme(length, stream) {
         this.length = length;
         this.stream = stream;
-        this.value = stream.value.substring(this.stream.offset, this.stream.offset + this.length); 
+        this.value = stream.value.substring(this.stream.offset, this.stream.offset + this.length);
     }
 
-    Lexeme.prototype.accept = function() {
+    Lexeme.prototype.accept = function () {
         this.stream.offset += this.length;
         this.length = 0; // Idempotent
-        return this;    
+        return this;
     };
     
     //
     // Stream class
     //
     
-    function Stream(value) {            
+    function Stream(value) {
         this.offset = 0;
         this.value = value;
-    };
+    }
     
-    Stream.prototype.remaining = function() {
+    Stream.prototype.remaining = function () {
         return this.value.length - this.offset;
     };
     
-    Stream.prototype.checkpoint = function() {
+    Stream.prototype.checkpoint = function () {
         var that = this, offset = this.offset;
         
-        return function() {
+        return function () {
             that.offset = offset;
         };
     };
     
-    Stream.prototype.isEmpty = function() {
-        return this.value.length == this.offset;
+    Stream.prototype.isEmpty = function () {
+        return this.value.length === this.offset;
     };
     
-    Stream.prototype.nextToken = function(value) {
+    Stream.prototype.nextToken = function (value) {
         if (this.isEmpty() || value.length > this.remaining()) {
             return option.option();
-        } 
+        }
         
-        if (this.value.substring(this.offset, this.offset + value.length) === value) {            
+        if (this.value.substring(this.offset, this.offset + value.length) === value) {
             return option.option(new Lexeme(value.length, this));
-        } 
+        }
         
         return option.option();
     };
     
-    Stream.prototype.nextRegexp = function(value) {
+    Stream.prototype.nextRegexp = function (value) {
         if (this.isEmpty()) {
             return option.option();
-        } 
+        }
 
-        var result = new RegExp("^" + value ).exec(this.value);
+        var result = new RegExp("^" + value).exec(this.value);
         
         if (result && result[0].length > 0) {
             return option.option(new Lexeme(result[0].length, this));
