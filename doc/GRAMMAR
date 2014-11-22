@@ -15,7 +15,7 @@ types     ::= type ("," type)*
 
 // ----------------------------------------------------------------------
 
-classDef  ::= "controller" IDENT "(" IDENT ")" "{" methods "}"
+classDef  ::= "controller" IDENT "(" IDENT ":" type ")" "{" methods "}"
 
 methods   ::= IDENT (IDENT+ | ())? "=" exprs
 
@@ -33,7 +33,7 @@ expr      ::= NUMBER
 
 // ----------------------------------------------------------------------
 
-viewDef   ::= "view" IDENT "(" IDENT ")" "{" content "}"
+viewDef   ::= "view" IDENT "(" IDENT ":" type  ")" "{" content "}"
 
 content   ::= (expr | tag)*
 tag       ::= "<" IDENT attr* ">" content "</" IDENT? ">" | "<" IDENT attr* "/>"
