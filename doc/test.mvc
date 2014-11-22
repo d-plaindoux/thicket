@@ -34,6 +34,6 @@ controller Person(APerson) {
 
 controller Population([APerson]) {
   persons = [p | p <- this if p.age < 100]
-  addPerson p = self(this.tail(p))
+  addPerson p = self(this ++ p)
 }
 
