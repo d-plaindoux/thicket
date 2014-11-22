@@ -44,7 +44,8 @@ exports.stream = function (value) {
     };
     
     Stream.prototype.checkpoint = function () {
-        var that = this, offset = this.offset;
+        var that = this,
+            offset = this.offset;
         
         return function () {
             that.offset = offset;
@@ -72,8 +73,8 @@ exports.stream = function (value) {
             return option.option();
         }
 
-        var result = new RegExp("^" + value).exec(this.value);
-        
+        var result = new RegExp("^" + value).exec(this.value.substring(this.offset, this.value.length));
+
         if (result && result[0].length > 0) {
             return option.option(new Lexeme(result[0].length, this));
         }

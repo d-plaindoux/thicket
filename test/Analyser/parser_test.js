@@ -28,10 +28,10 @@ exports['parsers'] = {
     done();
   },
     
-  'skip empty characters': function(test) {
+  'skip empty characters from an empty stream': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream.stream(" \t"), 
+    var aStream = stream.stream(""), 
         aParser = parser.parser();
       
     aParser.addSkip(/\s+/);      
@@ -40,4 +40,44 @@ exports['parsers'] = {
     test.equal(aStream.isEmpty(), true, 'should be empty.');
     test.done();
   },
-};
+
+  'skip empty characters from an stream with spaces only': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream.stream(" \t\n"), 
+        aParser = parser.parser();
+      
+    aParser.addSkip(/\s+/);            
+    aParser.skip(aStream);
+      
+    test.equal(aStream.isEmpty(), true, 'should be empty.');
+    test.done();
+  },
+
+  'skip empty characters from an stream with spaces and more': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream.stream(" \t\nIdent"), 
+        aParser = parser.parser();
+      
+    aParser.addSkip(/\s+/);      
+    aParser.addRule(/[a-zA-Z]+/,function(ident) { return ident; });      
+      
+    aParser.step(aStream);
+      
+    test.equal(aStream.isEmpty(), true, 'should be empty.');
+    test.done();
+  },
+
+  'skip empty characters from an stream with spaces and ident': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream.stream(" \t\nIdent"), 
+        aParser = parser.parser();
+      
+    aParser.addSkip(/\s+/);      
+    aParser.addRule(/[a-zA-Z]+/,function(ident) { return ident; });      
+            
+    test.equal(aParser.step(aStream).orElse(null), "Ident", 'should be an ident.');
+    test.done();
+  },};

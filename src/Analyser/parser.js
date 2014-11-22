@@ -12,7 +12,8 @@ exports.parser = function () {
     
     'use strict';
 
-    var movico = require('./rule.js');
+    var monad = require('../Monad/option.js'),
+        rules = require('./rule.js');
     
     //
     // Parser class
@@ -25,9 +26,9 @@ exports.parser = function () {
     
     function add(array, value, parseFn) {
         if (value instanceof RegExp) {
-            array.push(movico.rule(true, value.source, parseFn));
+            array.push(rules.rule(true, value.source, parseFn));
         } else if (typeof value === 'string') {
-            array.push(movico.rule(false, value, parseFn));
+            array.push(rules.rule(false, value, parseFn));
         }
     }
     
@@ -36,7 +37,7 @@ exports.parser = function () {
     };
     
     Parser.prototype.addRule = function (value, parseFn) {
-        add(this.skip, value, parseFn);
+        add(this.rules, value, parseFn);
     };
     
     Parser.prototype.skip = function (stream) {
@@ -53,9 +54,25 @@ exports.parser = function () {
     };
       
     Parser.prototype.step = function (stream) {
-        var checkpoint = stream.checkpoint(), result;
-        
         this.skip(stream);
+
+        var checkpoint = stream.checkpoint(),
+            rule,
+            result;
+        
+        for (rule in this.rules) {
+            
+            if (this.rules.hasOwnProperty(rule)) {
+                result = this.rules[rule].apply(stream);
+                if (result.isPresent()) {
+                    return result;
+                }
+                
+                checkpoint();
+            }
+        }
+        
+        return monad.option();
     };
             
     //

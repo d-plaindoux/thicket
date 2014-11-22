@@ -16,6 +16,14 @@ exports.option = function (value) {
         this.value = value;
     }
     
+    Option.prototype.toString = function() {
+        if (this.isPresent()) {
+            return "Just(" + this.value + ")";
+        } else {
+            return "None()";
+        }
+    };
+    
     Option.prototype.isPresent = function () {
         if (this.value) {
             return true;

@@ -32,7 +32,7 @@ exports.rule = function (regexp, value, parseFn) {
         } else {
             result = stream.nextToken(this.value);
         }
-        
+                
         return result.map(function (value) {
             return that.parseFn(result.get().accept().value);
         });
