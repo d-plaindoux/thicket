@@ -61,9 +61,9 @@ exports['parsers'] = {
         aParser = parser.parser();
       
     aParser.addSkip(/\s+/);      
-    aParser.addRule(/[a-zA-Z]+/,function(ident) { return ident; });      
+    aParser.group("test").addRule(/[a-zA-Z]+/,function(ident) { return ident; });      
       
-    aParser.step(aStream);
+    aParser.step("test", aStream);
       
     test.equal(aStream.isEmpty(), true, 'should be empty.');
     test.done();
@@ -76,8 +76,10 @@ exports['parsers'] = {
         aParser = parser.parser();
       
     aParser.addSkip(/\s+/);      
-    aParser.addRule(/[a-zA-Z]+/,function(ident) { return ident; });      
+    aParser.group("test").addRule(/[a-zA-Z]+/,function(ident) { return ident; });      
             
-    test.equal(aParser.step(aStream).orElse(null), "Ident", 'should be an ident.');
+    test.equal(aParser.step("test", aStream).orElse(null), "Ident", 'should be an ident.');
     test.done();
-  },};
+  },
+
+};

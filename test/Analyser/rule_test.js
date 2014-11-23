@@ -32,7 +32,7 @@ exports['rules'] = {
     test.expect(1);
     // tests here  
     var aStream = stream.stream("a"), 
-        aRule = rule.rule(false, "a",function(a) { return a; });
+        aRule = rule.rule("a",function(a) { return a; });
     test.equal(aRule.apply(aStream).isPresent(), true, 'should be accepted.');
     test.done();
   },
@@ -41,7 +41,7 @@ exports['rules'] = {
     test.expect(1);
     // tests here  
     var aStream = stream.stream("a"), 
-        aRule = rule.rule(false, "b",function(a) { return a; });
+        aRule = rule.rule("b",function(a) { return a; });
     test.equal(aRule.apply(aStream).isPresent(), false, 'should be rejected.');
     test.done();
   },
@@ -50,7 +50,7 @@ exports['rules'] = {
     test.expect(1);
     // tests here  
     var aStream = stream.stream("aa"), 
-        aRule = rule.rule(false, "a",function(a) { return a; });
+        aRule = rule.rule("a",function(a) { return a; });
     test.equal(aRule.apply(aStream).get(), "a", 'should be accepted.');
     test.done();
   },
@@ -59,7 +59,7 @@ exports['rules'] = {
     test.expect(1);
     // tests here  
     var aStream = stream.stream("aa"), 
-        aRule = rule.rule(true, "a+",function(a) { return a; });
+        aRule = rule.rule(/a+/,function(a) { return a; });
     test.equal(aRule.apply(aStream).isPresent(), true, 'should be accepted.');
     test.done();
   },
@@ -68,7 +68,7 @@ exports['rules'] = {
     test.expect(1);
     // tests here  
     var aStream = stream.stream("aa"), 
-        aRule = rule.rule(true, "a+",function(a) { return a; });
+        aRule = rule.rule(/a+/,function(a) { return a; });
     test.equal(aRule.apply(aStream).get(), "aa", 'should be accepted.');
     test.done();
   },
@@ -77,7 +77,7 @@ exports['rules'] = {
     test.expect(1);
     // tests here  
     var aStream = stream.stream("a"), 
-        aRule = rule.rule(false, "b+",function(a) { return a; });
+        aRule = rule.rule("b+",function(a) { return a; });
     test.equal(aRule.apply(aStream).isPresent(), false, 'should be rejected.');
     test.done();
   },

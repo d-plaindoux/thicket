@@ -5,7 +5,7 @@ model APerson {
 }
 
 view PersonView(this : Person) {
-  <div onClick=this.tick> 
+  <div onClick=(this.tick())> 
     <div>this.firstname</div>
     <div>this.name</div>
     <div>this.age</div>
@@ -21,7 +21,7 @@ view PersonAdder(this : Population) {
 }
 
 view PopulationView(this : Population) {
-  [<PersonView>Person(p)</PersonView>) | p <- this.persons]
+  [<PersonView>Person(p)</PersonView>) | p <- this.persons ()]
   <PersonAdder>this</PersonAdder>
 }
 
@@ -29,11 +29,11 @@ controller Person(this : APerson) {
   firstname = this.firstname
   name = this.name
   age = this.age
-  tick  = self(this.age(this.age+1))
+  tick () = self(this.age(this.age+1))
 }
 
 controller Population(this : [APerson]) {
-  persons = [p | p <- this if p.age < 100]
+  persons () = [p | p <- this if p.age < 100]
   addPerson p = self(this ++ p)
 }
 

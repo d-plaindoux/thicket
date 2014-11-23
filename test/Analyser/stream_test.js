@@ -122,11 +122,11 @@ exports['stream'] = {
     test.done();
   },
 
-  'stream rejects an empty regexp': function(test) {
+  'stream accept an empty regexp': function(test) {
     test.expect(1);
     // tests here      
     var stream = movico.stream("aab");
-    test.equal(stream.nextRegexp("b*").orElse(null), null, 'should be rejected.');
+    test.equal(stream.nextRegexp("b*").orElse(null).value, '', 'should be accepted.');
     test.done();
   },
 };

@@ -8,31 +8,49 @@
  * Licensed under the LGPL2 license.
  */
 
-exports.rule = function (regexp, value, parseFn) {
+exports.rule = function (value, parseFn) {
     
     'use strict';
     
-    var option = require('../Monad/option.js');
+    var monad = require('../Monad/option.js');
     
     //
     // Rule class
     //
     
-    function Rule(regexp, value, parseFn) {
-        this.regexp = regexp;
+    function Rule(value, parseFn) {
         this.value = value;
         this.parseFn = parseFn;
     }
     
-    Rule.prototype.apply = function (stream) {
-        var that = this, result;
+    Rule.prototype.accept = function (stream) {
+        if (this.value instanceof RegExp) {
+            return stream.nextRegexp(this.value.source);
         
-        if (this.regexp) {
-            result = stream.nextRegexp(this.value);
-        } else {
-            result = stream.nextToken(this.value);
+        } else if (typeof this.value === 'string') {
+            return stream.nextToken(this.value);
+
+        } else if (this.value instanceof Array) {
+            var item, itemResult, result = [];
+            
+            for (item in this.value) {
+                if (this.value.hasOwnProperty(item)) {
+                    itemResult = this.accept(this.value[item]);
+                    if (itemResult.isPresent()) {
+                        result.push(itemResult.get());
+                    } else {
+                        return itemResult;
+                    }
+                }
+            }
         }
-                
+    
+        return monad.option();
+    };
+    
+    Rule.prototype.apply = function (stream) {
+        var that = this, result = this.accept(stream);
+        
         return result.map(function (value) {
             return that.parseFn(result.get().accept().value);
         });
@@ -42,6 +60,6 @@ exports.rule = function (regexp, value, parseFn) {
     // Constructor
     //
 
-    return new Rule(regexp, value, parseFn);
+    return new Rule(value, parseFn);
     
 };

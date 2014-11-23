@@ -75,7 +75,7 @@ exports.stream = function (value) {
 
         var result = new RegExp("^" + value).exec(this.value.substring(this.offset, this.value.length));
 
-        if (result && result[0].length > 0) {
+        if (result) {
             return option.option(new Lexeme(result[0].length, this));
         }
         

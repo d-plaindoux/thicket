@@ -21,25 +21,35 @@ exports.parser = function () {
     
     function Parser() {
         this.skipped = [];
-        this.rules = [];
+        this.groups = {};
     }
     
     function add(array, value, parseFn) {
-        if (value instanceof RegExp) {
-            array.push(rules.rule(true, value.source, parseFn));
-        } else if (typeof value === 'string') {
-            array.push(rules.rule(false, value, parseFn));
-        }
+        array.push(rules.rule(value, parseFn));
     }
     
     Parser.prototype.addSkip = function (value) {
         add(this.skipped, value, function (a) { return true; });
     };
     
-    Parser.prototype.addRule = function (value, parseFn) {
-        add(this.rules, value, parseFn);
+    Parser.prototype.group = function (name) {
+        var that = this, group;
+        
+        if (!this.groups.hasOwnProperty(name)) {
+            this.groups[name] = [];
+        }
+        
+        group = {
+            addRule:
+                function (value, parseFn) {
+                    add(that.groups[name], value, parseFn);
+                    return group;
+                }
+        };
+        
+        return group;
     };
-    
+        
     Parser.prototype.skip = function (stream) {
         var skipped, rule;
         
@@ -53,17 +63,18 @@ exports.parser = function () {
         } while (skipped);
     };
       
-    Parser.prototype.step = function (stream) {
+    Parser.prototype.step = function (name, stream) {
         this.skip(stream);
 
         var checkpoint = stream.checkpoint(),
+            rules = this.groups[name],
             rule,
             result;
         
-        for (rule in this.rules) {
+        for (rule in rules) {
             
-            if (this.rules.hasOwnProperty(rule)) {
-                result = this.rules[rule].apply(stream);
+            if (rules.hasOwnProperty(rule)) {
+                result = rules[rule].apply(stream);
                 if (result.isPresent()) {
                     return result;
                 }
