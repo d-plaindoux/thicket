@@ -23,19 +23,21 @@ exports.rule = function (value, parseFn) {
         this.parseFn = parseFn;
     }
     
-    Rule.prototype.accept = function (stream) {
-        if (this.value instanceof RegExp) {
-            return stream.nextRegexp(this.value.source);
+    function accept(value, stream) {
+        if (value instanceof RegExp) {
+            return stream.nextRegexp(value.source);
         
-        } else if (typeof this.value === 'string') {
-            return stream.nextToken(this.value);
+        } else if (typeof value === 'string') {
+            return stream.nextToken(value);
 
-        } else if (this.value instanceof Array) {
+        } else if (value instanceof Array) {
             var item, itemResult, result = [];
             
-            for (item in this.value) {
-                if (this.value.hasOwnProperty(item)) {
-                    itemResult = this.accept(this.value[item]);
+            for (item in value) {
+                if (value.hasOwnProperty(item)) {
+     
+                    itemResult = accept(value[item], stream);
+                    
                     if (itemResult.isPresent()) {
                         result.push(itemResult.get());
                     } else {
@@ -43,16 +45,21 @@ exports.rule = function (value, parseFn) {
                     }
                 }
             }
+
+            return monad.option(result);
+            
+        } else if (value instanceof Function) {
+            return value(stream);
         }
-    
+        
         return monad.option();
-    };
+    }
     
     Rule.prototype.apply = function (stream) {
-        var that = this, result = this.accept(stream);
+        var that = this, result = accept(this.value, stream);
         
         return result.map(function (value) {
-            return that.parseFn(result.get().accept().value);
+            return that.parseFn(value);
         });
     };
         

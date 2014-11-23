@@ -44,6 +44,10 @@ exports.parser = function () {
                 function (value, parseFn) {
                     add(that.groups[name], value, parseFn);
                     return group;
+                },
+            parse:
+                function (stream) {
+                    return that.step(that.groups[name], stream);
                 }
         };
         
@@ -63,11 +67,10 @@ exports.parser = function () {
         } while (skipped);
     };
       
-    Parser.prototype.step = function (name, stream) {
+    Parser.prototype.step = function (rules, stream) {
         this.skip(stream);
 
         var checkpoint = stream.checkpoint(),
-            rules = this.groups[name],
             rule,
             result;
         

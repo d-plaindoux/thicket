@@ -58,7 +58,7 @@ exports['stream'] = {
   'stream accepts token and provide it': function(test) {
     test.expect(1);
     // tests here      
-    test.equal(movico.stream("a").nextToken("a").orElse(null).value, "a", 'should be a lexeme.');
+    test.equal(movico.stream("a").nextToken("a").orElse(null), "a", 'should be a lexeme.');
     test.done();
   },
     
@@ -66,7 +66,7 @@ exports['stream'] = {
     test.expect(1);
     // tests here      
     var stream = movico.stream("a");
-    stream.nextToken("a").orElse(null).accept();
+    stream.nextToken("a").orElse(null);
     test.equal(stream.isEmpty(), true, 'should be empty.');
     test.done();
   },
@@ -75,7 +75,7 @@ exports['stream'] = {
     test.expect(1);
     // tests here      
     var stream = movico.stream("aa");
-    stream.nextToken("a").orElse(null).accept();
+    stream.nextToken("a");
     test.equal(stream.isEmpty(), false, 'should not be empty.');
     test.done();
   },
@@ -92,8 +92,8 @@ exports['stream'] = {
     test.expect(2);
     // tests here      
     var stream = movico.stream("ab");
-    test.equal(stream.nextRegexp("a").orElse(null).accept().value, "a", 'should be a lexeme.');
-    test.equal(stream.nextToken("b").orElse(null).accept().value, "b", 'should be a lexeme.');
+    test.equal(stream.nextRegexp("a").orElse(null), "a", 'should be a lexeme.');
+    test.equal(stream.nextToken("b").orElse(null), "b", 'should be a lexeme.');
     test.done();
   },
             
@@ -109,8 +109,8 @@ exports['stream'] = {
     test.expect(2);
     // tests here      
     var stream = movico.stream("aab");
-    test.equal(stream.nextRegexp("a+").orElse(null).value, "aa", 'should be a lexeme.');
-    test.equal(stream.nextToken("b").orElse(null), null, 'should be rejected.');
+    test.equal(stream.nextRegexp("a+").orElse(null), "aa", 'should be a lexeme.');
+    test.equal(stream.nextToken("b").orElse(null), "b", 'should be rejected.');
     test.done();
   },
             
@@ -126,7 +126,7 @@ exports['stream'] = {
     test.expect(1);
     // tests here      
     var stream = movico.stream("aab");
-    test.equal(stream.nextRegexp("b*").orElse(null).value, '', 'should be accepted.');
+    test.equal(stream.nextRegexp("b*").orElse(null), '', 'should be accepted.');
     test.done();
   },
 };

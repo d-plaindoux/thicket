@@ -62,7 +62,8 @@ exports.stream = function (value) {
         }
         
         if (this.value.substring(this.offset, this.offset + value.length) === value) {
-            return option.option(new Lexeme(value.length, this));
+            this.offset += value.length;
+            return option.option(value);
         }
         
         return option.option();
@@ -73,10 +74,11 @@ exports.stream = function (value) {
             return option.option();
         }
 
-        var result = new RegExp("^" + value).exec(this.value.substring(this.offset, this.value.length));
+        var matched = new RegExp("^" + value).exec(this.value.substring(this.offset, this.value.length));
 
-        if (result) {
-            return option.option(new Lexeme(result[0].length, this));
+        if (matched) {
+            this.offset += matched[0].length;
+            return option.option(matched[0]);
         }
         
         return option.option();

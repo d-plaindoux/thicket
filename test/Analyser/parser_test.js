@@ -63,7 +63,7 @@ exports['parsers'] = {
     aParser.addSkip(/\s+/);      
     aParser.group("test").addRule(/[a-zA-Z]+/,function(ident) { return ident; });      
       
-    aParser.step("test", aStream);
+    aParser.group("test").parse(aStream);
       
     test.equal(aStream.isEmpty(), true, 'should be empty.');
     test.done();
@@ -73,13 +73,25 @@ exports['parsers'] = {
     test.expect(1);
     // tests here  
     var aStream = stream.stream(" \t\nIdent"), 
-        aParser = parser.parser();
+        aParser = parser.parser(),
+        aGroup = aParser.group("test");
       
     aParser.addSkip(/\s+/);      
-    aParser.group("test").addRule(/[a-zA-Z]+/,function(ident) { return ident; });      
+    aGroup.addRule(/[a-zA-Z]+/,function(ident) { return ident; });      
             
-    test.equal(aParser.step("test", aStream).orElse(null), "Ident", 'should be an ident.');
+    test.equal(aGroup.parse(aStream).orElse(null), "Ident", 'should be an ident.');
     test.done();
   },
 
+  'should return an ident': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream.stream(" \t\nIdent"), 
+        aGroup = parser.parser().group("test");
+      
+    aGroup.addRule([/\s+/, /[a-zA-Z]+/], function(ident) { return ident; });      
+            
+    test.deepEqual(aGroup.parse(aStream).orElse(null), [" \t\n","Ident"], 'should be an ident.');
+    test.done();
+  },
 };

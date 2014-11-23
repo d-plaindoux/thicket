@@ -25,11 +25,7 @@ exports.option = function (value) {
     };
     
     Option.prototype.isPresent = function () {
-        if (this.value) {
-            return true;
-        } else {
-            return false;
-        }
+        return (this.value !== null && this.value !== undefined);
     };
     
     Option.prototype.map = function (bindCall) {
