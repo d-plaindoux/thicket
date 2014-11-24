@@ -2,6 +2,7 @@
 
 var stream = require('../../src/Analyser/stream.js');
 var rule = require('../../src/Analyser/rule.js');
+var bind = require('../../src/Analyser/bind.js').bind;
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -51,7 +52,7 @@ exports['rules'] = {
     // tests here  
     var aStream = stream.stream("aa"), 
         aRule = rule.rule("a",function(a) { return a; });
-    test.equal(aRule.apply(aStream).get(), "a", 'should be accepted.');
+    test.deepEqual(aRule.apply(aStream).get(), {}, 'should be accepted.');
     test.done();
   },
     
@@ -68,8 +69,8 @@ exports['rules'] = {
     test.expect(1);
     // tests here  
     var aStream = stream.stream("aa"), 
-        aRule = rule.rule(/a+/,function(a) { return a; });
-    test.equal(aRule.apply(aStream).get(), "aa", 'should be accepted.');
+        aRule = rule.rule(bind(/a+/).to("a"),function(a) { return a; });
+    test.deepEqual(aRule.apply(aStream).get(), {a: "aa"}, 'should be accepted.');
     test.done();
   },
 

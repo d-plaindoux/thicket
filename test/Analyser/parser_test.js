@@ -2,6 +2,7 @@
 
 var stream = require('../../src/Analyser/stream.js');
 var parser = require('../../src/Analyser/parser.js');
+var bind = require('../../src/Analyser/bind.js').bind;
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -79,11 +80,11 @@ exports['parsers'] = {
     aParser.addSkip(/\s+/);      
     aGroup.addRule(/[a-zA-Z]+/,function(ident) { return ident; });      
             
-    test.equal(aGroup.parse(aStream).orElse(null), "Ident", 'should be an ident.');
+    test.deepEqual(aGroup.parse(aStream).orElse(null), {}, 'should be an ident.');
     test.done();
   },
 
-  'should return an ident': function(test) {
+  'should accept an ident': function(test) {
     test.expect(1);
     // tests here  
     var aStream = stream.stream(" \t\nIdent"), 
@@ -91,7 +92,20 @@ exports['parsers'] = {
       
     aGroup.addRule([/\s+/, /[a-zA-Z]+/], function(ident) { return ident; });      
             
-    test.deepEqual(aGroup.parse(aStream).orElse(null), [" \t\n","Ident"], 'should be an ident.');
+    test.deepEqual(aGroup.parse(aStream).orElse(null), {}, 'should be an ident.');
     test.done();
   },
+    
+
+  'should accept and return an ident': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream.stream(" \t\nIdent"), 
+        aGroup = parser.parser().group("test");
+      
+    aGroup.addRule([/\s+/, bind(/[a-zA-Z]+/).to('a')], function(scope) { return scope['a']; });      
+            
+    test.deepEqual(aGroup.parse(aStream).orElse(null), "Ident", 'should be an ident.');
+    test.done();
+  },    
 };
