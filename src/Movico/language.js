@@ -1,4 +1,4 @@
-/*global exports, require*/
+/*global exports, require, parseInt*/
 
 /*
  * Movico
@@ -31,7 +31,7 @@ exports.language = (function () {
 
         classDef  ::= "controller" IDENT "(" IDENT ":" type ")" "{" methods "}"
 
-        methods   ::= IDENT (IDENT+ | ())? "=" exprs
+        methods   ::= IDENT (IDENT+ | ())? "=" expr
 
         exprs     ::= expr? (\n expr)*
         expr      ::= NUMBER 
@@ -59,20 +59,27 @@ exports.language = (function () {
         
         // Define constants
         var IDENT = /[a-zA-Z][a-zA-Z0-9_$]*/,
-            accept = function (scope) { return true; },
-            reject = function (scope) { return null; };
+            NUMBER = /[+\-]?\d+/,
+            STRING = /"[^"]*"/,
+            SPACES = /\s+/,
+            // ---
+            reject = function (scope) { return null; },
+            that = this,
+            entry = function (name) { return that.parser.entry(name); };
 
         // Define parse rules
-        this.parser.addSkip(/[\s+]+/);
+        this.parser.addSkip(SPACES);
         
         // objectDef group
         this.parser.group('modelDef').
-            addRule(["model", bind(IDENT).to('name'), "{", this.parser.entry("params"), "}"], accept);
+            addRule(["model", bind(IDENT).to('name'), "{", bind(entry("params")).to('params'), "}"], function (scope) {
+                return ast.model(scope.name, scope.params);
+            });
         
         // Params group
         this.parser.group('params').
-            addRule([bind(IDENT).to('name'), ":", bind(this.parser.entry("type")).to('type'), bind(this.parser.entry("params")).to('params')], function (scope) {
-                return [ast.param(scope.name, ast.type())].concat(scope.params);
+            addRule([bind(IDENT).to('name'), ":", bind(entry("type")).to('type'), bind(entry("params")).to('params')], function (scope) {
+                return [ast.param(scope.name, scope.type)].concat(scope.params);
             }).
             addRule([], function (scope) {
                 return [];
@@ -80,17 +87,61 @@ exports.language = (function () {
 
         // Type and types groups
         this.parser.group('type').
-            addRule(IDENT, accept).
-            addRule(["(", this.parser.entry("types"), ")"], accept).
-            addRule(["[", this.parser.entry("types"), "]"], accept).
+            addRule(IDENT, function (scope) { return ast.type(); }).
+            addRule(["(", entry("types"), ")"], function (scope) {
+                return ast.type();
+            }).
+            addRule(["[", entry("types"), "]"], function (scope) {
+                return ast.type();
+            }).
             addRule([], reject);
 
         this.parser.group('types').
-            addRule([this.parser.entry("type"), ",", this.parser.entry("types")], accept).
-            addRule([this.parser.entry("type")], accept).
+            addRule([entry("type"), ",", entry("types")], function (scope) {
+                return ast.type();
+            }).
+            addRule([this.parser.entry("type")], function (scope) {
+                return ast.type();
+            }).
             addRule([], reject);
-    }
+        
+        // controllerDef group
+        this.parser.group('controllerDef').
+            addRule(["controller", bind(IDENT).to('name'),
+                     "(", bind(IDENT).to('that'), ":", bind(entry("type")).to('type'), ")",
+                     "{", bind(entry("methods")).to('methods'), "}"], function (scope) {
+                return ast.controller(scope.name, ast.param(scope.that, scope.type), scope.methods);
+            });
+        
+        this.parser.group('methods').
+            addRule([bind(entry("method")).to('method'), bind(entry("methods")).to('methods')], function (scope) {
+                return [scope.method].concat(scope.methods);
+            }).
+            addRule([], function (scope) {
+                return [];
+            });
 
+        this.parser.group('method').
+            addRule([bind(IDENT).to('name'), "=", bind(entry("expr")).to('body')], function (scope) {
+                return ast.method(scope.name, null, scope.body);
+            });
+        
+        this.parser.group('expr').
+            addRule(bind(NUMBER).to('number'), function (scope) {
+                return ast.number(parseInt(scope.number));
+            }).
+            addRule(bind(STRING).to('string'), function (scope) {
+                return ast.string(scope.string);
+            }).
+            addRule(["self", "(", bind(entry("expr")).to('exrp'), ")"], function (scope) {
+                return [];
+            }).
+            addRule("self", function (scope) {
+                return [];
+            });
+    
+    }
+    
     return new Language();
 }());
   

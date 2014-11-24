@@ -34,14 +34,46 @@ exports.ast = (function () {
     // Controller definition
     //
     
+    function Controller(name, param, behaviors) {
+        this.name = name;
+        this.param = param;
+        this.behaviors = behaviors;
+    }
+    
+    //
+    // Method definition
+    //
+    
+    function Method(name, params, body) {
+        this.name = name;
+        this.params = params;
+        this.body = body;            
+    }
+    
+    //
+    // Expression definition
+    //
+    
+    function NumberExpr(value) {
+        this.value = value;
+    }
+    
+    function StringExpr(value) {
+        this.value = value;
+    }
+    
     //
     // AST constructors
     //
     
     return {
+        controller : function (name, param, behaviors) { return new Controller(name, param, behaviors); },
         model : function (name, params) { return new Model(name, params); },
         param : function (name, type) { return new Param(name, type); },
-        type  : function () { return new Type(); }
+        type : function () { return new Type(); },
+        method : function (name, params, body) { return new Method(name, params, body); },
+        number : function (value) { return new NumberExpr(value); },
+        string : function (value) { return new StringExpr(value); }
     };
 }());
  

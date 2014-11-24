@@ -24,48 +24,48 @@ var stream = require('../../src/Analyser/stream.js').stream,
     test.ifError(value)
 */
 
-exports['language_params'] = {
+exports['language_model'] = {
   setUp: function(done) {
     done();
   },
     
-  'simple typed param is accepted': function(test) {
+  'simple model is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("age : int");
+    var aStream = stream("model Address {}");
         
-    test.ok(language.parser.group('params').parse(aStream).isPresent(), 
-            "accept int type");
+    test.ok(language.parser.group('modelDef').parse(aStream).isPresent(), 
+            "accept a model");
     test.done();
   },
-    
-  'simple typed param is accepted and ast params is correct': function(test) {
+        
+  'not well formed model is rejected': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("age : int");
+    var aStream = stream("model Address { address } ");
         
-    test.deepEqual(language.parser.group('params').parse(aStream).get(), 
-                   [ ast.param('age', ast.type()) ],  "provide one param");
+    test.equal(language.parser.group('modelDef').parse(aStream).isPresent(), 
+               false , "reject a model");
+    test.done();
+  },
+        
+  'simple model is accepted and provided': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("model Address {}");
+        
+    test.deepEqual(language.parser.group('modelDef').parse(aStream).get(), 
+                   ast.model('Address', []) , "accept a model");
+    test.done();
+  },
+        
+  'complexe model is accepted and provided': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("model Address { street : string number : int}");        
+    test.deepEqual(language.parser.group('modelDef').parse(aStream).get(), 
+                   ast.model('Address', [ast.param('street',ast.type()), ast.param('number',ast.type())]) , "accept a model");
     test.done();
   },
 
-  'simple untyped param is rejected and ast params is empty': function(test) {
-    test.expect(1);
-    // tests here  
-    var aStream = stream("age : ");
-        
-    test.deepEqual(language.parser.group('params').parse(aStream).get(),
-                   [],  "provide no params");
-    test.done();
-  },
-
-  'mutiple typed param is accepted and ast params is correct': function(test) {
-    test.expect(1);
-    // tests here  
-    var aStream = stream("age : int address: string");
-        
-    test.deepEqual(language.parser.group('params').parse(aStream).get(), 
-                   [ ast.param('age', ast.type()), ast.param('address', ast.type()) ],  "provide two params");
-    test.done();
-  },
 };
