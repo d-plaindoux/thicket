@@ -128,4 +128,24 @@ exports['language_exprs'] = {
                ast.application([ast.ident("point"), ast.number(1), ast.string('2')]), "accept an application");
     test.done();
   },
+    
+  'couple is accepted': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("1,'2'");
+        
+    test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
+               ast.couple(ast.number(1), ast.string('2')), "accept an application");
+    test.done();
+  },
+
+  'application using couple is accepted': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("point (1) '2'");
+        
+    test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
+               ast.application([ast.ident("point"), ast.number(1), ast.string('2')]), "accept an application");
+    test.done();
+  },  
 };
