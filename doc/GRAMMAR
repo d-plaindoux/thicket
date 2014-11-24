@@ -17,24 +17,25 @@ types     ::= type ("," type)*
 
 classDef  ::= "controller" IDENT "(" IDENT ":" type ")" "{" methods "}"
 
-methods   ::= IDENT (IDENT+ | ())? "=" exprs
+methods   ::= IDENT "=" exprs
+            | IDENT "(" ")" "=" exprs
+            | IDENT IDENT+ "=" exprs
 
-exprs     ::= expr? (\n expr)*
+exprs     ::= IDENT "{" expr* "}"
+            | "[" exprs | (IDENT <- exprs)+ (if exprs)? "]"
+            | expr "." exprs     
+            | expr "," exprs     
+            | expr exprs*
+
 expr      ::= NUMBER 
-            | STRING 
-            | "self"  
-            | expr expr
-            | IDENT  "(" expr ")"
-            | IDENT  "{" args "}"
+            | STRING
+            | IDENT
             | "(" exprs ")"
-            | expr "," expr
-            | expr "." expr
-            | "[" expr | (IDENT <- expr) (if expr)? "]"
 
 // ----------------------------------------------------------------------
 
 viewDef   ::= "view" IDENT "(" IDENT ":" type  ")" "{" content "}"
 
-content   ::= (expr | tag)*
+content   ::= (exprs | tag)*
 tag       ::= "<" IDENT attr* ">" content "</" IDENT? ">" | "<" IDENT attr* "/>"
 attr      ::= IDENT=expr

@@ -12,15 +12,15 @@ exports.bind = function (value) {
     
     'use strict';
     
-    function Bind(name, value) {
-        this.name = name;
+    function Bind(bind, value) {
+        this.bind = bind;
         this.value = value;
     }
     
     Bind.prototype.toString = function () {
-        return this.name + " <- " + this.source;
+        return this.bind + " <- " + this.source;
     };
     
-    return { to : function (name) { return new Bind(name, value); }};
+    return { to : function (bind) { return new Bind(bind, value); }};
 };
     

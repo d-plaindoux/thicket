@@ -62,6 +62,29 @@ exports.ast = (function () {
         this.value = value;
     }
     
+    function IdentExpr(value) {
+        this.value = value;
+    }
+
+    function InstanceExpr(name, params) {
+        this.name = name;
+        this.params = params;
+    }
+
+    function InvokeExpr(caller, body) {
+        this.caller = caller;
+        this.body = body;
+    }
+    
+    function CoupleExpr(left, right) {
+        this.left = left;
+        this.right = right;
+    }
+    
+    function ApplicationExpr(exprs) {
+        this.exprs = exprs;
+    }
+    
     //
     // AST constructors
     //
@@ -73,7 +96,12 @@ exports.ast = (function () {
         type : function () { return new Type(); },
         method : function (name, params, body) { return new Method(name, params, body); },
         number : function (value) { return new NumberExpr(value); },
-        string : function (value) { return new StringExpr(value); }
+        string : function (value) { return new StringExpr(value); },
+        ident : function (name) { return new IdentExpr(name); },
+        instance : function (name, params) { return new InstanceExpr(name, params); },
+        invoke : function (caller, body) { return new InvokeExpr(caller, body); },
+        couple : function (left, right) { return new CoupleExpr(left, right); },
+        application : function (exprs) { return new ApplicationExpr(exprs); }
     };
 }());
  

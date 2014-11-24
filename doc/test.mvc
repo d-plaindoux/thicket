@@ -5,7 +5,7 @@ model APerson {
 }
 
 view PersonView(this : Person) {
-  <div onClick=(this.tick())> 
+  <div onClick=this.tick ()> 
     <div>this.firstname</div>
     <div>this.name</div>
     <div>this.age</div>
@@ -13,7 +13,7 @@ view PersonView(this : Person) {
 }
  
 view PersonAdder(this : Population) {
-  <form onSubmit=(this.addPerson APerson{firstname,name})>
+  <form onSubmit=this.addPerson APerson{firstname name}>
      <input type="text" id=firstname/>
      <input type="text" id=name/>
      <input type="submit value="Add"/>
@@ -21,7 +21,7 @@ view PersonAdder(this : Population) {
 }
 
 view PopulationView(this : Population) {
-  [<PersonView>Person(p)</PersonView>) | p <- this.persons ()]
+  [<PersonView>Person(p)</PersonView>) | p <- this.persons()]
   <PersonAdder>this</PersonAdder>
 }
 

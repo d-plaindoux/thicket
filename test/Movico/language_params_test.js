@@ -34,7 +34,7 @@ exports['language_params'] = {
     // tests here  
     var aStream = stream("age : int");
         
-    test.ok(language.parser.group('params').parse(aStream).isPresent(), 
+    test.ok(language.parser.group('param').parse(aStream).isPresent(), 
             "accept int type");
     test.done();
   },
@@ -44,8 +44,8 @@ exports['language_params'] = {
     // tests here  
     var aStream = stream("age : int");
         
-    test.deepEqual(language.parser.group('params').parse(aStream).get(), 
-                   [ ast.param('age', ast.type()) ],  "provide one param");
+    test.deepEqual(language.parser.group('param').parse(aStream).get(), 
+                   ast.param('age', ast.type()),  "provide a param");
     test.done();
   },
 
@@ -54,18 +54,9 @@ exports['language_params'] = {
     // tests here  
     var aStream = stream("age : ");
         
-    test.deepEqual(language.parser.group('params').parse(aStream).get(),
-                   [],  "provide no params");
+    test.equal(language.parser.group('param').parse(aStream).isPresent(),
+              false,  "reject when no param");
     test.done();
   },
 
-  'mutiple typed param is accepted and ast params is correct': function(test) {
-    test.expect(1);
-    // tests here  
-    var aStream = stream("age : int address: string");
-        
-    test.deepEqual(language.parser.group('params').parse(aStream).get(), 
-                   [ ast.param('age', ast.type()), ast.param('address', ast.type()) ],  "provide two params");
-    test.done();
-  },
 };

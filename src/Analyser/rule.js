@@ -54,11 +54,47 @@ exports.rule = function (value, parseFn) {
 
             return monad.option(result);
             
-        } else if (typeof value === 'object' && value.hasOwnProperty("value") && value.hasOwnProperty("name")) {
+        } else if (typeof value === 'object' && value.hasOwnProperty("value") && value.hasOwnProperty("bind")) {
             return accept(skip, value.value, stream, bind).map(function (result) {
-                bind[value.name] = result;
+                bind[value.bind] = result;
                 return result;
             });
+
+        } else if (typeof value === 'object' && value.hasOwnProperty("optrep")) {
+            var result = [], 
+                current = accept(skip, value.optrep, stream, bind);
+            
+            while (current.isPresent()) {
+                result = result.concat([current.get()]);
+                current = accept(skip, value.optrep, stream, bind);
+            }
+            
+            return monad.option(result);
+
+        } else if (typeof value === 'object' && value.hasOwnProperty("rep")) {
+            var result = [], 
+                current = accept(skip, value.rep, stream, bind);
+            
+            if (!current.isPresent()) {
+                return monad.option();
+            }
+            
+            do {
+                result = result.concat([current.get()]);
+                current = accept(skip, value.rep, stream, bind);
+            } while(current.isPresent());
+            
+            return monad.option(result);
+
+        } else if (typeof value === 'object' && value.hasOwnProperty("opt")) {
+            var result = [], 
+                current = accept(skip, value.opt, stream, bind);
+        
+            if (current.isPresent()) {
+                result = result.concat([current.get()]);
+            }
+            
+            return monad.option(result);
 
         } else if (value instanceof Function) {
             skip(stream);

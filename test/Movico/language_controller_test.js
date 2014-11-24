@@ -67,5 +67,14 @@ exports['language_controller'] = {
                    ast.controller('Address', ast.param('this',ast.type()), [ ast.method('number', null, ast.number(123)) ]) , "accept a controller");
     test.done();
   },
+        
+  'controller with a functional behavior is accepted and provided': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("controller Address (this: Address) { number () = 123 }");        
+    test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
+                   ast.controller('Address', ast.param('this',ast.type()), [ ast.method('number', [], ast.number(123)) ]) , "accept a controller");
+    test.done();
+  },
 
 };

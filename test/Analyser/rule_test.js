@@ -2,7 +2,8 @@
 
 var stream = require('../../src/Analyser/stream.js').stream,
     rule = require('../../src/Analyser/rule.js').rule,
-    bind = require('../../src/Analyser/bind.js').bind;
+    bind = require('../../src/Analyser/bind.js').bind,
+    optrep = require('../../src/Analyser/optrep.js').optrep;
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -82,4 +83,14 @@ exports['rules'] = {
     test.equal(aRule.apply(aStream).isPresent(), false, 'should be rejected.');
     test.done();
   },
+            
+  'accept repeatable regexp rule and call the binded function': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("aaa"), 
+        aRule = rule(bind(optrep("a")).to("a"),function(a) { return a; });
+    test.deepEqual(aRule.apply(aStream).get(), {a: ["a", "a", "a"]}, 'should be accepted.');
+    test.done();
+  },
+
 };
