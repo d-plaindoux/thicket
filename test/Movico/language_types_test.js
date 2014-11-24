@@ -23,7 +23,7 @@ var language = require('../../src/Movico/language.js').language;
     test.ifError(value)
 */
 
-exports['language'] = {
+exports['language_type'] = {
   setUp: function(done) {
     done();
   },

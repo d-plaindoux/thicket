@@ -13,7 +13,8 @@ exports.language = (function () {
     'use strict';
     
     var parser = require('../Analyser/parser.js').parser,
-        bind = require('../Analyser/bind.js').bind;
+        bind = require('../Analyser/bind.js').bind,
+        ast  = require('./ast.js').ast;
     
     /*
        MovicoJS grammar definition   
@@ -62,16 +63,20 @@ exports.language = (function () {
             reject = function (scope) { return null; };
 
         // Define parse rules
-        this.parser.addSkip(/[ \t\r\f]+/);
+        this.parser.addSkip(/[\s+]+/);
         
         // objectDef group
         this.parser.group('modelDef').
-            addRule(["model", IDENT, "{", this.parser.entry("params"), "}"], accept);
+            addRule(["model", bind(IDENT).to('name'), "{", this.parser.entry("params"), "}"], accept);
         
         // Params group
         this.parser.group('params').
-            addRule([IDENT, ":", this.parser.entry("type"), "\n"], accept).
-            addRule([], accept);
+            addRule([bind(IDENT).to('name'), ":", bind(this.parser.entry("type")).to('type'), bind(this.parser.entry("params")).to('params')], function (scope) {
+                return [ast.param(scope.name, ast.type())].concat(scope.params);
+            }).
+            addRule([], function (scope) {
+                return [];
+            });
 
         // Type and types groups
         this.parser.group('type').

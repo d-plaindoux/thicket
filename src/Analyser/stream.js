@@ -12,7 +12,7 @@ exports.stream = function (value) {
 
     'use strict';
 
-    var option = require('../Monad/option.js');
+    var option = require('../Monad/option.js').option;
     
     //
     // Lexeme internal class
@@ -58,30 +58,30 @@ exports.stream = function (value) {
     
     Stream.prototype.nextToken = function (value) {
         if (this.isEmpty() || value.length > this.remaining()) {
-            return option.option();
+            return option();
         }
         
         if (this.value.substring(this.offset, this.offset + value.length) === value) {
             this.offset += value.length;
-            return option.option(value);
+            return option(value);
         }
         
-        return option.option();
+        return option();
     };
     
     Stream.prototype.nextRegexp = function (value) {
         if (this.isEmpty()) {
-            return option.option();
+            return option();
         }
 
         var matched = new RegExp("^" + value).exec(this.value.substring(this.offset, this.value.length));
 
         if (matched) {
             this.offset += matched[0].length;
-            return option.option(matched[0]);
+            return option(matched[0]);
         }
         
-        return option.option();
+        return option();
     };
         
     //

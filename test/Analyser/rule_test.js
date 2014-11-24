@@ -1,8 +1,8 @@
 'use strict';
 
-var stream = require('../../src/Analyser/stream.js');
-var rule = require('../../src/Analyser/rule.js');
-var bind = require('../../src/Analyser/bind.js').bind;
+var stream = require('../../src/Analyser/stream.js').stream,
+    rule = require('../../src/Analyser/rule.js').rule,
+    bind = require('../../src/Analyser/bind.js').bind;
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -32,8 +32,8 @@ exports['rules'] = {
   'accept plain text rule': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream.stream("a"), 
-        aRule = rule.rule("a",function(a) { return a; });
+    var aStream = stream("a"), 
+        aRule = rule("a",function(a) { return a; });
     test.equal(aRule.apply(aStream).isPresent(), true, 'should be accepted.');
     test.done();
   },
@@ -41,8 +41,8 @@ exports['rules'] = {
   'reject plain text rule': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream.stream("a"), 
-        aRule = rule.rule("b",function(a) { return a; });
+    var aStream = stream("a"), 
+        aRule = rule("b",function(a) { return a; });
     test.equal(aRule.apply(aStream).isPresent(), false, 'should be rejected.');
     test.done();
   },
@@ -50,8 +50,8 @@ exports['rules'] = {
   'accept plain text rule and call the binded function': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream.stream("aa"), 
-        aRule = rule.rule("a",function(a) { return a; });
+    var aStream = stream("aa"), 
+        aRule = rule("a",function(a) { return a; });
     test.deepEqual(aRule.apply(aStream).get(), {}, 'should be accepted.');
     test.done();
   },
@@ -59,8 +59,8 @@ exports['rules'] = {
   'accept regexp rule': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream.stream("aa"), 
-        aRule = rule.rule(/a+/,function(a) { return a; });
+    var aStream = stream("aa"), 
+        aRule = rule(/a+/,function(a) { return a; });
     test.equal(aRule.apply(aStream).isPresent(), true, 'should be accepted.');
     test.done();
   },
@@ -68,8 +68,8 @@ exports['rules'] = {
   'accept regexp rule and call the binded function': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream.stream("aa"), 
-        aRule = rule.rule(bind(/a+/).to("a"),function(a) { return a; });
+    var aStream = stream("aa"), 
+        aRule = rule(bind(/a+/).to("a"),function(a) { return a; });
     test.deepEqual(aRule.apply(aStream).get(), {a: "aa"}, 'should be accepted.');
     test.done();
   },
@@ -77,8 +77,8 @@ exports['rules'] = {
   'reject regexp rule': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream.stream("a"), 
-        aRule = rule.rule("b+",function(a) { return a; });
+    var aStream = stream("a"), 
+        aRule = rule("b+",function(a) { return a; });
     test.equal(aRule.apply(aStream).isPresent(), false, 'should be rejected.');
     test.done();
   },
