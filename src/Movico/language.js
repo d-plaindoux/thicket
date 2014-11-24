@@ -18,18 +18,16 @@ exports.language = (function () {
         rep = require('../Analyser/rep.js').rep,
         ast  = require('./ast.js').ast;
     
+    var IDENT = /[a-zA-Z][a-zA-Z0-9_$]*/,
+        NUMBER = /[+\-]?\d+/,
+        STRING = /"([^"]|\")*"/,
+        SIMPLESTRING = /'([^']|\')*'/,
+        SPACES = /\s+/;
+    
     function Language() {
         this.parser = parser();
         
-        // Define constants
-        var IDENT = /[a-zA-Z][a-zA-Z0-9_$]*/,
-            NUMBER = /[+\-]?\d+/,
-            STRING = /"([^"]|\")*"/,
-            SIMPLESTRING = /'([^']|\')*'/,
-            SPACES = /\s+/,
-            // ---
-            reject = function (scope) { return null; },
-            that = this,
+        var that = this,
             entry = function (name) { return that.parser.entry(name); };
 
         // Define parse rules
@@ -55,17 +53,12 @@ exports.language = (function () {
             }).
             addRule(["[", entry("types"), "]"], function (scope) {
                 return ast.type();
-            }).
-            addRule([], reject);
+            });
 
         this.parser.group('types').
-            addRule([entry("type"), ",", entry("types")], function (scope) {
+            addRule([entry("type"), optrep([",", entry("types")])], function (scope) {
                 return ast.type();
-            }).
-            addRule([this.parser.entry("type")], function (scope) {
-                return ast.type();
-            }).
-            addRule([], reject);
+            });
         
         // controllerDef group
         this.parser.group('controllerDef').

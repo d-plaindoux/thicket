@@ -85,7 +85,7 @@ exports['language_exprs'] = {
     var aStream = stream("azerty");
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
-               ast.ident("azerty"), "accept an ident");
+                   ast.ident("azerty"), "accept an ident");
     test.done();
   },
     
@@ -95,7 +95,7 @@ exports['language_exprs'] = {
     var aStream = stream("Point{1 '2'}");
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
-               ast.instance("Point", [ast.number(1), ast.string("2")]), "accept an instance");
+                   ast.instance("Point", [ast.number(1), ast.string("2")]), "accept an instance");
     test.done();
   },
     
@@ -105,7 +105,7 @@ exports['language_exprs'] = {
     var aStream = stream("point.x");
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
-               ast.invoke(ast.ident("point"), ast.ident("x")), "accept an invocation");
+                   ast.invoke(ast.ident("point"), ast.ident("x")), "accept an invocation");
     test.done();
   },
     
@@ -115,7 +115,7 @@ exports['language_exprs'] = {
     var aStream = stream("point.'x'");
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
-               ast.invoke(ast.ident("point"), ast.string("x")), "accept an invocation");
+                   ast.invoke(ast.ident("point"), ast.string("x")), "accept an invocation");
     test.done();
   },
     
@@ -125,7 +125,7 @@ exports['language_exprs'] = {
     var aStream = stream("point (1) '2'");
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
-               ast.application([ast.ident("point"), ast.number(1), ast.string('2')]), "accept an application");
+                   ast.application([ast.ident("point"), ast.number(1), ast.string('2')]), "accept an application");
     test.done();
   },
     
@@ -135,17 +135,17 @@ exports['language_exprs'] = {
     var aStream = stream("1,'2'");
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
-               ast.couple(ast.number(1), ast.string('2')), "accept an application");
+                   ast.couple(ast.number(1), ast.string('2')), "accept an application");
     test.done();
   },
 
   'application using couple is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("point (1) '2'");
+    var aStream = stream("point (1,'2')");
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
-               ast.application([ast.ident("point"), ast.number(1), ast.string('2')]), "accept an application");
+                   ast.application([ast.ident("point"), ast.couple(ast.number(1), ast.string('2'))]), "accept an application");
     test.done();
   },  
 };
