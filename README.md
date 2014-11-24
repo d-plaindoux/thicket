@@ -29,7 +29,7 @@ definition in the illustrated MVC design pattern.
 model APerson {
    firstname: String
    name: String
-   age: Int = 0
+   age: Int
 }
 ```
 
@@ -43,12 +43,12 @@ controller Person(this:APerson) {
   firstname = this.firstname
   name = this.name
   age = this.age
-  tick() = self(this.age(this.age+1))
+  tick () = self(this.age(this.age+1))
 }
 
 controller Population([APerson]) {
-  persons() = [p | p <- this if p.age < 100]
-  addPerson f n = self APerson{f n}
+  persons () = [p | p <- this if p.age < 100]
+  addPerson f n = self APerson{f n 0}
 }
 ```
 
