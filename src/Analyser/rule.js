@@ -1,4 +1,4 @@
-/*global exports, require, Bind*/
+/*global exports, require*/
 
 /*
  * Movico
@@ -23,20 +23,26 @@ exports.rule = function (value, parseFn) {
         this.parseFn = parseFn;
     }
     
-    function accept(value, stream, bind) {        
+    function accept(skip, value, stream, bind) {
         if (value instanceof RegExp) {
+            skip(stream);
+
             return stream.nextRegexp(value.source);
         
         } else if (typeof value === 'string') {
+            skip(stream);
+
             return stream.nextToken(value);
 
         } else if (value instanceof Array) {
+            skip(stream);
+
             var item, itemResult, result = [];
             
             for (item in value) {
                 if (value.hasOwnProperty(item)) {
      
-                    itemResult = accept(value[item], stream, bind);
+                    itemResult = accept(skip, value[item], stream, bind);
                     
                     if (itemResult.isPresent()) {
                         result.push(itemResult.get());
@@ -49,22 +55,24 @@ exports.rule = function (value, parseFn) {
             return monad.option(result);
             
         } else if (typeof value === 'object' && value.hasOwnProperty("value") && value.hasOwnProperty("name")) {
-            return accept(value.value, stream, bind).map(function (result) {
+            return accept(skip, value.value, stream, bind).map(function (result) {
                 bind[value.name] = result;
                 return result;
             });
 
         } else if (value instanceof Function) {
+            skip(stream);
+
             return value(stream);
         }
         
         return monad.option();
     }
     
-    Rule.prototype.apply = function (stream) {
+    Rule.prototype.apply = function (stream, skip) {
         var that = this,
             bind = {},
-            result = accept(this.value, stream, bind);
+            result = accept(skip || function () {}, this.value, stream, bind);
         
         return result.map(function (value) {
             return that.parseFn(bind);

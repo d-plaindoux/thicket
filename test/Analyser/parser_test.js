@@ -1,7 +1,7 @@
 'use strict';
 
-var stream = require('../../src/Analyser/stream.js');
-var parser = require('../../src/Analyser/parser.js');
+var stream = require('../../src/Analyser/stream.js').stream;
+var parser = require('../../src/Analyser/parser.js').parser;
 var bind = require('../../src/Analyser/bind.js').bind;
 
 /*
@@ -32,8 +32,8 @@ exports['parsers'] = {
   'skip empty characters from an empty stream': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream.stream(""), 
-        aParser = parser.parser();
+    var aStream = stream(""), 
+        aParser = parser();
       
     aParser.addSkip(/\s+/);      
     aParser.skip(aStream);
@@ -45,8 +45,8 @@ exports['parsers'] = {
   'skip empty characters from an stream with spaces only': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream.stream(" \t\n"), 
-        aParser = parser.parser();
+    var aStream = stream(" \t\n"), 
+        aParser = parser();
       
     aParser.addSkip(/\s+/);            
     aParser.skip(aStream);
@@ -58,8 +58,8 @@ exports['parsers'] = {
   'skip empty characters from an stream with spaces and more': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream.stream(" \t\nIdent"), 
-        aParser = parser.parser();
+    var aStream = stream(" \t\nIdent"), 
+        aParser = parser();
       
     aParser.addSkip(/\s+/);      
     aParser.group("test").addRule(/[a-zA-Z]+/,function(ident) { return ident; });      
@@ -73,8 +73,8 @@ exports['parsers'] = {
   'skip empty characters from an stream with spaces and ident': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream.stream(" \t\nIdent"), 
-        aParser = parser.parser(),
+    var aStream = stream(" \t\nIdent"), 
+        aParser = parser(),
         aGroup = aParser.group("test");
       
     aParser.addSkip(/\s+/);      
@@ -87,8 +87,8 @@ exports['parsers'] = {
   'should accept an ident': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream.stream(" \t\nIdent"), 
-        aGroup = parser.parser().group("test");
+    var aStream = stream(" \t\nIdent"), 
+        aGroup = parser().group("test");
       
     aGroup.addRule([/\s+/, /[a-zA-Z]+/], function(ident) { return ident; });      
             
@@ -96,14 +96,29 @@ exports['parsers'] = {
     test.done();
   },
     
-
   'should accept and return an ident': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream.stream(" \t\nIdent"), 
-        aGroup = parser.parser().group("test");
+    var aStream = stream(" \t\nIdent"), 
+        aParser = parser(),
+        aGroup = aParser.group("test");
       
-    aGroup.addRule([/\s+/, bind(/[a-zA-Z]+/).to('a')], function(scope) { return scope['a']; });      
+    aParser.addSkip(/\s+/);      
+    aGroup.addRule([bind(/[a-zA-Z]+/).to('a')], function(scope) { return scope['a']; });      
+            
+    test.deepEqual(aGroup.parse(aStream).orElse(null), "Ident", 'should be an ident.');
+    test.done();
+  },    
+
+  'should accept and return an ident in parenthesis': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("( Ident )"), 
+        aParser = parser(),
+        aGroup = aParser.group("test");
+      
+    aParser.addSkip(/\s+/);      
+    aGroup.addRule(["(", bind(/[a-zA-Z]+/).to('a'), ")"], function(scope) { return scope['a']; });      
             
     test.deepEqual(aGroup.parse(aStream).orElse(null), "Ident", 'should be an ident.');
     test.done();

@@ -1,4 +1,4 @@
-/*global exports, require, Bind*/
+/*global exports, require*/
 
 /*
  * Movico

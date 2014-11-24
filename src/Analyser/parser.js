@@ -54,6 +54,14 @@ exports.parser = function () {
         return group;
     };
         
+    Parser.prototype.entry = function (name) {
+        var that = this;
+        
+        return function (stream) {
+            return that.group(name).parse(stream);
+        };
+    };
+    
     Parser.prototype.skip = function (stream) {
         var skipped, rule;
         
@@ -68,16 +76,16 @@ exports.parser = function () {
     };
       
     Parser.prototype.step = function (rules, stream) {
-        this.skip(stream);
-
         var checkpoint = stream.checkpoint(),
+            that = this,
+            skip = function (stream) { that.skip(stream); },
             rule,
             result;
         
         for (rule in rules) {
             
             if (rules.hasOwnProperty(rule)) {
-                result = rules[rule].apply(stream);
+                result = rules[rule].apply(stream,skip);
                 if (result.isPresent()) {
                     return result;
                 }
