@@ -76,13 +76,19 @@ exports.ast = (function () {
         this.body = body;
     }
     
-    function CoupleExpr(left, right) {
+    function PairExpr(left, right) {
         this.left = left;
         this.right = right;
     }
     
     function ApplicationExpr(exprs) {
         this.exprs = exprs;
+    }
+    
+    function ComprehensionExpr(exprs,iterations,condition) {
+        this.exprs = exprs;
+        this.iterations = iterations;
+        this.condition = condition;
     }
     
     //
@@ -100,8 +106,9 @@ exports.ast = (function () {
         ident : function (name) { return new IdentExpr(name); },
         instance : function (name, params) { return new InstanceExpr(name, params); },
         invoke : function (caller, body) { return new InvokeExpr(caller, body); },
-        couple : function (left, right) { return new CoupleExpr(left, right); },
-        application : function (exprs) { return new ApplicationExpr(exprs); }
+        pair : function (left, right) { return new PairExpr(left, right); },
+        application : function (exprs) { return new ApplicationExpr(exprs); },
+        comprehension: function (exprs,iterations,condition) { return new ComprehensionExpr(exprs,iterations,condition); }
     };
 }());
  

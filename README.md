@@ -47,7 +47,7 @@ controller Person(this:APerson) {
 }
 
 controller Population([APerson]) {
-  persons () = [p | p <- this if p.age < 100]
+  persons () = [p for p <- this if p.age < 100]
   addPerson f n = self APerson{f n 0}
 }
 ```
@@ -85,7 +85,7 @@ view PersonAdder(this:Population) {
 }
 
 view PopulationView(this:Population) {
-  [<PersonView>Person(p)</> | p <- this.persons()]
+  [<PersonView>Person(p)</> for p <- this.persons()]
   <PersonAdder>this</>
 }
 

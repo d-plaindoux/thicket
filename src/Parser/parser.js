@@ -12,7 +12,7 @@ exports.parser = function () {
     
     'use strict';
 
-    var monad = require('../Monad/option.js'),
+    var monad = require('../Data/option.js'),
         rules = require('./rule.js');
     
     //

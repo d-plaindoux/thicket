@@ -1,6 +1,6 @@
 'use strict';
 
-var option = require('../../src/Monad/option.js');
+var option = require('../../src/Data/option.js');
 
 /*
   ======== A Handy Little Nodeunit Reference ========

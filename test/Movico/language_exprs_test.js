@@ -1,6 +1,6 @@
 'use strict';
 
-var stream = require('../../src/Analyser/stream.js').stream,
+var stream = require('../../src/Parser/stream.js').stream,
     language = require('../../src/Movico/language.js').language,
     ast = require('../../src/Movico/ast.js').ast;
 
@@ -129,23 +129,37 @@ exports['language_exprs'] = {
     test.done();
   },
     
-  'couple is accepted': function(test) {
+  'pair is accepted': function(test) {
     test.expect(1);
     // tests here  
     var aStream = stream("1,'2'");
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
-                   ast.couple(ast.number(1), ast.string('2')), "accept an application");
+                   ast.pair(ast.number(1), ast.string('2')), "accept an application");
     test.done();
   },
 
-  'application using couple is accepted': function(test) {
+  'application using pair is accepted': function(test) {
     test.expect(1);
     // tests here  
     var aStream = stream("point (1,'2')");
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
-                   ast.application([ast.ident("point"), ast.couple(ast.number(1), ast.string('2'))]), "accept an application");
+                   ast.application([ast.ident("point"), ast.pair(ast.number(1), ast.string('2'))]), "accept an application");
+    test.done();
+  },  
+
+  'comprehension is accepted': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("[(x,y) for x <- f a for y <- t 1 if eq x y]");
+        
+    test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
+                   ast.comprehension(ast.pair(ast.ident('x'),ast.ident('y')),
+                                     [[ast.ident('x'),ast.application([ast.ident('f'),ast.ident('a')])],
+                                      [ast.ident('y'),ast.application([ast.ident('t'),ast.number(1)])]],
+                                     [ast.application([ast.ident('eq'),ast.ident('x'),ast.ident('y')])]),
+                   "accept a comprehension");
     test.done();
   },  
 };

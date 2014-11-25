@@ -16,7 +16,7 @@ exports.opt = function (opt) {
         this.opt = opt;
     }
     
-    Rep.prototype.toString = function () {
+    Opt.prototype.toString = function () {
         return this.value + "?";
     };
     

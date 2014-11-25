@@ -22,10 +22,10 @@ methods   ::= IDENT "=" exprs
             | IDENT IDENT+ "=" exprs
 
 exprs     ::= IDENT "{" expr* "}"
-            | "[" exprs | (IDENT <- exprs)+ (if exprs)? "]"
+            | "[" exprs ("for" IDENT "<-" exprs)+ ("if" exprs)? "]"
             | expr "." exprs     
             | expr "," exprs     
-            | expr exprs*
+            | expr+
 
 expr      ::= NUMBER 
             | STRING

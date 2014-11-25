@@ -12,16 +12,18 @@ exports.language = (function () {
     
     'use strict';
     
-    var parser = require('../Analyser/parser.js').parser,
-        bind = require('../Analyser/bind.js').bind,
-        optrep = require('../Analyser/optrep.js').optrep,
-        rep = require('../Analyser/rep.js').rep,
-        ast  = require('./ast.js').ast;
+    var parser = require('../Parser/parser.js').parser,
+        bind = require('../Parser/bind.js').bind,
+        optrep = require('../Parser/optrep.js').optrep,
+        rep = require('../Parser/rep.js').rep,
+        opt = require('../Parser/opt.js').opt,
+        ast  = require('./ast.js').ast,
     
-    var IDENT = /[a-zA-Z][a-zA-Z0-9_$]*/,
+        KEYWORDS = ["if","for","model","controller","view"],
+        IDENT = /[a-zA-Z][a-zA-Z0-9_$]*/,
         NUMBER = /[+\-]?\d+/,
-        STRING = /"([^"]|\")*"/,
-        SIMPLESTRING = /'([^']|\')*'/,
+        DBQUOTEDSTRING = /"([^"]|\")*"/,
+        QUOTEDSTRING = /'([^']|\')*'/,
         SPACES = /\s+/;
     
     function Language() {
@@ -34,20 +36,20 @@ exports.language = (function () {
         this.parser.addSkip(SPACES);
         
         // objectDef group
-        this.parser.group('modelDef').
-            addRule(["model", bind(IDENT).to('name'), "{", bind(optrep(entry("param"))).to('params'), "}"], function (scope) {
+        this.parser.group("modelDef").
+            addRule(["model", bind(entry('ident')).to("name"), "{", bind(optrep(entry("param"))).to("params"), "}"], function (scope) {
                 return ast.model(scope.name, scope.params);
             });
         
         // Params group
         this.parser.group('param').
-            addRule([bind(IDENT).to('name'), ":", bind(entry("type")).to('type')], function (scope) {
+            addRule([bind(entry('ident')).to('name'), ":", bind(entry("type")).to('type')], function (scope) {
                 return ast.param(scope.name, scope.type);
             });
 
         // Type and types groups
         this.parser.group('type').
-            addRule(IDENT, function (scope) { return ast.type(); }).
+            addRule(entry('ident'), function (scope) { return ast.type(); }).
             addRule(["(", entry("types"), ")"], function (scope) {
                 return ast.type();
             }).
@@ -62,32 +64,40 @@ exports.language = (function () {
         
         // controllerDef group
         this.parser.group('controllerDef').
-            addRule(["controller", bind(IDENT).to('name'),
-                     "(", bind(IDENT).to('that'), ":", bind(entry("type")).to('type'), ")",
+            addRule(["controller", bind(entry('ident')).to('name'),
+                     "(", bind(entry('ident')).to('that'), ":", bind(entry("type")).to('type'), ")",
                      "{", bind(optrep(entry("method"))).to('methods'), "}"], function (scope) {
                 return ast.controller(scope.name, ast.param(scope.that, scope.type), scope.methods);
             });
         
         this.parser.group('method').
-            addRule([bind(IDENT).to('name'), "=", bind(entry("expr")).to('body')], function (scope) {
+            addRule([bind(entry('ident')).to('name'), "=", bind(entry("expr")).to('body')], function (scope) {
                 return ast.method(scope.name, null, scope.body);
             }).
-            addRule([bind(IDENT).to('name'), "(", ")", "=", bind(entry("exprs")).to('body')], function (scope) {
+            addRule([bind(entry('ident')).to('name'), "(", ")", "=", bind(entry("exprs")).to('body')], function (scope) {
                 return ast.method(scope.name, [], scope.body);
             });
         
         this.parser.group('exprs').
-            addRule([bind(IDENT).to('ident'), "{", bind(optrep(entry("expr"))).to('body'), "}"], function (scope) {
+            addRule([bind(entry('ident')).to('ident'), "{", bind(optrep(entry("expr"))).to('body'), "}"], function (scope) {
                 return ast.instance(scope.ident, scope.body);
+            }).
+            addRule(["[", bind(entry("exprs")).to('expr'),
+                     bind(rep(["for", entry('ident'), "<-", entry("exprs")])).to('iterations'),
+                     bind(opt(['if', entry("exprs")])).to('condition'), "]"], function (scope) {
+                return ast.comprehension(scope.expr,
+                                         scope.iterations.map(function (l) { return [ast.ident(l[1]), l[3]]; }),
+                                         scope.condition.map(function (l) { return l[1]; })
+                                        );
             }).
             addRule([bind(entry("expr")).to('expr'), ".", bind(entry("exprs")).to('exprs')], function (scope) {
                 return ast.invoke(scope.expr, scope.exprs);
             }).
             addRule([bind(entry("expr")).to('expr'), ",", bind(entry("exprs")).to('exprs')], function (scope) {
-                return ast.couple(scope.expr, scope.exprs);
+                return ast.pair(scope.expr, scope.exprs);
             }).
             addRule(bind(rep(entry("expr"))).to('exprs'), function (scope) {
-                if (scope.exprs.length == 1) {
+                if (scope.exprs.length === 1) {
                     return scope.exprs[0];
                 } else {
                     return ast.application(scope.exprs);
@@ -96,19 +106,28 @@ exports.language = (function () {
         
         this.parser.group('expr').
             addRule(bind(NUMBER).to('number'), function (scope) {
-                return ast.number(parseInt(scope.number));
+                return ast.number(parseFloat(scope.number, 10));
             }).
-            addRule(bind(STRING).to('string'), function (scope) {
-                return ast.string(scope.string.substring(1,scope.string.length-1));
+            addRule(bind(DBQUOTEDSTRING).to('string'), function (scope) {
+                return ast.string(scope.string.substring(1, scope.string.length - 1));
             }).
-            addRule(bind(SIMPLESTRING).to('string'), function (scope) {
-                return ast.string(scope.string.substring(1,scope.string.length-1));
+            addRule(bind(QUOTEDSTRING).to('string'), function (scope) {
+                return ast.string(scope.string.substring(1, scope.string.length - 1));
             }).
-            addRule(bind(IDENT).to('ident'), function (scope) {
+            addRule(bind(entry('ident')).to('ident'), function (scope) {
                 return ast.ident(scope.ident);
             }).
             addRule(["(", bind(entry("exprs")).to("exprs"), ")"], function (scope) {
                 return scope.exprs;
+            });
+        
+        this.parser.group('ident').
+            addRule(bind(IDENT).to('ident'), function (scope) {
+                if (KEYWORDS.indexOf(scope.ident) > -1) {
+                    return null;
+                } else {
+                    return scope.ident;
+                }
             });
     
     }

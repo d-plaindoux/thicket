@@ -1,9 +1,11 @@
 'use strict';
 
-var stream = require('../../src/Analyser/stream.js').stream,
-    rule = require('../../src/Analyser/rule.js').rule,
-    bind = require('../../src/Analyser/bind.js').bind,
-    optrep = require('../../src/Analyser/optrep.js').optrep;
+var stream = require('../../src/Parser/stream.js').stream,
+    rule = require('../../src/Parser/rule.js').rule,
+    bind = require('../../src/Parser/bind.js').bind,
+    optrep = require('../../src/Parser/optrep.js').optrep,
+    rep = require('../../src/Parser/rep.js').rep,
+    opt = require('../../src/Parser/opt.js').opt;
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -84,12 +86,30 @@ exports['rules'] = {
     test.done();
   },
             
-  'accept repeatable regexp rule and call the binded function': function(test) {
+  'accept optional repeatable regexp rule and call the binded function': function(test) {
     test.expect(1);
     // tests here  
     var aStream = stream("aaa"), 
         aRule = rule(bind(optrep("a")).to("a"),function(a) { return a; });
     test.deepEqual(aRule.apply(aStream).get(), {a: ["a", "a", "a"]}, 'should be accepted.');
+    test.done();
+  },
+            
+  'accept repeatable regexp rule and call the binded function': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("aaa"), 
+        aRule = rule(bind(rep("a")).to("a"),function(a) { return a; });
+    test.deepEqual(aRule.apply(aStream).get(), {a: ["a", "a", "a"]}, 'should be accepted.');
+    test.done();
+  },
+            
+  'accept optional regexp rule and call the binded function': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("b"), 
+        aRule = rule(bind(opt("a")).to("a"),function(a) { return a; });
+    test.deepEqual(aRule.apply(aStream).get(), {a: []}, 'should be accepted.');
     test.done();
   },
 

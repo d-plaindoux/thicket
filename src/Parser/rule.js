@@ -12,7 +12,7 @@ exports.rule = function (value, parseFn) {
     
     'use strict';
     
-    var monad = require('../Monad/option.js');
+    var monad = require('../Data/option.js');
     
     //
     // Rule class

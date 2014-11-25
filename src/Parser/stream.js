@@ -12,7 +12,7 @@ exports.stream = function (value) {
 
     'use strict';
 
-    var option = require('../Monad/option.js').option;
+    var option = require('../Data/option.js').option;
     
     //
     // Lexeme internal class
