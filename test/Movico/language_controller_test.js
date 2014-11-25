@@ -1,7 +1,7 @@
 'use strict';
 
 var stream = require('../../src/Parser/stream.js').stream,
-    rule = require('../../src/Parser/rule.js').ru,
+    rule = require('../../src/Parser/rule.js').rule,
     language = require('../../src/Movico/language.js').language,
     ast = require('../../src/Movico/ast.js').ast;
 
@@ -33,7 +33,7 @@ exports['language_controller'] = {
   'simple model is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("controller Address (this: Address) { } ");
+    var aStream = stream("controller Address this: Address { } ");
         
     test.ok(language.parser.group('controllerDef').parse(aStream).isPresent(), 
             "accept a controller");
@@ -43,7 +43,7 @@ exports['language_controller'] = {
   'not well formed model is rejected': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("controller Address (this) { } ");
+    var aStream = stream("controller Address this { } ");
         
     test.equal(language.parser.group('controllerDef').parse(aStream).isPresent(), 
                false , "reject a controller");
@@ -53,7 +53,7 @@ exports['language_controller'] = {
   'simple controller is accepted and provided': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("controller Address (this: Address) { }");
+    var aStream = stream("controller Address this:Address { }");
         
     test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
                    ast.controller('Address', ast.param('this',ast.type()), []) , "accept a controller");
@@ -63,7 +63,7 @@ exports['language_controller'] = {
   'controller with a constant behavior is accepted and provided': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("controller Address (this: Address) { number = 123 }");        
+    var aStream = stream("controller Address this:Address { number = 123 }");        
     test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
                    ast.controller('Address', ast.param('this',ast.type()), [ ast.method('number', null, ast.number(123)) ]) , "accept a controller");
     test.done();
@@ -72,7 +72,7 @@ exports['language_controller'] = {
   'controller with a functional behavior is accepted and provided': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("controller Address (this: Address) { number () = 123 }");        
+    var aStream = stream("controller Address this: Address { number () = 123 }");        
     test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
                    ast.controller('Address', ast.param('this',ast.type()), [ ast.method('number', [], ast.number(123)) ]) , "accept a controller");
     test.done();

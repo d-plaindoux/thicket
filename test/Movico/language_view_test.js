@@ -32,7 +32,7 @@ exports['language_view '] = {
   'simple view is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("view Address (this: Address) { } ");
+    var aStream = stream("view Address this: Address { } ");
         
     test.deepEqual(language.parser.group('viewDef').parse(aStream).get(),
                    ast.view('Address',ast.param('this', ast.type()), []), "accept a view");
@@ -42,7 +42,7 @@ exports['language_view '] = {
   'complex view is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("view Address (this: Address) { <div onClick=(this.tick ())> <div>this.firstname</div> <div>this.name</div> <div>this.age</div> </div>}");
+    var aStream = stream("view Address this: Address { <div onClick=(this.tick ())> <div>this.firstname</div> <div>this.name</div> <div>this.age</div> </div>}");
         
     test.ok(language.parser.group('viewDef').parse(aStream).isPresent(), 
             "accept a view");

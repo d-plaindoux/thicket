@@ -86,7 +86,7 @@ exports.language = (function () {
         // controllerDef group
         this.parser.group('controllerDef').
             addRule(["controller", bind(entry('ident')).to('name'),
-                     "(", bind(entry('ident')).to('that'), ":", bind(entry("type")).to('type'), ")",
+                     bind(entry('ident')).to('that'), ":", bind(entry("type")).to('type'),
                      "{", bind(optrep(entry("method"))).to('methods'), "}"], function (scope) {
                 return ast.controller(scope.name, ast.param(scope.that, scope.type), scope.methods);
             });
@@ -178,7 +178,7 @@ exports.language = (function () {
         // viewDef group
         this.parser.group('viewDef').
             addRule(["view", bind(entry('ident')).to('name'),
-                     "(", bind(entry('ident')).to('that'), ":", bind(entry("type")).to('type'), ")",
+                     bind(entry('ident')).to('that'), ":", bind(entry("type")).to('type'),
                      "{", bind(optrep(entry("expr"))).to('body'), "}"], function (scope) {
                 return ast.view(scope.name, ast.param(scope.that, scope.type), scope.body);
             });

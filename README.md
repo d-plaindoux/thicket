@@ -39,16 +39,16 @@ represented by  a model.  For instance  in the  next code  two classes
 `[APerson]`.
 
 ```
-controller Person(this:APerson) {
+controller Person this:APerson {
   firstname = this.firstname
   name = this.name
   age = this.age
-  tick () = self(this.age(this.age+1))
+  tick () = (self(this.age(this.age+1)))
 }
 
-controller Population([APerson]) {
+controller Population this:[APerson] {
   persons () = [p for p <- this if p.age < 100]
-  addPerson f n = self APerson{f n 0}
+  addPerson f n = (self APerson{f n 0})
 }
 ```
 
@@ -58,7 +58,7 @@ example  we   propose  views  dedicated   to  a  `Person`  and   to  a
 approach is  similar to  [Reac](http://facebook.github.io/react/).
 
 ```
-view PersonView(this:Person) {
+view PersonView this:Person {
   <div onClick=(this.tick())> 
     <div>this.firstname</>
     <div>this.name</>
@@ -76,7 +76,7 @@ definition each `PersonAdder` instance  provides these definitions and
 then can be referenced as we do in the `Population#addPerson` method.
 
 ```
-view PersonAdder(this:Population) {
+view PersonAdder this:Population {
   <form onSubmit=(this.addPerson firstname name)>
     <input type="text" id="firstname"/>
     <input type="text" id="name"/>
