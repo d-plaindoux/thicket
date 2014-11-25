@@ -96,6 +96,15 @@ exports.rule = function (value, parseFn) {
             
             return monad.option(result);
 
+        } else if (typeof value === 'object' && value.hasOwnProperty("commit")) {
+            var current = accept(skip, value.commit, stream, bind);
+        
+            if (current.isPresent()) {
+                return current;
+            }
+            
+            throw new Error(stream.location());
+
         } else if (value instanceof Function) {
             skip(stream);
 

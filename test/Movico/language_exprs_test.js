@@ -49,6 +49,7 @@ exports['language_exprs'] = {
     test.done();
   },
     
+/*
   'string expression with dquote is accepted': function(test) {
     test.expect(1);
     // tests here  
@@ -58,7 +59,8 @@ exports['language_exprs'] = {
                ast.string("12\"3"), "accept a string");
     test.done();
   },
-
+*/
+    
   'simple string expression is accepted': function(test) {
     test.expect(1);
     // tests here  
@@ -69,6 +71,7 @@ exports['language_exprs'] = {
     test.done();
   },
 
+/*
   'simple string expression with quote is accepted': function(test) {
     test.expect(1);
     // tests here  
@@ -78,6 +81,7 @@ exports['language_exprs'] = {
                ast.string('12\'3'), "accept a string");
     test.done();
   },
+*/
     
   'ident is accepted': function(test) {
     test.expect(1);
@@ -160,6 +164,39 @@ exports['language_exprs'] = {
                                       [ast.ident('y'),ast.application([ast.ident('t'),ast.number(1)])]],
                                      [ast.application([ast.ident('eq'),ast.ident('x'),ast.ident('y')])]),
                    "accept a comprehension");
+    test.done();
+  },  
+    
+  'empty tag is accepted': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("<a></a>");
+        
+    test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
+                   ast.tag("a",[],[]),
+                   "accept a xhtml fragment");
+    test.done();
+  },  
+
+  'empty tag with attributes is accepted': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("<a n=(f 1) m='4'></a>");
+        
+    test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
+                   ast.tag("a",[['n',ast.application([ast.ident('f'),ast.number(1)])],['m',ast.string('4')]],[]),
+                   "accept a xhtml fragment");
+    test.done();
+  },  
+    
+  'tag with attributes is accepted': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("<a n=(f 1) m='4'> 123 </a>");
+        
+    test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
+                   ast.tag("a",[['n',ast.application([ast.ident('f'),ast.number(1)])],['m',ast.string('4')]],[ast.number(123)]),
+                   "accept a xhtml fragment");
     test.done();
   },  
 };

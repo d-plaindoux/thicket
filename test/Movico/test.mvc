@@ -29,11 +29,10 @@ controller Person(this : APerson) {
   firstname = this.firstname
   name = this.name
   age = this.age
-  tick () = self(this.age(this.age+1))
+  tick () = (self (this.age(this.age.add 1)))
 }
 
 controller Population(this : [APerson]) {
-  persons () = [p | p <- this if p.age < 100]
-  addPerson p = self(this ++ p)
+  persons() = [p for p <- this if p.age.leq 100]
+  addPerson p = (self(this.add p))
 }
-
