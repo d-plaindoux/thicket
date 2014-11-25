@@ -142,7 +142,7 @@ exports.ast = (function () {
     }
     
     ComprehensionExpr.prototype.toString = function () {
-        return "[ ... ]";
+        return "[" +  this.exprs + this.iterations.map(function(l) { return " for " + l[0] + " <-" + l[1] }).join('') + " ... ]";
     };    
 
     function TagExpr(name,attributes,body) {
@@ -152,7 +152,7 @@ exports.ast = (function () {
     }
     
     TagExpr.prototype.toString = function () {
-        return "<" + this.name + " ~ " + this.attributes.map(function (p) { return p[0] + "=" + p[1]; }).join(' ') +">" + this.body + "</" + this. name + ">";
+        return "<" + this.name + this.attributes.map(function (p) { return " " + p[0] + "=" + p[1]; }).join('') +">" + this.body + "</" + this. name + ">";
     };    
 
     function UnitExpr() {

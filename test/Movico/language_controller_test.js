@@ -1,6 +1,7 @@
 'use strict';
 
 var stream = require('../../src/Parser/stream.js').stream,
+    rule = require('../../src/Parser/rule.js').ru,
     language = require('../../src/Movico/language.js').language,
     ast = require('../../src/Movico/ast.js').ast;
 

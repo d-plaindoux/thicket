@@ -12,8 +12,8 @@ exports.parser = function () {
     
     'use strict';
 
-    var monad = require('../Data/option.js'),
-        rules = require('./rule.js');
+    var option = require('../Data/option.js').option,
+        rule = require('./rule.js').rule;
     
     //
     // Parser class
@@ -25,7 +25,7 @@ exports.parser = function () {
     }
     
     function add(array, value, parseFn) {
-        array.push(rules.rule(value, parseFn));
+        array.push(rule(value, parseFn));
     }
     
     Parser.prototype.addSkip = function (value) {
@@ -94,7 +94,7 @@ exports.parser = function () {
             }
         }
         
-        return monad.option();
+        return option();
     };
             
     //

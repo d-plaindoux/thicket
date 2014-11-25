@@ -1,10 +1,10 @@
-model APerson { 
+model Person { 
     firstname: string
     name: string
     age: int
 }
 
-view PersonView(this : Person) {
+view Person(this : Person) {
   <div onClick=(this.tick ())> 
     <div>this.firstname</div>
     <div>this.name</div>
@@ -12,7 +12,7 @@ view PersonView(this : Person) {
   </div>
 }
  
-view PersonAdder(this : Population) {
+view NewPerson(this : Population) {
   <form onSubmit=(this.addPerson APerson{firstname name 0})>
      <input type="text" id="firstname"/>
      <input type="text" id="name"/>
@@ -20,19 +20,20 @@ view PersonAdder(this : Population) {
   </form>
 }
 
-view PopulationView(this : Population) {
-  [PersonView Person(p) for p <- this.persons()]
-  (PersonAdder this)
+view Population(this : Population) {
+  [PersonV Person(p) for p <- this.persons()]
+  <hr/>
+  (NewPerson this)
 }
 
-controller Person(this : APerson) {
+controller Person(this : Person) {
   firstname = this.firstname
   name = this.name
   age = this.age
   tick () = (self (this.age(this.age.add 1)))
 }
 
-controller Population(this : [APerson]) {
+controller Population(this : [Person]) {
   persons() = [p for p <- this if p.age.leq 100]
   addPerson p = (self(this.add p))
 }
