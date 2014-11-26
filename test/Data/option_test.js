@@ -1,6 +1,6 @@
 'use strict';
 
-var option = require('../../lib/Data/option.js').option;
+var option = require('../../lib-cov/Data/option.js').option;
 
 /*
   ======== A Handy Little Nodeunit Reference ========

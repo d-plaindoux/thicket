@@ -1,8 +1,7 @@
 'use strict';
 
-var stream = require('../../lib/Parser/stream.js').stream,
-    language = require('../../lib/Movico/language.js').language,
-    ast = require('../../lib/Movico/ast.js').ast,
+var stream = require('../../lib-cov/Parser/stream.js').stream,
+    language = require('../../lib-cov/Movico/language.js').language,
     fs = require('fs');
 
 /*
@@ -34,7 +33,9 @@ exports['language'] = {
     test.expect(2);
     // tests here  
     fs.readFile('./test/Movico/test.mvc', function (err,data) {
-        if (err) throw err;
+        if (err) {
+            throw err;
+        }
         
         var aStream = stream(data.toString()),
             entities = language.parser.group('entities').parse(aStream);

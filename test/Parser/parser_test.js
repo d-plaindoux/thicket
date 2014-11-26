@@ -1,8 +1,8 @@
 'use strict';
 
-var stream = require('../../lib/Parser/stream.js').stream,
-    parser = require('../../lib/Parser/parser.js').parser,
-    bind = require('../../lib/Parser/bind.js').bind;
+var stream = require('../../lib-cov/Parser/stream.js').stream,
+    parser = require('../../lib-cov/Parser/parser.js').parser,
+    bind = require('../../lib-cov/Parser/bind.js').bind;
 
 /*
   ======== A Handy Little Nodeunit Reference ========

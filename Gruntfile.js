@@ -35,14 +35,27 @@ module.exports = function(grunt) {
         tasks: ['jshint:test', 'nodeunit']
       },
     },
+    jscoverage: {
+        src: {
+            expand: true,
+            cwd: 'lib/',
+            src: ['**/*.js'],
+            dest: 'lib-cov/',
+            ext: '.js',
+        },
+        options: {
+            // custom options
+        }
+    }  
   });
 
   // These plugins provide necessary tasks.
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-watch');  
+  grunt.loadNpmTasks("grunt-jscoverage");
     
   // Default task.
-  grunt.registerTask('default', ['jshint', 'nodeunit']);
+  grunt.registerTask('default', ['jshint', 'jscoverage', 'nodeunit']);
 
 };

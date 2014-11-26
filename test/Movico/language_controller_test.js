@@ -1,9 +1,8 @@
 'use strict';
 
-var stream = require('../../lib/Parser/stream.js').stream,
-    rule = require('../../lib/Parser/rule.js').rule,
-    language = require('../../lib/Movico/language.js').language,
-    ast = require('../../lib/Movico/ast.js').ast;
+var stream = require('../../lib-cov/Parser/stream.js').stream,
+    language = require('../../lib-cov/Movico/language.js').language,
+    ast = require('../../lib-cov/Movico/ast.js').ast;
 
 /*
   ======== A Handy Little Nodeunit Reference ========
