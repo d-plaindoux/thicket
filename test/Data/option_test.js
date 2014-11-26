@@ -41,6 +41,13 @@ exports['options'] = {
     test.done();
   },
     
+  'option empty mapped': function(test) {
+    test.expect(1);
+    // tests here      
+    test.equal(option().map(function(a){return a;}).isPresent(), false, 'should be empty option.');
+    test.done();
+  },
+    
   'option not empty mapped': function(test) {
     test.expect(1);
     // tests here      
@@ -51,7 +58,7 @@ exports['options'] = {
   'option not empty flat mapped': function(test) {
     test.expect(1);
     // tests here      
-    test.equal(option(12).flatMap(function(a){return a;}), 12, 'should not be empty option.');
+    test.equal(option(12).flatMap(function(a){return option(a);}).get(), 12, 'should not be empty option.');
     test.done();
   },
     

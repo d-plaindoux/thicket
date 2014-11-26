@@ -26,7 +26,7 @@ module.exports = function(grunt) {
       },
     },
     jscoverage: {
-        src: {
+        lib: {
             expand: true,
             cwd: 'lib/',
             src: ['**/*.js'],

@@ -84,13 +84,10 @@ view PersonAdder this:Population {
   </>
 }
 
-view PopulationView(this:Population) {
+view PopulationView this:Population {
   [PersonView (Person p) for p <- this.persons()]
   (PersonAdder this)
 }
-
-// Document(document).byId("content").setValue(<PopulationView>Population([])</>)
-// Document(document).import("...") -> Creates a view
 ```
 
 More informations and References
