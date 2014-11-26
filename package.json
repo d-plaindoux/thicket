@@ -26,7 +26,7 @@
     "node": ">= 0.8.0"
   },
   "scripts": {
-    "test": "grunt && grunt --gruntfile Gruntfile_Coverage.js env:coverage nodeunit && cat lib_cov/report | coveralls"
+    "test": "grunt && grunt --gruntfile Gruntfile_Coverage.js env:coverage nodeunit && cat lib-cov/report | coveralls"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.6.4",
