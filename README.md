@@ -1,4 +1,5 @@
-Movico [![Build Status](https://travis-ci.org/d-plaindoux/movico.svg)](https://travis-ci.org/d-plaindoux/movico)
+Movico [![Build Status](https://travis-ci.org/d-plaindoux/movico.svg)](https://travis-ci.org/d-plaindoux/movico) [![Coverage Status](https://coveralls.io/repos/d-plaindoux/movico/badge.png?branch=master)](https://coveralls.io/r/d-plaindoux/movico?branch=master)
+
 ======
 
 Language dedicated to Model/View/Control  web application design based
