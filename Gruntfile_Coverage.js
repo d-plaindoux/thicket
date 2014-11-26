@@ -8,7 +8,7 @@ module.exports = function(grunt) {
       files: ['test/**/*_test.js'],
       options: {
         reporter: 'lcov',
-        reporterOutput:'lib_cov/report'
+        reporterOutput:'lib-cov/report'
       }
     },
     watch: {
@@ -30,17 +30,19 @@ module.exports = function(grunt) {
             expand: true,
             cwd: 'lib/',
             src: ['**/*.js'],
-            dest: 'lib_cov/',
+            dest: 'lib-cov/',
             ext: '.js',
         },
         options: {
-            // custom options
+            // Nothing
         }
     },      
     env: {
-        add: {
-            MOVICO_COV: '_cov'
-        },
+        coverage: {
+            add: {
+                MOVICO_COV: '-cov'
+            },
+        }
     }
   });
 
@@ -52,5 +54,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-env');    
   
   // Tasks
-  grunt.registerTask('default', ['jscoverage', 'env', 'nodeunit']);
+  grunt.registerTask('default', ['env:coverage', 'nodeunit']);
 };

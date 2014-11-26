@@ -1,8 +1,8 @@
 'use strict';
 
-var stream = require('../../lib-cov/Parser/stream.js').stream,
-    parser = require('../../lib-cov/Parser/parser.js').parser,
-    bind = require('../../lib-cov/Parser/bind.js').bind;
+var stream = require('../../lib' + (process.env.MOVICO_COV || '') + '/Parser/stream.js').stream,
+    parser = require('../../lib' + (process.env.MOVICO_COV || '') + '/Parser/parser.js').parser,
+    bind = require('../../lib' + (process.env.MOVICO_COV || '') + '/Parser/bind.js').bind;
 
 /*
   ======== A Handy Little Nodeunit Reference ========

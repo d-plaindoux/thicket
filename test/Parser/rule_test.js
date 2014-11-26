@@ -1,11 +1,11 @@
 'use strict';
 
-var stream = require('../../lib-cov/Parser/stream.js').stream,
-    rule = require('../../lib-cov/Parser/rule.js').rule,
-    bind = require('../../lib-cov/Parser/bind.js').bind,
-    optrep = require('../../lib-cov/Parser/optrep.js').optrep,
-    rep = require('../../lib-cov/Parser/rep.js').rep,
-    opt = require('../../lib-cov/Parser/opt.js').opt;
+var stream = require('../../lib' + (process.env.MOVICO_COV || '') + '/Parser/stream.js').stream,
+    rule = require('../../lib' + (process.env.MOVICO_COV || '') + '/Parser/rule.js').rule,
+    bind = require('../../lib' + (process.env.MOVICO_COV || '') + '/Parser/bind.js').bind,
+    optrep = require('../../lib' + (process.env.MOVICO_COV || '') + '/Parser/optrep.js').optrep,
+    rep = require('../../lib' + (process.env.MOVICO_COV || '') + '/Parser/rep.js').rep,
+    opt = require('../../lib' + (process.env.MOVICO_COV || '') + '/Parser/opt.js').opt;
 
 /*
   ======== A Handy Little Nodeunit Reference ========

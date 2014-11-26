@@ -1,6 +1,6 @@
 'use strict';
 
-var option = require('../../lib-cov/Data/option.js').option;
+var option = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/option.js').option;
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -29,7 +29,7 @@ exports['options'] = {
     
   'option empty': function(test) {
     test.expect(1);
-    // tests here      
+    // tests here  
     test.equal(option().isPresent(), false, 'should be empty option.');
     test.done();
   },
