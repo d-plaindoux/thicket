@@ -1,11 +1,11 @@
 'use strict';
 
-var stream = require('../../src/Parser/stream.js').stream,
-    rule = require('../../src/Parser/rule.js').rule,
-    bind = require('../../src/Parser/bind.js').bind,
-    optrep = require('../../src/Parser/optrep.js').optrep,
-    rep = require('../../src/Parser/rep.js').rep,
-    opt = require('../../src/Parser/opt.js').opt;
+var stream = require('../../lib/Parser/stream.js').stream,
+    rule = require('../../lib/Parser/rule.js').rule,
+    bind = require('../../lib/Parser/bind.js').bind,
+    optrep = require('../../lib/Parser/optrep.js').optrep,
+    rep = require('../../lib/Parser/rep.js').rep,
+    opt = require('../../lib/Parser/opt.js').opt;
 
 /*
   ======== A Handy Little Nodeunit Reference ========

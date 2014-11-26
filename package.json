@@ -33,7 +33,11 @@
     "grunt-contrib-nodeunit": "~0.2.0",
     "grunt-contrib-watch": "~0.5.3",
     "grunt": "~0.4.5",
-    "jscoverage": "~0.5.9"
+    "jscoverage": "~0.5.9",
+    "grunt-coveralls": "~1.0.0",
+    "coveralls": "~2.11.2",
+    "mocha-lcov-reporter": "0.0.1",
+    "mocha": "~2.0.1"
   },
   "keywords": []
 }

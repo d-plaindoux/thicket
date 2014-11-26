@@ -1,6 +1,6 @@
 'use strict';
 
-var stream = require('../../src/Parser/stream.js').stream;
+var stream = require('../../lib/Parser/stream.js').stream;
 
 /*
   ======== A Handy Little Nodeunit Reference ========

@@ -15,7 +15,7 @@ module.exports = function(grunt) {
         src: 'Gruntfile.js'
       },
       src: {
-        src: ['src/**/*.js']
+        src: ['lib/**/*.js']
       },
       test: {
         src: ['test/**/*.js']
@@ -41,7 +41,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
-
+    
   // Default task.
   grunt.registerTask('default', ['jshint', 'nodeunit']);
 
