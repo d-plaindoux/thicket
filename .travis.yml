@@ -9,4 +9,4 @@ before_script:
   - npm install mocha-lcov-reporter --save-dev
 after_success:
   - ./node_modules/.bin/jscoverage src lib-cov
-  - ./node_modules/.bin/mocha tests/**.js -R mocha-lcov-reporter | ./node_modules/coveralls/bin/coveralls.js
+  - ./node_modules/.bin/mocha tests/**/*.js -R mocha-lcov-reporter | ./node_modules/coveralls/bin/coveralls.js<
