@@ -1,8 +1,12 @@
+// Models
+
 model Person { 
     firstname: string
     name: string
     age: int
 }
+
+// Views
 
 view Person this:Person {
   <div onClick=(this.tick ())> 
@@ -25,6 +29,8 @@ view Population this:Population {
   <hr/>
   (NewPerson this)
 }
+
+// Controllers
 
 controller Person this:Person {
   firstname = this.firstname
