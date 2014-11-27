@@ -210,4 +210,13 @@ exports['language_exprs'] = {
                    "accept a xhtml fragment");
     test.done();
   },  
+    
+  'not well formed tag': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("<a></b>");
+        
+    test.equal(language.parser.group('exprs').parse(aStream).isPresent(), false, "reject a xhtml fragment");
+    test.done();
+  },  
 };
