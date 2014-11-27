@@ -29,6 +29,7 @@
     "test": "grunt && grunt --gruntfile Gruntfile_Coverage.js env:coverage nodeunit && cat lib-cov/report | coveralls"
   },
   "devDependencies": {
+    "requirejs": "~2.1.15",
     "grunt-contrib-jshint": "~0.6.4",
     "grunt-contrib-nodeunit": "~0.4.1",
     "grunt-contrib-watch": "~0.5.3",

@@ -64,7 +64,7 @@ exports['language_model'] = {
     // tests here  
     var aStream = stream("model Address { street : string number : int}");        
     test.deepEqual(language.parser.group('modelDef').parse(aStream).get(), 
-                   ast.model('Address', [ast.param('street',ast.type()), ast.param('number',ast.type())]) , "accept a model");
+                   ast.model('Address', [ast.param('street',ast.type.ident('string')), ast.param('number',ast.type.ident('int'))]) , "accept a model");
     test.done();
   },
 

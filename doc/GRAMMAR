@@ -15,27 +15,27 @@ types     ::= type ("," type)*
 
 // ----------------------------------------------------------------------
 
-classDef  ::= "controller" IDENT "(" IDENT ":" type ")" "{" methods "}"
+classDef  ::= "controller" IDENT IDENT ":" type "{" methods "}"
 
 methods   ::= IDENT "=" exprs
             | IDENT "(" ")" "=" exprs
             | IDENT IDENT+ "=" exprs
 
-exprs     ::= IDENT "{" expr* "}"
-            | "[" exprs ("for" IDENT "<-" exprs)+ ("if" exprs)? "]"
-            | expr "." exprs     
-            | expr "," exprs     
-            | expr+
+exprs     ::= expr+
+            
+expr      ::= expr ("." expr)?
+            | expr ("," expr)?    
 
-expr      ::= NUMBER 
+sexpr     ::= NUMBER 
             | STRING
             | IDENT
             | "(" exprs ")"
+            | "<" IDENT attr* ">" exprs "</" IDENT ">" | "<" IDENT attr* "/>"
+            | "[" exprs ("for" IDENT "<-" exprs)+ ("if" exprs)? "]"
+            | IDENT "{" expr* "}"
+            
+attr      ::= IDENT=expr
 
 // ----------------------------------------------------------------------
 
-viewDef   ::= "view" IDENT "(" IDENT ":" type  ")" "{" content "}"
-
-content   ::= (exprs | tag)*
-tag       ::= "<" IDENT attr* ">" content "</" IDENT? ">" | "<" IDENT attr* "/>"
-attr      ::= IDENT=expr
+viewDef   ::= "view" IDENT IDENT ":" type "{" exprs "}"

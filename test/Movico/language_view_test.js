@@ -35,7 +35,7 @@ exports['language_view '] = {
     var aStream = stream("view Address this: Address { } ");
         
     test.deepEqual(language.parser.group('viewDef').parse(aStream).get(),
-                   ast.view('Address',ast.param('this', ast.type()), []), "accept a view");
+                   ast.view('Address',ast.param('this', ast.type.ident('Address')), []), "accept a view");
     test.done();
   },
 

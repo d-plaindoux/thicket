@@ -45,3 +45,4 @@ module.exports = function(grunt) {
   // Tasks
   grunt.registerTask('default', ['jshint', 'nodeunit']);
 };
+

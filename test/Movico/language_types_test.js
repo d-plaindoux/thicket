@@ -1,7 +1,8 @@
 'use strict';
 
-var stream = require('../../lib' + (process.env.MOVICO_COV || '') + '/Parser/stream.js').stream;
-var language = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/language.js').language;
+var stream = require('../../lib' + (process.env.MOVICO_COV || '') + '/Parser/stream.js').stream,
+    language = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/language.js').language,
+    ast = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/ast.js').ast;
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -33,7 +34,9 @@ exports['language_type'] = {
     // tests here  
     var aStream = stream("int");
         
-    test.ok(language.parser.group('type').parse(aStream).isPresent(), "accept int type");
+    test.deepEqual(language.parser.group('type').parse(aStream).orElse(null), 
+                   ast.type.ident('int'),
+                   "accept int type");
     test.done();
   },
     
@@ -42,7 +45,9 @@ exports['language_type'] = {
     // tests here  
     var aStream = stream("( int )");
         
-    test.ok(language.parser.group('type').parse(aStream).isPresent(), "accept (int) type");
+    test.deepEqual(language.parser.group('type').parse(aStream).orElse(null), 
+                   ast.type.ident('int'),
+                   "accept int type");
     test.done();
   },
     
@@ -60,7 +65,9 @@ exports['language_type'] = {
     // tests here  
     var aStream = stream("[int]");
         
-    test.ok(language.parser.group('type').parse(aStream).isPresent(), "accept [int] type");
+    test.deepEqual(language.parser.group('type').parse(aStream).orElse(null),
+                   ast.type.array(ast.type.ident('int')),
+                   "accept [int] type");
     test.done();
   },
     
@@ -78,7 +85,9 @@ exports['language_type'] = {
     // tests here  
     var aStream = stream("( int, string )");
         
-    test.ok(language.parser.group('type').parse(aStream).isPresent(), "accept (int,string) type");
+    test.deepEqual(language.parser.group('type').parse(aStream).orElse(null), 
+                   ast.type.pair(ast.type.ident('int'),ast.type.ident('string')),
+                   "accept (int,string) type");
     test.done();
   },    
     
@@ -87,7 +96,9 @@ exports['language_type'] = {
     // tests here  
     var aStream = stream("[(int, string )]");
         
-    test.ok(language.parser.group('type').parse(aStream).isPresent(), "accept [(int,string)] type");
+    test.deepEqual(language.parser.group('type').parse(aStream).orElse(null), 
+                   ast.type.array(ast.type.pair(ast.type.ident('int'),ast.type.ident('string'))), 
+                   "accept [(int,string)] type");
     test.done();
   },    
 };

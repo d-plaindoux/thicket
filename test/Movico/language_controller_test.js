@@ -56,7 +56,7 @@ exports['language_controller'] = {
     var aStream = stream("controller Address this:Address { }");
         
     test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
-                   ast.controller('Address', ast.param('this',ast.type()), []) , "accept a controller");
+                   ast.controller('Address', ast.param('this',ast.type.ident('Address')), []) , "accept a controller");
     test.done();
   },
         
@@ -65,7 +65,8 @@ exports['language_controller'] = {
     // tests here  
     var aStream = stream("controller Address this:Address { number = 123 }");        
     test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
-                   ast.controller('Address', ast.param('this',ast.type()), [ ast.method('number', null, ast.number(123)) ]) , "accept a controller");
+                   ast.controller('Address', ast.param('this',ast.type.ident('Address')), [ ast.method('number', null, ast.expr.number(123)) ]) , 
+                   "accept a controller");
     test.done();
   },
         
@@ -74,7 +75,8 @@ exports['language_controller'] = {
     // tests here  
     var aStream = stream("controller Address this: Address { number () = 123 }");        
     test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
-                   ast.controller('Address', ast.param('this',ast.type()), [ ast.method('number', [], ast.number(123)) ]) , "accept a controller");
+                   ast.controller('Address', ast.param('this',ast.type.ident('Address')), [ ast.method('number', [], ast.expr.number(123)) ]) , 
+                   "accept a controller");
     test.done();
   },
 
