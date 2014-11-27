@@ -167,6 +167,17 @@ exports['language_exprs'] = {
     test.done();
   },  
     
+  'let definition is accepted': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("let x = 1 in x");
+        
+    test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
+                   ast.expr.let('x', ast.expr.number(1), ast.expr.ident('x')),
+                   "accept a let definition");
+    test.done();
+  },  
+    
   'empty tag is accepted': function(test) {
     test.expect(1);
     // tests here  
