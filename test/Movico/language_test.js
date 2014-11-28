@@ -39,10 +39,10 @@ exports['language'] = {
         
         var aStream = stream(data.toString()),
             entities = language.parser.group('entities').parse(aStream);
-        
+
         test.ok(entities.isPresent(), "accept a full example");
         test.ok(aStream.isEmpty(), "accept a full example");
-        test.done();        
+        test.done();                
     });
         
   },
