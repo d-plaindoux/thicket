@@ -17,7 +17,7 @@ view Person this:Person {
 }
  
 view NewPerson this:Population {
-  <form onSubmit=(this.addPerson APerson{firstname name 0})>
+  <form onSubmit=(this.addPerson APerson{self.firstname self.name 0})>
      <input type="text" id="firstname"/>
      <input type="text" id="name"/>
      <input type="submit" value="Add"/>
@@ -25,7 +25,7 @@ view NewPerson this:Population {
 }
 
 view Population this:Population {
-  [PersonV Person(p) for p <- this.persons()]
+  [Person Person(p) for p in this.persons()]
   <hr/>
   (NewPerson this)
 }
@@ -40,6 +40,28 @@ controller Person this:Person {
 }
 
 controller Population this:[Person] {
-  persons() = [p for p <- this if p.age.leq 100]
+  persons() = [p for p in this if p.age.leq 100]
   addPerson p = (self(this.add p))
+}
+
+model Todo {
+    what: string
+}
+
+controller Todos this:[Todo] {
+    new s = (self(this.add(Todo{s})))
+    todos = this
+}
+
+// Todos : viewed
+view Todos this: Todos {
+    [ <li> p.what </li> for p in this.todos ]
+}
+
+// Todos : controlled
+view Todos this: Todos {
+  <form onSubmit=(this.new self.todo)>
+     <input type="text" id="todo"/>
+     <input type="submit" value="Add"/>
+  </form>
 }

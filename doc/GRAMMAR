@@ -31,7 +31,7 @@ sexpr     ::= NUMBER
             | IDENT
             | "(" exprs ")"
             | "<" IDENT attr* ">" exprs "</" IDENT ">" | "<" IDENT attr* "/>"
-            | "[" exprs ("for" IDENT "<-" exprs)+ ("if" exprs)? "]"
+            | "[" exprs ("for" IDENT "in" exprs)+ ("if" exprs)? "]"
             | IDENT "{" expr* "}"
             ] "let" IDENT "=" expr "in" expr
             

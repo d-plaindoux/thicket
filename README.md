@@ -47,7 +47,7 @@ controller Person this:APerson {
 }
 
 controller Population this:[APerson] {
-  persons () = [p for p <- this if p.age < 100]
+  persons () = [p for p in this if p.age < 100]
   addPerson f n = (self APerson{f n 0})
 }
 ```
@@ -77,7 +77,7 @@ then can be referenced as we do in the `Population#addPerson` method.
 
 ```
 view PersonAdder this:Population {
-  <form onSubmit=(this.addPerson firstname name)>
+  <form onSubmit=(this.addPerson self.firstname self.name)>
     <input type="text" id="firstname"/>
     <input type="text" id="name"/>
     <input type="submit" value="Add"/>
@@ -85,7 +85,7 @@ view PersonAdder this:Population {
 }
 
 view PopulationView this:Population {
-  [PersonView (Person p) for p <- this.persons()]
+  [PersonView (Person p) for p in this.persons()]
   (PersonAdder this)
 }
 ```
