@@ -11,20 +11,6 @@ module.exports = function(grunt) {
         reporterOutput:'lib-cov/report'
       }
     },
-    watch: {
-      gruntfile: {
-        files: '<%= jshint.gruntfile.src %>',
-        tasks: ['jshint:gruntfile']
-      },
-      src: {
-        files: '<%= jshint.lib.src %>',
-        tasks: ['jshint:src', 'nodeunit']
-      },
-      test: {
-        files: '<%= jshint.test.src %>',
-        tasks: ['jshint:test', 'nodeunit']
-      },
-    },
     jscoverage: {
         lib: {
             expand: true,
@@ -48,8 +34,6 @@ module.exports = function(grunt) {
 
   // These plugins provide necessary tasks.
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-watch');  
   grunt.loadNpmTasks("grunt-jscoverage");
   grunt.loadNpmTasks('grunt-env');    
   
