@@ -7,7 +7,7 @@ entity  ::= objectDef | classDef | viewDef
 
 // ----------------------------------------------------------------------
 
-objectDef ::= "model" IDENT "{" param* "}"
+objectDef ::= "object" IDENT "{" param* "}"
 param     ::= IDENT ":" type
 
 type      ::= IDENT | "(" types ")" | "[" type "]"
@@ -15,7 +15,7 @@ types     ::= type ("," type)*
 
 // ----------------------------------------------------------------------
 
-classDef  ::= "controller" IDENT IDENT ":" type "{" methods "}"
+classDef  ::= "class" IDENT IDENT ":" type "{" methods "}"
 
 methods   ::= IDENT "=" exprs
             | IDENT "(" ")" "=" exprs
@@ -23,8 +23,8 @@ methods   ::= IDENT "=" exprs
 
 exprs     ::= expr+
             
-expr      ::= expr ("." expr)?
-            | expr ("," expr)?    
+expr      ::= sexpr (("."|",") sexpr)+
+            | sexpr
 
 sexpr     ::= NUMBER 
             | STRING

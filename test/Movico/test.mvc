@@ -1,6 +1,6 @@
 // Models
 
-model PersonModel { 
+object PersonModel { 
     firstname: string
     name: string
     age: int
@@ -9,7 +9,7 @@ model PersonModel {
 // Views
 
 view PersonView this:Person {
-  <div onClick=(this.tick ())> 
+  <div onClick=(this.tick)> 
     <div>this.firstname</div>
     <div>this.name</div>
     <div>this.age</div>
@@ -25,30 +25,30 @@ view NewPerson this:Population {
 }
 
 view Population this:Population {
-  [PersonView Person(p) for p in this.persons()]
+  [PersonView Person(p) for p in this.persons]
   <hr/>
   (NewPerson this)
 }
 
 // Controllers
 
-controller Person this:PersonModel {
+class Person this:PersonModel {
   firstname = this.firstname
   name = this.name
   age = this.age
-  tick () = (self (this.age(this.age.add 1)))
+  tick = (self (this.age(this.age add 1)))
 } 
 
-controller Population this:[Person] {
-  persons() = [p for p in this if p.age.leq 100]
+class Population this:[Person] {
+  persons = [p for p in this if p.age leq 100]
   addPerson p = (self(this.add p))
 }
 
-model TodoModel {
+object TodoModel {
     what: string
 }
 
-controller Todos this:[TodoModel] {
+class Todos this:[TodoModel] {
     new s = (self(this.add(Todo{s})))
     todos = this
 }
