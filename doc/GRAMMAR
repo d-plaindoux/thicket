@@ -5,7 +5,7 @@
 
 entity  ::= objectDef | classDef | viewDef
 
-// ----------------------------------------------------------------------
+----------------------------------------------------------------------
 
 objectDef ::= "object" IDENT "{" param* "}"
 param     ::= IDENT ":" type
@@ -13,30 +13,28 @@ param     ::= IDENT ":" type
 type      ::= IDENT | "(" types ")" | "[" type "]"
 types     ::= type ("," type)*
 
-// ----------------------------------------------------------------------
+----------------------------------------------------------------------
 
 classDef  ::= "class" IDENT IDENT ":" type "{" methods "}"
 
-methods   ::= IDENT "=" exprs
-            | IDENT "(" ")" "=" exprs
-            | IDENT IDENT+ "=" exprs
+methods   ::= IDENT "=" expr+
+            | IDENT "(" ")" "=" expr+
+            | IDENT IDENT+ "=" expr+
 
-exprs     ::= expr+
-            
-expr      ::= sexpr (("."|",") sexpr)+
-            | sexpr
+expr      ::= sexpr (("."|",") sexpr)*
 
 sexpr     ::= NUMBER 
             | STRING
             | IDENT
             | "(" exprs ")"
-            | "<" IDENT attr* ">" exprs "</" IDENT ">" | "<" IDENT attr* "/>"
+            | "<" IDENT attr* ">" exprs "</" IDENT ">" 
+            | "<" IDENT attr* "/>"
             | "[" exprs ("for" IDENT "in" exprs)+ ("if" exprs)? "]"
             | IDENT "{" expr* "}"
             ] "let" IDENT "=" expr "in" expr
             
 attr      ::= IDENT=expr
 
-// ----------------------------------------------------------------------
+----------------------------------------------------------------------
 
 viewDef   ::= "view" IDENT IDENT ":" type "{" exprs "}"

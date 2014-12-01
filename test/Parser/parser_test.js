@@ -35,7 +35,7 @@ exports['parsers'] = {
     var aStream = stream(""), 
         aParser = parser();
       
-    aParser.addSkip(/\s+/);      
+    aParser.addSkip(/^\s+/);      
     aParser.skip(aStream);
       
     test.equal(aStream.isEmpty(), true, 'should be empty.');
@@ -48,7 +48,7 @@ exports['parsers'] = {
     var aStream = stream(" \t\n"), 
         aParser = parser();
       
-    aParser.addSkip(/\s+/);            
+    aParser.addSkip(/^\s+/);            
     aParser.skip(aStream);
       
     test.equal(aStream.isEmpty(), true, 'should be empty.');
@@ -61,8 +61,8 @@ exports['parsers'] = {
     var aStream = stream(" \t\nIdent"), 
         aParser = parser();
       
-    aParser.addSkip(/\s+/);      
-    aParser.group("test").addRule(/[a-zA-Z]+/,function(ident) { return ident; });      
+    aParser.addSkip(/^\s+/);      
+    aParser.group("test").addRule(/^[a-zA-Z]+/,function(ident) { return ident; });      
       
     aParser.group("test").parse(aStream);
       
@@ -77,8 +77,8 @@ exports['parsers'] = {
         aParser = parser(),
         aGroup = aParser.group("test");
       
-    aParser.addSkip(/\s+/);      
-    aGroup.addRule(/[a-zA-Z]+/,function(ident) { return ident; });      
+    aParser.addSkip(/^\s+/);      
+    aGroup.addRule(/^[a-zA-Z]+/,function(ident) { return ident; });      
             
     test.deepEqual(aGroup.parse(aStream).orElse(null), {}, 'should be an ident.');
     test.done();
@@ -103,8 +103,8 @@ exports['parsers'] = {
         aParser = parser(),
         aGroup = aParser.group("test");
       
-    aParser.addSkip(/\s+/);      
-    aGroup.addRule([bind(/[a-zA-Z]+/).to('a')], function(scope) { return scope['a']; });      
+    aParser.addSkip(/^\s+/);      
+    aGroup.addRule([bind(/^[a-zA-Z]+/).to('a')], function(scope) { return scope['a']; });      
             
     test.deepEqual(aGroup.parse(aStream).orElse(null), "Ident", 'should be an ident.');
     test.done();
@@ -117,8 +117,8 @@ exports['parsers'] = {
         aParser = parser(),
         aGroup = aParser.group("test");
       
-    aParser.addSkip(/\s+/);      
-    aGroup.addRule(["(", bind(/[a-zA-Z]+/).to('a'), ")"], function(scope) { return scope['a']; });      
+    aParser.addSkip(/^\s+/);      
+    aGroup.addRule(["(", bind(/^[a-zA-Z]+/).to('a'), ")"], function(scope) { return scope['a']; });      
             
     test.deepEqual(aGroup.parse(aStream).orElse(null), "Ident", 'should be an ident.');
     test.done();

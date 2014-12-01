@@ -1,7 +1,7 @@
 'use strict';
 
 var stream = require('../../lib' + (process.env.MOVICO_COV || '') + '/Parser/stream.js').stream,
-    language = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/language.js').language,
+    language = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/language.js').language(),
     ast = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/ast.js').ast;
 
 /*
@@ -109,17 +109,17 @@ exports['language_exprs'] = {
     var aStream = stream("point.x");
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
-                   ast.expr.invoke(ast.expr.ident("point"), ast.expr.ident("x")), "accept an invocation");
+                   ast.expr.invoke(ast.expr.ident("point"), "x"), "accept an invocation");
     test.done();
   },
     
-  'exotic invocation is accepted': function(test) {
+  'mutiple invocation is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("point.'x'");
+    var aStream = stream("figure.point.x");
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
-                   ast.expr.invoke(ast.expr.ident("point"), ast.expr.string("x")), "accept an invocation");
+                   ast.expr.invoke(ast.expr.invoke(ast.expr.ident("figure"), "point"), "x"), "accept an invocation");
     test.done();
   },
     

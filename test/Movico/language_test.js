@@ -1,7 +1,7 @@
 'use strict';
 
 var stream = require('../../lib' + (process.env.MOVICO_COV || '') + '/Parser/stream.js').stream,
-    language = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/language.js').language,
+    language = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/language.js').language(),
     fs = require('fs');
 
 /*
@@ -40,9 +40,20 @@ exports['language'] = {
         var aStream = stream(data.toString()),
             entities = language.parser.group('entities').parse(aStream);
 
-        if (!entities.isPresent()) {
-            console.log(aStream.location());
+        if (!aStream.isEmpty()) {
+            console.log("\n<ERROR LOCATION> " + aStream.location());
         }
+        
+        /*
+        var max = language.parser.groups["entities"].totalTime;
+        
+        for (var name in language.parser.groups) {
+            var current = language.parser.groups[name].totalTime;
+            console.log("GROUP " + name + " consumes " + current + " ms / " + Math.floor(current * 100 / max) + "%");
+        }
+                
+        console.log("SKIPPED consumes " + language.parser.skipped.totalTime + " ms / " + Math.floor(language.parser.skipped.totalTime * 100 / max) + "%");
+        */
         
         test.ok(entities.isPresent(), "accept a full example");
         test.ok(aStream.isEmpty(), "accept a full example");

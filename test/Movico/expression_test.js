@@ -92,6 +92,14 @@ exports['entities'] = {
       test.done();
   },
 
+  "Pair without free variable": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression  = ast.expr.pair(ast.expr.ident("a"), ast.expr.ident("b"));
+      test.deepEqual(expression.freeVariables(["a","b"], anExpression), [], "Must be empty");
+      test.done();
+  },
+
   "Instance with one free variable": function (test) {
       test.expect(1);
       // Test
@@ -105,6 +113,38 @@ exports['entities'] = {
       // Test
       var anExpression  = ast.expr.pair(ast.expr.instance("a",[ ast.expr.ident("b") ]));
       test.deepEqual(expression.freeVariables(["b"], anExpression), [], "Must be empty");
+      test.done();
+  },
+
+  "Application with two free variable": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression  = ast.expr.application([ast.expr.ident("a"), ast.expr.ident("b")]);
+      test.deepEqual(expression.freeVariables([], anExpression), ["a","b"], "Must not be empty");
+      test.done();
+  },
+
+  "Application with one left free variable": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression  = ast.expr.application([ast.expr.ident("a"), ast.expr.ident("b")]);
+      test.deepEqual(expression.freeVariables(["b"], anExpression), ["a"], "Must not be empty");
+      test.done();
+  },
+
+  "Application with one right free variable": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression  = ast.expr.application([ast.expr.ident("a"), ast.expr.ident("b")]);
+      test.deepEqual(expression.freeVariables(["a"], anExpression), ["b"], "Must not be empty");
+      test.done();
+  },
+
+  "Application with no free variables": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression  = ast.expr.application([ast.expr.ident("a"), ast.expr.ident("b")]);
+      test.deepEqual(expression.freeVariables(["a","b"], anExpression), [], "Must be empty");
       test.done();
   },
 };

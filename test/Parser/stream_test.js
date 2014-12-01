@@ -92,7 +92,7 @@ exports['stream'] = {
     test.expect(2);
     // tests here      
     var aStream = stream("ab");
-    test.equal(aStream.nextRegexp("a").orElse(null), "a", 'should be a lexeme.');
+    test.equal(aStream.nextRegexp(/^a/).orElse(null), "a", 'should be a lexeme.');
     test.equal(aStream.nextToken("b").orElse(null), "b", 'should be a lexeme.');
     test.done();
   },
@@ -101,7 +101,7 @@ exports['stream'] = {
     test.expect(1);
     // tests here      
     var aStream = stream("aab");
-    test.notEqual(aStream.nextRegexp("a+").orElse(null), null, 'should be a lexeme.');
+    test.notEqual(aStream.nextRegexp(/^a+/).orElse(null), null, 'should be a lexeme.');
     test.done();
   },
 
@@ -109,8 +109,8 @@ exports['stream'] = {
     test.expect(2);
     // tests here      
     var aStream = stream("aab");
-    test.equal(aStream.nextRegexp("a+").orElse(null), "aa", 'should be a lexeme.');
-    test.equal(aStream.nextToken("b").orElse(null), "b", 'should be rejected.');
+    test.equal(aStream.nextRegexp(/^a+/).orElse(null), "aa", 'should be a lexeme.');
+    test.equal(aStream.nextToken("b").orElse(null), "b", 'should be a token.');
     test.done();
   },
             
@@ -118,7 +118,7 @@ exports['stream'] = {
     test.expect(1);
     // tests here      
     var aStream = stream("aab");
-    test.equal(aStream.nextRegexp("b+").orElse(null), null, 'should be a lexeme.');
+    test.equal(aStream.nextRegexp(/^b+/).orElse(null), null, 'should be a lexeme.');
     test.done();
   },
 
@@ -126,7 +126,7 @@ exports['stream'] = {
     test.expect(1);
     // tests here      
     var aStream = stream("aab");
-    test.equal(aStream.nextRegexp("b*").orElse(null), '', 'should be accepted.');
+    test.equal(aStream.nextRegexp(/^b*/).orElse(null), '', 'should be accepted.');
     test.done();
   },
 };
