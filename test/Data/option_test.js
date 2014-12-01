@@ -30,63 +30,63 @@ exports['options'] = {
   'option empty': function(test) {
     test.expect(1);
     // tests here  
-    test.equal(option().isPresent(), false, 'should be empty option.');
+    test.equal(option.empty().isPresent(), false, 'should be empty option.');
     test.done();
   },
 
   'option not empty': function(test) {
     test.expect(1);
     // tests here      
-    test.equal(option(12).isPresent(), true, 'should not be empty option.');
+    test.equal(option.some(12).isPresent(), true, 'should not be empty option.');
     test.done();
   },
     
   'option empty mapped': function(test) {
     test.expect(1);
     // tests here      
-    test.equal(option().map(function(a){return a;}).isPresent(), false, 'should be empty option.');
+    test.equal(option.empty().map(function(a){return a;}).isPresent(), false, 'should be empty option.');
     test.done();
   },
     
   'option not empty mapped': function(test) {
     test.expect(1);
     // tests here      
-    test.equal(option(12).map(function(a){return a;}).get(), 12, 'should not be empty option.');
+    test.equal(option.some(12).map(function(a){return a;}).get(), 12, 'should not be empty option.');
     test.done();
   },
     
   'option not empty flat mapped to option': function(test) {
     test.expect(1);
     // tests here      
-    test.equal(option(12).flatMap(function(a){return option(a);}).get(), 12, 'should not be empty option.');
+    test.equal(option.some(12).flatMap(function(a){return option.some(a);}).get(), 12, 'should not be empty option.');
     test.done();
   },
     
   'option not empty flat mapped to int': function(test) {
     test.expect(1);
     // tests here      
-    test.equal(option(12).flatMap(function(a){return a;}).get(), 12, 'should not be empty option.');
+    test.equal(option.some(12).flatMap(function(a){return a;}).get(), 12, 'should not be empty option.');
     test.done();
   },
     
   'option empty flat mapped': function(test) {
     test.expect(1);
     // tests here      
-    test.equal(option().flatMap(function(a){return a;}).isPresent(), false, 'should be empty option.');
+    test.equal(option.some().flatMap(function(a){return a;}).isPresent(), false, 'should be empty option.');
     test.done();
   },
     
   'option empty or else': function(test) {
     test.expect(1);
     // tests here      
-    test.equal(option().orElse(12), 12, 'should be empty option.');
+    test.equal(option.empty().orElse(12), 12, 'should be empty option.');
     test.done();
   },
     
   'option not empty or else': function(test) {
     test.expect(1);
     // tests here      
-    test.equal(option(12).orElse(14), 12, 'should be empty option.');
+    test.equal(option.some(12).orElse(14), 12, 'should be empty option.');
     test.done();
   },
 };

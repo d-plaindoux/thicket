@@ -35,7 +35,9 @@ exports['typechecker'] = {
     // tests here  
     var aTypeChecker = typechecker(entities());  
       
-    test.deepEqual(aTypeChecker.expression({}, ast.expr.number(1)).get(), ast.type.ident('int'), "type must be an int");
+    test.deepEqual(aTypeChecker.expression({}, ast.expr.number(1)).success(), 
+                   ast.type.ident('int'), 
+                   "type must be an int");
     test.done();                
   },
     
@@ -44,7 +46,9 @@ exports['typechecker'] = {
     // tests here  
     var aTypeChecker = typechecker(entities());  
       
-    test.deepEqual(aTypeChecker.expression({}, ast.expr.string("1")).get(), ast.type.ident('string'), "type must be a string");
+    test.deepEqual(aTypeChecker.expression({}, ast.expr.string("1")).success(), 
+                   ast.type.ident('string'), 
+                   "type must be a string");
     test.done();                
   },
     
@@ -53,7 +57,9 @@ exports['typechecker'] = {
     // tests here  
     var aTypeChecker = typechecker(entities());  
       
-    test.deepEqual(aTypeChecker.expression({a:ast.type.ident('A')}, ast.expr.ident("a")).get(), ast.type.ident('A'), "type must be defined");
+    test.deepEqual(aTypeChecker.expression({a:ast.type.ident('A')}, ast.expr.ident("a")).success(), 
+                   ast.type.ident('A'), 
+                   "type must be defined");
     test.done();                
   },
     
@@ -62,7 +68,8 @@ exports['typechecker'] = {
     // tests here  
     var aTypeChecker = typechecker(entities());  
       
-    test.equal(aTypeChecker.expression({}, ast.expr.ident("a")).isPresent(), false, "type must not be defined");
+    test.ok(aTypeChecker.expression({}, ast.expr.ident("a")).isFailure(), 
+            "type must not be defined");
     test.done();                
   },
     
@@ -71,7 +78,20 @@ exports['typechecker'] = {
     // tests here  
     var aTypeChecker = typechecker(entities().declare(ast.model('a',[])));  
       
-    test.deepEqual(aTypeChecker.expression({}, ast.expr.ident("a")).get(), ast.model('a',[]), "type must be defined");
+    test.deepEqual(aTypeChecker.expression({}, ast.expr.ident("a")).success(), 
+                   ast.model('a',[]), 
+                   "type must be defined");
+    test.done();                
+  },
+    
+  'checking model': function(test) {
+    test.expect(1);
+    // tests here  
+    var aTypeChecker = typechecker(entities().declare(ast.model('a',[])));  
+      
+    test.deepEqual(aTypeChecker.expression({}, ast.expr.instance("a",[])).success(), 
+                   ast.model('a',[]), 
+                   "type must be defined");
     test.done();                
   },
 };
