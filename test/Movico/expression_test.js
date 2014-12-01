@@ -44,6 +44,14 @@ exports['entities'] = {
       test.done();
   },
 
+  "Unit is not a free variables": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression  = ast.expr.unit();
+      test.deepEqual(expression.freeVariables([], anExpression), [], "Must be empty");
+      test.done();
+  },
+
   "free Ident is a free variables": function (test) {
       test.expect(1);
       // Test
@@ -145,6 +153,78 @@ exports['entities'] = {
       // Test
       var anExpression  = ast.expr.application([ast.expr.ident("a"), ast.expr.ident("b")]);
       test.deepEqual(expression.freeVariables(["a","b"], anExpression), [], "Must be empty");
+      test.done();
+  },
+
+  "Comprehension with no free variables": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression  = ast.expr.comprehension(ast.expr.ident("a"),[["a", ast.expr.unit()]],[]);
+      test.deepEqual(expression.freeVariables([], anExpression), [], "Must be empty");
+      test.done();
+  },
+
+  "Comprehension with a free variable in iteration": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression  = ast.expr.comprehension(ast.expr.ident("a"),[["a", ast.expr.ident('b')]],[]);
+      test.deepEqual(expression.freeVariables([], anExpression), ["b"], "Must not be empty");
+      test.done();
+  },
+
+  "Comprehension with a free variable in condition": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression  = ast.expr.comprehension(ast.expr.ident("a"),[["a", ast.expr.unit()]],[ast.expr.ident("b")]);
+      test.deepEqual(expression.freeVariables([], anExpression), ["b"], "Must not be empty");
+      test.done();
+  },
+
+  "Comprehension with a free variable in the value": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression  = ast.expr.comprehension(ast.expr.ident("b"),[["a", ast.expr.unit()]],[]);
+      test.deepEqual(expression.freeVariables([], anExpression), ["b"], "Must not be empty");
+      test.done();
+  },
+
+  "Tag with free variables in attributes": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression  = ast.expr.tag("a",[["id",ast.expr.ident("b")]],[]);
+      test.deepEqual(expression.freeVariables([], anExpression), ["b"], "Must not be empty");
+      test.done();
+  },
+    
+  "Tag with free variables in body": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression  = ast.expr.tag("a",[],[ast.expr.ident("b")]);
+      test.deepEqual(expression.freeVariables([], anExpression), ["b"], "Must not be empty");
+      test.done();
+  },
+    
+  "Let with free variables in body": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression  = ast.expr.let("a", ast.expr.unit(), ast.expr.ident("b"));
+      test.deepEqual(expression.freeVariables([], anExpression), ["b"], "Must not be empty");
+      test.done();
+  },
+    
+  "Let with free variables in binding": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression  = ast.expr.let("a", ast.expr.ident("b"), ast.expr.unit());
+      test.deepEqual(expression.freeVariables([], anExpression), ["b"], "Must not be empty");
+      test.done();
+  },
+    
+  "Let with bound variable in the body": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression  = ast.expr.let("a", ast.expr.string("b"), ast.expr.ident("a"));
+      test.deepEqual(expression.freeVariables([], anExpression), [], "Must be empty");
       test.done();
   },
 };

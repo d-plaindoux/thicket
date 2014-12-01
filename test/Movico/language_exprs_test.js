@@ -160,8 +160,8 @@ exports['language_exprs'] = {
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
                    ast.expr.comprehension(ast.expr.pair(ast.expr.ident('x'),ast.expr.ident('y')),
-                                          [[ast.expr.ident('x'),ast.expr.application([ast.expr.ident('f'),ast.expr.ident('a')])],
-                                            [ast.expr.ident('y'),ast.expr.application([ast.expr.ident('t'),ast.expr.number(1)])]],
+                                          [['x',ast.expr.application([ast.expr.ident('f'),ast.expr.ident('a')])],
+                                            ['y',ast.expr.application([ast.expr.ident('t'),ast.expr.number(1)])]],
                                             [ast.expr.application([ast.expr.ident('eq'),ast.expr.ident('x'),ast.expr.ident('y')])]),
                    "accept a comprehension");
     test.done();
