@@ -3,7 +3,7 @@
  V1                   11/21/2014               
 ---------------------------------
 
-entity  ::= objectDef | classDef | viewDef
+entity  ::= objectDef | typeDef | classDef | viewDef
 
 ----------------------------------------------------------------------
 
@@ -15,9 +15,15 @@ types     ::= type ("," type)*
 
 ----------------------------------------------------------------------
 
+typeDef   ::= "type" IDENT = IDENT ("|" IDENT)+
+
+----------------------------------------------------------------------
+
 classDef  ::= "class" IDENT IDENT ":" type "{" methods "}"
 
-methods   ::= IDENT "=" expr+
+methods   ::= (("case" IDENT)? method)*
+
+method    ::= IDENT "=" expr+
             | IDENT "(" ")" "=" expr+
             | IDENT IDENT+ "=" expr+
 

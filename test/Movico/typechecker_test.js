@@ -84,7 +84,7 @@ exports['typechecker'] = {
     test.done();                
   },
     
-  'checking model': function(test) {
+  'checking empty model': function(test) {
     test.expect(1);
     // tests here  
     var aTypeChecker = typechecker(entities().declare(ast.model('a',[])));  
@@ -92,6 +92,37 @@ exports['typechecker'] = {
     test.deepEqual(aTypeChecker.expression({}, ast.expr.instance("a",[])).success(), 
                    ast.model('a',[]), 
                    "type must be defined");
+    test.done();                
+  },
+    
+  'checking model with no arguments and parameters': function(test) {
+    test.expect(1);
+    // tests here  
+    var aTypeChecker = typechecker(entities().declare(ast.model('a',[["a",ast.type.ident('int')]])));  
+      
+    test.ok(aTypeChecker.expression({}, ast.expr.instance("a",[])).isFailure(), 
+            "type cannot be infered");
+    test.done();                
+  },
+    
+  'checking model with arguments and no parameters': function(test) {
+    test.expect(1);
+    // tests here  
+    var aTypeChecker = typechecker(entities().declare(ast.model('a',[])));  
+      
+    test.ok(aTypeChecker.expression({}, ast.expr.instance("a",[ast.expr.number(1)])).isFailure(), 
+            "type cannot be infered");
+    test.done();                
+  },
+    
+  'checking model with arguments and parameters': function(test) {
+    test.expect(1);
+    // tests here  
+    var aTypeChecker = typechecker(entities().declare(ast.model('a',[["a",ast.type.ident('int')]])));  
+      
+    test.ok(aTypeChecker.expression({}, ast.expr.instance("a",[ast.expr.number(1)])).success(), 
+            ast.model('a',[["a",ast.type.ident('int')]]),
+            "type can be infered");
     test.done();                
   },
 };
