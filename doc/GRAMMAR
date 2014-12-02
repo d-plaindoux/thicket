@@ -1,7 +1,8 @@
-   MovicoJS grammar definition   
---------------------------------- 
- V1                   11/21/2014               
----------------------------------
+----------------------------------------------------------------------
+ Movico grammar definition   
+----------------------------------------------------------------------
+ V2                                                         12/1/2014               
+----------------------------------------------------------------------
 
 entity  ::= objectDef | typeDef | classDef | viewDef
 
@@ -23,9 +24,9 @@ classDef  ::= "class" IDENT IDENT ":" type "{" methods "}"
 
 methods   ::= (("case" IDENT)? method)*
 
-method    ::= IDENT "=" expr+
-            | IDENT "(" ")" "=" expr+
-            | IDENT IDENT+ "=" expr+
+method    ::= IDENT "=" expr
+            | IDENT "(" ")" "=" expr
+            | IDENT IDENT+ "=" expr
 
 expr      ::= sexpr (("."|",") sexpr)*
 
@@ -39,8 +40,10 @@ sexpr     ::= NUMBER
             | IDENT "{" expr* "}"
             ] "let" IDENT "=" expr "in" expr
             
-attr      ::= IDENT=expr
+attr      ::= IDENT "=" expr
 
 ----------------------------------------------------------------------
 
 viewDef   ::= "view" IDENT IDENT ":" type "{" exprs "}"
+
+----------------------------------------------------------------------

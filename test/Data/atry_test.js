@@ -90,6 +90,20 @@ exports['options'] = {
     test.done();
   },
          
+  'atry failure flatmap of int': function(test) {
+    test.expect(1);
+    // tests here  
+    test.equal(atry.failure(1).flatMap(function (i) { return i+1; }).failure(), 1, 'should be failure.');
+    test.done();
+  },
+         
+  'atry failure flatmap of Error': function(test) {
+    test.expect(1);
+    // tests here  
+    test.equal(atry.success(1).flatMap(function () { throw 1; }).failure(), 1, 'should be failure.');
+    test.done();
+  },
+         
   'atry success orElse': function(test) {
     test.expect(1);
     // tests here  

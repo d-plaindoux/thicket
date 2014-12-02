@@ -25,7 +25,7 @@ var stream = require('../../lib' + (process.env.MOVICO_COV || '') + '/Parser/str
     test.ifError(value)
 */
 
-exports['language_controller'] = {
+exports['language_class'] = {
   setUp: function(done) {
     done();
   },

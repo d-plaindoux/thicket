@@ -45,7 +45,7 @@ exports['language_params'] = {
     var aStream = stream("age : int");
         
     test.deepEqual(language.parser.group('param').parse(aStream).get(), 
-                   ast.param('age', ast.type.ident('int')),  "provide a param");
+                   ast.param('age', ast.type.native('int')),  "provide a param");
     test.done();
   },
 

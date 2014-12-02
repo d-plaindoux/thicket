@@ -35,7 +35,7 @@ exports['language_type'] = {
     var aStream = stream("int");
         
     test.deepEqual(language.parser.group('type').parse(aStream).orElse(null), 
-                   ast.type.ident('int'),
+                   ast.type.native('int'),
                    "accept int type");
     test.done();
   },
@@ -46,7 +46,7 @@ exports['language_type'] = {
     var aStream = stream("( int )");
         
     test.deepEqual(language.parser.group('type').parse(aStream).orElse(null), 
-                   ast.type.ident('int'),
+                   ast.type.native('int'),
                    "accept int type");
     test.done();
   },
@@ -66,7 +66,7 @@ exports['language_type'] = {
     var aStream = stream("[int]");
         
     test.deepEqual(language.parser.group('type').parse(aStream).orElse(null),
-                   ast.type.array(ast.type.ident('int')),
+                   ast.type.array(ast.type.native('int')),
                    "accept [int] type");
     test.done();
   },
@@ -86,7 +86,7 @@ exports['language_type'] = {
     var aStream = stream("( int, string )");
         
     test.deepEqual(language.parser.group('type').parse(aStream).orElse(null), 
-                   ast.type.pair(ast.type.ident('int'),ast.type.ident('string')),
+                   ast.type.pair(ast.type.native('int'),ast.type.native('string')),
                    "accept (int,string) type");
     test.done();
   },    
@@ -97,7 +97,7 @@ exports['language_type'] = {
     var aStream = stream("[(int, string )]");
         
     test.deepEqual(language.parser.group('type').parse(aStream).orElse(null), 
-                   ast.type.array(ast.type.pair(ast.type.ident('int'),ast.type.ident('string'))), 
+                   ast.type.array(ast.type.pair(ast.type.native('int'),ast.type.native('string'))), 
                    "accept [(int,string)] type");
     test.done();
   },    

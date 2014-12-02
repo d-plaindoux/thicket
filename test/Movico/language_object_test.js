@@ -24,7 +24,7 @@ var stream = require('../../lib' + (process.env.MOVICO_COV || '') + '/Parser/str
     test.ifError(value)
 */
 
-exports['language_model'] = {
+exports['language_object'] = {
   setUp: function(done) {
     done();
   },
@@ -64,7 +64,7 @@ exports['language_model'] = {
     // tests here  
     var aStream = stream("object Address { street : string number : int}");        
     test.deepEqual(language.parser.group('modelDef').parse(aStream).get(), 
-                   ast.model('Address', [ast.param('street',ast.type.ident('string')), ast.param('number',ast.type.ident('int'))]) , "accept a model");
+                   ast.model('Address', [ast.param('street',ast.type.native('string')), ast.param('number',ast.type.native('int'))]) , "accept a model");
     test.done();
   },
 

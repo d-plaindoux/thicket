@@ -36,7 +36,7 @@ exports['typechecker'] = {
     var aTypeChecker = typechecker(entities());  
       
     test.deepEqual(aTypeChecker.expression({}, ast.expr.number(1)).success(), 
-                   ast.type.ident('int'), 
+                   ast.type.native('int'), 
                    "type must be an int");
     test.done();                
   },
@@ -47,7 +47,7 @@ exports['typechecker'] = {
     var aTypeChecker = typechecker(entities());  
       
     test.deepEqual(aTypeChecker.expression({}, ast.expr.string("1")).success(), 
-                   ast.type.ident('string'), 
+                   ast.type.native('string'), 
                    "type must be a string");
     test.done();                
   },
@@ -118,10 +118,10 @@ exports['typechecker'] = {
   'checking model with arguments and parameters': function(test) {
     test.expect(1);
     // tests here  
-    var aTypeChecker = typechecker(entities().declare(ast.model('a',[["a",ast.type.ident('int')]])));  
+    var aTypeChecker = typechecker(entities().declare(ast.model('a',[["a",ast.type.native('int')]])));  
       
-    test.ok(aTypeChecker.expression({}, ast.expr.instance("a",[ast.expr.number(1)])).success(), 
-            ast.model('a',[["a",ast.type.ident('int')]]),
+    test.deepEqual(aTypeChecker.expression({}, ast.expr.instance("a",[ast.expr.number(1)])).success(), 
+            ast.model('a',[["a",ast.type.native('int')]]),
             "type can be infered");
     test.done();                
   },
