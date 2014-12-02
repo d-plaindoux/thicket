@@ -43,7 +43,8 @@ exports['language'] = {
         if (!aStream.isEmpty()) {
             console.log("\n<ERROR LOCATION> " + aStream.location());
         }
-                
+        
+        /*
         var max = language.parser.groups["entities"].totalTime;
         
         for (var name in language.parser.groups) {
@@ -52,7 +53,8 @@ exports['language'] = {
         }
                 
         console.log("SKIPPED consumes " + language.parser.skipped.totalTime + " ms / " + Math.floor(language.parser.skipped.totalTime * 100 / max) + "%");
-                
+        */
+        
         test.ok(entities.isPresent(), "accept a full example");
         test.ok(aStream.isEmpty(), "accept a full example");
         test.done();                
