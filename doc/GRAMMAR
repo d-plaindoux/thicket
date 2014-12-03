@@ -20,15 +20,19 @@ typeDef   ::= "type" IDENT = IDENT ("|" IDENT)+
 
 ----------------------------------------------------------------------
 
-classDef  ::= "class" IDENT IDENT ":" type "{" methods "}"
+classDef  ::= "class" IDENT param "{" methods "}"
 
 methods   ::= (("case" IDENT)? method)*
 
 method    ::= IDENT "=" expr
             | IDENT "(" ")" "=" expr
-            | IDENT IDENT+ "=" expr
+            | IDENT param+ "=" expr
 
-expr      ::= sexpr (("."|",") sexpr)*
+exprs     ::= pexpr+
+
+expr      ::= expr ("," iexpr)*
+
+iexpr     ::= sexpr ("." IDENT)*
 
 sexpr     ::= NUMBER 
             | STRING
@@ -44,6 +48,6 @@ attr      ::= IDENT "=" expr
 
 ----------------------------------------------------------------------
 
-viewDef   ::= "view" IDENT IDENT ":" type "{" exprs "}"
+viewDef   ::= "view" IDENT param "{" exprs "}"
 
 ----------------------------------------------------------------------

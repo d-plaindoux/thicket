@@ -48,12 +48,12 @@ class Person this:APerson {
   firstname = this.firstname
   name = this.name
   age = this.age
-  tick () = (self(this.age(this.age+1)))
+  tick = (self(this.age(this.age+1)))
 }
 
 class Population this:[APerson] {
   persons () = [p for p in this if p.age < 100]
-  addPerson f n = (self APerson{f n 0})
+  addPerson f:string n:string = (self APerson{f n 0})
 }
 ```
 
@@ -64,7 +64,7 @@ approach is  similar to  [Reac](http://facebook.github.io/react/).
 
 ```
 view PersonView this:Person {
-  <div onClick=(this.tick())> 
+  <div onClick=this.tick> 
     <div>this.firstname</>
     <div>this.name</>
     <div>this.age</>
@@ -90,7 +90,7 @@ view PersonAdder this:Population {
 }
 
 view PopulationView this:Population {
-  [PersonView (Person p) for p in this.persons()]
+  [PersonView (Person p) for p in this.persons]
   (PersonAdder this)
 }
 ```
