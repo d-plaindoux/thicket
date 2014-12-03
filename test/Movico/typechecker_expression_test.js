@@ -125,4 +125,15 @@ exports['typechecker'] = {
             "type can be infered");
     test.done();                
   },
+    
+  'checking pair': function(test) {
+    test.expect(1);
+    // tests here  
+    var aTypeChecker = typechecker(entities());  
+      
+    test.deepEqual(aTypeChecker.expression({}, ast.expr.pair(ast.expr.number(1), ast.expr.string("a"))).success(), 
+            ast.type.pair(ast.type.native("int"),ast.type.native("string")),
+            "type can be infered");
+    test.done();                
+  },
 };
