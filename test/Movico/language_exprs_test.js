@@ -178,6 +178,43 @@ exports['language_exprs'] = {
     test.done();
   },  
     
+  'let definition function with unit is accepted': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("let f () = 1 in x");
+        
+    test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
+                   ast.expr.let('f', ast.expr.abstraction(ast.param("_",ast.type.native("unit")), ast.expr.number(1)), 
+                                ast.expr.ident('x')),
+                   "accept a let definition");
+    test.done();
+  },  
+    
+  'let definition function with an int is accepted': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("let f x:int = 1 in x");
+        
+    test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
+                   ast.expr.let('f', ast.expr.abstraction(ast.param("x",ast.type.native("int")), ast.expr.number(1)), 
+                                ast.expr.ident('x')),
+                   "accept a let definition");
+    test.done();
+  },  
+    
+  'let definition function with an int and a string is accepted': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("let f x:int y:string = 1 in x");
+        
+    test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
+                   ast.expr.let('f', ast.expr.abstraction(ast.param("x",ast.type.native("int")), 
+                                                          ast.expr.abstraction(ast.param("y",ast.type.native("string")),ast.expr.number(1))), 
+                                ast.expr.ident('x')),
+                   "accept a let definition");
+    test.done();
+  },  
+    
   'empty tag is accepted': function(test) {
     test.expect(1);
     // tests here  
@@ -217,6 +254,41 @@ exports['language_exprs'] = {
     var aStream = stream("<a></b>");
         
     test.equal(language.parser.group('exprs').parse(aStream).isPresent(), false, "reject a xhtml fragment");
+    test.done();
+  },  
+    
+  'abstraction with unit': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("fun () -> 1");
+        
+    test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
+                   ast.expr.abstraction(ast.param("_",ast.type.native("unit")), ast.expr.number(1)),
+                   "accept function");
+    test.done();
+  },  
+    
+  'abstraction with int': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("fun x:int -> 1");
+        
+    test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
+                   ast.expr.abstraction(ast.param("x",ast.type.native("int")), ast.expr.number(1)),
+                   "accept function");
+    test.done();
+  },  
+
+    
+  'abstraction with int and string': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("fun x:int y:string -> 1");
+        
+    test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
+                   ast.expr.abstraction(ast.param("x",ast.type.native("int")), 
+                                        ast.expr.abstraction(ast.param("y",ast.type.native("string")), ast.expr.number(1))),
+                   "accept function");
     test.done();
   },  
 };

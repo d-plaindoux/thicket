@@ -53,7 +53,7 @@ class Person this:APerson {
 
 class Population this:[APerson] {
   persons () = [p for p in this if p.age < 100]
-  addPerson f:string n:string = (self APerson{f n 0})
+  addPerson p:(string,string) = (self APerson{p._1 p._2 0})
 }
 ```
 
@@ -82,7 +82,8 @@ then can be referenced as we do in the `Population#addPerson` method.
 
 ```
 view PersonAdder this:Population {
-  <form onSubmit=(this.addPerson self.firstname self.name)>
+  let onSubmit () = (this.addPerson (self.firstname,self.name)) in
+  <form onSubmit=(onSubmit ())>
     <input type="text" id="firstname"/>
     <input type="text" id="name"/>
     <input type="submit" value="Add"/>
