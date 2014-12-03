@@ -30,7 +30,7 @@ simple  way  for  data  structuration and  storage.   It's  the  model
 definition in the illustrated MVC design pattern.
 
 ```
-object APerson {
+model APerson {
    firstname: String
    name: String
    age: Int
@@ -83,11 +83,11 @@ then can be referenced as we do in the `Population#addPerson` method.
 ```
 view PersonAdder this:Population {
   let onSubmit () = (this.addPerson (self.firstname,self.name)) in
-  <form onSubmit=(onSubmit ())>
-    <input type="text" id="firstname"/>
-    <input type="text" id="name"/>
-    <input type="submit" value="Add"/>
-  </>
+      <form onSubmit=(onSubmit ())>
+        <input type="text" id="firstname"/>
+        <input type="text" id="name"/>
+        <input type="submit" value="Add"/>
+      </>   
 }
 
 view PopulationView this:Population {

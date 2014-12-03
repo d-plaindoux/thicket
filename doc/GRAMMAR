@@ -8,11 +8,13 @@ entity  ::= objectDef | typeDef | classDef | viewDef
 
 ----------------------------------------------------------------------
 
-objectDef ::= "object" IDENT "{" param* "}"
+objectDef ::= "model" IDENT "{" param* "}"
 param     ::= IDENT ":" type
 
 type      ::= IDENT | "(" types ")" | "[" type "]"
-types     ::= type ("," type)*
+types     ::= type "," types
+            | type "->" types
+            | type
 
 ----------------------------------------------------------------------
 
@@ -42,7 +44,8 @@ sexpr     ::= NUMBER
             | "<" IDENT attr* "/>"
             | "[" exprs ("for" IDENT "in" exprs)+ ("if" exprs)? "]"
             | IDENT "{" expr* "}"
-            ] "let" IDENT "=" expr "in" expr
+            | "let" IDENT ("(" ")"| param+)? "=" expr "in" expr
+            | "fun" "(" ")"| param+ => expr
             
 attr      ::= IDENT "=" expr
 

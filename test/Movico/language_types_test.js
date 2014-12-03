@@ -90,8 +90,19 @@ exports['language_type'] = {
                    "accept (int,string) type");
     test.done();
   },    
-    
-  'array of tuple type (in parenthesis) is accepted': function(test) {
+        
+  'function type (in parenthesis) is accepted': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("( int -> string )");
+        
+    test.deepEqual(language.parser.group('type').parse(aStream).orElse(null), 
+                   ast.type.fun(ast.type.native('int'),ast.type.native('string')),
+                   "accept (int->string) type");
+    test.done();
+  },    
+
+    'array of tuple type (in parenthesis) is accepted': function(test) {
     test.expect(1);
     // tests here  
     var aStream = stream("[(int, string )]");

@@ -2,7 +2,7 @@
 // Person and population
 // --------------------------------------------------------------------
 
-object PersonModel { 
+model PersonModel { 
     firstname: string
     name: string
     age: int
@@ -18,11 +18,11 @@ view PersonView this:Person {
  
 view NewPerson this:Population {
     let onSubmit () = (this.addPerson (self.firstname,self.name)) in
-    <form onSubmit=(onSubmit())>
-        <input type="text" id="firstname"/>
-        <input type="text" id="name"/>
-        <input type="submit" value="Add"/>
-    </form>
+        <form onSubmit=(onSubmit())>
+            <input type="text" id="firstname"/>
+            <input type="text" id="name"/>
+            <input type="submit" value="Add"/>
+        </form>
 }
 
 view Population this:Population {
@@ -47,12 +47,12 @@ class Population this:[Person] {
 // Todo
 // --------------------------------------------------------------------
 
-object TodoModel {
+model TodoModel {
     what: string
 }
 
 class Todos this:[TodoModel] {
-    new = fun s:string -> (self (this.add Todo{s}))
+    new = fun s:string => (self (this.add Todo{s}))
     todos = this
 }
 
@@ -65,4 +65,12 @@ view TodoAdder this: Todos {
         <input type="text" id="todo"/>
         <input type="submit" value="Add"/>
     </form>
+}
+
+// --------------------------------------------------------------------
+// Monad
+// --------------------------------------------------------------------
+
+model List {
+    map : (x -> y) -> List
 }

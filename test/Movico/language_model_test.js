@@ -32,7 +32,7 @@ exports['language_object'] = {
   'simple model is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("object Address {}");
+    var aStream = stream("model Address {}");
         
     test.ok(language.parser.group('modelDef').parse(aStream).isPresent(), 
             "accept a model");
@@ -42,7 +42,7 @@ exports['language_object'] = {
   'not well formed model is rejected': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("object Address { address } ");
+    var aStream = stream("model Address { address } ");
         
     test.equal(language.parser.group('modelDef').parse(aStream).isPresent(), 
                false , "reject a model");
@@ -52,7 +52,7 @@ exports['language_object'] = {
   'simple model is accepted and provided': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("object Address {}");
+    var aStream = stream("model Address {}");
         
     test.deepEqual(language.parser.group('modelDef').parse(aStream).get(), 
                    ast.model('Address', []) , "accept a model");
@@ -62,7 +62,7 @@ exports['language_object'] = {
   'complexe model is accepted and provided': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("object Address { street : string number : int}");        
+    var aStream = stream("model Address { street : string number : int}");        
     test.deepEqual(language.parser.group('modelDef').parse(aStream).get(), 
                    ast.model('Address', [ast.param('street',ast.type.native('string')), ast.param('number',ast.type.native('int'))]) , "accept a model");
     test.done();
