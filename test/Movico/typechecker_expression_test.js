@@ -159,4 +159,15 @@ exports['typechecker'] = {
                    "type can be infered");
     test.done();                
   },
+    
+  'checking wrong application': function(test) {
+    test.expect(1);
+    // tests here  
+    var aTypeChecker = typechecker(entities());  
+      
+    test.ok(aTypeChecker.expression([], ast.expr.application(ast.expr.abstraction([ast.param("x",ast.type.native("string"))], ast.expr.ident("x")) ,
+                                                             ast.expr.number(1))).failure(), 
+                   "type can not be infered");
+    test.done();                
+  },
 };
