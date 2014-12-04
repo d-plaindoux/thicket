@@ -147,4 +147,16 @@ exports['typechecker'] = {
                    "type can be infered");
     test.done();                
   },
+    
+  'checking application': function(test) {
+    test.expect(1);
+    // tests here  
+    var aTypeChecker = typechecker(entities());  
+      
+    test.deepEqual(aTypeChecker.expression([], ast.expr.application(ast.expr.abstraction([ast.param("x",ast.type.native("int"))], ast.expr.ident("x")) ,
+                                                                    ast.expr.number(1))).success(), 
+                   ast.type.native("int"),
+                   "type can be infered");
+    test.done();                
+  },
 };
