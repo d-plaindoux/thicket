@@ -8,10 +8,16 @@ entity  ::= objectDef | typeDef | classDef | viewDef
 
 ----------------------------------------------------------------------
 
-objectDef ::= "model" IDENT "{" param* "}"
+objectDef ::= "model" IDENT TIDENT* "{" param* "}"
 param     ::= IDENT ":" type
 
-type      ::= IDENT | "(" types ")" | "[" type "]"
+type      ::= IDENT 
+            | TIDENT 
+            | "(" ftype ")" 
+            | "[" type "]"
+            
+ftype     ::= types (ftype)*
+
 types     ::= type "," types
             | type "->" types
             | type
@@ -22,7 +28,7 @@ typeDef   ::= "type" IDENT = IDENT ("|" IDENT)+
 
 ----------------------------------------------------------------------
 
-classDef  ::= "class" IDENT param "{" methods "}"
+classDef  ::= "class" TIDENT* IDENT param "{" methods "}"
 
 methods   ::= (("case" IDENT)? method)*
 
@@ -32,7 +38,7 @@ method    ::= IDENT "=" expr
 
 exprs     ::= pexpr+
 
-expr      ::= expr ("," iexpr)*
+expr      ::= iexpr ("," iexpr)*
 
 iexpr     ::= sexpr ("." IDENT)*
 
@@ -40,7 +46,7 @@ sexpr     ::= NUMBER
             | STRING
             | IDENT
             | "(" exprs ")"
-            | "<" IDENT attr* ">" exprs "</" IDENT ">" 
+            | "<" IDENT attr* ">" exprs "</" IDENT? ">" 
             | "<" IDENT attr* "/>"
             | "[" exprs ("for" IDENT "in" exprs)+ ("if" exprs)? "]"
             | IDENT "{" expr* "}"

@@ -87,10 +87,10 @@ exports['typechecker'] = {
   'checking empty model': function(test) {
     test.expect(1);
     // tests here  
-    var aTypeChecker = typechecker(entities().declare(ast.model('a',[])));  
+    var aTypeChecker = typechecker(entities().declare(ast.model('a',[],[])));  
       
     test.deepEqual(aTypeChecker.expression({}, ast.expr.instance("a",[])).success(), 
-                   ast.model('a',[]), 
+                   ast.model('a',[], []), 
                    "type must be defined");
     test.done();                
   },
@@ -98,7 +98,7 @@ exports['typechecker'] = {
   'checking model with no arguments and parameters': function(test) {
     test.expect(1);
     // tests here  
-    var aTypeChecker = typechecker(entities().declare(ast.model('a',[["a",ast.type.ident('int')]])));  
+    var aTypeChecker = typechecker(entities().declare(ast.model('a',[],[["a",ast.type.ident('int')]])));  
       
     test.ok(aTypeChecker.expression({}, ast.expr.instance("a",[])).isFailure(), 
             "type cannot be infered");
@@ -108,7 +108,7 @@ exports['typechecker'] = {
   'checking model with arguments and no parameters': function(test) {
     test.expect(1);
     // tests here  
-    var aTypeChecker = typechecker(entities().declare(ast.model('a',[])));  
+    var aTypeChecker = typechecker(entities().declare(ast.model('a',[],[])));  
       
     test.ok(aTypeChecker.expression({}, ast.expr.instance("a",[ast.expr.number(1)])).isFailure(), 
             "type cannot be infered");
@@ -118,10 +118,10 @@ exports['typechecker'] = {
   'checking model with arguments and parameters': function(test) {
     test.expect(1);
     // tests here  
-    var aTypeChecker = typechecker(entities().declare(ast.model('a',[["a",ast.type.native('int')]])));  
+    var aTypeChecker = typechecker(entities().declare(ast.model('a',[], [["a",ast.type.native('int')]])));  
       
     test.deepEqual(aTypeChecker.expression({}, ast.expr.instance("a",[ast.expr.number(1)])).success(), 
-            ast.model('a',[["a",ast.type.native('int')]]),
+            ast.model('a',[],[["a",ast.type.native('int')]]),
             "type can be infered");
     test.done();                
   },

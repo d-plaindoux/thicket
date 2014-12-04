@@ -44,7 +44,7 @@ exports['typechecker'] = {
       test.expect(2);
       // Test
       var aTypeChecker = typechecker(entities()),
-          variable = ast.type.ident("a");
+          variable = ast.type.variable("a");
 
       test.ok(aTypeChecker.unify(variable, ast.type.native("int")), "Unifying model");
       test.deepEqual(variable.reference.orElse(null), ast.type.native("int"), "Unifying model");
@@ -77,8 +77,8 @@ exports['typechecker'] = {
       // Test
       var aTypeChecker = typechecker(entities());  
 
-      test.ok(aTypeChecker.unify(ast.type.fun(ast.type.native('int'),ast.type.native('string')),
-                                 ast.type.fun(ast.type.native('int'),ast.type.native('string'))),
+      test.ok(aTypeChecker.unify(ast.type.abstraction(ast.type.native('int'),ast.type.native('string')),
+                                 ast.type.abstraction(ast.type.native('int'),ast.type.native('string'))),
               "Unifying pair");
       test.done();
   },

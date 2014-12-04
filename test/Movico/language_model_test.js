@@ -55,7 +55,17 @@ exports['language_object'] = {
     var aStream = stream("model Address {}");
         
     test.deepEqual(language.parser.group('modelDef').parse(aStream).get(), 
-                   ast.model('Address', []) , "accept a model");
+                   ast.model('Address', [], []) , "accept a model");
+    test.done();
+  },
+        
+  'simple model with generics is accepted and provided': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("model Address 'a 'b {}");
+        
+    test.deepEqual(language.parser.group('modelDef').parse(aStream).get(), 
+                   ast.model('Address', ["'a", "'b"], []) , "accept a model");
     test.done();
   },
         
@@ -64,7 +74,7 @@ exports['language_object'] = {
     // tests here  
     var aStream = stream("model Address { street : string number : int}");        
     test.deepEqual(language.parser.group('modelDef').parse(aStream).get(), 
-                   ast.model('Address', [ast.param('street',ast.type.native('string')), ast.param('number',ast.type.native('int'))]) , "accept a model");
+                   ast.model('Address', [], [ast.param('street',ast.type.native('string')), ast.param('number',ast.type.native('int'))]) , "accept a model");
     test.done();
   },
 

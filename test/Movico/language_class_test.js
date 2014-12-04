@@ -56,7 +56,17 @@ exports['language_class'] = {
     var aStream = stream("class Address this:Address { }");
         
     test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
-                   ast.controller('Address', ast.param('this',ast.type.ident('Address')), []) , "accept a controller");
+                   ast.controller('Address', [], ast.param('this',ast.type.ident('Address')), []) , "accept a controller");
+    test.done();
+  },
+        
+  'simple controller with generics is accepted and provided': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("class Address 'a 'b this:Address { }");
+        
+    test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
+                   ast.controller('Address', ["'a", "'b"], ast.param('this',ast.type.ident('Address')), []) , "accept a controller");
     test.done();
   },
         
@@ -65,7 +75,7 @@ exports['language_class'] = {
     // tests here  
     var aStream = stream("class Address this:Address { number = 123 }");        
     test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
-                   ast.controller('Address', ast.param('this',ast.type.ident('Address')), [ ast.method('number', ast.expr.number(123)) ]) , 
+                   ast.controller('Address', [], ast.param('this',ast.type.ident('Address')), [ ast.method('number', ast.expr.number(123)) ]) , 
                    "accept a controller");
     test.done();
   },
@@ -75,7 +85,7 @@ exports['language_class'] = {
     // tests here  
     var aStream = stream("class Address this: Address { number () = 123 }");        
     test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
-                   ast.controller('Address', 
+                   ast.controller('Address', [],
                                   ast.param('this', ast.type.ident('Address')), 
                                   [ ast.method('number', ast.expr.abstraction(ast.param("_", ast.type.native("unit")), ast.expr.number(123)))]) , 
                    "accept a controller");
