@@ -79,28 +79,28 @@ exports['options'] = {
   'atry success flatmap of atry': function(test) {
     test.expect(1);
     // tests here  
-    test.equal(atry.success(1).flatMap(function (i) { return atry.success(i+1); }).success(), 2, 'should be success.');
+    test.equal(atry.success(1).flatmap(function (i) { return atry.success(i+1); }).success(), 2, 'should be success.');
     test.done();
   },
          
   'atry success flatmap of int': function(test) {
     test.expect(1);
     // tests here  
-    test.equal(atry.success(1).flatMap(function (i) { return i+1; }).success(), 2, 'should be success.');
+    test.equal(atry.success(1).flatmap(function (i) { return i+1; }).success(), 2, 'should be success.');
     test.done();
   },
          
   'atry failure flatmap of int': function(test) {
     test.expect(1);
     // tests here  
-    test.equal(atry.failure(1).flatMap(function (i) { return i+1; }).failure(), 1, 'should be failure.');
+    test.equal(atry.failure(1).flatmap(function (i) { return i+1; }).failure(), 1, 'should be failure.');
     test.done();
   },
          
   'atry failure flatmap of Error': function(test) {
     test.expect(1);
     // tests here  
-    test.equal(atry.success(1).flatMap(function () { throw 1; }).failure(), 1, 'should be failure.');
+    test.equal(atry.success(1).flatmap(function () { throw 1; }).failure(), 1, 'should be failure.');
     test.done();
   },
          
