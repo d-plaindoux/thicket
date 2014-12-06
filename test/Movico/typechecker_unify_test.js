@@ -35,19 +35,18 @@ exports['typechecker'] = {
       // Test
       var aTypeChecker = typechecker(entities());  
 
-      test.ok(aTypeChecker.unify(ast.type.native('int'), ast.type.native('int')),
+      test.ok(aTypeChecker.unify([], ast.type.native('int'), ast.type.native('int')).isPresent,
               "Unifying native");
       test.done();
   },
     
   "Unify variable and native": function (test) {
-      test.expect(2);
+      test.expect(1);
       // Test
       var aTypeChecker = typechecker(entities()),
           variable = ast.type.variable("a");
 
-      test.ok(aTypeChecker.unify(variable, ast.type.native("int")), "Unifying model");
-      test.deepEqual(variable.reference.orElse(null), ast.type.native("int"), "Unifying model");
+      test.ok(aTypeChecker.unify([], variable, ast.type.native("int")).isPresent(), "Unifying model");
       test.done();
   },
     
@@ -56,7 +55,7 @@ exports['typechecker'] = {
       // Test
       var aTypeChecker = typechecker(entities());  
 
-      test.ok(aTypeChecker.unify(ast.model('a',[]), ast.model('a',[])),
+      test.ok(aTypeChecker.unify([], ast.model('a',[]), ast.model('a',[])).isPresent(),
               "Unifying model");
       test.done();
   },
@@ -66,8 +65,9 @@ exports['typechecker'] = {
       // Test
       var aTypeChecker = typechecker(entities());  
 
-      test.ok(aTypeChecker.unify(ast.type.pair(ast.type.native('int'),ast.type.native('string')),
-                                 ast.type.pair(ast.type.native('int'),ast.type.native('string'))),
+      test.ok(aTypeChecker.unify([],
+                                 ast.type.pair(ast.type.native('int'),ast.type.native('string')),
+                                 ast.type.pair(ast.type.native('int'),ast.type.native('string'))).isPresent(),
               "Unifying pair");
       test.done();
   },
@@ -77,8 +77,9 @@ exports['typechecker'] = {
       // Test
       var aTypeChecker = typechecker(entities());  
 
-      test.ok(aTypeChecker.unify(ast.type.abstraction(ast.type.native('int'),ast.type.native('string')),
-                                 ast.type.abstraction(ast.type.native('int'),ast.type.native('string'))),
+      test.ok(aTypeChecker.unify([],
+                                 ast.type.abstraction(ast.type.native('int'),ast.type.native('string')),
+                                 ast.type.abstraction(ast.type.native('int'),ast.type.native('string'))).isPresent(),
               "Unifying pair");
       test.done();
   },

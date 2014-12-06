@@ -35,7 +35,7 @@ exports['typechecker'] = {
       // Test
       var aTypeChecker = typechecker(entities());  
 
-      test.deepEqual(aTypeChecker.prune(ast.type.native('int')),
+      test.deepEqual(aTypeChecker.prune([], ast.type.native('int')),
                      ast.type.native('int'), 
                      "Pruning native return native");
       test.done();
@@ -46,7 +46,7 @@ exports['typechecker'] = {
       // Test
       var aTypeChecker = typechecker(entities());  
 
-      test.deepEqual(aTypeChecker.prune(ast.type.array(ast.type.native('int'))), 
+      test.deepEqual(aTypeChecker.prune([], ast.type.array(ast.type.native('int'))), 
                      ast.type.array(ast.type.native('int')), 
                      "Pruning arrayr of native return array of native");
       test.done();
@@ -57,7 +57,7 @@ exports['typechecker'] = {
       // Test
       var aTypeChecker = typechecker(entities());  
 
-      test.deepEqual(aTypeChecker.prune(ast.type.pair(ast.type.native('int'),ast.type.native('string'))), 
+      test.deepEqual(aTypeChecker.prune([], ast.type.pair(ast.type.native('int'),ast.type.native('string'))), 
                      ast.type.pair(ast.type.native('int'),ast.type.native('string')),
                      "Pruning pair of native return pair of native");
       test.done();
@@ -68,7 +68,7 @@ exports['typechecker'] = {
       // Test
       var aTypeChecker = typechecker(entities());  
 
-      test.deepEqual(aTypeChecker.prune(ast.type.abstraction(ast.type.native('int'),ast.type.native('string'))), 
+      test.deepEqual(aTypeChecker.prune([], ast.type.abstraction(ast.type.native('int'),ast.type.native('string'))), 
                      ast.type.abstraction(ast.type.native('int'),ast.type.native('string')),
                      "Pruning function of native return function of native");
       test.done();
@@ -79,7 +79,7 @@ exports['typechecker'] = {
       // Test
       var aTypeChecker = typechecker(entities());  
 
-      test.deepEqual(aTypeChecker.prune(ast.type.ident("a")), 
+      test.deepEqual(aTypeChecker.prune([], ast.type.ident("a")), 
                      ast.type.ident("a"),
                      "Pruning free ident return free ident");
       test.done();
@@ -90,7 +90,7 @@ exports['typechecker'] = {
       // Test
       var aTypeChecker = typechecker(entities());  
 
-      test.deepEqual(aTypeChecker.prune(ast.type.variable("a")), 
+      test.deepEqual(aTypeChecker.prune([],ast.type.variable("a")), 
                      ast.type.variable("a"),
                      "Pruning free variable return free variable");
       test.done();
@@ -101,7 +101,8 @@ exports['typechecker'] = {
       // Test
       var aTypeChecker = typechecker(entities());  
 
-      test.deepEqual(aTypeChecker.prune(ast.type.variable("a").bind(ast.type.native('int'))), 
+      test.deepEqual(aTypeChecker.prune([ast.param("a",ast.type.native('int'))], 
+                                        ast.type.variable("a")), 
                      ast.type.native("int"),
                      "Pruning bound variable return reference");
       test.done();
@@ -112,7 +113,8 @@ exports['typechecker'] = {
       // Test
       var aTypeChecker = typechecker(entities());  
 
-      test.deepEqual(aTypeChecker.prune(ast.type.array(ast.type.variable("a").bind(ast.type.native('int')))), 
+      test.deepEqual(aTypeChecker.prune([ast.param("a",ast.type.native('int'))], 
+                                        ast.type.array(ast.type.variable("a"))), 
                      ast.type.array(ast.type.native("int")),
                      "Pruning array of variable ident return array of reference");
       test.done();
@@ -123,7 +125,8 @@ exports['typechecker'] = {
       // Test
       var aTypeChecker = typechecker(entities());  
 
-      test.deepEqual(aTypeChecker.prune(ast.type.pair(ast.type.variable("a").bind(ast.type.native('int')),ast.type.variable("b").bind(ast.type.native('string')))), 
+      test.deepEqual(aTypeChecker.prune([ast.param("a",ast.type.native('int')), ast.param("b",ast.type.native('string'))], 
+                                        ast.type.pair(ast.type.variable("a"),ast.type.variable("b"))), 
                      ast.type.pair(ast.type.native("int"),ast.type.native("string")),
                      "Pruning pair of bound ident return pair of reference");
       test.done();
@@ -134,7 +137,8 @@ exports['typechecker'] = {
       // Test
       var aTypeChecker = typechecker(entities());  
 
-      test.deepEqual(aTypeChecker.prune(ast.type.abstraction(ast.type.variable("a").bind(ast.type.native('int')),ast.type.variable("b").bind(ast.type.native('string')))), 
+      test.deepEqual(aTypeChecker.prune([ast.param("a",ast.type.native('int')), ast.param("b",ast.type.native('string'))], 
+                                        ast.type.abstraction(ast.type.variable("a"),ast.type.variable("b"))), 
                      ast.type.abstraction(ast.type.native("int"),ast.type.native("string")),
                      "Pruning function of bound variable return function of reference");
       test.done();
