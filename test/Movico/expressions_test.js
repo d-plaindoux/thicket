@@ -1,6 +1,6 @@
 'use strict';
 
-var expression = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/expression.js').expression,
+var expression = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/expressions.js').expressions,
     ast = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/ast.js').ast;    
 
 /*

@@ -170,4 +170,29 @@ exports['typechecker'] = {
                    "type can not be infered");
     test.done();                
   },
+    
+  'checking invalid binding in application': function(test) {
+    test.expect(1);
+    // tests here  
+    var aTypeChecker = typechecker(entities());  
+      
+    test.ok(aTypeChecker.expression([ast.param("y",ast.type.native("int"))], [], 
+                                    ast.expr.application(ast.expr.abstraction([ast.param("x",ast.type.native("string"))], ast.expr.ident("x")) ,
+                                                         ast.expr.ident("y"))).failure(), 
+                   "type can not be infered");
+    test.done();                
+  },
+    
+  'checking valid binding in application': function(test) {
+    test.expect(1);
+    // tests here  
+    var aTypeChecker = typechecker(entities());  
+      
+    test.deepEqual(aTypeChecker.expression([ast.param("y",ast.type.native("string"))], [], 
+                                            ast.expr.application(ast.expr.abstraction([ast.param("x",ast.type.native("string"))], ast.expr.ident("x")) ,
+                                                                 ast.expr.ident("y"))).success()._2, 
+                    ast.type.native("string"),
+                   "type can not be infered");
+    test.done();                
+  },
 };

@@ -83,13 +83,6 @@ exports['options'] = {
     test.done();
   },
          
-  'atry success flatmap of int': function(test) {
-    test.expect(1);
-    // tests here  
-    test.equal(atry.success(1).flatmap(function (i) { return i+1; }).success(), 2, 'should be success.');
-    test.done();
-  },
-         
   'atry failure flatmap of int': function(test) {
     test.expect(1);
     // tests here  
