@@ -2,7 +2,8 @@
 
 var typechecker = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/typechecker.js').typechecker,
     entities = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/entities.js').entities,
-    ast = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/ast.js').ast;
+    ast = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/ast.js').ast,
+    pair = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/pair.js').pair;
     
 
 /*
@@ -35,7 +36,7 @@ exports['typechecker'] = {
     // tests here  
     var aTypeChecker = typechecker(entities());  
       
-    test.deepEqual(aTypeChecker.expression([], [], ast.expr.number(1)).success()._2, 
+    test.deepEqual(aTypeChecker.expression([], ast.expr.number(1)).success()._2, 
                    ast.type.native('int'), 
                    "type must be an int");
     test.done();                
@@ -46,8 +47,8 @@ exports['typechecker'] = {
     // tests here  
     var aTypeChecker = typechecker(entities());  
       
-    test.deepEqual(aTypeChecker.expression([], [], ast.expr.string("1")).success()._2, 
-                   ast.type.native('string'), 
+    test.deepEqual(aTypeChecker.expression([], ast.expr.string("1")).success()._2, 
+                   ast.type.native('string'),
                    "type must be a string");
     test.done();                
   },
@@ -57,8 +58,8 @@ exports['typechecker'] = {
     // tests here  
     var aTypeChecker = typechecker(entities());  
       
-    test.deepEqual(aTypeChecker.expression([ast.param("a",ast.type.ident('A'))], [], ast.expr.ident("a")).success()._2, 
-                   ast.type.ident('A'), 
+    test.deepEqual(aTypeChecker.expression([pair("a",ast.type.native('A'))], ast.expr.ident("a")).success()._2, 
+                   ast.type.native('A'), 
                    "type must be defined");
     test.done();                
   },
@@ -68,7 +69,7 @@ exports['typechecker'] = {
     // tests here  
     var aTypeChecker = typechecker(entities());  
       
-    test.ok(aTypeChecker.expression([], [], ast.expr.ident("a")).isFailure(), 
+    test.ok(aTypeChecker.expression([], ast.expr.ident("a")).isFailure(), 
             "type must not be defined");
     test.done();                
   },
@@ -78,7 +79,7 @@ exports['typechecker'] = {
     // tests here  
     var aTypeChecker = typechecker(entities().declare(ast.model('a',[])));  
       
-    test.deepEqual(aTypeChecker.expression([], [], ast.expr.ident("a")).success()._2, 
+    test.deepEqual(aTypeChecker.expression([], ast.expr.ident("a")).success()._2, 
                    ast.model('a',[]), 
                    "type must be defined");
     test.done();                
@@ -89,7 +90,7 @@ exports['typechecker'] = {
     // tests here  
     var aTypeChecker = typechecker(entities().declare(ast.model('a',[],[])));  
       
-    test.deepEqual(aTypeChecker.expression([], [], ast.expr.instance("a",[])).success()._2, 
+    test.deepEqual(aTypeChecker.expression([], ast.expr.instance("a",[])).success()._2, 
                    ast.model('a',[], []), 
                    "type must be defined");
     test.done();                
@@ -98,9 +99,9 @@ exports['typechecker'] = {
   'checking model with no arguments and parameters': function(test) {
     test.expect(1);
     // tests here  
-    var aTypeChecker = typechecker(entities().declare(ast.model('a',[],[["a",ast.type.ident('int')]])));  
+    var aTypeChecker = typechecker(entities().declare(ast.model('a',[],[["a",ast.type.native('int')]])));  
       
-    test.ok(aTypeChecker.expression([], [], ast.expr.instance("a",[])).isFailure(), 
+    test.ok(aTypeChecker.expression([], ast.expr.instance("a",[])).isFailure(), 
             "type cannot be infered");
     test.done();                
   },
@@ -110,7 +111,7 @@ exports['typechecker'] = {
     // tests here  
     var aTypeChecker = typechecker(entities().declare(ast.model('a',[],[])));  
       
-    test.ok(aTypeChecker.expression([], [], ast.expr.instance("a",[ast.expr.number(1)])).isFailure(), 
+    test.ok(aTypeChecker.expression([], ast.expr.instance("a",[ast.expr.number(1)])).isFailure(), 
             "type cannot be infered");
     test.done();                
   },
@@ -120,7 +121,7 @@ exports['typechecker'] = {
     // tests here  
     var aTypeChecker = typechecker(entities().declare(ast.model('a',[], [["a",ast.type.native('int')]])));  
       
-    test.deepEqual(aTypeChecker.expression([], [], ast.expr.instance("a",[ast.expr.number(1)])).success()._2, 
+    test.deepEqual(aTypeChecker.expression([], ast.expr.instance("a",[ast.expr.number(1)])).success()._2, 
                    ast.model('a',[],[["a",ast.type.native('int')]]),
                    "type can be infered");
     test.done();                
@@ -131,7 +132,7 @@ exports['typechecker'] = {
     // tests here  
     var aTypeChecker = typechecker(entities());  
       
-    test.deepEqual(aTypeChecker.expression([], [], ast.expr.pair(ast.expr.number(1), ast.expr.string("a"))).success()._2, 
+    test.deepEqual(aTypeChecker.expression([], ast.expr.pair(ast.expr.number(1), ast.expr.string("a"))).success()._2, 
                    ast.type.pair(ast.type.native("int"),ast.type.native("string")),
                    "type can be infered");
     test.done();                
@@ -142,7 +143,7 @@ exports['typechecker'] = {
     // tests here  
     var aTypeChecker = typechecker(entities());  
       
-    test.deepEqual(aTypeChecker.expression([], [], ast.expr.abstraction([ast.param("x",ast.type.native("int"))], ast.expr.ident("x"))).success()._2, 
+    test.deepEqual(aTypeChecker.expression([], ast.expr.abstraction([ast.param("x",ast.type.native("int"))], ast.expr.ident("x"))).success()._2, 
                    ast.type.abstraction(ast.type.native("int"),ast.type.native("int")),
                    "type can be infered");
     test.done();                
@@ -153,8 +154,9 @@ exports['typechecker'] = {
     // tests here  
     var aTypeChecker = typechecker(entities());  
       
-    test.deepEqual(aTypeChecker.expression([], [], ast.expr.application(ast.expr.abstraction([ast.param("x",ast.type.native("int"))], ast.expr.ident("x")) ,
-                                                                        ast.expr.number(1))).success()._2, 
+    test.deepEqual(aTypeChecker.expression([], ast.expr.application(ast.expr.abstraction([ast.param("x",ast.type.native("int"))], ast.expr.ident("x")) ,
+                                                                    ast.expr.number(1))
+                                          ).success()._2, 
                    ast.type.native("int"),
                    "type can be infered");
     test.done();                
@@ -165,8 +167,9 @@ exports['typechecker'] = {
     // tests here  
     var aTypeChecker = typechecker(entities());  
       
-    test.ok(aTypeChecker.expression([], [], ast.expr.application(ast.expr.abstraction([ast.param("x",ast.type.native("string"))], ast.expr.ident("x")) ,
-                                                                 ast.expr.number(1))).failure(), 
+    test.ok(aTypeChecker.expression([], ast.expr.application(ast.expr.abstraction([ast.param("x",ast.type.native("string"))], ast.expr.ident("x")) ,
+                                                             ast.expr.number(1))
+                                   ).failure(), 
                    "type can not be infered");
     test.done();                
   },
@@ -176,9 +179,10 @@ exports['typechecker'] = {
     // tests here  
     var aTypeChecker = typechecker(entities());  
       
-    test.ok(aTypeChecker.expression([ast.param("y",ast.type.native("int"))], [], 
+    test.ok(aTypeChecker.expression([pair("y",ast.type.native("int"))],
                                     ast.expr.application(ast.expr.abstraction([ast.param("x",ast.type.native("string"))], ast.expr.ident("x")) ,
-                                                         ast.expr.ident("y"))).failure(), 
+                                                         ast.expr.ident("y"))
+                                   ).failure(), 
                    "type can not be infered");
     test.done();                
   },
@@ -188,11 +192,12 @@ exports['typechecker'] = {
     // tests here  
     var aTypeChecker = typechecker(entities());  
       
-    test.deepEqual(aTypeChecker.expression([ast.param("y",ast.type.native("string"))], [], 
+    test.deepEqual(aTypeChecker.expression([pair("y",ast.type.native("string"))], 
                                             ast.expr.application(ast.expr.abstraction([ast.param("x",ast.type.native("string"))], ast.expr.ident("x")) ,
-                                                                 ast.expr.ident("y"))).success()._2, 
+                                                                 ast.expr.ident("y"))
+                                          ).success()._2, 
                     ast.type.native("string"),
-                   "type can not be infered");
+                   "type can be infered");
     test.done();                
   },
 };

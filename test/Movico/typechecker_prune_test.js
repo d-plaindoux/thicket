@@ -2,8 +2,8 @@
 
 var typechecker = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/typechecker.js').typechecker,
     entities = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/entities.js').entities,
-    ast = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/ast.js').ast;
-    
+    ast = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/ast.js').ast,
+    pair = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/pair.js').pair;  
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -74,17 +74,6 @@ exports['typechecker'] = {
       test.done();
   },    
     
-  "Pruning ident": function (test) {
-      test.expect(1);
-      // Test
-      var aTypeChecker = typechecker(entities());  
-
-      test.deepEqual(aTypeChecker.prune([], ast.type.ident("a")), 
-                     ast.type.ident("a"),
-                     "Pruning free ident return free ident");
-      test.done();
-  },    
-    
   "Pruning free variable": function (test) {
       test.expect(1);
       // Test
@@ -101,46 +90,9 @@ exports['typechecker'] = {
       // Test
       var aTypeChecker = typechecker(entities());  
 
-      test.deepEqual(aTypeChecker.prune([ast.param("a",ast.type.native('int'))], 
-                                        ast.type.variable("a")), 
+      test.deepEqual(aTypeChecker.prune([pair("a",ast.type.native('int'))], ast.type.variable("a")), 
                      ast.type.native("int"),
                      "Pruning bound variable return reference");
-      test.done();
-  },    
-    
-  "Pruning bound ident in array": function (test) {
-      test.expect(1);
-      // Test
-      var aTypeChecker = typechecker(entities());  
-
-      test.deepEqual(aTypeChecker.prune([ast.param("a",ast.type.native('int'))], 
-                                        ast.type.array(ast.type.variable("a"))), 
-                     ast.type.array(ast.type.native("int")),
-                     "Pruning array of variable ident return array of reference");
-      test.done();
-  },    
-    
-  "Pruning bound variable in pair": function (test) {
-      test.expect(1);
-      // Test
-      var aTypeChecker = typechecker(entities());  
-
-      test.deepEqual(aTypeChecker.prune([ast.param("a",ast.type.native('int')), ast.param("b",ast.type.native('string'))], 
-                                        ast.type.pair(ast.type.variable("a"),ast.type.variable("b"))), 
-                     ast.type.pair(ast.type.native("int"),ast.type.native("string")),
-                     "Pruning pair of bound ident return pair of reference");
-      test.done();
-  },    
-
-  "Pruning bound variable in function": function (test) {
-      test.expect(1);
-      // Test
-      var aTypeChecker = typechecker(entities());  
-
-      test.deepEqual(aTypeChecker.prune([ast.param("a",ast.type.native('int')), ast.param("b",ast.type.native('string'))], 
-                                        ast.type.abstraction(ast.type.variable("a"),ast.type.variable("b"))), 
-                     ast.type.abstraction(ast.type.native("int"),ast.type.native("string")),
-                     "Pruning function of bound variable return function of reference");
       test.done();
   },    
 };

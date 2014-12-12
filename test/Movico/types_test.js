@@ -56,13 +56,6 @@ exports['types'] = {
       test.done();
   },
 
-  "Ident is a freevar": function (test) {
-      test.expect(1);
-      // Test
-      test.deepEqual(types.freeVariables(ast.type.ident("a")), ["a"], "Not empty free variables");
-      test.done();
-  },
-
   "Function of Variable has a freevar": function (test) {
       test.expect(1);
       // Test
@@ -75,5 +68,11 @@ exports['types'] = {
       // Test
       test.deepEqual(types.freeVariables(ast.type.pair(ast.type.variable("a"),ast.type.variable("b"))), ["a","b"], "Not empty free variables");
       test.done();
-  },};
+  },
+
+  // Substitution
+    
+
+    
+};
  
