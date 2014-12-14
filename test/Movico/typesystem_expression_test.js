@@ -1,6 +1,6 @@
 'use strict';
 
-var typechecker = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/typechecker.js').typechecker,
+var typesystem = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/typesystem.js').typesystem,
     entities = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/entities.js').entities,
     ast = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/ast.js').ast,
     pair = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/pair.js').pair;
@@ -26,7 +26,7 @@ var typechecker = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movic
     test.ifError(value)
 */
 
-exports['typechecker'] = {
+exports['typesystem_expression'] = {
   setUp: function(done) {
     done();
   },
@@ -34,7 +34,7 @@ exports['typechecker'] = {
   '1 must be an int': function(test) {
     test.expect(1);
     // tests here  
-    var aTypeChecker = typechecker(entities());  
+    var aTypeChecker = typesystem(entities());  
       
     test.deepEqual(aTypeChecker.expression([], ast.expr.number(1)).success()._2, 
                    ast.type.native('int'), 
@@ -45,7 +45,7 @@ exports['typechecker'] = {
   '"1" must be a string': function(test) {
     test.expect(1);
     // tests here  
-    var aTypeChecker = typechecker(entities());  
+    var aTypeChecker = typesystem(entities());  
       
     test.deepEqual(aTypeChecker.expression([], ast.expr.string("1")).success()._2, 
                    ast.type.native('string'),
@@ -56,7 +56,7 @@ exports['typechecker'] = {
   'ident in environment': function(test) {
     test.expect(1);
     // tests here  
-    var aTypeChecker = typechecker(entities());  
+    var aTypeChecker = typesystem(entities());  
       
     test.deepEqual(aTypeChecker.expression([pair("a",ast.type.native('A'))], ast.expr.ident("a")).success()._2, 
                    ast.type.native('A'), 
@@ -67,7 +67,7 @@ exports['typechecker'] = {
   'ident not in environment': function(test) {
     test.expect(1);
     // tests here  
-    var aTypeChecker = typechecker(entities());  
+    var aTypeChecker = typesystem(entities());  
       
     test.ok(aTypeChecker.expression([], ast.expr.ident("a")).isFailure(), 
             "type must not be defined");
@@ -77,7 +77,7 @@ exports['typechecker'] = {
   'ident in entities': function(test) {
     test.expect(1);
     // tests here  
-    var aTypeChecker = typechecker(entities().declare(ast.model('a',[])));  
+    var aTypeChecker = typesystem(entities().declare(ast.model('a',[])));  
       
     test.deepEqual(aTypeChecker.expression([], ast.expr.ident("a")).success()._2, 
                    ast.model('a',[]), 
@@ -88,7 +88,7 @@ exports['typechecker'] = {
   'checking empty model': function(test) {
     test.expect(1);
     // tests here  
-    var aTypeChecker = typechecker(entities().declare(ast.model('a',[],[])));  
+    var aTypeChecker = typesystem(entities().declare(ast.model('a',[],[])));  
       
     test.deepEqual(aTypeChecker.expression([], ast.expr.instance("a",[])).success()._2, 
                    ast.model('a',[], []), 
@@ -99,7 +99,7 @@ exports['typechecker'] = {
   'checking model with no arguments and parameters': function(test) {
     test.expect(1);
     // tests here  
-    var aTypeChecker = typechecker(entities().declare(ast.model('a',[],[["a",ast.type.native('int')]])));  
+    var aTypeChecker = typesystem(entities().declare(ast.model('a',[],[["a",ast.type.native('int')]])));  
       
     test.ok(aTypeChecker.expression([], ast.expr.instance("a",[])).isFailure(), 
             "type cannot be infered");
@@ -109,7 +109,7 @@ exports['typechecker'] = {
   'checking model with arguments and no parameters': function(test) {
     test.expect(1);
     // tests here  
-    var aTypeChecker = typechecker(entities().declare(ast.model('a',[],[])));  
+    var aTypeChecker = typesystem(entities().declare(ast.model('a',[],[])));  
       
     test.ok(aTypeChecker.expression([], ast.expr.instance("a",[ast.expr.number(1)])).isFailure(), 
             "type cannot be infered");
@@ -119,7 +119,7 @@ exports['typechecker'] = {
   'checking model with arguments and parameters': function(test) {
     test.expect(1);
     // tests here  
-    var aTypeChecker = typechecker(entities().declare(ast.model('a',[], [["a",ast.type.native('int')]])));  
+    var aTypeChecker = typesystem(entities().declare(ast.model('a',[], [["a",ast.type.native('int')]])));  
       
     test.deepEqual(aTypeChecker.expression([], ast.expr.instance("a",[ast.expr.number(1)])).success()._2, 
                    ast.model('a',[],[["a",ast.type.native('int')]]),
@@ -130,7 +130,7 @@ exports['typechecker'] = {
   'checking pair': function(test) {
     test.expect(1);
     // tests here  
-    var aTypeChecker = typechecker(entities());  
+    var aTypeChecker = typesystem(entities());  
       
     test.deepEqual(aTypeChecker.expression([], ast.expr.pair(ast.expr.number(1), ast.expr.string("a"))).success()._2, 
                    ast.type.pair(ast.type.native("int"),ast.type.native("string")),
@@ -141,7 +141,7 @@ exports['typechecker'] = {
   'checking function': function(test) {
     test.expect(1);
     // tests here  
-    var aTypeChecker = typechecker(entities());  
+    var aTypeChecker = typesystem(entities());  
       
     test.deepEqual(aTypeChecker.expression([], ast.expr.abstraction([ast.param("x",ast.type.native("int"))], ast.expr.ident("x"))).success()._2, 
                    ast.type.abstraction(ast.type.native("int"),ast.type.native("int")),
@@ -152,7 +152,7 @@ exports['typechecker'] = {
   'checking application': function(test) {
     test.expect(1);
     // tests here  
-    var aTypeChecker = typechecker(entities());  
+    var aTypeChecker = typesystem(entities());  
       
     test.deepEqual(aTypeChecker.expression([], ast.expr.application(ast.expr.abstraction([ast.param("x",ast.type.native("int"))], ast.expr.ident("x")) ,
                                                                     ast.expr.number(1))
@@ -165,7 +165,7 @@ exports['typechecker'] = {
   'checking wrong application': function(test) {
     test.expect(1);
     // tests here  
-    var aTypeChecker = typechecker(entities());  
+    var aTypeChecker = typesystem(entities());  
       
     test.ok(aTypeChecker.expression([], ast.expr.application(ast.expr.abstraction([ast.param("x",ast.type.native("string"))], ast.expr.ident("x")) ,
                                                              ast.expr.number(1))
@@ -177,7 +177,7 @@ exports['typechecker'] = {
   'checking invalid binding in application': function(test) {
     test.expect(1);
     // tests here  
-    var aTypeChecker = typechecker(entities());  
+    var aTypeChecker = typesystem(entities());  
       
     test.ok(aTypeChecker.expression([pair("y",ast.type.native("int"))],
                                     ast.expr.application(ast.expr.abstraction([ast.param("x",ast.type.native("string"))], ast.expr.ident("x")) ,
@@ -190,7 +190,7 @@ exports['typechecker'] = {
   'checking valid binding in application': function(test) {
     test.expect(1);
     // tests here  
-    var aTypeChecker = typechecker(entities());  
+    var aTypeChecker = typesystem(entities());  
       
     test.deepEqual(aTypeChecker.expression([pair("y",ast.type.native("string"))], 
                                             ast.expr.application(ast.expr.abstraction([ast.param("x",ast.type.native("string"))], ast.expr.ident("x")) ,

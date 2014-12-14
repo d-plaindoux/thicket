@@ -1,6 +1,6 @@
 'use strict';
 
-var typechecker = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/typechecker.js').typechecker,
+var typesystem = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/typesystem.js').typesystem,
     entities = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/entities.js').entities,
     ast = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/ast.js').ast;
     
@@ -25,7 +25,7 @@ var typechecker = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movic
     test.ifError(value)
 */
 
-exports['typechecker'] = {
+exports['typesystem_unify'] = {
   setUp: function(done) {
     done();
   },
@@ -33,7 +33,7 @@ exports['typechecker'] = {
   "Unify native": function (test) {
       test.expect(1);
       // Test
-      var aTypeChecker = typechecker(entities());  
+      var aTypeChecker = typesystem(entities());  
 
       test.ok(aTypeChecker.unify([], ast.type.native('int'), ast.type.native('int')).isPresent,
               "Unifying native");
@@ -43,7 +43,7 @@ exports['typechecker'] = {
   "Unify variable and native": function (test) {
       test.expect(1);
       // Test
-      var aTypeChecker = typechecker(entities()),
+      var aTypeChecker = typesystem(entities()),
           variable = ast.type.variable("a");
 
       test.ok(aTypeChecker.unify([], variable, ast.type.native("int")).isPresent(), "Unifying model");
@@ -53,7 +53,7 @@ exports['typechecker'] = {
   "Unify model": function (test) {
       test.expect(1);
       // Test
-      var aTypeChecker = typechecker(entities());  
+      var aTypeChecker = typesystem(entities());  
 
       test.ok(aTypeChecker.unify([], ast.model('a',[]), ast.model('a',[])).isPresent(),
               "Unifying model");
@@ -63,7 +63,7 @@ exports['typechecker'] = {
   "Unify pairs": function (test) {
       test.expect(1);
       // Test
-      var aTypeChecker = typechecker(entities());  
+      var aTypeChecker = typesystem(entities());  
 
       test.ok(aTypeChecker.unify([],
                                  ast.type.pair(ast.type.native('int'),ast.type.native('string')),
@@ -75,7 +75,7 @@ exports['typechecker'] = {
   "Unify function": function (test) {
       test.expect(1);
       // Test
-      var aTypeChecker = typechecker(entities());  
+      var aTypeChecker = typesystem(entities());  
 
       test.ok(aTypeChecker.unify([],
                                  ast.type.abstraction(ast.type.native('int'),ast.type.native('string')),

@@ -1,6 +1,6 @@
 'use strict';
 
-var typechecker = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/typechecker.js').typechecker,
+var typesystem = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/typesystem.js').typesystem,
     entities = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/entities.js').entities,
     ast = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/ast.js').ast,
     pair = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/pair.js').pair;  
@@ -25,7 +25,7 @@ var typechecker = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movic
     test.ifError(value)
 */
 
-exports['typechecker'] = {
+exports['typesystem_prune'] = {
   setUp: function(done) {
     done();
   },
@@ -33,7 +33,7 @@ exports['typechecker'] = {
   "Pruning native": function (test) {
       test.expect(1);
       // Test
-      var aTypeChecker = typechecker(entities());  
+      var aTypeChecker = typesystem(entities());  
 
       test.deepEqual(aTypeChecker.prune([], ast.type.native('int')),
                      ast.type.native('int'), 
@@ -44,7 +44,7 @@ exports['typechecker'] = {
   "Pruning array of native": function (test) {
       test.expect(1);
       // Test
-      var aTypeChecker = typechecker(entities());  
+      var aTypeChecker = typesystem(entities());  
 
       test.deepEqual(aTypeChecker.prune([], ast.type.array(ast.type.native('int'))), 
                      ast.type.array(ast.type.native('int')), 
@@ -55,7 +55,7 @@ exports['typechecker'] = {
   "Pruning pair of native": function (test) {
       test.expect(1);
       // Test
-      var aTypeChecker = typechecker(entities());  
+      var aTypeChecker = typesystem(entities());  
 
       test.deepEqual(aTypeChecker.prune([], ast.type.pair(ast.type.native('int'),ast.type.native('string'))), 
                      ast.type.pair(ast.type.native('int'),ast.type.native('string')),
@@ -66,7 +66,7 @@ exports['typechecker'] = {
   "Pruning function of native": function (test) {
       test.expect(1);
       // Test
-      var aTypeChecker = typechecker(entities());  
+      var aTypeChecker = typesystem(entities());  
 
       test.deepEqual(aTypeChecker.prune([], ast.type.abstraction(ast.type.native('int'),ast.type.native('string'))), 
                      ast.type.abstraction(ast.type.native('int'),ast.type.native('string')),
@@ -77,7 +77,7 @@ exports['typechecker'] = {
   "Pruning free variable": function (test) {
       test.expect(1);
       // Test
-      var aTypeChecker = typechecker(entities());  
+      var aTypeChecker = typesystem(entities());  
 
       test.deepEqual(aTypeChecker.prune([],ast.type.variable("a")), 
                      ast.type.variable("a"),
@@ -88,7 +88,7 @@ exports['typechecker'] = {
   "Pruning bound variable": function (test) {
       test.expect(1);
       // Test
-      var aTypeChecker = typechecker(entities());  
+      var aTypeChecker = typesystem(entities());  
 
       test.deepEqual(aTypeChecker.prune([pair("a",ast.type.native('int'))], ast.type.variable("a")), 
                      ast.type.native("int"),
