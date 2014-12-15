@@ -215,6 +215,31 @@ exports['language_exprs'] = {
     test.done();
   },  
     
+  'let definition function with generics is accepted': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("let f 'a x:'a = x in f");
+        
+    test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
+                   ast.expr.let('f', ast.expr.forall("'a", 
+                                                     ast.expr.abstraction(ast.param("x",ast.type.variable("'a")), 
+                                                                          ast.expr.ident("x"))),
+                                ast.expr.ident('f')),
+                   "accept a let definition");
+    test.done();
+  },  
+    
+  'canonical empty tag is accepted': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("<a/>");
+        
+    test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
+                   ast.expr.tag("a",[],[]),
+                   "accept a xhtml fragment");
+    test.done();
+  },  
+    
   'empty tag is accepted': function(test) {
     test.expect(1);
     // tests here  
@@ -226,16 +251,31 @@ exports['language_exprs'] = {
     test.done();
   },  
 
+  'canonical empty tag with attributes is accepted': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("<a n=(f 1) m='4'/>");
+        
+    test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
+                   ast.expr.tag("a",[['n',ast.expr.application(ast.expr.ident('f'),ast.expr.number(1))],
+                                     ['m',ast.expr.string('4')]],
+                                []),
+                   "accept a xhtml fragment");
+    test.done();
+  },  
+    
   'empty tag with attributes is accepted': function(test) {
     test.expect(1);
     // tests here  
     var aStream = stream("<a n=(f 1) m='4'></a>");
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
-                   ast.expr.tag("a",[['n',ast.expr.application(ast.expr.ident('f'),ast.expr.number(1))],['m',ast.expr.string('4')]],[]),
+                   ast.expr.tag("a",[['n',ast.expr.application(ast.expr.ident('f'),ast.expr.number(1))],
+                                     ['m',ast.expr.string('4')]],
+                                []),
                    "accept a xhtml fragment");
     test.done();
-  },  
+  },      
     
   'tag with attributes is accepted': function(test) {
     test.expect(1);
@@ -243,7 +283,9 @@ exports['language_exprs'] = {
     var aStream = stream("<a n=(f 1) m='4'> 123 </a>");
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
-                   ast.expr.tag("a",[['n',ast.expr.application(ast.expr.ident('f'),ast.expr.number(1))],['m',ast.expr.string('4')]],[ast.expr.number(123)]),
+                   ast.expr.tag("a",[['n',ast.expr.application(ast.expr.ident('f'),ast.expr.number(1))],
+                                     ['m',ast.expr.string('4')]],
+                                [ast.expr.number(123)]),
                    "accept a xhtml fragment");
     test.done();
   },  
@@ -287,6 +329,17 @@ exports['language_exprs'] = {
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
                    ast.expr.abstraction(ast.param("x",ast.type.native("int")), 
                                         ast.expr.abstraction(ast.param("y",ast.type.native("string")), ast.expr.number(1))),
+                   "accept function");
+    test.done();
+  },  
+    
+  'abstraction with generics': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("fun 'a x:'a => x");
+        
+    test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
+                   ast.expr.forall("'a", ast.expr.abstraction(ast.param("x",ast.type.variable("'a")), ast.expr.ident("x"))),
                    "accept function");
     test.done();
   },  

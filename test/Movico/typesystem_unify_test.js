@@ -33,9 +33,9 @@ exports['typesystem_unify'] = {
   "Unify native": function (test) {
       test.expect(1);
       // Test
-      var aTypeChecker = typesystem(entities());  
+      var aTypeSystem = typesystem(entities());  
 
-      test.ok(aTypeChecker.unify([], ast.type.native('int'), ast.type.native('int')).isPresent,
+      test.ok(aTypeSystem.unify([], ast.type.native('int'), ast.type.native('int')).isPresent,
               "Unifying native");
       test.done();
   },
@@ -43,19 +43,19 @@ exports['typesystem_unify'] = {
   "Unify variable and native": function (test) {
       test.expect(1);
       // Test
-      var aTypeChecker = typesystem(entities()),
+      var aTypeSystem = typesystem(entities()),
           variable = ast.type.variable("a");
 
-      test.ok(aTypeChecker.unify([], variable, ast.type.native("int")).isPresent(), "Unifying model");
+      test.ok(aTypeSystem.unify([], variable, ast.type.native("int")).isPresent(), "Unifying model");
       test.done();
   },
     
   "Unify model": function (test) {
       test.expect(1);
       // Test
-      var aTypeChecker = typesystem(entities());  
+      var aTypeSystem = typesystem(entities());  
 
-      test.ok(aTypeChecker.unify([], ast.model('a',[]), ast.model('a',[])).isPresent(),
+      test.ok(aTypeSystem.unify([], ast.model('a',[]), ast.model('a',[])).isPresent(),
               "Unifying model");
       test.done();
   },
@@ -63,9 +63,9 @@ exports['typesystem_unify'] = {
   "Unify pairs": function (test) {
       test.expect(1);
       // Test
-      var aTypeChecker = typesystem(entities());  
+      var aTypeSystem = typesystem(entities());  
 
-      test.ok(aTypeChecker.unify([],
+      test.ok(aTypeSystem.unify([],
                                  ast.type.pair(ast.type.native('int'),ast.type.native('string')),
                                  ast.type.pair(ast.type.native('int'),ast.type.native('string'))).isPresent(),
               "Unifying pair");
@@ -75,9 +75,9 @@ exports['typesystem_unify'] = {
   "Unify function": function (test) {
       test.expect(1);
       // Test
-      var aTypeChecker = typesystem(entities());  
+      var aTypeSystem = typesystem(entities());  
 
-      test.ok(aTypeChecker.unify([],
+      test.ok(aTypeSystem.unify([],
                                  ast.type.abstraction(ast.type.native('int'),ast.type.native('string')),
                                  ast.type.abstraction(ast.type.native('int'),ast.type.native('string'))).isPresent(),
               "Unifying pair");

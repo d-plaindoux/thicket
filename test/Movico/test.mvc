@@ -40,7 +40,7 @@ class Person this:PersonModel {
 
 class Population this:[Person] {
     persons = [p for p in this if p.age leq 100]
-    addPerson p:(string,string) = (self(this.add APerson{p._1 p._2 0}))
+    addPerson p:(string,string) = (self (this.add APerson{p._1 p._2 0}))
 }
 
 // --------------------------------------------------------------------

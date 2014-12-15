@@ -69,10 +69,6 @@ exports['types'] = {
       test.deepEqual(types.freeVariables(ast.type.pair(ast.type.variable("a"),ast.type.variable("b"))), ["a","b"], "Not empty free variables");
       test.done();
   },
-
-  // Substitution
-    
-
     
 };
  

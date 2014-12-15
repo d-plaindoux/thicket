@@ -33,9 +33,9 @@ exports['typesystem_prune'] = {
   "Pruning native": function (test) {
       test.expect(1);
       // Test
-      var aTypeChecker = typesystem(entities());  
+      var aTypeSystem = typesystem(entities());  
 
-      test.deepEqual(aTypeChecker.prune([], ast.type.native('int')),
+      test.deepEqual(aTypeSystem.prune([], ast.type.native('int')),
                      ast.type.native('int'), 
                      "Pruning native return native");
       test.done();
@@ -44,9 +44,9 @@ exports['typesystem_prune'] = {
   "Pruning array of native": function (test) {
       test.expect(1);
       // Test
-      var aTypeChecker = typesystem(entities());  
+      var aTypeSystem = typesystem(entities());  
 
-      test.deepEqual(aTypeChecker.prune([], ast.type.array(ast.type.native('int'))), 
+      test.deepEqual(aTypeSystem.prune([], ast.type.array(ast.type.native('int'))), 
                      ast.type.array(ast.type.native('int')), 
                      "Pruning arrayr of native return array of native");
       test.done();
@@ -55,9 +55,9 @@ exports['typesystem_prune'] = {
   "Pruning pair of native": function (test) {
       test.expect(1);
       // Test
-      var aTypeChecker = typesystem(entities());  
+      var aTypeSystem = typesystem(entities());  
 
-      test.deepEqual(aTypeChecker.prune([], ast.type.pair(ast.type.native('int'),ast.type.native('string'))), 
+      test.deepEqual(aTypeSystem.prune([], ast.type.pair(ast.type.native('int'),ast.type.native('string'))), 
                      ast.type.pair(ast.type.native('int'),ast.type.native('string')),
                      "Pruning pair of native return pair of native");
       test.done();
@@ -66,9 +66,9 @@ exports['typesystem_prune'] = {
   "Pruning function of native": function (test) {
       test.expect(1);
       // Test
-      var aTypeChecker = typesystem(entities());  
+      var aTypeSystem = typesystem(entities());  
 
-      test.deepEqual(aTypeChecker.prune([], ast.type.abstraction(ast.type.native('int'),ast.type.native('string'))), 
+      test.deepEqual(aTypeSystem.prune([], ast.type.abstraction(ast.type.native('int'),ast.type.native('string'))), 
                      ast.type.abstraction(ast.type.native('int'),ast.type.native('string')),
                      "Pruning function of native return function of native");
       test.done();
@@ -77,9 +77,9 @@ exports['typesystem_prune'] = {
   "Pruning free variable": function (test) {
       test.expect(1);
       // Test
-      var aTypeChecker = typesystem(entities());  
+      var aTypeSystem = typesystem(entities());  
 
-      test.deepEqual(aTypeChecker.prune([],ast.type.variable("a")), 
+      test.deepEqual(aTypeSystem.prune([],ast.type.variable("a")), 
                      ast.type.variable("a"),
                      "Pruning free variable return free variable");
       test.done();
@@ -88,9 +88,9 @@ exports['typesystem_prune'] = {
   "Pruning bound variable": function (test) {
       test.expect(1);
       // Test
-      var aTypeChecker = typesystem(entities());  
+      var aTypeSystem = typesystem(entities());  
 
-      test.deepEqual(aTypeChecker.prune([pair("a",ast.type.native('int'))], ast.type.variable("a")), 
+      test.deepEqual(aTypeSystem.prune([pair("a",ast.type.native('int'))], ast.type.variable("a")), 
                      ast.type.native("int"),
                      "Pruning bound variable return reference");
       test.done();

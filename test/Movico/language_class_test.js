@@ -91,5 +91,19 @@ exports['language_class'] = {
                    "accept a controller");
     test.done();
   },
+        
+  'controller with a generic functional behavior is accepted and provided': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("class Address this: Address { number 'a x:'a = x }");        
+    test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
+                   ast.controller('Address', [],
+                                  ast.param('this', ast.type.variable('Address')), 
+                                  [ ast.method('number', ast.expr.forall("'a", 
+                                                                         ast.expr.abstraction(ast.param("x", ast.type.variable("'a")), 
+                                                                                              ast.expr.ident("x")))) ]) , 
+                   "accept a controller");
+    test.done();
+  },
 
 };
