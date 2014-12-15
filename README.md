@@ -45,15 +45,15 @@ a given model.
 
 ```
 class Person this:APerson {
-  firstname = this.firstname
-  name = this.name
-  age = this.age
-  tick = (self(this.age(this.age+1)))
+  def firstname = this.firstname
+  def name = this.name
+  def age = this.age
+  def tick = self(this.age(this.age+1))
 }
 
 class Population this:[APerson] {
-  persons () = [p for p in this if p.age < 100]
-  addPerson p:(string,string) = (self APerson{p._1 p._2 0})
+  def persons () = [p for p in this if p.age < 100]
+  def addPerson p:(string,string) = self APerson{p._1 p._2 0}
 }
 ```
 
