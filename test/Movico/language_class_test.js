@@ -73,7 +73,7 @@ exports['language_class'] = {
   'controller with a constant behavior is accepted and provided': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("class Address this:Address { number = 123 }");        
+    var aStream = stream("class Address this:Address { def number = 123 }");        
     test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
                    ast.controller('Address', [], ast.param('this',ast.type.variable('Address')), [ ast.method('number', ast.expr.number(123)) ]) , 
                    "accept a controller");
@@ -83,7 +83,7 @@ exports['language_class'] = {
   'controller with a functional behavior is accepted and provided': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("class Address this: Address { number () = 123 }");        
+    var aStream = stream("class Address this: Address { def number () = 123 }");        
     test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
                    ast.controller('Address', [],
                                   ast.param('this', ast.type.variable('Address')), 
@@ -95,7 +95,7 @@ exports['language_class'] = {
   'controller with a generic functional behavior is accepted and provided': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("class Address this: Address { number 'a x:'a = x }");        
+    var aStream = stream("class Address this: Address { def number 'a x:'a = x }");        
     test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
                    ast.controller('Address', [],
                                   ast.param('this', ast.type.variable('Address')), 

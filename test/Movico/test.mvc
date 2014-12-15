@@ -32,15 +32,15 @@ view Population this:Population {
 }
 
 class Person this:PersonModel {
-    firstname = this.firstname
-    name = this.name
-    age = this.age
-    tick = (self(this.age(this.age add 1)))
+    def firstname = this.firstname
+    def name = this.name
+    def age = this.age
+    def tick = self(this.age(this.age add 1))
 } 
 
 class Population this:[Person] {
-    persons = [p for p in this if p.age leq 100]
-    addPerson p:(string,string) = (self (this.add APerson{p._1 p._2 0}))
+    def persons = [p for p in this if p.age leq 100]
+    def addPerson p:(string,string) = self (this.add APerson{p._1 p._2 0})
 }
 
 // --------------------------------------------------------------------
@@ -52,8 +52,8 @@ model TodoModel {
 }
 
 class Todos this:[TodoModel] {
-    new = fun s:string => (self (this.add Todo{s}))
-    todos = this
+    def new = fun s:string => (self (this.add Todo{s}))
+    def todos = this
 }
 
 view TodosView this: Todos {
@@ -65,4 +65,12 @@ view TodoAdder this: Todos {
         <input type="text" id="todo"/>
         <input type="submit" value="Add"/>
     </form>
+}
+
+// Generic class
+
+class List 'a this:['a] {
+    def empty = (equals this.length 0)
+    def map 'b f:'a -> 'b = [ f a for a in this ]
+    def filter f:'a -> bool = [ a for a in this if f a ]
 }
