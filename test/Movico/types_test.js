@@ -69,6 +69,19 @@ exports['types'] = {
       test.deepEqual(types.freeVariables(ast.type.pair(ast.type.variable("a"),ast.type.variable("b"))), ["a","b"], "Not empty free variables");
       test.done();
   },
+
+  "Polymorphic type without freevae": function (test) {
+      test.expect(1);
+      // Test
+      test.deepEqual(types.freeVariables(ast.type.forall("a",ast.type.variable("a"))), [], "Empty free variables");
+      test.done();
+  },
     
+  "Polymorphic type with freevae": function (test) {
+      test.expect(1);
+      // Test
+      test.deepEqual(types.freeVariables(ast.type.forall("a",ast.type.abstraction(ast.type.variable("a"),ast.type.variable("b")))), ["b"], "Not empty free variables");
+      test.done();
+  },    
 };
  
