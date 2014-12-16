@@ -41,6 +41,20 @@ exports['lists'] = {
     test.done();
   },
 
+  'contained element in list': function(test) {
+    test.expect(1);
+    // tests here  
+    test.equal(list(1,2,3).contains(1), true, 'should contains 1.');
+    test.done();
+  },
+
+  'not contained element in list': function(test) {
+    test.expect(1);
+    // tests here  
+    test.equal(list(1,2,3).contains(0), false, 'should not contains 0.');
+    test.done();
+  },
+
   'map integer list': function(test) {
     test.expect(1);
     // tests here  
@@ -51,7 +65,7 @@ exports['lists'] = {
   'flatmap integer list': function(test) {
     test.expect(1);
     // tests here  
-    test.deepEqual(list(1,2,3).flatmap(function (v) { return [v,v+1]; }), list(1,2,2,3,3,4), 'should flatmap.');
+    test.deepEqual(list(1,2,3).flatmap(function (v) { return list(v,v+1); }), list(1,2,2,3,3,4), 'should flatmap.');
     test.done();
   },
 
