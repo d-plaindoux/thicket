@@ -17,7 +17,7 @@ view PersonView this:Person {
 }
  
 view NewPerson this:Population {
-    let onSubmit () = (this.addPerson (self.firstname,self.name)) in
+    let onSubmit () = this.addPerson (self.firstname,self.name) in
         <form onSubmit=(onSubmit())>
             <input type="text" id="firstname"/>
             <input type="text" id="name"/>
@@ -52,7 +52,7 @@ model TodoModel {
 }
 
 class Todos this:[TodoModel] {
-    def new = fun s:string => (self (this.add Todo{s}))
+    def new = fun s:string => self (this.add Todo{s})
     def todos = this
 }
 
@@ -67,10 +67,12 @@ view TodoAdder this: Todos {
     </form>
 }
 
+// --------------------------------------------------------------------
 // Generic class
+// --------------------------------------------------------------------
 
 class List 'a this:['a] {
-    def empty = (equals this.length 0)
-    def map 'b f:'a -> 'b = [ f a for a in this ]
-    def filter f:'a -> bool = [ a for a in this if f a ]
+    def empty = equals this.length 0
+    def map 'b f:'a -> 'b = self [ f a for a in this ]        
+    def filter f:'a -> bool = self [ a for a in this if f a ]
 }

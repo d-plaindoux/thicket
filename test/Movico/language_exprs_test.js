@@ -193,11 +193,11 @@ exports['language_exprs'] = {
   'let definition function with an int is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("let f x:int = 1 in x");
+    var aStream = stream("let f x:int = 1 in f x");
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
                    ast.expr.let('f', ast.expr.abstraction(ast.param("x",ast.type.native("int")), ast.expr.number(1)), 
-                                ast.expr.ident('x')),
+                                ast.expr.application(ast.expr.ident('f'),ast.expr.ident('x'))),
                    "accept a let definition");
     test.done();
   },  

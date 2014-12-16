@@ -24,13 +24,7 @@ types     ::= type "," types
 
 ----------------------------------------------------------------------
 
-typeDef   ::= "type" IDENT = IDENT ("|" IDENT)+
-
-----------------------------------------------------------------------
-
-classDef  ::= "class" TIDENT* IDENT param "{" methods "}"
-
-methods   ::= (("case" IDENT)? method)*
+classDef  ::= "class" TIDENT* IDENT param "{" method* "}"
 
 method    ::= "def" IDENT "=" expr
             | "def" IDENT "(" ")" "=" expr
@@ -50,8 +44,8 @@ sexpr     ::= NUMBER
             | "<" IDENT attr* "/>"
             | "[" exprs ("for" IDENT "in" exprs)+ ("if" exprs)? "]"
             | IDENT "{" expr* "}"
-            | "let" IDENT ("(" ")"| TIDENT* param+)? "=" expr "in" expr
-            | "fun" "(" ")"| TIDENT* param+ => expr
+            | "let" IDENT ("(" ")"| TIDENT* param+)? "=" exprs "in" exprs
+            | "fun" "(" ")"| TIDENT* param+ => exprs
             
 attr      ::= IDENT "=" expr
 
