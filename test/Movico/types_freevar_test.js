@@ -24,7 +24,7 @@ var types = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/type
     test.ifError(value)
 */
 
-exports['types'] = {
+exports['types_freevar'] = {
   setUp: function(done) {
     done();
   },

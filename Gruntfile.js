@@ -35,14 +35,30 @@ module.exports = function(grunt) {
         tasks: ['jshint:test', 'nodeunit']
       },
     },
+    pkg: grunt.file.readJSON('package.json'),
+    concat: {
+        options: {
+            stripBanners: true,
+            banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
+                    '<%= grunt.template.today("yyyy-mm-dd") %> */\n' +
+                    '(function () {\n',
+            footer: '\n}());\n'
+        },
+        dist: {
+            src: ['lib/**/*.js'],
+            dest: 'dist/built.js',
+        },
+    }      
   });
 
   // These plugins provide necessary tasks.
+  grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');  
   
   // Tasks
-  grunt.registerTask('default', ['jshint', 'nodeunit']);
+  grunt.registerTask('package', ['jshint', 'concat:dist']);
+  grunt.registerTask('default', ['jshint', 'concat:dist', 'nodeunit']);
 };
 
