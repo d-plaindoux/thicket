@@ -1,10 +1,10 @@
 'use strict';
 
-var typesystem = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/typesystem.js').typesystem,
-    entities = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/entities.js').entities,
+var expression = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/expressions.js').expressions,
     ast = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/ast.js').ast,
-    pair = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/pair.js').pair;
-    
+    pair = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/pair.js').pair,
+    list = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/list.js').list;    
+
 /*
   ======== A Handy Little Nodeunit Reference ========
   https://github.com/caolan/nodeunit
@@ -25,28 +25,29 @@ var typesystem = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico
     test.ifError(value)
 */
 
-exports['typesystem_freshtype'] = {
+exports['entities'] = {
   setUp: function(done) {
     done();
   },
-  
-  "Fresh native is native": function (test) {
+
+  "Analyse Number": function (test) {
       test.expect(1);
-      
       // Test
-      var aTypeSystem = typesystem(entities());  
-      
-      test.deepEqual(aTypeSystem.freshType([], ast.type.native('int')), ast.type.native('int'));
+      var anExpression  = ast.expr.number(1);
+      test.deepEqual(expression.analyse(list(), anExpression).success(), 
+                     pair(list(),ast.type.native('number')), 
+                     "Must be number");
       test.done();
   },
-  
-  "Fresh variable is a new variable": function (test) {
+    
+    
+  "Analyse String": function (test) {
       test.expect(1);
-      
       // Test
-      var aTypeSystem = typesystem(entities()),  
-          variable = aTypeSystem.freshType([pair('a','b')], ast.type.variable('a'));
-      test.deepEqual(variable, ast.type.variable('b'));
+      var anExpression  = ast.expr.string("1");
+      test.deepEqual(expression.analyse(list(), anExpression).success(), 
+                     pair(list(),ast.type.native('string')), 
+                     "Must be string");
       test.done();
-  }
+  },
 };
