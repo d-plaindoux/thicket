@@ -63,7 +63,7 @@ exports['entities'] = {
       test.expect(1);
       // Test
       var anExpression  = ast.expr.ident("a");
-      test.deepEqual(expression.analyse(list(pair("a", ast.type.native("string"))), anExpression).success(),
+      test.deepEqual(expression.analyse(list(ast.param("a", ast.type.native("string"))), anExpression).success(),
                      pair(list(), ast.type.native("string")),
                      "Must be string");
       test.done();
