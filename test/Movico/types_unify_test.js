@@ -38,6 +38,15 @@ exports['types_freevar'] = {
               "Unify native");
       test.done();
   },
+
+  "Unify failure native & native": function (test) {
+      test.expect(1);
+      // Test
+      test.ok(types.unify(ast.type.native("a"),
+                          ast.type.native("b")).isFailure(), 
+              "Unify failure native");
+      test.done();
+  },
     
   "Unify variable & native": function (test) {
       test.expect(1);
@@ -88,6 +97,15 @@ exports['types_freevar'] = {
       test.done();
   },
     
+  "Unify failure array native & array native": function (test) {
+      test.expect(1);
+      // Test
+      test.ok(types.unify(ast.type.array(ast.type.native("a")),
+                          ast.type.array(ast.type.native("b"))).isFailure(), 
+              "Unify failure array native & array native");
+      test.done();
+  },
+        
   "Unify array variable & array native": function (test) {
       test.expect(1);
       // Test
@@ -118,12 +136,21 @@ exports['types_freevar'] = {
       test.done();
   },
     
-  "Unify pair native & pair native": function (test) {
+  "Unify failure pair first native & pair native": function (test) {
       test.expect(1);
       // Test
       test.ok(types.unify(ast.type.pair(ast.type.native("a"),ast.type.native("b")),
-                          ast.type.pair(ast.type.native("a"),ast.type.native("b"))).success().isEmpty(), 
-              "Unify pair native & pair native");
+                          ast.type.pair(ast.type.native("b"),ast.type.native("b"))).isFailure(),
+              "Unify failure pair native & pair native");
+      test.done();
+  },
+    
+  "Unify failure pair second native & pair native": function (test) {
+      test.expect(1);
+      // Test
+      test.ok(types.unify(ast.type.pair(ast.type.native("a"),ast.type.native("b")),
+                          ast.type.pair(ast.type.native("a"),ast.type.native("a"))).isFailure(), 
+              "Unify failure pair native & pair native");
       test.done();
   },
     
@@ -132,7 +159,7 @@ exports['types_freevar'] = {
       // Test
       test.deepEqual(types.unify(ast.type.pair(ast.type.variable("b"),ast.type.variable("a")),
                                  ast.type.pair(ast.type.native("a"),ast.type.native("b"))).success(), 
-                     list(pair("b",ast.type.native("a")), pair("a",ast.type.native("b"))),
+                     list(pair("a",ast.type.native("b")), pair("b",ast.type.native("a"))),
                      "Unify pair native & pair native");
       test.done();
   },
@@ -142,7 +169,7 @@ exports['types_freevar'] = {
       // Test
       test.deepEqual(types.unify(ast.type.pair(ast.type.native("b"),ast.type.native("a")),
                                  ast.type.pair(ast.type.variable("a"),ast.type.variable("b"))).success(), 
-                     list(pair("a",ast.type.native("b")), pair("b",ast.type.native("a"))),
+                     list(pair("b",ast.type.native("a")),pair("a",ast.type.native("b"))),
                      "Unify pair native & pair native");
       test.done();
   },
@@ -165,15 +192,23 @@ exports['types_freevar'] = {
               "Unify function native & function native");
       test.done();
   },
-
+    
+  "Unify function failure native & function native": function (test) {
+      test.expect(1);
+      // Test
+      test.ok(types.unify(ast.type.abstraction(ast.type.native("a"),ast.type.native("b")),
+                          ast.type.abstraction(ast.type.native("b"),ast.type.native("a"))).isFailure(), 
+              "Unify function native & function native");
+      test.done();
+  },
     
   "Unify function variable & function native": function (test) {
       test.expect(1);
       // Test
       test.deepEqual(types.unify(ast.type.abstraction(ast.type.variable("b"),ast.type.variable("a")),
                                  ast.type.abstraction(ast.type.native("a"),ast.type.native("b"))).success(), 
-                     list(pair("b",ast.type.native("a")), pair("a",ast.type.native("b"))),
-                     "Unify pair native & pair native");
+                     list(pair("a",ast.type.native("b")),pair("b",ast.type.native("a"))),
+                     "Unify function variable & function native");
       test.done();
   },
     
@@ -182,10 +217,30 @@ exports['types_freevar'] = {
       // Test
       test.deepEqual(types.unify(ast.type.abstraction(ast.type.native("b"),ast.type.native("a")),
                                  ast.type.abstraction(ast.type.variable("a"),ast.type.variable("b"))).success(), 
-                     list(pair("a",ast.type.native("b")), pair("b",ast.type.native("a"))),
-                     "Unify pair native & pair native");
+                     list(pair("b",ast.type.native("a")),pair("a",ast.type.native("b"))),
+                     "Unify function native & function variable");
       test.done();
   },  
+    
+  "Unify function with required subtitution": function (test) {
+      test.expect(1);
+      // Test
+      test.deepEqual(types.unify(ast.type.abstraction(ast.type.native("b"),ast.type.variable("a")),
+                                 ast.type.abstraction(ast.type.variable("a"),ast.type.native("b"))).success(), 
+                     list(pair("a",ast.type.native("b"))),
+                     "Unify with substitution");
+      test.done();
+  },  
+    
+  "Unify failure function with required substitution": function (test) {
+      test.expect(1);
+      // Test
+      test.ok(types.unify(ast.type.abstraction(ast.type.native("b"),ast.type.variable("a")),
+                          ast.type.abstraction(ast.type.variable("a"),ast.type.native("c"))).isFailure(), 
+              "Unify failure function native & function native");
+      test.done();
+  },  
+    
     
 };
  
