@@ -40,7 +40,6 @@ exports['entities'] = {
       test.done();
   },
     
-    
   "Analyse String": function (test) {
       test.expect(1);
       // Test
@@ -48,6 +47,36 @@ exports['entities'] = {
       test.deepEqual(expression.analyse(list(), anExpression).success(), 
                      pair(list(),ast.type.native('string')), 
                      "Must be string");
+      test.done();
+  },
+    
+  "Analyse free variable": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression  = ast.expr.ident("a");
+      test.ok(expression.analyse(list(), anExpression).isFailure(),
+              "Must be unbound");
+      test.done();
+  },
+    
+  "Analyse bound variable": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression  = ast.expr.ident("a");
+      test.deepEqual(expression.analyse(list(pair("a", ast.type.native("string"))), anExpression).success(),
+                     pair(list(), ast.type.native("string")),
+                     "Must be string");
+      test.done();
+  },
+
+    
+  "Analyse Native pair": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression  = ast.expr.pair(ast.expr.number('1'), ast.expr.string('a'));
+      test.deepEqual(expression.analyse(list(), anExpression).success(), 
+                     pair(list(),ast.type.pair(ast.type.native('number'), ast.type.native('string'))), 
+                     "Must be (int,string)");
       test.done();
   },
 };
