@@ -3,7 +3,7 @@
 var expression = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/expressions.js').expressions,
     ast = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/ast.js').ast,
     pair = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/pair.js').pair,
-    list = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/list.js').list;    
+    list = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/list.js').list;
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -36,7 +36,7 @@ exports['entities'] = {
       var anExpression  = ast.expr.unit();
       test.deepEqual(expression.analyse(list(), list(), anExpression).success(), 
                      pair(list(),ast.type.native('unit')), 
-                     "Must be number");
+                     "Must be unit");
       test.done();
   },
     
@@ -145,6 +145,47 @@ exports['entities'] = {
       test.deepEqual(expression.analyse(list(), list(), anExpression).success(), 
                      pair(list(),ast.type.forall("b", ast.type.abstraction(ast.type.variable("b"),ast.type.variable("b")))),
                      "Must be (int -> string)");
+      test.done();
+  },
+    
+  "Analyse let string expression": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression = ast.expr.let("a",ast.expr.string("b"),ast.expr.ident("a"));
+      test.deepEqual(expression.analyse(list(), list(), anExpression).success(), 
+                     pair(list(), ast.type.native("string")),
+                     "Must be (string)");
+      test.done();
+  },
+    
+  "Analyse let variable expression": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression = ast.expr.let("a",ast.expr.ident("b"),ast.expr.ident("a"));
+      test.deepEqual(expression.analyse(list("c"), list(pair("b",ast.type.variable("c"))), anExpression).success(), 
+                     pair(list(), ast.type.variable("c")),
+                     "Must be (c)");
+      test.done();
+  },
+    
+  "Analyse let generalizable variable expression": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression = ast.expr.let("a",ast.expr.forall("c",ast.expr.ident("b")),ast.expr.ident("a"));
+      test.deepEqual(expression.analyse(list(), list(pair("b",ast.type.variable("c"))), anExpression).success(), 
+                     pair(list(), ast.type.forall("c",ast.type.variable("c"))),
+                     "Must be (c)");
+      test.done();
+  },
+    
+  "Analyse application variable expression": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression = ast.expr.application(ast.expr.abstraction(ast.param("a",ast.type.native("number")),ast.expr.ident("a")),
+                                              ast.expr.number(12));
+      test.deepEqual(expression.analyse(list(), list(), anExpression).success(), 
+                     pair(list(), ast.type.native("number")),
+                     "Must be (number)");
       test.done();
   },
 };
