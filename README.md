@@ -5,14 +5,14 @@ Movico
 [![Coverage Status](https://coveralls.io/repos/d-plaindoux/movico/badge.png?branch=master)](https://coveralls.io/r/d-plaindoux/movico?branch=master) 
 [![experimental](http://badges.github.io/stability-badges/dist/experimental.svg)](http://github.com/badges/stability-badges)
 
-Movico is a language based on Model, Controller and  View  approach.  
-In  this  approach a model denotes  a  set of  data  (atomic  or  object)  
-federated in  a  named structure. A controller is a set of behaviors applied 
-to a given object and finally  a  view  denotes  an   extended  DOM  
+Movico is a language based on Model, Controller and View approach.  In
+this  approach  a model  denotes  a set  of  data  (atomic or  object)
+federated in  a named  structure. A controller  is a set  of behaviors
+applied to a  given object and finally a view  denotes an extended DOM
 fragment used for UI management.
 
-Movico is a strong typed language based on well known Hindley-Milner type
-system and type inference paradigm. 
+Movico is a  strong typed language based on  well known Hindley-Milner
+type system and type inference paradigm.
 
 Language Overview
 =================
