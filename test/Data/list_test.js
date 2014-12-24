@@ -1,6 +1,7 @@
 'use strict';
 
-var list = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/list.js').list;
+var list = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/list.js').list,
+    pair = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/pair.js').pair;
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -82,4 +83,18 @@ exports['lists'] = {
     test.deepEqual(list(1,2,3).foldL(0, function (a,v) { return v + "" + a; }), "3210", 'should foldL.');
     test.done();
   },
+
+  'Zip list 1': function(test) {
+    test.expect(1);
+    // tests here  
+    test.deepEqual(list(1,2,3).zipWith(list('a','b')), list(pair(1,'a'), pair(2,'b')), 'should zip.');
+    test.done();
+  },
+
+  'Zip list 2': function(test) {
+    test.expect(1);
+    // tests here  
+    test.deepEqual(list(1,2).zipWith(list('a','b','c')), list(pair(1,'a'), pair(2,'b')), 'should zip.');
+    test.done();
+  }    
 };
