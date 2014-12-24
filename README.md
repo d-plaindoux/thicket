@@ -96,6 +96,12 @@ view PopulationView this:Population {
 }
 ```
 
+Foundations
+===========
+
+Movico is a strong typed language based on well known Hindley-Milner type
+system.
+
 More informations and References
 ================================
 
