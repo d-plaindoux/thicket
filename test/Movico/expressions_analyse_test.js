@@ -188,4 +188,50 @@ exports['entities'] = {
                      "Must be (number)");
       test.done();
   },
+    
+  "Analyse instance with undefined model": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression = ast.expr.instance("A",[]);
+      test.ok(expression.analyse(list(), list(), anExpression).isFailure(), 
+              "Model not found");
+      test.done();
+  },
+    
+  "Analyse instance with not a model": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression = ast.expr.instance("A",[]);
+      test.ok(expression.analyse(list(), list(pair("A",ast.type.native('int'))), anExpression).isFailure(), 
+              "Model not found");
+      test.done();
+  },
+    
+  "Analyse instance with less arguments than required by the model": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression = ast.expr.instance("A",[]);
+      test.ok(expression.analyse(list(), list(pair("A",ast.model("A",[],[ast.param("x",ast.type.native("number"))]))), anExpression).isFailure(),
+              "Model not found");
+      test.done();
+  },
+    
+  "Analyse instance with more arguments than required by the model": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression = ast.expr.instance("A",[ast.expr.number(1)]);
+      test.ok(expression.analyse(list(), list(pair("A",ast.model("A",[],[]))), anExpression).isFailure(), 
+              "Model not found");
+      test.done();
+  },
+    
+  "Analyse instance with a model": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression = ast.expr.instance("A",[]);
+      test.deepEqual(expression.analyse(list(), list(pair("A",ast.model("A",[],[]))), anExpression).success(), 
+                     pair(list(), ast.model("A",[],[])),
+                     "Model not found");
+      test.done();
+  },
 };
