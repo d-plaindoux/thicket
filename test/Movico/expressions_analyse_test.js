@@ -246,13 +246,34 @@ exports['entities'] = {
       test.done();
   },
         
+  "Analyse instance with two arguments required by the model": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression = ast.expr.instance("A",[ast.expr.number(1),ast.expr.string("1")]),
+          aModel = ast.model("A",[],[ast.param("x",ast.type.native("number")),ast.param("x",ast.type.native("string"))]);
+      test.deepEqual(expression.analyse(list(), list(pair("A",aModel)), anExpression).success(),
+                     pair(list(), aModel),
+                     "Model found");
+      test.done();
+  },
+        
   "Analyse instance with one wrong argument required by the model": function (test) {
       test.expect(1);
       // Test
       var anExpression = ast.expr.instance("A",[ast.expr.number(1)]),
           aModel = ast.model("A",[],[ast.param("x",ast.type.native("string"))]);
       test.ok(expression.analyse(list(), list(pair("A",aModel)), anExpression).isFailure(), 
-              "Model found by not compatible");
+              "Model found with incompatible argument");
+      test.done();
+  },
+        
+  "Analyse instance with two wrong arguments required by the model": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression = ast.expr.instance("A",[ast.expr.string("1"),ast.expr.number(1)]),
+          aModel = ast.model("A",[],[ast.param("x",ast.type.native("number")),ast.param("x",ast.type.native("string"))]);
+      test.ok(expression.analyse(list(), list(pair("A",aModel)), anExpression).isFailure(),
+             "Model found with incompatible argument");
       test.done();
   },
 
