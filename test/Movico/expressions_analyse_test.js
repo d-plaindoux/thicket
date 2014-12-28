@@ -288,7 +288,7 @@ exports['entities'] = {
       test.done();
   },
         
-  "Analyse invoke a the controller": function (test) {
+  "Analyse invoke a controller": function (test) {
       test.expect(1);
       // Test
       var anExpression = ast.expr.invoke(ast.expr.ident("A"),"x"),
@@ -296,7 +296,74 @@ exports['entities'] = {
                                        [ast.method("x",ast.expr.number(1)).setType(ast.type.native('number'))]);
       test.deepEqual(expression.analyse(list(), list(pair("A",aController)), anExpression).success(),
                      pair(list(), ast.type.native('number')),
-                     "Model invocation");
+                     "Controller invocation");
+      test.done();
+  },
+        
+  "Analyse simple tag": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression = ast.expr.tag("A",[],[]);
+      test.deepEqual(expression.analyse(list(), list(), anExpression).success(),
+                     pair(list(), ast.type.native('XML')),
+                     "Simple Tag");
+      test.done();
+  },
+        
+  "Analyse simple tag with one attribute": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression = ast.expr.tag("A",[["a",ast.expr.string("a")]],[]);
+      test.deepEqual(expression.analyse(list(), list(), anExpression).success(),
+                     pair(list(), ast.type.native('XML')),
+                     "Simple Tag with one attribute");
+      test.done();
+  },
+        
+  "Analyse simple tag with one attribute but not a string": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression = ast.expr.tag("A",[["a",ast.expr.number(1)]],[]);
+      test.ok(expression.analyse(list(), list(), anExpression).failure(),
+              "Simple Tag with one attribute but not a string");
+      test.done();
+  },
+        
+  "Analyse simple tag with one attribute fails": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression = ast.expr.tag("A",[["a",ast.expr.ident("a")]],[]);
+      test.ok(expression.analyse(list(), list(), anExpression).isFailure(),
+              "Simple Tag with failing attribute");
+      test.done();
+  },
+        
+  "Analyse tag with one embedded tag": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression = ast.expr.tag("A",[],[ast.expr.tag("B",[],[])]);
+      test.deepEqual(expression.analyse(list(), list(), anExpression).success(),
+                     pair(list(), ast.type.native('XML')),
+                     "Tag containing Tag");
+      test.done();
+  },
+        
+  "Analyse tag with one embedded string": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression = ast.expr.tag("A",[],[ast.expr.string("a")]);
+      test.deepEqual(expression.analyse(list(), list(), anExpression).success(),
+                     pair(list(), ast.type.native('XML')),
+                     "Tag containing Tag");
+      test.done();
+  },
+   
+  "Analyse tag with one embedded model": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression = ast.expr.tag("A",[],[ast.expr.number(1)]);
+      test.ok(expression.analyse(list(), list(), anExpression).isFailure(),
+              "Tag containing number");
       test.done();
   },
 
