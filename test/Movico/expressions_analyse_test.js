@@ -276,5 +276,28 @@ exports['entities'] = {
              "Model found with incompatible argument");
       test.done();
   },
+        
+  "Analyse invoke a the model": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression = ast.expr.invoke(ast.expr.ident("A"),"x"),
+          aModel = ast.model("A",[],[ast.param("x",ast.type.native("number")),ast.param("x",ast.type.native("string"))]);
+      test.deepEqual(expression.analyse(list(), list(pair("A",aModel)), anExpression).success(),
+                     pair(list(), ast.type.native('number')),
+                     "Model invocation");
+      test.done();
+  },
+        
+  "Analyse invoke a the controller": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression = ast.expr.invoke(ast.expr.ident("A"),"x"),
+          aController = ast.controller("A",[],ast.param("this",ast.type.native("number")),
+                                       [ast.method("x",ast.expr.number(1)).setType(ast.type.native('number'))]);
+      test.deepEqual(expression.analyse(list(), list(pair("A",aController)), anExpression).success(),
+                     pair(list(), ast.type.native('number')),
+                     "Model invocation");
+      test.done();
+  },
 
 };
