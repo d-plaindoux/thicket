@@ -358,7 +358,7 @@ exports['entities'] = {
       test.done();
   },
    
-  "Analyse tag with one embedded model": function (test) {
+  "Analyse tag with one embedded number": function (test) {
       test.expect(1);
       // Test
       var anExpression = ast.expr.tag("A",[],[ast.expr.number(1)]);
