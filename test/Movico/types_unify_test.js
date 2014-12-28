@@ -241,6 +241,21 @@ exports['types_freevar'] = {
       test.done();
   },  
     
+  "Unify cyclic dependency": function (test) {
+      test.expect(1);
+      // Test
+      test.ok(types.unify(ast.type.variable("a"), ast.type.array(ast.type.variable("a"))).isFailure(), 
+              "Unify cyclic dependency");
+      test.done();
+  },  
     
+  "Unify same type variable": function (test) {
+      test.expect(1);
+      // Test
+      test.deepEqual(types.unify(ast.type.variable("a"), ast.type.variable("a")).success(), 
+                     list(),
+                     "Unify same type variable");
+      test.done();
+  },      
 };
  
