@@ -352,9 +352,8 @@ exports['entities'] = {
       test.expect(1);
       // Test
       var anExpression = ast.expr.tag("A",[],[ast.expr.string("a")]);
-      test.deepEqual(expression.analyse(list(), list(), anExpression).success(),
-                     pair(list(), ast.type.native('XML')),
-                     "Tag containing Tag");
+      test.ok(expression.analyse(list(), list(), anExpression).isFailure(),
+              "Tag containing String");
       test.done();
   },
    
@@ -366,5 +365,24 @@ exports['entities'] = {
               "Tag containing number");
       test.done();
   },
-
+   
+  "Analyse tag with one embedded variable": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression = ast.expr.tag("A",[],[ast.expr.ident("a")]);
+      test.deepEqual(expression.analyse(list(), list(pair("a",ast.type.variable("a"))), anExpression).success(),
+                     pair(list(pair('a',ast.type.native("XML"))), ast.type.native('XML')),
+                     "Tag containing ident");
+      test.done();
+  },
+   
+  "Analyse tag with one attribute variable": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression = ast.expr.tag("A",[["a",ast.expr.ident("a")]],[]);
+      test.deepEqual(expression.analyse(list(), list(pair("a",ast.type.variable("a"))), anExpression).success(),
+                     pair(list(pair('a',ast.type.native("string"))), ast.type.native('XML')),
+                     "Tag containing ident");
+      test.done();
+  },
 };
