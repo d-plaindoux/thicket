@@ -97,17 +97,38 @@ exports['options'] = {
     test.done();
   },
          
-  'atry success orElse': function(test) {
+  'atry success recoverWith': function(test) {
     test.expect(1);
     // tests here  
-    test.equal(atry.success(1).orElse(2), 1, 'should be success.');
+    test.equal(atry.success(1).recoverWith(2), 1, 'should be success.');
     test.done();
   },
          
-  'atry failure orElse': function(test) {
+  'atry failure recoverWith': function(test) {
     test.expect(1);
     // tests here  
-    test.equal(atry.failure(1).orElse(2), 2, 'should be failure.');
+    test.equal(atry.failure(1).recoverWith(2), 2, 'should be failure.');
+    test.done();
+  },
+         
+  'atry success filter': function(test) {
+    test.expect(1);
+    // tests here  
+    test.equal(atry.success(1).filter(function (v) { return v === 1; }).isSuccess(), true, 'should be success.');
+    test.done();
+  },
+         
+  'atry success wrong filter': function(test) {
+    test.expect(1);
+    // tests here  
+    test.equal(atry.success(1).filter(function (v) { return v === 2; }).isFailure(), true, 'should be failure.');
+    test.done();
+  },
+         
+  'atry failure filter': function(test) {
+    test.expect(1);
+    // tests here  
+    test.equal(atry.failure(1).filter(function (v) { return v === 1; }).isFailure(), true, 'should be failure.');
     test.done();
   },
 

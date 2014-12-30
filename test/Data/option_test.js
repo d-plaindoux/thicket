@@ -79,7 +79,28 @@ exports['options'] = {
   'option not empty or else': function(test) {
     test.expect(1);
     // tests here      
-    test.equal(option.some(12).orElse(14), 12, 'should be empty option.');
+    test.equal(option.some(12).orElse(14), 12, 'should be not empty option.');
+    test.done();
+  },
+    
+  'option empty filter': function(test) {
+    test.expect(1);
+    // tests here      
+    test.equal(option.empty().filter(function (v) { return v === 1;} ).isPresent(), false, 'should be empty option.');
+    test.done();
+  },
+    
+  'option not empty filter': function(test) {
+    test.expect(1);
+    // tests here      
+    test.equal(option.some(12).filter(function (v) { return v === 12; }).get(), 12, 'should be not empty option.');
+    test.done();
+  },
+    
+  'option not empty wrong filter': function(test) {
+    test.expect(1);
+    // tests here      
+    test.equal(option.some(12).filter(function (v) { return v === 13; }).isPresent(), false, 'should be empty option.');
     test.done();
   },
 };
