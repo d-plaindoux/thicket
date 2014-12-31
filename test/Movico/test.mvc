@@ -38,7 +38,7 @@ class Person this:PersonModel {
     def tick = self(this.age(this.age add 1))
 } 
 
-class Population this:(Array Person) {
+class Population this:[Person] {
     def persons = [p for p in this if p.age leq 100]
     def addPerson p:(string,string) = self (this.add APerson{p._1 p._2 0})
 }
@@ -51,7 +51,7 @@ model TodoModel {
     what: string
 }
 
-class Todos this:(Array TodoModel) {
+class Todos this:[TodoModel] {
     def new s:string = self (this.add Todo{s})
     def todos = this
 }
@@ -71,8 +71,55 @@ view TodoAdder this: Todos {
 // Generic class
 // --------------------------------------------------------------------
 
-class List 'a this:(Array 'a) {
+class List 'a this:(List 'a) {
     def empty = equals this.length 0
     def map 'b f:'a -> 'b = self [ f a for a in this ]        
     def filter f:'a -> bool = self [ a for a in this if f a ]
+}
+
+// --------------------------------------------------------------------
+// Pair models
+// --------------------------------------------------------------------
+
+model Pair 'a 'b {
+    _1 : 'a
+    _2 : 'b
+}
+
+// --------------------------------------------------------------------
+// List model
+// --------------------------------------------------------------------
+
+model List 'a {}
+ 
+model Cons 'a : List 'a {
+    head : 'a
+    tail : (Array 'a)
+}
+
+model Nil 'a : List 'a {}
+
+class ListClass 'a this:(List 'a) {
+    def (Cons 'a).map 'b f:'a -> 'b = Cons { (f this.head) ((self this.tail).map f) } 
+    def (Nil 'a).map 'b f:'a -> 'b = Nil {}
+}
+
+// --------------------------------------------------------------------
+// Option model
+// --------------------------------------------------------------------
+
+model Option 'a {}
+
+model Some 'a : Option 'a {
+    _ : 'a
+} 
+
+model None 'a : Options 'a {}
+
+class OptionClass 'a this:(Option 'a) {
+    def (Some 'a).map 'b f:'a -> 'b = Some { f this._ }
+    def (Some 'a).flatmap 'b f:'a -> (Option 'b) = f this._
+
+    def (None 'a).map 'b f:'a -> 'b = Empty {}
+    def (None 'a).flatmap 'b f:'a -> (Option 'b) = Empty {}    
 }

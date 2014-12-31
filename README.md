@@ -59,6 +59,11 @@ class Population this:[APerson] {
 }
 ```
 
+*Notes* about syntactic sugar:
+
+- `[T]` is equivalent to `(Array T)`.
+- `(F,S)` is equivalent to `(Pair F S)`.
+
 Finally  views can  be  designed  and linked  to  controllers. In  the
 example  we   propose  views  dedicated   to  a  `Person`  and   to  a
 `Population`. These  views define  the UI  using HTML  fragments. This
