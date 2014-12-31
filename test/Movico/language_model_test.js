@@ -45,7 +45,8 @@ exports['language_object'] = {
     var aStream = stream("model Address { address } ");
         
     test.equal(language.parser.group('modelDef').parse(aStream).isPresent(), 
-               false , "reject a model");
+               false ,
+               "reject a model");
     test.done();
   },
         
@@ -55,7 +56,8 @@ exports['language_object'] = {
     var aStream = stream("model Address {}");
         
     test.deepEqual(language.parser.group('modelDef').parse(aStream).get(), 
-                   ast.model('Address', [], []) , "accept a model");
+                   ast.model('Address', []) , 
+                   "accept a model");
     test.done();
   },
         
@@ -65,7 +67,10 @@ exports['language_object'] = {
     var aStream = stream("model Address 'a 'b {}");
         
     test.deepEqual(language.parser.group('modelDef').parse(aStream).get(), 
-                   ast.model('Address', ["'a", "'b"], []) , "accept a model");
+                   ast.expr.forall("'a",
+                                   ast.expr.forall("'b",
+                                                   ast.model('Address', []))) , 
+                   "accept a model");
     test.done();
   },
         
@@ -74,7 +79,9 @@ exports['language_object'] = {
     // tests here  
     var aStream = stream("model Address { street : string number : int}");        
     test.deepEqual(language.parser.group('modelDef').parse(aStream).get(), 
-                   ast.model('Address', [], [ast.param('street',ast.type.native('string')), ast.param('number',ast.type.native('int'))]) , "accept a model");
+                   ast.model('Address', 
+                             [ast.param('street',ast.type.native('string')), ast.param('number',ast.type.native('int'))]) , 
+                   "accept a model");
     test.done();
   },
 

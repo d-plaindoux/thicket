@@ -56,7 +56,7 @@ exports['language_class'] = {
     var aStream = stream("class Address this:Address { }");
         
     test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
-                   ast.controller('Address', [], ast.param('this',ast.type.variable('Address')), []) , "accept a controller");
+                   ast.controller('Address', ast.param('this',ast.type.variable('Address')), []) , "accept a controller");
     test.done();
   },
         
@@ -66,7 +66,12 @@ exports['language_class'] = {
     var aStream = stream("class Address 'a 'b this:Address { }");
         
     test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
-                   ast.controller('Address', ["'a", "'b"], ast.param('this',ast.type.variable('Address')), []) , "accept a controller");
+                   ast.expr.forall("'a",
+                                   ast.expr.forall("'b",
+                                                   ast.controller('Address', 
+                                                                  ast.param('this',ast.type.variable('Address')), 
+                                                                  []))) , 
+                   "accept a controller");
     test.done();
   },
         
@@ -75,7 +80,7 @@ exports['language_class'] = {
     // tests here  
     var aStream = stream("class Address this:Address { def number = 123 }");        
     test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
-                   ast.controller('Address', [], ast.param('this',ast.type.variable('Address')), [ ast.method('number', ast.expr.number(123)) ]) , 
+                   ast.controller('Address', ast.param('this',ast.type.variable('Address')), [ ast.method('number', ast.expr.number(123)) ]) , 
                    "accept a controller");
     test.done();
   },
@@ -85,7 +90,7 @@ exports['language_class'] = {
     // tests here  
     var aStream = stream("class Address this: Address { def number () = 123 }");        
     test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
-                   ast.controller('Address', [],
+                   ast.controller('Address', 
                                   ast.param('this', ast.type.variable('Address')), 
                                   [ ast.method('number', ast.expr.abstraction(ast.param("_", ast.type.native("unit")), ast.expr.number(123)))]) , 
                    "accept a controller");
@@ -97,7 +102,7 @@ exports['language_class'] = {
     // tests here  
     var aStream = stream("class Address this: Address { def number 'a x:'a = x }");        
     test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
-                   ast.controller('Address', [],
+                   ast.controller('Address',
                                   ast.param('this', ast.type.variable('Address')), 
                                   [ ast.method('number', ast.expr.forall("'a", 
                                                                          ast.expr.abstraction(ast.param("x", ast.type.variable("'a")), 

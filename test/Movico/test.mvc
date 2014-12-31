@@ -38,7 +38,7 @@ class Person this:PersonModel {
     def tick = self(this.age(this.age add 1))
 } 
 
-class Population this:[Person] {
+class Population this:(Array Person) {
     def persons = [p for p in this if p.age leq 100]
     def addPerson p:(string,string) = self (this.add APerson{p._1 p._2 0})
 }
@@ -51,8 +51,8 @@ model TodoModel {
     what: string
 }
 
-class Todos this:[TodoModel] {
-    def new = fun s:string => self (this.add Todo{s})
+class Todos this:(Array TodoModel) {
+    def new s:string = self (this.add Todo{s})
     def todos = this
 }
 
@@ -71,7 +71,7 @@ view TodoAdder this: Todos {
 // Generic class
 // --------------------------------------------------------------------
 
-class List 'a this:['a] {
+class List 'a this:(Array 'a) {
     def empty = equals this.length 0
     def map 'b f:'a -> 'b = self [ f a for a in this ]        
     def filter f:'a -> bool = self [ a for a in this if f a ]

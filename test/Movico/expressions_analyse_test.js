@@ -211,7 +211,7 @@ exports['entities'] = {
       test.expect(1);
       // Test
       var anExpression = ast.expr.instance("A",[]);
-      test.ok(expression.analyse(list(), list(pair("A",ast.model("A",[],[ast.param("x",ast.type.native("number"))]))), anExpression).isFailure(),
+      test.ok(expression.analyse(list(), list(pair("A",ast.model("A",[ast.param("x",ast.type.native("number"))]))), anExpression).isFailure(),
               "Model not found");
       test.done();
   },
@@ -220,7 +220,7 @@ exports['entities'] = {
       test.expect(1);
       // Test
       var anExpression = ast.expr.instance("A",[ast.expr.number(1)]);
-      test.ok(expression.analyse(list(), list(pair("A",ast.model("A",[],[]))), anExpression).isFailure(), 
+      test.ok(expression.analyse(list(), list(pair("A",ast.model("A",[]))), anExpression).isFailure(), 
               "Model not found");
       test.done();
   },
@@ -229,7 +229,7 @@ exports['entities'] = {
       test.expect(1);
       // Test
       var anExpression = ast.expr.instance("A",[]);
-      test.deepEqual(expression.analyse(list(), list(pair("A",ast.model("A",[],[]))), anExpression).success(), 
+      test.deepEqual(expression.analyse(list(), list(pair("A",ast.model("A",[]))), anExpression).success(), 
                      pair(list(), ast.model("A",[],[])),
                      "Model found");
       test.done();
@@ -239,7 +239,7 @@ exports['entities'] = {
       test.expect(1);
       // Test
       var anExpression = ast.expr.instance("A",[ast.expr.number(1)]),
-          aModel = ast.model("A",[],[ast.param("x",ast.type.native("number"))]);
+          aModel = ast.model("A",[ast.param("x",ast.type.native("number"))]);
       test.deepEqual(expression.analyse(list(), list(pair("A",aModel)), anExpression).success(),
                      pair(list(), aModel),
                      "Model found");
@@ -250,7 +250,7 @@ exports['entities'] = {
       test.expect(1);
       // Test
       var anExpression = ast.expr.instance("A",[ast.expr.number(1),ast.expr.string("1")]),
-          aModel = ast.model("A",[],[ast.param("x",ast.type.native("number")),ast.param("x",ast.type.native("string"))]);
+          aModel = ast.model("A",[ast.param("x",ast.type.native("number")),ast.param("x",ast.type.native("string"))]);
       test.deepEqual(expression.analyse(list(), list(pair("A",aModel)), anExpression).success(),
                      pair(list(), aModel),
                      "Model found");
@@ -261,7 +261,7 @@ exports['entities'] = {
       test.expect(1);
       // Test
       var anExpression = ast.expr.instance("A",[ast.expr.number(1)]),
-          aModel = ast.model("A",[],[ast.param("x",ast.type.native("string"))]);
+          aModel = ast.model("A",[ast.param("x",ast.type.native("string"))]);
       test.ok(expression.analyse(list(), list(pair("A",aModel)), anExpression).isFailure(), 
               "Model found with incompatible argument");
       test.done();
@@ -271,7 +271,7 @@ exports['entities'] = {
       test.expect(1);
       // Test
       var anExpression = ast.expr.instance("A",[ast.expr.string("1"),ast.expr.number(1)]),
-          aModel = ast.model("A",[],[ast.param("x",ast.type.native("number")),ast.param("x",ast.type.native("string"))]);
+          aModel = ast.model("A",[ast.param("x",ast.type.native("number")),ast.param("x",ast.type.native("string"))]);
       test.ok(expression.analyse(list(), list(pair("A",aModel)), anExpression).isFailure(),
              "Model found with incompatible argument");
       test.done();
@@ -281,22 +281,10 @@ exports['entities'] = {
       test.expect(1);
       // Test
       var anExpression = ast.expr.invoke(ast.expr.ident("A"),"x"),
-          aModel = ast.model("A",[],[ast.param("x",ast.type.native("number")),ast.param("x",ast.type.native("string"))]);
+          aModel = ast.model("A",[ast.param("x",ast.type.native("number")),ast.param("x",ast.type.native("string"))]);
       test.deepEqual(expression.analyse(list(), list(pair("A",aModel)), anExpression).success(),
                      pair(list(), ast.type.native('number')),
                      "Model invocation");
-      test.done();
-  },
-        
-  "Analyse invoke a controller": function (test) {
-      test.expect(1);
-      // Test
-      var anExpression = ast.expr.invoke(ast.expr.ident("A"),"x"),
-          aController = ast.controller("A",[],ast.param("this",ast.type.native("number")),
-                                       [ast.method("x",ast.expr.number(1)).setType(ast.type.native('number'))]);
-      test.deepEqual(expression.analyse(list(), list(pair("A",aController)), anExpression).success(),
-                     pair(list(), ast.type.native('number')),
-                     "Controller invocation");
       test.done();
   },
         
@@ -385,4 +373,29 @@ exports['entities'] = {
                      "Tag containing ident");
       test.done();
   },
+        
+  "Analyse invoke a controller with a specified type": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression = ast.expr.invoke(ast.expr.ident("A"),"x"),
+          aController = ast.controller("A",ast.param("this",ast.type.native("number")),
+                                       [ast.method("x",ast.expr.number(1)).setType(ast.type.native('number'))]);
+      test.deepEqual(expression.analyse(list(), list(pair("A",aController)), anExpression).success(),
+                     pair(list(), ast.type.native('number')),
+                     "Controller invocation");
+      test.done();
+  },
+/* TODO        
+  "Analyse invoke a controller with a unspecified type": function (test) {
+      test.expect(1);
+      // Test
+      var anExpression = ast.expr.application(ast.expr.invoke(ast.expr.ident("A"),"x"),ast.expr.number(1)),
+          aController = ast.controller("A",ast.param("this",ast.type.native("number")),
+                                       [ast.method("x",ast.expr.abstraction(ast.param("x",ast.type.native("number")),ast.expr.ident("x")))]);
+      test.deepEqual(expression.analyse(list(), list(pair("A",aController)), anExpression).success(),
+                     pair(list(), ast.type.native('number')),
+                     "Controller invocation");
+      test.done();
+  },
+*/
 };
