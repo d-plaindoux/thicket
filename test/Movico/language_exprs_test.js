@@ -208,11 +208,11 @@ exports['language_exprs'] = {
   'let definition function with generics is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("let f 'a x:'a = x in f");
+    var aStream = stream("let f [a] x:a = x in f");
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
-                   ast.expr.let('f', ast.expr.forall("'a", 
-                                                     ast.expr.abstraction(ast.param("x",ast.type.variable("'a")), 
+                   ast.expr.let('f', ast.expr.forall("a", 
+                                                     ast.expr.abstraction(ast.param("x",ast.type.variable("a")), 
                                                                           ast.expr.ident("x"))),
                                 ast.expr.ident('f')),
                    "accept a let definition");
@@ -326,10 +326,10 @@ exports['language_exprs'] = {
   'abstraction with generics': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("fun 'a x:'a => x");
+    var aStream = stream("fun [a] x:a => x");
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
-                   ast.expr.forall("'a", ast.expr.abstraction(ast.param("x",ast.type.variable("'a")), ast.expr.ident("x"))),
+                   ast.expr.forall("a", ast.expr.abstraction(ast.param("x",ast.type.variable("a")), ast.expr.ident("x"))),
                    "accept function");
     test.done();
   },  

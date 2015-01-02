@@ -64,11 +64,11 @@ exports['language_object'] = {
   'simple model with generics is accepted and provided': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("model Address 'a 'b {}");
+    var aStream = stream("model Address [a b] {}");
         
     test.deepEqual(language.parser.group('modelDef').parse(aStream).get(), 
-                   ast.expr.forall("'a",
-                                   ast.expr.forall("'b",
+                   ast.expr.forall("a",
+                                   ast.expr.forall("b",
                                                    ast.model('Address', []))) , 
                    "accept a model");
     test.done();
@@ -81,6 +81,17 @@ exports['language_object'] = {
     test.deepEqual(language.parser.group('modelDef').parse(aStream).get(), 
                    ast.model('Address', 
                              [ast.param('street',ast.type.native('string')), ast.param('number',ast.type.native('int'))]) , 
+                   "accept a model");
+    test.done();
+  },
+        
+  'complexe polymorphic model is accepted and provided': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("model Address { street : string number : [a] a }");        
+    test.deepEqual(language.parser.group('modelDef').parse(aStream).get(), 
+                   ast.model('Address', 
+                             [ast.param('street',ast.type.native('string')), ast.param('number',ast.type.forall("a",ast.type.variable("a")))]) , 
                    "accept a model");
     test.done();
   },

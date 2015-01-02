@@ -33,7 +33,7 @@ exports['language_class'] = {
   'simple model is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("class Address this: Address { } ");
+    var aStream = stream("class Address this: Address {} {} ");
         
     test.ok(language.parser.group('controllerDef').parse(aStream).isPresent(), 
             "accept a controller");
@@ -43,7 +43,7 @@ exports['language_class'] = {
   'not well formed model is rejected': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("controller Address this { } ");
+    var aStream = stream("controller Address this {} {} ");
         
     test.equal(language.parser.group('controllerDef').parse(aStream).isPresent(), 
                false , "reject a controller");
@@ -53,7 +53,7 @@ exports['language_class'] = {
   'simple controller is accepted and provided': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("class Address this:Address { }");
+    var aStream = stream("class Address this:Address {} {}");
         
     test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
                    ast.controller('Address', ast.param('this',ast.type.variable('Address')), []) , "accept a controller");
@@ -63,11 +63,11 @@ exports['language_class'] = {
   'simple controller with generics is accepted and provided': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("class Address 'a 'b this:Address { }");
+    var aStream = stream("class Address [a b] this:Address {}{}");
         
     test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
-                   ast.expr.forall("'a",
-                                   ast.expr.forall("'b",
+                   ast.expr.forall("a",
+                                   ast.expr.forall("b",
                                                    ast.controller('Address', 
                                                                   ast.param('this',ast.type.variable('Address')), 
                                                                   []))) , 
@@ -78,7 +78,7 @@ exports['language_class'] = {
   'controller with a constant behavior is accepted and provided': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("class Address this:Address { def number = 123 }");        
+    var aStream = stream("class Address this:Address { number : number } { def number = 123 }");        
     test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
                    ast.controller('Address', ast.param('this',ast.type.variable('Address')), [ ast.method('number', ast.expr.number(123)) ]) , 
                    "accept a controller");
@@ -88,11 +88,11 @@ exports['language_class'] = {
   'controller with a functional behavior is accepted and provided': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("class Address this: Address { def number () = 123 }");        
+    var aStream = stream("class Address this: Address { number : unit -> number } { def number _ = 123 }");        
     test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
                    ast.controller('Address', 
                                   ast.param('this', ast.type.variable('Address')), 
-                                  [ ast.method('number', ast.expr.abstraction(ast.param("_", ast.type.native("unit")), ast.expr.number(123)))]) , 
+                                  [ ast.method('number', ast.expr.abstraction("_", ast.expr.number(123)))]), 
                    "accept a controller");
     test.done();
   },
@@ -100,13 +100,11 @@ exports['language_class'] = {
   'controller with a generic functional behavior is accepted and provided': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("class Address this: Address { def number 'a x:'a = x }");        
+    var aStream = stream("class Address this: Address { number : [a] a -> a } { def number x = x }");        
     test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
                    ast.controller('Address',
                                   ast.param('this', ast.type.variable('Address')), 
-                                  [ ast.method('number', ast.expr.forall("'a", 
-                                                                         ast.expr.abstraction(ast.param("x", ast.type.variable("'a")), 
-                                                                                              ast.expr.ident("x")))) ]) , 
+                                  [ ast.method('number', ast.expr.abstraction("x", ast.expr.ident("x")))]) , 
                    "accept a controller");
     test.done();
   },

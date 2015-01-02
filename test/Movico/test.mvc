@@ -83,10 +83,10 @@ view TodoAdder this: Todos {
 // Generic class
 // --------------------------------------------------------------------
 
-class List 'a this:(List 'a) {
+class List [a] this:(List a) {
     empty  : boolean
-    map    : 'b ('a -> 'b) -> (List 'b)
-    filter : ('a -> boolean) -> (List 'a)
+    map    : [b] (a -> b) -> (List b)
+    filter : (a -> boolean) -> (List a)
 } {
     def empty = equals this.length 0
     def map f = self [ f a for a in this ]        
@@ -97,50 +97,50 @@ class List 'a this:(List 'a) {
 // Pair models
 // --------------------------------------------------------------------
 
-model Pair 'a 'b {
-    _1 : 'a
-    _2 : 'b
+model Pair [a b] {
+    _1 : a
+    _2 : b
 }
 
 // --------------------------------------------------------------------
 // List model
 // --------------------------------------------------------------------
 
-model List 'a {}
+model List [a] {}
  
-model Cons 'a : List 'a {
-    head : 'a
-    tail : ['a]
+model Cons [a] : List a {
+    head : a
+    tail : (List a)
 }
 
-model Nil 'a : List 'a {}
+model Nil [a] : List a {}
 
-class ListClass 'a this:(List 'a) {
-    map : 'b ('a -> 'b) -> (List 'b)
+class ListClass [a] this:(List a) {
+    map : [b] (a -> b) -> (List 'b)
 } {
-    def (Cons 'a).map f = Cons (f this.head) ((self this.tail).map f)
-    def (Nil 'a).map f = Nil
+    def (Cons a).map f = Cons (f this.head) ((self this.tail).map f)
+    def (Nil a).map f = Nil
 }
 
 // --------------------------------------------------------------------
 // Option model
 // --------------------------------------------------------------------
 
-model Option 'a {}
+model Option [a] {}
 
-model Some 'a : Option 'a {
-    _ : 'a
+model Some [a] : Option a {
+    _ : a
 } 
 
-model None 'a : Options 'a {}
+model None [a] : Options a {}
 
-class OptionClass 'a this:(Option 'a) {
-    map     : 'b ('a -> 'b) -> (Option 'b)
-    flatmap : 'b ('a -> Option 'b) -> (Option 'b)
+class OptionClass [a] this:(Option a) {
+    map     : [b] (a -> b) -> (Option b)
+    flatmap : [b] (a -> Option b) -> (Option 'b)
 } {
-    def (Some 'a).map f = Some (f this._)
-    def (Some 'a).flatmap f = f this._
+    def (Some a).map f = Some (f this._)
+    def (Some a).flatmap f = f this._
 
-    def (None 'a).map f = None
-    def (None 'a).flatmap f = None
+    def (None a).map f = None
+    def (None a).flatmap f = None
 }
