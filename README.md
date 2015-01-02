@@ -67,7 +67,7 @@ class Population this:[APerson] {
 
 *Notes* about syntactic sugar:
 
-- `[T]` is equivalent to `(Array T)`.
+- `[T]` is equivalent to `(List T)`.
 - `(F,S)` is equivalent to `(Pair F S)`.
 
 Finally  views can  be  designed  and linked  to  controllers. In  the
