@@ -1,16 +1,15 @@
-----------------------------------------------------------------------
+-------------------------------------------------------------------------
  Movico grammar definition   
-----------------------------------------------------------------------
- V2                                                         12/1/2014               
-----------------------------------------------------------------------
+-------------------------------------------------------------------------
+ V3                                                             1/2/2015               
+-------------------------------------------------------------------------
 
 entity  ::= objectDef | typeDef | classDef | viewDef
 
-----------------------------------------------------------------------
+-------------------------------------------------------------------------
 
-objectDef ::= "model" IDENT TIDENT* "{" param* "}"
-param     ::= IDENT ":" type
-
+objectDef ::= "model" IDENT TIDENT* (":" ftype)? "{" tparam* "}"
+mparam    ::= IDENT ":" TIDENT* type
 type      ::= IDENT 
             | TIDENT 
             | "(" ftype ")" 
@@ -22,13 +21,11 @@ types     ::= type "," types
             | type "->" types
             | type
 
-----------------------------------------------------------------------
+-------------------------------------------------------------------------
 
-classDef  ::= "class" TIDENT* IDENT param "{" method* "}"
+classDef  ::= "class" TIDENT* IDENT param "{" tparam* "}" "{" method* "}"
 
-method    ::= "def" IDENT "=" expr
-            | "def" IDENT "(" ")" "=" expr
-            | "def" IDENT TIDENT* param+ "=" expr
+method    ::= "def" ("(" ftype ")" ".")? IDENT IDENT* "=" expr
 
 exprs     ::= pexpr+
 
@@ -43,14 +40,15 @@ sexpr     ::= NUMBER
             | "<" IDENT attr* ">" exprs "</" IDENT? ">" 
             | "<" IDENT attr* "/>"
             | "[" exprs ("for" IDENT "in" exprs)+ ("if" exprs)? "]"
-            | IDENT "{" expr* "}"
             | "let" IDENT ("(" ")"| TIDENT* param+)? "=" exprs "in" exprs
-            | "fun" "(" ")"| TIDENT* param+ => exprs
+            | "fun" ("(" ")"| TIDENT* param+) => exprs
             
 attr      ::= IDENT "=" expr
 
-----------------------------------------------------------------------
+param     ::= IDENT ":" type
 
-viewDef   ::= "view" IDENT param "{" exprs "}"
+-------------------------------------------------------------------------
 
-----------------------------------------------------------------------
+viewDef   ::= "view" IDENT TIDENT* param "{" exprs "}"
+
+-------------------------------------------------------------------------

@@ -46,16 +46,22 @@ represented by  a model.  For instance  in the  next code  two classes
 a given model.
 
 ```
-class Person this:APerson {
+class Person this:APerson {  
+  model APerson
+  tick : self
+} {
   def firstname = this.firstname
   def name = this.name
   def age = this.age
-  def tick = self(this.age(this.age+1))
+  def tick = Person (this with {age:this.age+1})
 }
 
 class Population this:[APerson] {
-  def persons () = [p for p in this if p.age < 100]
-  def addPerson p:(string,string) = self APerson{p._1 p._2 0}
+  persons   : int -> [APerson]
+  addPerson : (string,string) -> Population
+} {
+  def persons age = [p for p in this if p.age < age]
+  def addPerson p = Population (APerson p._1 p._2 0)
 }
 ```
 
@@ -98,7 +104,7 @@ view PersonAdder this:Population {
 }
 
 view PopulationView this:Population {
-  [PersonView (Person p) for p in this.persons]
+  [PersonView (Person p) for p in (this.persons 100)]
   (PersonAdder this)
 }
 ```

@@ -32,6 +32,12 @@ view Population this:Population {
 }
 
 class Person this:PersonModel {
+    // PersonModel ... (reuse definition ?)
+    firstname: string
+    name: string
+    age: int
+    tick : self    
+} {
     def firstname = this.firstname
     def name = this.name
     def age = this.age
@@ -39,8 +45,11 @@ class Person this:PersonModel {
 } 
 
 class Population this:[Person] {
+    persons   : [Person]
+    addPerson : (string,string) -> self
+} {
     def persons = [p for p in this if p.age leq 100]
-    def addPerson p:(string,string) = self (this.add APerson{p._1 p._2 0})
+    def addPerson p = self (this.add (APerson p._1 p._2 0))
 }
 
 // --------------------------------------------------------------------
@@ -52,12 +61,15 @@ model TodoModel {
 }
 
 class Todos this:[TodoModel] {
-    def new s:string = self (this.add Todo{s})
+    new : string -> self
+    todos : [TodoModel]
+} {
+    def new s = self (this.add (Todo s))
     def todos = this
 }
 
 view TodosView this: Todos {
-    [ <li> p.what </li> for p in this.todos ]
+    this.todos.map(fun p:TodoModel => <li> p.what </li>)
 }
 
 view TodoAdder this: Todos {
@@ -72,9 +84,13 @@ view TodoAdder this: Todos {
 // --------------------------------------------------------------------
 
 class List 'a this:(List 'a) {
+    empty  : boolean
+    map    : 'b ('a -> 'b) -> (List 'b)
+    filter : ('a -> boolean) -> (List 'a)
+} {
     def empty = equals this.length 0
-    def map 'b f:'a -> 'b = self [ f a for a in this ]        
-    def filter f:'a -> bool = self [ a for a in this if f a ]
+    def map f = self [ f a for a in this ]        
+    def filter f = self [ a for a in this if f a ]
 }
 
 // --------------------------------------------------------------------
@@ -94,14 +110,16 @@ model List 'a {}
  
 model Cons 'a : List 'a {
     head : 'a
-    tail : (Array 'a)
+    tail : ['a]
 }
 
 model Nil 'a : List 'a {}
 
 class ListClass 'a this:(List 'a) {
-    def (Cons 'a).map 'b f:'a -> 'b = Cons { (f this.head) ((self this.tail).map f) } 
-    def (Nil 'a).map 'b f:'a -> 'b = Nil {}
+    map : 'b ('a -> 'b) -> (List 'b)
+} {
+    def (Cons 'a).map f = Cons (f this.head) ((self this.tail).map f)
+    def (Nil 'a).map f = Nil
 }
 
 // --------------------------------------------------------------------
@@ -117,9 +135,12 @@ model Some 'a : Option 'a {
 model None 'a : Options 'a {}
 
 class OptionClass 'a this:(Option 'a) {
-    def (Some 'a).map 'b f:'a -> 'b = Some { f this._ }
-    def (Some 'a).flatmap 'b f:'a -> (Option 'b) = f this._
+    map     : 'b ('a -> 'b) -> (Option 'b)
+    flatmap : 'b ('a -> Option 'b) -> (Option 'b)
+} {
+    def (Some 'a).map f = Some (f this._)
+    def (Some 'a).flatmap f = f this._
 
-    def (None 'a).map 'b f:'a -> 'b = Empty {}
-    def (None 'a).flatmap 'b f:'a -> (Option 'b) = Empty {}    
+    def (None 'a).map f = None
+    def (None 'a).flatmap f = None
 }

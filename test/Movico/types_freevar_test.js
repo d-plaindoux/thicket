@@ -46,14 +46,14 @@ exports['types_freevar'] = {
   "Array of Variable has a freevar": function (test) {
       test.expect(1);
       // Test
-      test.deepEqual(types.freeVariables(ast.type.array(ast.type.variable("a"))), list("a"), "Not empty free variables");
+      test.deepEqual(types.freeVariables(ast.type.array(ast.type.variable("a"))), list("Array", "a"), "Not empty free variables");
       test.done();
   },
     
   "Array of Native has no freevar": function (test) {
       test.expect(1);
       // Test
-      test.deepEqual(types.freeVariables(ast.type.array(ast.type.native("a"))), list(), "Empty free variables");
+      test.deepEqual(types.freeVariables(ast.type.array(ast.type.native("a"))), list("Array"), "Empty free variables");
       test.done();
   },
 
@@ -67,7 +67,7 @@ exports['types_freevar'] = {
   "Pair of Variable has a freevar": function (test) {
       test.expect(1);
       // Test
-      test.deepEqual(types.freeVariables(ast.type.pair(ast.type.variable("a"),ast.type.variable("b"))), list("a","b"), "Not empty free variables");
+      test.deepEqual(types.freeVariables(ast.type.pair(ast.type.variable("a"),ast.type.variable("b"))), list("Pair","a","b"), "Not empty free variables");
       test.done();
   },
 

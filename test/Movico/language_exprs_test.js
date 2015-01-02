@@ -93,16 +93,6 @@ exports['language_exprs'] = {
     test.done();
   },
     
-  'model construction is accepted': function(test) {
-    test.expect(1);
-    // tests here  
-    var aStream = stream("Point{1 '2'}");
-        
-    test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
-                   ast.expr.instance("Point", [ast.expr.number(1), ast.expr.string("2")]), "accept an instance");
-    test.done();
-  },
-    
   'invocation is accepted': function(test) {
     test.expect(1);
     // tests here  

@@ -79,16 +79,6 @@ exports['entities'] = {
       test.done();
   },
 
-  "Analyse Native pair": function (test) {
-      test.expect(1);
-      // Test
-      var anExpression  = ast.expr.pair(ast.expr.number('1'), ast.expr.string('a'));
-      test.deepEqual(expression.typecheck(list(), anExpression).success(), 
-                     ast.type.pair(ast.type.native('number'), ast.type.native('string')), 
-                     "Must be (int,string)");
-      test.done();
-  },
-
   "Analyse Generalisable type failure": function (test) {
       test.expect(1);
       // Test
