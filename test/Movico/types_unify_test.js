@@ -68,61 +68,61 @@ exports['types_freevar'] = {
       test.done();
   },
     
-  "Unify array native & native": function (test) {
+  "Unify list native & native": function (test) {
       test.expect(1);
       // Test
-      test.equal(types.unify(ast.type.array(ast.type.native("a")),
+      test.equal(types.unify(ast.type.list(ast.type.native("a")),
                              ast.type.native("a")).isSuccess(), 
                  false, 
-                 "Unify array native & native");
+                 "Unify list native & native");
       test.done();
   },
 
-  "Unify native & array native": function (test) {
+  "Unify native & list native": function (test) {
       test.expect(1);
       // Test
       test.equal(types.unify(ast.type.native("a"),
-                            ast.type.array(ast.type.native("a"))).isSuccess(), 
+                            ast.type.list(ast.type.native("a"))).isSuccess(), 
                  false, 
-                 "Unify array native & native");
+                 "Unify list native & native");
       test.done();
   },
     
-  "Unify array native & array native": function (test) {
+  "Unify list native & list native": function (test) {
       test.expect(1);
       // Test
-      test.ok(types.unify(ast.type.array(ast.type.native("a")),
-                          ast.type.array(ast.type.native("a"))).success().isEmpty(), 
-              "Unify array native & array native");
+      test.ok(types.unify(ast.type.list(ast.type.native("a")),
+                          ast.type.list(ast.type.native("a"))).success().isEmpty(), 
+              "Unify list native & list native");
       test.done();
   },
     
-  "Unify failure array native & array native": function (test) {
+  "Unify failure list native & list native": function (test) {
       test.expect(1);
       // Test
-      test.ok(types.unify(ast.type.array(ast.type.native("a")),
-                          ast.type.array(ast.type.native("b"))).isFailure(), 
-              "Unify failure array native & array native");
+      test.ok(types.unify(ast.type.list(ast.type.native("a")),
+                          ast.type.list(ast.type.native("b"))).isFailure(), 
+              "Unify failure list native & list native");
       test.done();
   },
         
-  "Unify array variable & array native": function (test) {
+  "Unify list variable & list native": function (test) {
       test.expect(1);
       // Test
-      test.deepEqual(types.unify(ast.type.array(ast.type.variable("b")),
-                                 ast.type.array(ast.type.native("a"))).success(), 
+      test.deepEqual(types.unify(ast.type.list(ast.type.variable("b")),
+                                 ast.type.list(ast.type.native("a"))).success(), 
                      list(pair("b",ast.type.native("a"))),              
-                     "Unify array variable & array native");
+                     "Unify list variable & list native");
       test.done();
   },
     
-  "Unify array native & array variable": function (test) {
+  "Unify list native & list variable": function (test) {
       test.expect(1);
       // Test
-      test.deepEqual(types.unify(ast.type.array(ast.type.native("a")),
-                                 ast.type.array(ast.type.variable("b"))).success(), 
+      test.deepEqual(types.unify(ast.type.list(ast.type.native("a")),
+                                 ast.type.list(ast.type.variable("b"))).success(), 
                      list(pair("b",ast.type.native("a"))),              
-                     "Unify array variable & array native");
+                     "Unify list variable & list native");
       test.done();
   },
     
@@ -244,7 +244,7 @@ exports['types_freevar'] = {
   "Unify cyclic dependency": function (test) {
       test.expect(1);
       // Test
-      test.ok(types.unify(ast.type.variable("a"), ast.type.array(ast.type.variable("a"))).isFailure(), 
+      test.ok(types.unify(ast.type.variable("a"), ast.type.list(ast.type.variable("a"))).isFailure(), 
               "Unify cyclic dependency");
       test.done();
   },  

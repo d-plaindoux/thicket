@@ -47,8 +47,10 @@ a given model.
 
 ```
 class Person this:APerson {  
-  model APerson
-  tick : self
+  firstname: String
+   name: String
+   age: Int
+   tick: self
 } {
   def firstname = this.firstname
   def name = this.name

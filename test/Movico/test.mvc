@@ -44,8 +44,8 @@ class Person this:PersonModel {
     def tick = self(this.age(this.age add 1))
 } 
 
-class Population this:[Person] {
-    persons   : [Person]
+class Population this:(List Person) {
+    persons   : (List Person)
     addPerson : (string,string) -> self
 } {
     def persons = [p for p in this if p.age leq 100]
@@ -60,9 +60,9 @@ model TodoModel {
     what: string
 }
 
-class Todos this:[TodoModel] {
-    new : string -> self
-    todos : [TodoModel]
+class Todos this:(List TodoModel) {
+    new   : string -> Todos 
+    todos : (List TodoModel)
 } {
     def new s = self (this.add (Todo s))
     def todos = this
@@ -116,7 +116,7 @@ model Cons [a] : List a {
 model Nil [a] : List a {}
 
 class ListClass [a] this:(List a) {
-    map : [b] (a -> b) -> (List 'b)
+    map : [b] (a -> b) -> (List b)
 } {
     def (Cons a).map f = Cons (f this.head) ((self this.tail).map f)
     def (Nil a).map f = Nil
@@ -136,7 +136,7 @@ model None [a] : Options a {}
 
 class OptionClass [a] this:(Option a) {
     map     : [b] (a -> b) -> (Option b)
-    flatmap : [b] (a -> Option b) -> (Option 'b)
+    flatmap : [b] (a -> Option b) -> (Option b)
 } {
     def (Some a).map f = Some (f this._)
     def (Some a).flatmap f = f this._

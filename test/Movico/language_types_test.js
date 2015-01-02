@@ -60,18 +60,18 @@ exports['language_type'] = {
     test.done();
   },
     
-  'simple named array type is accepted': function(test) {
+  'simple named list type is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("[int]");
+    var aStream = stream("(List int)");
         
     test.deepEqual(language.parser.group('type').parse(aStream).orElse(null),
-                   ast.type.array(ast.type.native('int')),
+                   ast.type.list(ast.type.native('int')),
                    "accept [int] type");
     test.done();
   },
     
-  'simple named unclosed array type is rejected': function(test) {
+  'simple named unclosed list type is rejected': function(test) {
     test.expect(1);
     // tests here  
     var aStream = stream("[int");
@@ -102,13 +102,13 @@ exports['language_type'] = {
     test.done();
   },    
 
-    'array of tuple type (in parenthesis) is accepted': function(test) {
+    'list of tuple type (in parenthesis) is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("[(int, string)]");
+    var aStream = stream("(List (int, string))");
         
     test.deepEqual(language.parser.group('type').parse(aStream).orElse(null), 
-                   ast.type.array(ast.type.pair(ast.type.native('int'),ast.type.native('string'))), 
+                   ast.type.list(ast.type.pair(ast.type.native('int'),ast.type.native('string'))), 
                    "accept [(int,string)] type");
     test.done();
   },    

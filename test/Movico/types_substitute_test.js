@@ -40,13 +40,13 @@ exports['types_subsitute'] = {
       test.done();
   },
 
-  "Subtitute native array is identity": function (test) {
+  "Subtitute native list is identity": function (test) {
       test.expect(1);
       // Test
       test.deepEqual(types.substitute(list(pair("x",ast.type.native("y"))), 
-                                      ast.type.array(ast.type.native("a"))), 
-                     ast.type.array(ast.type.native("a")), 
-                     "Substitute array");
+                                      ast.type.list(ast.type.native("a"))), 
+                     ast.type.list(ast.type.native("a")), 
+                     "Substitute list");
       test.done();
   },
 
@@ -90,13 +90,13 @@ exports['types_subsitute'] = {
       test.done();
   },
 
-  "Subtitute array bound variable": function (test) {
+  "Subtitute list bound variable": function (test) {
       test.expect(1);
       // Test
       test.deepEqual(types.substitute(list(pair("x",ast.type.native("y"))), 
-                                      ast.type.array(ast.type.variable("x"))), 
-                     ast.type.array(ast.type.native("y")), 
-                     "Substitute array bound variable");
+                                      ast.type.list(ast.type.variable("x"))), 
+                     ast.type.list(ast.type.native("y")), 
+                     "Substitute list bound variable");
       test.done();
   },
 

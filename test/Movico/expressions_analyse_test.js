@@ -270,23 +270,11 @@ exports['entities'] = {
       // Test
       var anExpression = ast.expr.invoke(ast.expr.ident("A"),"x"),
           aController = ast.controller("A",ast.param("this",ast.type.native("number")),
-                                       [ast.method("x",ast.expr.number(1)).setType(ast.type.native('number'))]);
+                                       [ast.method("x",ast.type.native("number"))],
+                                       [ast.method("x",ast.expr.number(1))]);
       test.deepEqual(expression.analyse(list(), list(pair("A",aController)), anExpression).success(),
                      pair(list(), ast.type.native('number')),
                      "Controller invocation");
       test.done();
   },
-/*
-  "Analyse invoke a controller with a unspecified type": function (test) {
-      test.expect(1);
-      // Test
-      var anExpression = ast.expr.application(ast.expr.invoke(ast.expr.ident("A"),"x"),ast.expr.number(1)),
-          aController = ast.controller("A",ast.param("this",ast.type.native("number")),
-                                       [ast.method("x",ast.expr.abstraction(ast.param("x",ast.type.native("number")),ast.expr.ident("x")))]);
-      test.deepEqual(expression.analyse(list(), list(pair("A",aController)), anExpression).success(),
-                     pair(list(), ast.type.native('number')),
-                     "Controller invocation");
-      test.done();
-  },
-*/  
 };

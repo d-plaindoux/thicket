@@ -1,9 +1,9 @@
 'use strict';
-/*
+
 var stream = require('../../lib' + (process.env.MOVICO_COV || '') + '/Parser/stream.js').stream,
     language = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/language.js').language(),
     fs = require('fs');
-*/
+
 /*
   ======== A Handy Little Nodeunit Reference ========
   https://github.com/caolan/nodeunit
@@ -28,7 +28,7 @@ exports['language'] = {
   setUp: function(done) {
     done();
   },
-/* TODO -- Language revision    
+
   'entities are accepted': function(test) {
     test.expect(2);
     // tests here  
@@ -63,5 +63,5 @@ exports['language'] = {
     });
         
   },
-*/
+
 };
