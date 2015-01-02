@@ -171,11 +171,10 @@ exports['language_exprs'] = {
   'let definition function with unit is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("let f () = 1 in x");
+    var aStream = stream("let f _ = 1 in x");
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
-                   ast.expr.let('f', ast.expr.abstraction(ast.param("_",ast.type.native("unit")), ast.expr.number(1)), 
-                                ast.expr.ident('x')),
+                   ast.expr.let('f', ast.expr.abstraction("_", ast.expr.number(1)), ast.expr.ident('x')),
                    "accept a let definition");
     test.done();
   },  
@@ -183,10 +182,10 @@ exports['language_exprs'] = {
   'let definition function with an int is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("let f x:int = 1 in f x");
+    var aStream = stream("let f x = 1 in f x");
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
-                   ast.expr.let('f', ast.expr.abstraction(ast.param("x",ast.type.native("int")), ast.expr.number(1)), 
+                   ast.expr.let('f', ast.expr.abstraction("x", ast.expr.number(1)), 
                                 ast.expr.application(ast.expr.ident('f'),ast.expr.ident('x'))),
                    "accept a let definition");
     test.done();
@@ -195,26 +194,10 @@ exports['language_exprs'] = {
   'let definition function with an int and a string is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("let f x:int y:string = 1 in x");
+    var aStream = stream("let f x y = 1 in x");
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
-                   ast.expr.let('f', ast.expr.abstraction(ast.param("x",ast.type.native("int")), 
-                                                          ast.expr.abstraction(ast.param("y",ast.type.native("string")),ast.expr.number(1))), 
-                                ast.expr.ident('x')),
-                   "accept a let definition");
-    test.done();
-  },  
-    
-  'let definition function with generics is accepted': function(test) {
-    test.expect(1);
-    // tests here  
-    var aStream = stream("let f [a] x:a = x in f");
-        
-    test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
-                   ast.expr.let('f', ast.expr.forall("a", 
-                                                     ast.expr.abstraction(ast.param("x",ast.type.variable("a")), 
-                                                                          ast.expr.ident("x"))),
-                                ast.expr.ident('f')),
+                   ast.expr.let('f', ast.expr.abstraction("x",ast.expr.abstraction("y",ast.expr.number(1))), ast.expr.ident('x')),
                    "accept a let definition");
     test.done();
   },  
@@ -289,47 +272,24 @@ exports['language_exprs'] = {
     test.done();
   },  
     
-  'abstraction with unit': function(test) {
+  'abstraction with x': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("fun () => 1");
+    var aStream = stream("fun x => 1");
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
-                   ast.expr.abstraction(ast.param("_",ast.type.native("unit")), ast.expr.number(1)),
+                   ast.expr.abstraction("x", ast.expr.number(1)),
                    "accept function");
     test.done();
   },  
     
-  'abstraction with int': function(test) {
+  'abstraction with x and y': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("fun x:int => 1");
+    var aStream = stream("fun x y => 1");
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
-                   ast.expr.abstraction(ast.param("x",ast.type.native("int")), ast.expr.number(1)),
-                   "accept function");
-    test.done();
-  },  
-    
-  'abstraction with int and string': function(test) {
-    test.expect(1);
-    // tests here  
-    var aStream = stream("fun x:int y:string => 1");
-        
-    test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
-                   ast.expr.abstraction(ast.param("x",ast.type.native("int")), 
-                                        ast.expr.abstraction(ast.param("y",ast.type.native("string")), ast.expr.number(1))),
-                   "accept function");
-    test.done();
-  },  
-    
-  'abstraction with generics': function(test) {
-    test.expect(1);
-    // tests here  
-    var aStream = stream("fun [a] x:a => x");
-        
-    test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
-                   ast.expr.forall("a", ast.expr.abstraction(ast.param("x",ast.type.variable("a")), ast.expr.ident("x"))),
+                   ast.expr.abstraction("x", ast.expr.abstraction("y", ast.expr.number(1))),
                    "accept function");
     test.done();
   },  

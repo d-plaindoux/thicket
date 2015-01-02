@@ -35,7 +35,17 @@ exports['language_view '] = {
     var aStream = stream("view Address this: Address { } ");
         
     test.deepEqual(language.parser.group('viewDef').parse(aStream).get(),
-                   ast.view('Address',ast.param('this', ast.type.variable('Address')), []), "accept a view");
+                   ast.view('Address', [], ast.param('this', ast.type.variable('Address')), []), "accept a view");
+    test.done();
+  },
+    
+  'simple view with generics is accepted': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("view Address [a b] this: Address { } ");
+        
+    test.deepEqual(language.parser.group('viewDef').parse(aStream).get(),
+                   ast.view('Address', ["a","b"], ast.param('this', ast.type.variable('Address')), []), "accept a view");
     test.done();
   },
 

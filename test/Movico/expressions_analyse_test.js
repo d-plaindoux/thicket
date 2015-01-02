@@ -79,7 +79,7 @@ exports['entities'] = {
       test.done();
   },
 
-  "Analyse Generalisable type success": function (test) {
+  "Analyse Generalisable same type success": function (test) {
       test.expect(1);
       // Test
       var anExpression  = ast.expr.ident("b");
@@ -89,59 +89,30 @@ exports['entities'] = {
       test.done();
   },
 
-  "Analyse Generalisable type failure": function (test) {
+  "Analyse Generalisable generic type failure": function (test) {
       test.expect(1);
       // Test
-      var anExpression  = ast.expr.ident("b");
-      test.ok(expression.analyse(list(), list(pair("b",ast.type.variable("a"))), anExpression).isFailure(), 
-              "Must be not generalizable");
-      test.done();
-  },
-
-  "Analyse Generalisable polymorphic type": function (test) {
-      test.expect(1);
-      // Test
-      var anExpression  = ast.expr.forall("a", ast.expr.ident("b"));
+      var anExpression = ast.expr.ident("b");
       test.deepEqual(expression.analyse(list(), list(pair("b",ast.type.variable("a"))), anExpression).success(), 
-                     pair(list(),ast.type.forall("a", ast.type.variable("a"))),
-                     "Must be generalizable");
+                     pair(list(), ast.type.forall(["a"], ast.type.variable("a"))),
+                     "Must be not generalizable");
       test.done();
   },
 
-  "Analyse Simple abstraction": function (test) {
+  "Analyse Simple Generalizable abstraction": function (test) {
       test.expect(1);
       // Test
-      var anExpression  = ast.expr.abstraction(ast.param("a",ast.type.native("int")), ast.expr.ident("a"));
+      var anExpression = ast.expr.abstraction("a", ast.expr.ident("a"));
       test.deepEqual(expression.analyse(list(), list(), anExpression).success(), 
-                     pair(list(),ast.type.abstraction(ast.type.native("int"),ast.type.native("int"))),
-                     "Must be (int -> string)");
-      test.done();
-  },
-    
-  "Analyse identity abstraction": function (test) {
-      test.expect(1);
-      // Test
-      var anExpression  = ast.expr.abstraction(ast.param("a",ast.type.variable("b")), ast.expr.ident("a"));
-      test.deepEqual(expression.analyse(list("b"), list(), anExpression).success(), 
-                     pair(list(),ast.type.abstraction(ast.type.variable("b"),ast.type.variable("b"))),
-                     "Must be (int -> string)");
-      test.done();
-  },
-    
-  "Analyse generalized identity abstraction": function (test) {
-      test.expect(1);
-      // Test
-      var anExpression  = ast.expr.forall("b",ast.expr.abstraction(ast.param("a",ast.type.variable("b")), ast.expr.ident("a")));
-      test.deepEqual(expression.analyse(list(), list(), anExpression).success(), 
-                     pair(list(),ast.type.forall("b", ast.type.abstraction(ast.type.variable("b"),ast.type.variable("b")))),
-                     "Must be (int -> string)");
+                     pair(list(),ast.type.forall(["#1"], ast.type.abstraction(ast.type.variable("#1"),ast.type.variable("#1")))),
+                     "Must be [a] (a -> a)");
       test.done();
   },
     
   "Analyse let string expression": function (test) {
       test.expect(1);
       // Test
-      var anExpression = ast.expr.let("a",ast.expr.string("b"),ast.expr.ident("a"));
+      var anExpression = ast.expr.let("a", ast.expr.string("b"), ast.expr.ident("a"));
       test.deepEqual(expression.analyse(list(), list(), anExpression).success(), 
                      pair(list(), ast.type.native("string")),
                      "Must be (string)");
@@ -158,23 +129,12 @@ exports['entities'] = {
       test.done();
   },
     
-  "Analyse let generalizable variable expression": function (test) {
-      test.expect(1);
-      // Test
-      var anExpression = ast.expr.let("a",ast.expr.forall("c",ast.expr.ident("b")),ast.expr.ident("a"));
-      test.deepEqual(expression.analyse(list(), list(pair("b",ast.type.variable("c"))), anExpression).success(), 
-                     pair(list(), ast.type.forall("c",ast.type.variable("c"))),
-                     "Must be (c)");
-      test.done();
-  },
-    
   "Analyse application variable expression": function (test) {
       test.expect(1);
       // Test
-      var anExpression = ast.expr.application(ast.expr.abstraction(ast.param("a",ast.type.native("number")),ast.expr.ident("a")),
-                                              ast.expr.number(12));
+      var anExpression = ast.expr.application(ast.expr.abstraction("a",ast.expr.ident("a")), ast.expr.number(12));
       test.deepEqual(expression.analyse(list(), list(), anExpression).success(), 
-                     pair(list(), ast.type.native("number")),
+                     pair(list(pair("#2", ast.type.native("number"))), ast.type.native("number")),
                      "Must be (number)");
       test.done();
   },
@@ -270,7 +230,8 @@ exports['entities'] = {
       // Test
       var anExpression = ast.expr.invoke(ast.expr.ident("A"),"x"),
           aController = ast.controller("A",ast.param("this",ast.type.native("number")),
-                                       [ast.method("x",ast.type.native("number"))],
+                                       [],
+                                       [ast.param("x",ast.type.native("number"))],
                                        [ast.method("x",ast.expr.number(1))]);
       test.deepEqual(expression.analyse(list(), list(pair("A",aController)), anExpression).success(),
                      pair(list(), ast.type.native('number')),
