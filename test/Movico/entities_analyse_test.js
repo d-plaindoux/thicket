@@ -2,7 +2,7 @@
 
 var entities = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/entities.js').entities,
     ast = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/ast.js').ast,
-    // pair = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/pair.js').pair,
+    pair = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/pair.js').pair,
     list = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/list.js').list;
 
 /*
@@ -73,5 +73,30 @@ exports['entities'] = {
       test.ok(entities.analyse(list(), aController).isFailure(),
               "Empty controller");
       test.done();
+  },
+    
+  "Analyse simple controller using this": function (test) {
+      test.expect(1);
+      // Test
+      var aController = ast.controller("A",[],
+                                       ast.param("this",ast.type.native("number")),
+                                       [ ast.param("m", ast.type.native("number")) ],
+                                       [ ast.method("m", ast.expr.ident("this")) ]);
+      test.ok(entities.analyse(list(), aController).isSuccess(),
+              "Empty controller");
+      test.done();
+  },
+    
+  "Analyse simple controller using self": function (test) {
+      test.expect(1);
+      // Test
+      var aController = ast.controller("A",[],
+                                       ast.param("this",ast.type.native("number")),
+                                       [ ast.param("m", ast.type.native("number")) ],
+                                       [ ast.method("m", ast.expr.invoke(ast.expr.ident("self"), "m")) ]);
+      test.ok(entities.analyse(list(pair("A", aController)), aController).isSuccess(),
+              "Empty controller");
+      test.done();
   }
+    
 };
