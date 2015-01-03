@@ -63,7 +63,7 @@ exports['language_type'] = {
   'simple named list type is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("(List int)");
+    var aStream = stream("(List[int])");
         
     test.deepEqual(language.parser.group('type').parse(aStream).orElse(null),
                    ast.type.list(ast.type.native('int')),
@@ -105,7 +105,7 @@ exports['language_type'] = {
     'list of tuple type (in parenthesis) is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("(List (int, string))");
+    var aStream = stream("(List[(int,string)])");
         
     test.deepEqual(language.parser.group('type').parse(aStream).orElse(null), 
                    ast.type.list(ast.type.pair(ast.type.native('int'),ast.type.native('string'))), 

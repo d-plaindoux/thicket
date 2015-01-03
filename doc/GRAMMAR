@@ -1,31 +1,29 @@
--------------------------------------------------------------------------
+--------------------------------------------------------------------------
  Movico grammar definition   
--------------------------------------------------------------------------
- V3                                                             1/2/2015               
--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+ V3                                                              1/2/2015               
+--------------------------------------------------------------------------
 
 entity  ::= objectDef | typeDef | classDef | viewDef
 
--------------------------------------------------------------------------
+--------------------------------------------------------------------------
 
-objectDef ::= "model" IDENT TIDENT* (":" ftype)? "{" tparam* "}"
-mparam    ::= IDENT ":" TIDENT* type
-type      ::= IDENT 
-            | TIDENT 
+generics  ::= ("[" IDENT+ "]")?
+
+objectDef ::= "model" IDENT generics (":" ftype)? "{" tparam* "}"
+tparam    ::= IDENT ":" generics type
+type      ::= IDENT ("[" type+ "]")?
             | "(" ftype ")" 
-            | "[" type "]"
-            
-ftype     ::= types (ftype)*
 
 types     ::= type "," types
             | type "->" types
             | type
 
--------------------------------------------------------------------------
+--------------------------------------------------------------------------
 
-classDef  ::= "class" TIDENT* IDENT param "{" tparam* "}" "{" method* "}"
+classDef  ::= "class" IDENT generics param "{" tparam* "}" "{" method* "}"
 
-method    ::= "def" ("(" ftype ")" ".")? IDENT IDENT* "=" expr
+method    ::= "def" (type ".")? IDENT IDENT* "=" expr
 
 exprs     ::= pexpr+
 
@@ -37,19 +35,18 @@ sexpr     ::= NUMBER
             | STRING
             | IDENT
             | "(" exprs ")"
-            | "[" iexpr? "]"
             | "<" IDENT attr* ">" exprs "</" IDENT? ">" 
             | "<" IDENT attr* "/>"
-            | "[" exprs ("for" IDENT "in" exprs)+ ("if" exprs)? "]"
-            | "let" IDENT ("(" ")"| TIDENT* param+)? "=" exprs "in" exprs
-            | "fun" ("(" ")"| TIDENT* param+) => exprs
+            | "[" exprs ("for" IDENT "ingenerics ("if" exprs)? "]"
+            | "let" IDENT IDENT* "=" exprs "in" exprs
+            | "fun" IDENT+ => exprs
             
 attr      ::= IDENT "=" expr
 
 param     ::= IDENT ":" type
 
--------------------------------------------------------------------------
+--------------------------------------------------------------------------
 
-viewDef   ::= "view" IDENT TIDENT* param "{" exprs "}"
+viewDef   ::= "view" IDENT generics param "{" exprs "}"
 
--------------------------------------------------------------------------
+--------------------------------------------------------------------------
