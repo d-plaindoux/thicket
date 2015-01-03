@@ -63,6 +63,7 @@ class Population this:[APerson] {
   addPerson : (string,string) -> Population
 } {
   def persons age = [p for p in this if p.age < age]
+                  // p.filter(fun p => p.age < age).map(I)
   def addPerson p = Population (APerson p._1 p._2 0)
 }
 ```
@@ -97,8 +98,8 @@ then can be referenced as we do in the `Population#addPerson` method.
 
 ```
 view PersonAdder this:Population {
-  let onSubmit () = (this.addPerson (self.firstname,self.name)) in
-      <form onSubmit=(onSubmit ())>
+  let onSubmit = (this.addPerson (self.firstname,self.name)) in
+      <form onSubmit=onSubmit>
         <input type="text" id="firstname"/>
         <input type="text" id="name"/>
         <input type="submit" value="Add"/>

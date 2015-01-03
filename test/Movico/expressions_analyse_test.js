@@ -25,7 +25,7 @@ var expression = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico
     test.ifError(value)
 */
 
-exports['entities'] = {
+exports['expressions'] = {
   setUp: function(done) {
     done();
   },

@@ -32,7 +32,7 @@ exports['language'] = {
   'entities are accepted': function(test) {
     test.expect(2);
     // tests here  
-    fs.readFile('./test/Movico/test.mvc', function (err,data) {
+    fs.readFile('./test/Movico/language_test.mvc', function (err,data) {
         if (err) {
             throw err;
         }
