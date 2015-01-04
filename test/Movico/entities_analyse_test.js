@@ -25,7 +25,7 @@ var entities = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/e
     test.ifError(value)
 */
 
-exports['entities'] = {
+exports['entities_analyse'] = {
   setUp: function(done) {
       done();
   },
@@ -47,7 +47,7 @@ exports['entities'] = {
                                        [ ast.param("m", ast.type.native("number")) ],
                                        [ ast.method("m", ast.expr.number(1)) ]);
       test.ok(entities.analyse(list(), aController).isSuccess(),
-              "Empty controller");
+              "Simple controller");
       test.done();
   },
     
@@ -59,7 +59,7 @@ exports['entities'] = {
                                        [ ast.param("m", ast.type.native("string")) ],
                                        [ ast.method("m", ast.expr.number(1)) ]);
       test.ok(entities.analyse(list(), aController).isFailure(),
-              "Empty controller");
+              "Simple wrong controller");
       test.done();
   },
     
@@ -71,7 +71,7 @@ exports['entities'] = {
                                        [ ],
                                        [ ast.method("m", ast.expr.number(1)) ]);
       test.ok(entities.analyse(list(), aController).isFailure(),
-              "Empty controller");
+              "Simple partial controller");
       test.done();
   },
     
@@ -83,7 +83,7 @@ exports['entities'] = {
                                        [ ast.param("m", ast.type.native("number")) ],
                                        [ ast.method("m", ast.expr.ident("this")) ]);
       test.ok(entities.analyse(list(), aController).isSuccess(),
-              "Empty controller");
+              "This referencing controller");
       test.done();
   },
     
@@ -95,8 +95,20 @@ exports['entities'] = {
                                        [ ast.param("m", ast.type.native("number")) ],
                                        [ ast.method("m", ast.expr.invoke(ast.expr.ident("self"), "m")) ]);
       test.ok(entities.analyse(list(pair("A", aController)), aController).isSuccess(),
-              "Empty controller");
+              "Self referencing controller");
       test.done();
-  }
+  },
+    
+  "Analyse simple controller returning self": function (test) {
+      test.expect(1);
+      // Test
+      var aController = ast.controller("A",[],
+                                       ast.param("this",ast.type.native("number")),
+                                       [ ast.param("m", ast.type.variable("A")) ],
+                                       [ ast.method("m", ast.expr.ident("self")) ]);
+      test.ok(entities.analyse(list(pair("A", aController)), aController).isSuccess(),
+              "Self referencing controller");
+      test.done();
+  },
     
 };
