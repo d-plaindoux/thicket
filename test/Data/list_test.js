@@ -96,5 +96,12 @@ exports['lists'] = {
     // tests here  
     test.deepEqual(list(1,2).zipWith(list('a','b','c')), list(pair(1,'a'), pair(2,'b')), 'should zip.');
     test.done();
-  }    
+  },
+    
+  'Substract a list': function(test) {
+    test.expect(1);
+    // tests here  
+    test.deepEqual(list(1,2).minus(list(1,2,3)), list(), "minud two lists");
+    test.done();
+  } 
 };

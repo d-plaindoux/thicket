@@ -1,0 +1,14 @@
+// Simple example with a model and a view 
+
+model Todo {
+    what : string
+}
+
+view TodoView this:Todo {
+    <div> 
+        <div class="todo" 
+             what=this.what
+        /> 
+    </div>
+}
+

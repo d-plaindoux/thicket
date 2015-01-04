@@ -32,7 +32,7 @@ exports['language'] = {
   'entities are accepted': function(test) {
     test.expect(2);
     // tests here  
-    fs.readFile('./test/Movico/language_test.mvc', function (err,data) {
+    fs.readFile('./test/Movico/samples/language_test.mvc', function (err,data) {
         if (err) {
             throw err;
         }
@@ -43,7 +43,7 @@ exports['language'] = {
         if (!aStream.isEmpty()) {
             console.log("\n<ERROR LOCATION> " + aStream.location());
         }
-                
+/*                
         var max = language.parser.groups["entities"].totalTime;
         
         console.log();
@@ -56,7 +56,7 @@ exports['language'] = {
                 
         console.log("Profiling SKIPPED consumes " + language.parser.skipped.totalTime + " ms / " + Math.floor(language.parser.skipped.totalTime * 100 / max) + "%");
         console.log("Profiling -----------");
-        
+*/      
         test.ok(entities.isPresent(), "accept a full example");
         test.ok(aStream.isEmpty(), "accept a full example");
         test.done();                
