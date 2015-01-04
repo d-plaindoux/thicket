@@ -111,4 +111,31 @@ exports['entities_analyse'] = {
       test.done();
   },
     
+  "Analyse simple view": function (test) {
+      test.expect(1);
+      // Test
+      var aView = ast.view("A",[],ast.param("this",ast.type.native("number")),ast.expr.tag('a',[],[]));
+      test.ok(entities.analyse(list(), aView).isSuccess(),
+              "Simple view");
+      test.done();
+  },
+    
+  "Analyse simple view using this": function (test) {
+      test.expect(1);
+      // Test
+      var aView = ast.view("A",[],ast.param("this",ast.type.native("XML")),ast.expr.ident('this'));
+      test.ok(entities.analyse(list(), aView).isSuccess(),
+              "Simple view");
+      test.done();
+  },
+    
+  "Analyse simple view with wrong content": function (test) {
+      test.expect(1);
+      // Test
+      var aView = ast.view("A",[],ast.param("this",ast.type.native("number")),ast.expr.number(1));
+      test.ok(entities.analyse(list(), aView).isFailure(),
+              "Simple view");
+      test.done();
+  },
+    
 };
