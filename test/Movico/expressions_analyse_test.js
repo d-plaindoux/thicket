@@ -34,7 +34,7 @@ exports['expressions'] = {
       test.expect(1);
       // Test
       var anExpression  = ast.expr.unit();
-      test.deepEqual(expression.analyse(list(), list(), anExpression).success(), 
+      test.deepEqual(expression.analyse(list(), list(), list(), anExpression).success(), 
                      pair(list(),ast.type.native('unit')), 
                      "Must be unit");
       test.done();
@@ -44,7 +44,7 @@ exports['expressions'] = {
       test.expect(1);
       // Test
       var anExpression  = ast.expr.number(1);
-      test.deepEqual(expression.analyse(list(), list(), anExpression).success(), 
+      test.deepEqual(expression.analyse(list(), list(), list(), anExpression).success(), 
                      pair(list(),ast.type.native('number')), 
                      "Must be number");
       test.done();
@@ -54,7 +54,7 @@ exports['expressions'] = {
       test.expect(1);
       // Test
       var anExpression  = ast.expr.string("1");
-      test.deepEqual(expression.analyse(list(), list(), anExpression).success(), 
+      test.deepEqual(expression.analyse(list(), list(), list(), anExpression).success(), 
                      pair(list(),ast.type.native('string')), 
                      "Must be string");
       test.done();
@@ -64,7 +64,7 @@ exports['expressions'] = {
       test.expect(1);
       // Test
       var anExpression  = ast.expr.ident("a");
-      test.ok(expression.analyse(list(), list(), anExpression).isFailure(),
+      test.ok(expression.analyse(list(), list(), list(), anExpression).isFailure(),
               "Must be unbound");
       test.done();
   },
@@ -73,7 +73,7 @@ exports['expressions'] = {
       test.expect(1);
       // Test
       var anExpression  = ast.expr.ident("a");
-      test.deepEqual(expression.analyse(list(), list(pair("a", ast.type.native("string"))), anExpression).success(),
+      test.deepEqual(expression.analyse(list(), list(pair("a", ast.type.native("string"))), list(), anExpression).success(),
                      pair(list(), ast.type.native("string")),
                      "Must be string");
       test.done();
@@ -83,7 +83,7 @@ exports['expressions'] = {
       test.expect(1);
       // Test
       var anExpression  = ast.expr.ident("b");
-      test.deepEqual(expression.analyse(list("a"), list(pair("b",ast.type.variable("a"))), anExpression).success(), 
+      test.deepEqual(expression.analyse(list("a"), list(pair("b",ast.type.variable("a"))), list(), anExpression).success(), 
                      pair(list(),ast.type.variable("a")),
                      "Must be generalizable");
       test.done();
@@ -93,7 +93,7 @@ exports['expressions'] = {
       test.expect(1);
       // Test
       var anExpression = ast.expr.ident("b");
-      test.deepEqual(expression.analyse(list(), list(pair("b",ast.type.variable("a"))), anExpression).success(), 
+      test.deepEqual(expression.analyse(list(), list(pair("b",ast.type.variable("a"))), list(), anExpression).success(), 
                      pair(list(), ast.type.forall(["a"], ast.type.variable("a"))),
                      "Must be not generalizable");
       test.done();
@@ -103,7 +103,7 @@ exports['expressions'] = {
       test.expect(1);
       // Test
       var anExpression = ast.expr.abstraction("a", ast.expr.ident("a"));
-      test.deepEqual(expression.analyse(list(), list(), anExpression).success(), 
+      test.deepEqual(expression.analyse(list(), list(), list(), anExpression).success(), 
                      pair(list(),ast.type.forall(["#1"], ast.type.abstraction(ast.type.variable("#1"),ast.type.variable("#1")))),
                      "Must be [a] (a -> a)");
       test.done();
@@ -113,7 +113,7 @@ exports['expressions'] = {
       test.expect(1);
       // Test
       var anExpression = ast.expr.let("a", ast.expr.string("b"), ast.expr.ident("a"));
-      test.deepEqual(expression.analyse(list(), list(), anExpression).success(), 
+      test.deepEqual(expression.analyse(list(), list(), list(), anExpression).success(), 
                      pair(list(), ast.type.native("string")),
                      "Must be (string)");
       test.done();
@@ -123,7 +123,7 @@ exports['expressions'] = {
       test.expect(1);
       // Test
       var anExpression = ast.expr.let("a",ast.expr.ident("b"),ast.expr.ident("a"));
-      test.deepEqual(expression.analyse(list("c"), list(pair("b",ast.type.variable("c"))), anExpression).success(), 
+      test.deepEqual(expression.analyse(list("c"), list(pair("b",ast.type.variable("c"))), list(), anExpression).success(), 
                      pair(list(), ast.type.variable("c")),
                      "Must be (c)");
       test.done();
@@ -133,7 +133,7 @@ exports['expressions'] = {
       test.expect(1);
       // Test
       var anExpression = ast.expr.application(ast.expr.abstraction("a",ast.expr.ident("a")), ast.expr.number(12));
-      test.deepEqual(expression.analyse(list(), list(), anExpression).success(), 
+      test.deepEqual(expression.analyse(list(), list(), list(), anExpression).success(), 
                      pair(list(pair("#2", ast.type.native("number"))), ast.type.native("number")),
                      "Must be (number)");
       test.done();
@@ -143,7 +143,7 @@ exports['expressions'] = {
       test.expect(1);
       // Test
       var anExpression = ast.expr.tag("A",[],[]);
-      test.deepEqual(expression.analyse(list(), list(), anExpression).success(),
+      test.deepEqual(expression.analyse(list(), list(), list(), anExpression).success(),
                      pair(list(), ast.type.native('xml')),
                      "Simple Tag");
       test.done();
@@ -153,7 +153,7 @@ exports['expressions'] = {
       test.expect(1);
       // Test
       var anExpression = ast.expr.tag("A",[["a",ast.expr.string("a")]],[]);
-      test.deepEqual(expression.analyse(list(), list(), anExpression).success(),
+      test.deepEqual(expression.analyse(list(), list(), list(), anExpression).success(),
                      pair(list(), ast.type.native('xml')),
                      "Simple Tag with one attribute");
       test.done();
@@ -163,7 +163,7 @@ exports['expressions'] = {
       test.expect(1);
       // Test
       var anExpression = ast.expr.tag("A",[["a",ast.expr.number(1)]],[]);
-      test.ok(expression.analyse(list(), list(), anExpression).failure(),
+      test.ok(expression.analyse(list(), list(), list(), anExpression).failure(),
               "Simple Tag with one attribute but not a string");
       test.done();
   },
@@ -172,7 +172,7 @@ exports['expressions'] = {
       test.expect(1);
       // Test
       var anExpression = ast.expr.tag("A",[["a",ast.expr.ident("a")]],[]);
-      test.ok(expression.analyse(list(), list(), anExpression).isFailure(),
+      test.ok(expression.analyse(list(), list(), list(), anExpression).isFailure(),
               "Simple Tag with failing attribute");
       test.done();
   },
@@ -181,7 +181,7 @@ exports['expressions'] = {
       test.expect(1);
       // Test
       var anExpression = ast.expr.tag("A",[],[ast.expr.tag("B",[],[])]);
-      test.deepEqual(expression.analyse(list(), list(), anExpression).success(),
+      test.deepEqual(expression.analyse(list(), list(), list(), anExpression).success(),
                      pair(list(), ast.type.native('xml')),
                      "Tag containing Tag");
       test.done();
@@ -191,7 +191,7 @@ exports['expressions'] = {
       test.expect(1);
       // Test
       var anExpression = ast.expr.tag("A",[],[ast.expr.string("a")]);
-      test.ok(expression.analyse(list(), list(), anExpression).isFailure(),
+      test.ok(expression.analyse(list(), list(), list(), anExpression).isFailure(),
               "Tag containing String");
       test.done();
   },
@@ -200,7 +200,7 @@ exports['expressions'] = {
       test.expect(1);
       // Test
       var anExpression = ast.expr.tag("A",[],[ast.expr.number(1)]);
-      test.ok(expression.analyse(list(), list(), anExpression).isFailure(),
+      test.ok(expression.analyse(list(), list(), list(), anExpression).isFailure(),
               "Tag containing number");
       test.done();
   },
@@ -209,7 +209,7 @@ exports['expressions'] = {
       test.expect(1);
       // Test
       var anExpression = ast.expr.tag("A",[],[ast.expr.ident("a")]);
-      test.deepEqual(expression.analyse(list(), list(pair("a",ast.type.variable("a"))), anExpression).success(),
+      test.deepEqual(expression.analyse(list(), list(pair("a",ast.type.variable("a"))), list(), anExpression).success(),
                      pair(list(pair('a',ast.type.native("xml"))), ast.type.native('xml')),
                      "Tag containing ident");
       test.done();
@@ -219,7 +219,7 @@ exports['expressions'] = {
       test.expect(1);
       // Test
       var anExpression = ast.expr.tag("A",[["a",ast.expr.ident("a")]],[]);
-      test.deepEqual(expression.analyse(list(), list(pair("a",ast.type.variable("a"))), anExpression).success(),
+      test.deepEqual(expression.analyse(list(), list(pair("a",ast.type.variable("a"))), list(), anExpression).success(),
                      pair(list(pair('a',ast.type.native("string"))), ast.type.native('xml')),
                      "Tag containing ident");
       test.done();
@@ -233,7 +233,7 @@ exports['expressions'] = {
                                        [],
                                        [ast.param("x",ast.type.native("number"))],
                                        [ast.method("x",ast.expr.number(1))]);
-      test.deepEqual(expression.analyse(list(), list(pair("A",aController)), anExpression).success(),
+      test.deepEqual(expression.analyse(list(), list(pair("A",aController)), list(), anExpression).success(),
                      pair(list(), ast.type.native('number')),
                      "Controller invocation");
       test.done();
@@ -246,7 +246,7 @@ exports['expressions'] = {
           aModel = ast.model("A",
                              [],
                              [ast.param("x",ast.type.native("number"))]);
-      test.deepEqual(expression.analyse(list(), list(pair("A",aModel)), anExpression).success(),
+      test.deepEqual(expression.analyse(list(), list(pair("A",aModel)), list(), anExpression).success(),
                      pair(list(), ast.type.native('number')),
                      "Model invocation");
       test.done();
@@ -259,7 +259,7 @@ exports['expressions'] = {
           aModel = ast.model("A",
                              [],
                              [ast.param("x",ast.type.native("number"))]);
-      test.ok(expression.analyse(list(), list(pair("A",aModel)), anExpression).isFailure(),              
+      test.ok(expression.analyse(list(), list(), list(pair("A",aModel)), anExpression).isFailure(),              
               "Model invocation");
       test.done();
   },
@@ -268,7 +268,7 @@ exports['expressions'] = {
       test.expect(1);
       // Test
       var anExpression = ast.expr.pair(ast.expr.number(1), ast.expr.string("a"));
-      test.deepEqual(expression.analyse(list("Pair"), list(), anExpression).success(),
+      test.deepEqual(expression.analyse(list("Pair"), list(), list(), anExpression).success(),
                      pair(list(), ast.type.pair(ast.type.native("number"),ast.type.native("string"))),
                     "Pair (int,string)");
       test.done();

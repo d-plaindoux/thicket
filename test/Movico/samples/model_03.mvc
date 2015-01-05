@@ -1,7 +1,7 @@
-model Option [a] {}
+model Option[a] {}
 
 model Some[a] : Option[a] {
-    _ : a
+    value : a
 } 
 
 model None[a] : Option[a] {}
@@ -10,9 +10,9 @@ class OptionClass[a] this:Option[a] {
     map     : [b] (a -> b) -> Option[b]
     flatmap : [b] (a -> Option[b]) -> Option[b]
 } {
-    def Some[a].map f = Some (f this._)
-    def Some[a].flatmap f = f this._
+    def Some[a].map f = Some (f this.value)
+    def Some[a].flatmap f = f this.value
 
     def None[a].map f = None
-    def None[a].flatmap f = None
+    def None[a].flatmap f = sNone
 }

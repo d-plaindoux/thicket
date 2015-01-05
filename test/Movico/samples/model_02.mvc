@@ -6,10 +6,10 @@ model Todo {
 
 class TodoClass this:Todo {
     what : string   
-    change : Todo -> TodoClass
+    change : string -> TodoClass
 } {
     def what = this._
-    def change what = self (Todo what)
+    def change what = self (this what)
 }
 
 view TodoView this:TodoClass {

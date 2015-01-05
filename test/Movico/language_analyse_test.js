@@ -57,7 +57,7 @@ function correctSampleTest(sample, test) {
 
         var analyse = list(allEntities.orElse([])).foldL(aTry.success(null), function (result, entity) {
             return result.flatmap(function () {
-                return entities.analyse(variables, entity);
+                return entities.analyse(variables, variables, entity);
             });
         });
         
@@ -83,4 +83,9 @@ exports['language'] = {
   'entity 02': function(test) {
     correctSampleTest("model_02.mvc", test);    
   },
+/*
+  'entity 03': function(test) {
+    correctSampleTest("model_03.mvc", test);    
+  },
+*/
 };
