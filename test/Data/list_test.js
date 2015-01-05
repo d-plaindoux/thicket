@@ -98,10 +98,17 @@ exports['lists'] = {
     test.done();
   },
     
-  'Substract a list': function(test) {
+  'Substract a bigger list': function(test) {
     test.expect(1);
     // tests here  
     test.deepEqual(list(1,2).minus(list(1,2,3)), list(), "minud two lists");
+    test.done();
+  },
+    
+  'Substract a smaller list': function(test) {
+    test.expect(1);
+    // tests here  
+    test.deepEqual(list(1,2,3).minus(list(1,3)), list(2), "minud two lists");
     test.done();
   } 
 };

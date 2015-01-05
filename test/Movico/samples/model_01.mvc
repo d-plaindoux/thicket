@@ -1,5 +1,5 @@
 model Point {
-    x : int
-    y : int
+    x : number
+    y : number
     c : string
 }

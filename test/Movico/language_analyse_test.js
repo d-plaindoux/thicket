@@ -55,12 +55,17 @@ function correctSampleTest(sample, test) {
                 }).minus(nongenerics).isEmpty(),
                 "No free variables");
 
-        test.ok(list(allEntities.orElse([])).foldL(aTry.success(null), function (result, entity) {
-                    return result.flatmap(function () {
-                        return entities.analyse(variables, entity);
-                    });
-                }).isSuccess(),
-                "Type ");
+        var analyse = list(allEntities.orElse([])).foldL(aTry.success(null), function (result, entity) {
+            return result.flatmap(function () {
+                return entities.analyse(variables, entity);
+            });
+        });
+        
+        if (analyse.isFailure()) {
+            console.log(analyse.failure().stack);
+        }
+        
+        test.ok(analyse.isSuccess(), "Type ");
 
         test.done();                
     });    
@@ -70,11 +75,11 @@ exports['language'] = {
   setUp: function(done) {
     done();
   },
-/*
+
   'entity 01': function(test) {
     correctSampleTest("model_01.mvc", test);    
   },
-*/
+
   'entity 02': function(test) {
     correctSampleTest("model_02.mvc", test);    
   },

@@ -1,14 +1,19 @@
 // Simple example with a model and a view 
 
 model Todo {
-    what : string
+    _ : string
 }
 
-view TodoView this:Todo {
+class TodoClass this:Todo {
+    what : string   
+    change : Todo -> TodoClass
+} {
+    def what = this._
+    def change what = self (Todo what)
+}
+
+view TodoView this:TodoClass {
     <div> 
-        <div class="todo" 
-             what=this.what
-        /> 
+        <div class="todo" what=this.what />
     </div>
 }
-
