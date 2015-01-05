@@ -32,20 +32,20 @@ exports['language_params'] = {
   'simple typed param is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("age : int");
+    var aStream = stream("age : number");
         
     test.ok(language.parser.group('param').parse(aStream).isPresent(), 
-            "accept int type");
+            "accept number type");
     test.done();
   },
     
   'simple typed param is accepted and ast params is correct': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("age : int");
+    var aStream = stream("age : number");
         
     test.deepEqual(language.parser.group('param').parse(aStream).get(), 
-                   ast.param('age', ast.type.native('int')),  "provide a param");
+                   ast.param('age', ast.type.native('number')),  "provide a param");
     test.done();
   },
 

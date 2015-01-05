@@ -80,7 +80,7 @@ exports['language_class'] = {
                    ast.controller('Address',
                                   [],
                                   ast.param('this',ast.type.variable('Address')), 
-                                  [ ast.param('number', ast.type.variable("number")) ],
+                                  [ ast.param('number', ast.type.native("number")) ],
                                   [ ast.method('number', ast.expr.number(123)) ]) , 
                    "accept a controller");
     test.done();
@@ -94,7 +94,7 @@ exports['language_class'] = {
                    ast.controller('Address', 
                                   [],
                                   ast.param('this', ast.type.variable('Address')), 
-                                  [ ast.param('number', ast.type.abstraction(ast.type.variable("unit"), ast.type.variable("number"))) ], 
+                                  [ ast.param('number', ast.type.abstraction(ast.type.native("unit"), ast.type.native("number"))) ], 
                                   [ ast.method('number', ast.expr.abstraction("_", ast.expr.number(123))) ]), 
                    "accept a controller");
     test.done();

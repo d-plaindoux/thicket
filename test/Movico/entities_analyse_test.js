@@ -123,7 +123,7 @@ exports['entities_analyse'] = {
   "Analyse simple view using this": function (test) {
       test.expect(1);
       // Test
-      var aView = ast.view("A",[],ast.param("this",ast.type.native("XML")),ast.expr.ident('this'));
+      var aView = ast.view("A",[],ast.param("this",ast.type.native("xml")),ast.expr.ident('this'));
       test.ok(entities.analyse(list(), aView).isSuccess(),
               "Simple view");
       test.done();

@@ -144,7 +144,7 @@ exports['expressions'] = {
       // Test
       var anExpression = ast.expr.tag("A",[],[]);
       test.deepEqual(expression.analyse(list(), list(), anExpression).success(),
-                     pair(list(), ast.type.native('XML')),
+                     pair(list(), ast.type.native('xml')),
                      "Simple Tag");
       test.done();
   },
@@ -154,7 +154,7 @@ exports['expressions'] = {
       // Test
       var anExpression = ast.expr.tag("A",[["a",ast.expr.string("a")]],[]);
       test.deepEqual(expression.analyse(list(), list(), anExpression).success(),
-                     pair(list(), ast.type.native('XML')),
+                     pair(list(), ast.type.native('xml')),
                      "Simple Tag with one attribute");
       test.done();
   },
@@ -182,7 +182,7 @@ exports['expressions'] = {
       // Test
       var anExpression = ast.expr.tag("A",[],[ast.expr.tag("B",[],[])]);
       test.deepEqual(expression.analyse(list(), list(), anExpression).success(),
-                     pair(list(), ast.type.native('XML')),
+                     pair(list(), ast.type.native('xml')),
                      "Tag containing Tag");
       test.done();
   },
@@ -210,7 +210,7 @@ exports['expressions'] = {
       // Test
       var anExpression = ast.expr.tag("A",[],[ast.expr.ident("a")]);
       test.deepEqual(expression.analyse(list(), list(pair("a",ast.type.variable("a"))), anExpression).success(),
-                     pair(list(pair('a',ast.type.native("XML"))), ast.type.native('XML')),
+                     pair(list(pair('a',ast.type.native("xml"))), ast.type.native('xml')),
                      "Tag containing ident");
       test.done();
   },
@@ -220,7 +220,7 @@ exports['expressions'] = {
       // Test
       var anExpression = ast.expr.tag("A",[["a",ast.expr.ident("a")]],[]);
       test.deepEqual(expression.analyse(list(), list(pair("a",ast.type.variable("a"))), anExpression).success(),
-                     pair(list(pair('a',ast.type.native("string"))), ast.type.native('XML')),
+                     pair(list(pair('a',ast.type.native("string"))), ast.type.native('xml')),
                      "Tag containing ident");
       test.done();
   },

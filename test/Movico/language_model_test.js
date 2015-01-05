@@ -75,11 +75,11 @@ exports['language_object'] = {
   'complexe model is accepted and provided': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("model Address { street : string number : int}");        
+    var aStream = stream("model Address { street : string number : number}");        
     test.deepEqual(language.parser.group('modelDef').parse(aStream).get(), 
                    ast.model('Address', 
                              [],
-                             [ast.param('street',ast.type.native('string')), ast.param('number',ast.type.native('int'))]) , 
+                             [ast.param('street',ast.type.native('string')), ast.param('number',ast.type.native('number'))]) , 
                    "accept a model");
     test.done();
   },

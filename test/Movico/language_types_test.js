@@ -32,84 +32,84 @@ exports['language_type'] = {
   'simple named type is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("int");
+    var aStream = stream("number");
         
     test.deepEqual(language.parser.group('type').parse(aStream).orElse(null), 
-                   ast.type.native('int'),
-                   "accept int type");
+                   ast.type.native('number'),
+                   "accept number type");
     test.done();
   },
     
   'simple named type (in parenthesis) is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("( int )");
+    var aStream = stream("( number )");
         
     test.deepEqual(language.parser.group('type').parse(aStream).orElse(null), 
-                   ast.type.native('int'),
-                   "accept int type");
+                   ast.type.native('number'),
+                   "accept number type");
     test.done();
   },
     
   'simple named type witch open parenthesis is rejected': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("( int ");
+    var aStream = stream("( number ");
         
-    test.equal(language.parser.group('type').parse(aStream).isPresent(), false, "reject (int)type");
+    test.equal(language.parser.group('type').parse(aStream).isPresent(), false, "reject (number)type");
     test.done();
   },
     
   'simple named list type is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("(List[int])");
+    var aStream = stream("(List[number])");
         
     test.deepEqual(language.parser.group('type').parse(aStream).orElse(null),
-                   ast.type.list(ast.type.native('int')),
-                   "accept [int] type");
+                   ast.type.list(ast.type.native('number')),
+                   "accept [number] type");
     test.done();
   },
     
   'simple named unclosed list type is rejected': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("[int");
+    var aStream = stream("[number");
         
-    test.equal(language.parser.group('type').parse(aStream).isPresent(), false, "reject [int type");
+    test.equal(language.parser.group('type').parse(aStream).isPresent(), false, "reject [number type");
     test.done();
   },
     
   'tuple type (in parenthesis) is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("( int, string )");
+    var aStream = stream("( number, string )");
         
     test.deepEqual(language.parser.group('type').parse(aStream).orElse(null), 
-                   ast.type.pair(ast.type.native('int'),ast.type.native('string')),
-                   "accept (int,string) type");
+                   ast.type.pair(ast.type.native('number'),ast.type.native('string')),
+                   "accept (number,string) type");
     test.done();
   },    
         
   'function type (in parenthesis) is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("( int -> string )");
+    var aStream = stream("( number -> string )");
         
     test.deepEqual(language.parser.group('type').parse(aStream).orElse(null), 
-                   ast.type.abstraction(ast.type.native('int'),ast.type.native('string')),
-                   "accept (int->string) type");
+                   ast.type.abstraction(ast.type.native('number'),ast.type.native('string')),
+                   "accept (number->string) type");
     test.done();
   },    
 
     'list of tuple type (in parenthesis) is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("(List[(int,string)])");
+    var aStream = stream("(List[(number,string)])");
         
     test.deepEqual(language.parser.group('type').parse(aStream).orElse(null), 
-                   ast.type.list(ast.type.pair(ast.type.native('int'),ast.type.native('string'))), 
-                   "accept [(int,string)] type");
+                   ast.type.list(ast.type.pair(ast.type.native('number'),ast.type.native('string'))), 
+                   "accept [(number,string)] type");
     test.done();
   },    
 };
