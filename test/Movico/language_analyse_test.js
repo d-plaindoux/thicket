@@ -3,7 +3,6 @@
 var stream = require('../../lib' + (process.env.MOVICO_COV || '') + '/Parser/stream.js').stream,
     aTry = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/atry.js').atry,
     list = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/list.js').list,
-    pair = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/pair.js').pair,
     language = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/language.js').language(),
     entities = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/entities.js').entities,
     fs = require('fs');
@@ -37,12 +36,9 @@ function correctSampleTest(sample, test) {
         }
         var aStream = stream(data.toString()),
             allEntities = language.parser.group('entities').parse(aStream),
-            nongenerics = list(allEntities.orElse([])).map(function (entity) {
-                return entity.name;
-            }),
-            variables = list(allEntities.orElse([])).map(function (entity) {
-                return pair(entity.name, entity);
-            });
+            nongenerics = entities.nongenerics(allEntities),            
+            variables = entities.substitutions(allEntities),
+            environment = entities.environment(allEntities);
 
         if (!aStream.isEmpty()) {
             console.log("\n<ERROR LOCATION> " + aStream.location());
@@ -57,7 +53,7 @@ function correctSampleTest(sample, test) {
 
         var analyse = list(allEntities.orElse([])).foldL(aTry.success(null), function (result, entity) {
             return result.flatmap(function () {
-                return entities.analyse(variables, variables, entity);
+                return entities.analyse(environment, variables, entity);
             });
         });
         

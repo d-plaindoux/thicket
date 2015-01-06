@@ -1,18 +1,17 @@
-model Option[a] {}
+type Expr
 
-model Some[a] : Option[a] {
-    value : a
-} 
+model Int : Expr {
+    value : int
+}
 
-model None[a] : Option[a] {}
+model Add : Expr {
+    left : Expr
+    right : Expr
+}
 
-class OptionClass[a] this:Option[a] {
-    map     : [b] (a -> b) -> Option[b]
-    flatmap : [b] (a -> Option[b]) -> Option[b]
+class ExprEval this:Expr {
+    eval : int
 } {
-    def Some[a].map f = Some (f this.value)
-    def Some[a].flatmap f = f this.value
-
-    def None[a].map f = None
-    def None[a].flatmap f = sNone
+    def (Int).eval = this.value
+    def (Add).eval = this.left + this.right
 }
