@@ -39,7 +39,7 @@ sexpr     ::= NUMBER
             | "<" IDENT attr* "/>"
             | "[" exprs ("for" IDENT "ingenerics ("if" exprs)? "]"
             | "let" IDENT IDENT* "=" exprs "in" exprs
-            | "fun" IDENT+ => exprs
+            | "fun" IDENT+ -> exprs
             
 attr      ::= IDENT "=" expr
 

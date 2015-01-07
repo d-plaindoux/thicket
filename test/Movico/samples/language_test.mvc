@@ -69,7 +69,7 @@ class Todos this:List[TodoModel] {
 }
 
 view TodosView this: Todos {
-    this.todos.map(fun p => <li> p.what </li>)
+    this.todos.map(fun p -> <li> p.what </li>)
 }
 
 view TodoAdder this: Todos {
@@ -155,7 +155,9 @@ model Functor[f] {
 // End of file
 // --------------------------------------------------------------------
 
-model native {}
+model native {
+    (@) : [a b] string -> a -> b
+}
 
 model xml {}
 
@@ -166,11 +168,11 @@ class int this:native {
     (/) : int -> int
     string : string
 } {
-    def (+) i  = internal "addInt" this i
-    def (-) i  = internal "minusInt" this i
-    def (*) i  = internal "multInt" this i
-    def (/) i  = internal "divInt" this i
-    def string = internal "stringInt" this
+    def (+) i  = this @ "addInt" i
+    def (-) i  = this @ "minusInt" i
+    def (*) i  = this @ "multInt" i
+    def (/) i  = this @ "divInt" i
+    def string = this @ "stringInt"
 }
 
 class string this:native {
@@ -178,7 +180,7 @@ class string this:native {
     int : Option[int]
     xml : xml
 } {
-    def (+) s = internal "addString" this s
-    def int = internal "intString" this (fun i => Some i) None
-    def xml = internal "xmlString" this
+    def (+) s = this @ "addString" s
+    def int = this @ "intString" (fun i -> Some i, None)
+    def xml = this @ "xmlString"
 }

@@ -275,7 +275,7 @@ exports['language_exprs'] = {
   'abstraction with x': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("fun x => 1");
+    var aStream = stream("fun x -> 1");
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
                    ast.expr.abstraction("x", ast.expr.number(1)),
@@ -286,7 +286,7 @@ exports['language_exprs'] = {
   'abstraction with x and y': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("fun x y => 1");
+    var aStream = stream("fun x y -> 1");
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
                    ast.expr.abstraction("x", ast.expr.abstraction("y", ast.expr.number(1))),

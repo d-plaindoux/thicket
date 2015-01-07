@@ -55,15 +55,14 @@ class Person this:APerson {
   def firstname = this.firstname
   def name = this.name
   def age = this.age
-  def tick = Person (this with {age:this.age+1})
+  def tick = Person this.firstname this.name 0
 }
 
 class Population this:[APerson] {
   persons   : int -> [APerson]
   addPerson : (string,string) -> Population
 } {
-  def persons age = [p for p in this if p.age < age]
-                  // p.filter(fun p => p.age < age).map(I)
+  def persons age = p.filter(fun p -> p.age < age)
   def addPerson p = Population (APerson p._1 p._2 0)
 }
 ```
