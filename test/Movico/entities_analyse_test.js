@@ -133,7 +133,7 @@ exports['entities_analyse'] = {
       test.expect(1);
       // Test
       var aView = ast.view("A",[],ast.param("this",ast.type.variable("number")),ast.expr.number(1));
-      test.ok(entities.analyse(list(), list(pair("string",ast.type.native("string")),pair("number",ast.type.native("number"))), aView).isFailure(),
+      test.ok(entities.analyse(list(), list(pair("xml", ast.type.native("xml")),pair("string",ast.type.native("string")),pair("number",ast.type.native("number"))), aView).isFailure(),
               "Simple view");
       test.done();
   },

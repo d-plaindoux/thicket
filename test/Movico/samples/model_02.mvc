@@ -1,21 +1,32 @@
 // Simple example with a model and a view 
 
-model string {}
+model xml {}
+
+model string {
+    xml : xml
+}
+
+model number {
+    string : string
+}
 
 model Todo {
+    date  : number
     value : string
 }
 
 class TodoClass this:Todo {
-    what : string   
+    date : number
+    what : string     
     change : string -> TodoClass    
 } {
+    def date = this.date
     def what = this.value
-    def change what = self (Todo what)
+    def change what = self (Todo 0 what)
 }
 
 view TodoView this:TodoClass {
     <div> 
-        <div class="todo" what=this.what/>
+        <div class="todo" when=this.date.string> this.what.xml </div>
     </div>
 }

@@ -1,10 +1,11 @@
-model number {}
+model number {
+    (+) : number -> number
+}
 
 model Expr {}
 
 model Int : Expr {
     _   : number
-    (+) : Int -> Int
 }
 
 model Add : Expr {
@@ -13,8 +14,8 @@ model Add : Expr {
 }
 
 class ExprEval this:Expr {
-    eval : Int
+    eval : number
 } {
-    def (Int).eval = this
+    def (Int).eval = this._
     def (Add).eval = (self this._1).eval + (self this._2).eval
 }
