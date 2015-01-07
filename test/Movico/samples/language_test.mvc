@@ -41,7 +41,7 @@ class Person this:PersonModel {
     def firstname = this.firstname
     def name = this.name
     def age = this.age
-    def tick = self(this.age(this.age add 1))
+    def tick = self(this.age(this.age + 1))
 } 
 
 class Population this:List[Person] {
@@ -155,3 +155,30 @@ model Functor[f] {
 // End of file
 // --------------------------------------------------------------------
 
+model native {}
+
+model xml {}
+
+class int this:native {
+    (+) : int -> int
+    (-) : int -> int
+    (*) : int -> int
+    (/) : int -> int
+    string : string
+} {
+    def (+) i  = internal "addInt" this i
+    def (-) i  = internal "minusInt" this i
+    def (*) i  = internal "multInt" this i
+    def (/) i  = internal "divInt" this i
+    def string = internal "stringInt" this
+}
+
+class string this:native {
+    (+) : string -> string
+    int : Option[int]
+    xml : xml
+} {
+    def (+) s = internal "addString" this s
+    def int = internal "intString" this (fun i => Some i) None
+    def xml = internal "xmlString" this
+}

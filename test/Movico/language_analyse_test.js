@@ -79,9 +79,9 @@ exports['language'] = {
   'entity 02': function(test) {
     correctSampleTest("model_02.mvc", test);    
   },
-/*
+
   'entity 03': function(test) {
     correctSampleTest("model_03.mvc", test);    
   },
-*/
+
 };

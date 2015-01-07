@@ -1,17 +1,17 @@
 model Expr {}
 
 model Int : Expr {
-    value : int
+    (+) : Int -> Int
 }
 
 model Add : Expr {
-    left : Expr
-    right : Expr
+    _1 : Expr
+    _2 : Expr
 }
 
 class ExprEval this:Expr {
-    eval : int
+    eval : Int
 } {
-    def (Int).eval = this.value
-    def (Add).eval = this.left + this.right
+    def (Int).eval = this
+    def (Add).eval = (self this._1).eval + (self this._2).eval
 }
