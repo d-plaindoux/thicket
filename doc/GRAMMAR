@@ -10,10 +10,10 @@ entity  ::= objectDef | typeDef | classDef | viewDef
 
 generics  ::= ("[" IDENT+ "]")?
 
-objectDef ::= "model" IDENT generics (":" ftype)? "{" tparam* "}"
-tparam    ::= IDENT ":" generics type
+objectDef ::= "model" IDENT generics (":" type)? "{" tparam* "}"
+tparam    ::= (IDENT|"("OPERATOR")") ":" generics type
 type      ::= IDENT ("[" type+ "]")?
-            | "(" ftype ")" 
+            | "(" types ")" 
 
 types     ::= type "," types
             | type "->" types
@@ -23,9 +23,9 @@ types     ::= type "," types
 
 classDef  ::= "class" IDENT generics param "{" tparam* "}" "{" method* "}"
 
-method    ::= "def" (type ".")? IDENT IDENT* "=" expr
+method    ::= "def" (type ".")? (IDENT|"("OPERATOR")") IDENT* "=" expr
 
-exprs     ::= pexpr+
+exprs     ::= expr (OPERATOR | expr)*
 
 expr      ::= iexpr ("," iexpr)*
 
