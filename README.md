@@ -62,7 +62,7 @@ class Population this:[APerson] {
   persons   : int -> [APerson]
   addPerson : (string,string) -> Population
 } {
-  def persons age = p.filter(fun p -> p.age < age)
+  def persons age = this.filter(fun p -> p.age <= age)
   def addPerson p = Population (APerson p._1 p._2 0)
 }
 ```
