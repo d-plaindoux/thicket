@@ -1,5 +1,7 @@
 // Simple example with a model and a view 
 
+model string {}
+
 model Todo {
     value : string
 }

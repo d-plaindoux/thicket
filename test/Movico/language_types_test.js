@@ -35,7 +35,7 @@ exports['language_type'] = {
     var aStream = stream("number");
         
     test.deepEqual(language.parser.group('type').parse(aStream).orElse(null), 
-                   ast.type.native('number'),
+                   ast.type.variable('number'),
                    "accept number type");
     test.done();
   },
@@ -46,7 +46,7 @@ exports['language_type'] = {
     var aStream = stream("( number )");
         
     test.deepEqual(language.parser.group('type').parse(aStream).orElse(null), 
-                   ast.type.native('number'),
+                   ast.type.variable('number'),
                    "accept number type");
     test.done();
   },
@@ -66,7 +66,7 @@ exports['language_type'] = {
     var aStream = stream("(List[number])");
         
     test.deepEqual(language.parser.group('type').parse(aStream).orElse(null),
-                   ast.type.list(ast.type.native('number')),
+                   ast.type.list(ast.type.variable('number')),
                    "accept [number] type");
     test.done();
   },
@@ -86,7 +86,7 @@ exports['language_type'] = {
     var aStream = stream("( number, string )");
         
     test.deepEqual(language.parser.group('type').parse(aStream).orElse(null), 
-                   ast.type.pair(ast.type.native('number'),ast.type.native('string')),
+                   ast.type.pair(ast.type.variable('number'),ast.type.variable('string')),
                    "accept (number,string) type");
     test.done();
   },    
@@ -97,7 +97,7 @@ exports['language_type'] = {
     var aStream = stream("( number -> string )");
         
     test.deepEqual(language.parser.group('type').parse(aStream).orElse(null), 
-                   ast.type.abstraction(ast.type.native('number'),ast.type.native('string')),
+                   ast.type.abstraction(ast.type.variable('number'),ast.type.variable('string')),
                    "accept (number->string) type");
     test.done();
   },    
@@ -108,7 +108,7 @@ exports['language_type'] = {
     var aStream = stream("(List[(number,string)])");
         
     test.deepEqual(language.parser.group('type').parse(aStream).orElse(null), 
-                   ast.type.list(ast.type.pair(ast.type.native('number'),ast.type.native('string'))), 
+                   ast.type.list(ast.type.pair(ast.type.variable('number'),ast.type.variable('string'))), 
                    "accept [(number,string)] type");
     test.done();
   },    

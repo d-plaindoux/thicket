@@ -97,7 +97,7 @@ then can be referenced as we do in the `Population#addPerson` method.
 
 ```
 view PersonAdder this:Population {
-  let onSubmit = (this.addPerson self.firstname self.name) in
+  let onSubmit = this.addPerson self.firstname self.name in
       <form onSubmit=onSubmit>
         <input type="text" id="firstname"/>
         <input type="text" id="name"/>

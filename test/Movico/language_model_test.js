@@ -79,7 +79,7 @@ exports['language_object'] = {
     test.deepEqual(language.parser.group('modelDef').parse(aStream).get(), 
                    ast.model('Address', 
                              [],
-                             [ast.param('street',ast.type.native('string')), ast.param('number',ast.type.native('number'))]) , 
+                             [ast.param('street',ast.type.variable('string')), ast.param('number',ast.type.variable('number'))]) , 
                    "accept a model");
     test.done();
   },
@@ -91,7 +91,7 @@ exports['language_object'] = {
     test.deepEqual(language.parser.group('modelDef').parse(aStream).get(), 
                    ast.model('Address', 
                              [],
-                             [ast.param('street',ast.type.native('string')), ast.param('number',ast.type.forall(["a"],ast.type.variable("a")))]) , 
+                             [ast.param('street',ast.type.variable('string')), ast.param('number',ast.type.forall(["a"],ast.type.variable("a")))]) , 
                    "accept a model");
     test.done();
   },

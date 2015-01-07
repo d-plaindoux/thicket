@@ -1,6 +1,9 @@
+model number {}
+
 model Expr {}
 
 model Int : Expr {
+    _   : number
     (+) : Int -> Int
 }
 
