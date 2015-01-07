@@ -127,5 +127,19 @@ exports['language_class'] = {
                    "accept a controller");
     test.done();
   },
+       
+  'controller with a infix method and specific caller': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("class Address this: Address { (+) : [a] a -> a } { def (+) x = x }");        
+    test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
+                   ast.controller('Address',
+                                  [],
+                                  ast.param('this', ast.type.variable('Address')), 
+                                  [ ast.param('+', ast.type.forall(["a"],ast.type.abstraction(ast.type.variable("a"),ast.type.variable("a")))) ],
+                                  [ ast.method('+', ast.expr.abstraction("x", ast.expr.ident("x"))) ]) , 
+                   "accept a controller");
+    test.done();
+  },
 
 };

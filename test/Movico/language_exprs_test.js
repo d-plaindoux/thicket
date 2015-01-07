@@ -35,7 +35,7 @@ exports['language_exprs'] = {
     var aStream = stream("123");
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
-               ast.expr.number(123), "accept a number");
+                   ast.expr.number(123), "accept a number");
     test.done();
   },
     
@@ -45,7 +45,7 @@ exports['language_exprs'] = {
     var aStream = stream('"123"');
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
-               ast.expr.string("123"), "accept a string");
+                   ast.expr.string("123"), "accept a string");
     test.done();
   },
     
@@ -67,7 +67,7 @@ exports['language_exprs'] = {
     var aStream = stream("'123'");
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
-               ast.expr.string("123"), "accept a string");
+                   ast.expr.string("123"), "accept a string");
     test.done();
   },
 
@@ -292,5 +292,27 @@ exports['language_exprs'] = {
                    ast.expr.abstraction("x", ast.expr.abstraction("y", ast.expr.number(1))),
                    "accept function");
     test.done();
-  },  
+  },
+    
+  'expression with an operator': function (test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("x.(+)");
+        
+    test.deepEqual(language.parser.group('expr').parse(aStream).get(), 
+                   ast.expr.invoke(ast.expr.ident("x"),"+"),
+                   "Expression with an operator");
+    test.done();      
+  },
+    
+  'expression with an infix operator': function (test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("(x + y)");
+        
+    test.deepEqual(language.parser.group('expr').parse(aStream).get(), 
+                   ast.expr.application(ast.expr.invoke(ast.expr.ident("x"),"+"), ast.expr.ident("y")),
+                   "Expression with an operator");
+    test.done();      
+  }
 };

@@ -6,7 +6,7 @@ model Todo {
 
 class TodoClass this:Todo {
     what : string   
-    change : string -> TodoClass
+    change : string -> TodoClass    
 } {
     def what = this.value
     def change what = self (Todo what)

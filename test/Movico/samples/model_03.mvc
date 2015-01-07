@@ -1,4 +1,4 @@
-type Expr
+model Expr {}
 
 model Int : Expr {
     value : int
