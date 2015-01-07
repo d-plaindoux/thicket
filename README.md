@@ -60,10 +60,10 @@ class Person this:APerson {
 
 class Population this:[APerson] {
   persons   : int -> [APerson]
-  addPerson : (string,string) -> Population
+  addPerson : string -> string -> Population
 } {
   def persons age = this.filter(fun p -> p.age <= age)
-  def addPerson p = Population (APerson p._1 p._2 0)
+  def addPerson f n = Population (APerson f n)
 }
 ```
 
@@ -80,9 +80,9 @@ approach is  similar to  [Reac](http://facebook.github.io/react/).
 ```
 view PersonView this:Person {
   <div onClick=this.tick> 
-    <div>this.firstname</>
-    <div>this.name</>
-    <div>this.age</>
+    <div>this.firstname</div>
+    <div>this.name</div>
+    <div>this.age</div>
   </>
 }
 ```
@@ -97,12 +97,12 @@ then can be referenced as we do in the `Population#addPerson` method.
 
 ```
 view PersonAdder this:Population {
-  let onSubmit = (this.addPerson (self.firstname,self.name)) in
+  let onSubmit = (this.addPerson self.firstname self.name) in
       <form onSubmit=onSubmit>
         <input type="text" id="firstname"/>
         <input type="text" id="name"/>
         <input type="submit" value="Add"/>
-      </>   
+      </form>   
 }
 
 view PopulationView this:Population {
