@@ -1,0 +1,9 @@
+model Reference[a] {
+    value : a 
+}
+
+class ref[a] this:Reference[a] {
+    value : a
+} {
+    def value = this.value
+}

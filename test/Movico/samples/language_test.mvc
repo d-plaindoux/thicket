@@ -115,7 +115,7 @@ model Cons[a] : List[a] {
 
 model Nil[a] : List[a] {}
 
-class ListClass [a] this:(List[a]) {
+class ListClass [a] this:List[a] {
     map : [b] (a -> b) -> List[b]
 } {
     def Cons[a].map f = Cons (f this.head) ((self this.tail).map f)

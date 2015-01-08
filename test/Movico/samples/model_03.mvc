@@ -5,7 +5,7 @@ model number {
 model Expr {}
 
 model Int : Expr {
-    _   : number
+    _ : number
 }
 
 model Add : Expr {
@@ -19,3 +19,4 @@ class ExprEval this:Expr {
     def (Int).eval = this._
     def (Add).eval = (self this._1).eval + (self this._2).eval
 }
+
