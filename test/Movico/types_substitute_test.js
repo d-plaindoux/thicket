@@ -119,5 +119,65 @@ exports['types_subsitute'] = {
                      "Substitute function bound variable");
       test.done();
   },
+
+  "Subtitute model": function (test) {
+      test.expect(1);
+      // Test
+      var entity = ast.model("A",[],[ast.param("f",ast.type.variable("b"))]);
+      test.deepEqual(types.substitute(list(pair("b",ast.type.native("y"))), entity),
+                     ast.model("A",[],[ast.param("f",ast.type.native("y"))]),
+                     "Substitute model");
+      test.done();
+  },
+    
+  "Subtitute model with non free variable": function (test) {
+      test.expect(1);
+      // Test
+      var entity = ast.model("A",["b"],[ast.param("f",ast.type.variable("b"))]);
+      test.deepEqual(types.substitute(list(pair("b",ast.type.native("y"))), entity),
+                     entity,
+                     "Substitute model");
+      test.done();
+  },
+
+  "Subtitute controller": function (test) {
+      test.expect(1);
+      // Test
+      var entity = ast.controller("A",[],ast.param("this", ast.type.variable("b")),[ast.param("f",ast.type.variable("b"))],[]);
+      test.deepEqual(types.substitute(list(pair("b",ast.type.native("y"))), entity),
+                    ast.controller("A",[],ast.param("this", ast.type.native("y")),[ast.param("f",ast.type.native("y"))],[]),
+                     "Substitute controller");
+      test.done();
+  },
+    
+  "Subtitute controller with non free variable": function (test) {
+      test.expect(1);
+      // Test
+      var entity = ast.controller("A",["b"],ast.param("this", ast.type.variable("b")),[ast.param("f",ast.type.variable("b"))],[]);
+      test.deepEqual(types.substitute(list(pair("b",ast.type.native("y"))), entity),
+                    entity,
+                     "Substitute controller");
+      test.done();
+  },
+    
+  "Subtitute view": function (test) {
+      test.expect(1);
+      // Test
+      var entity = ast.view("A",[],ast.param("this", ast.type.variable("b")),[]);
+      test.deepEqual(types.substitute(list(pair("b",ast.type.native("y"))), entity),
+                    ast.view("A",[],ast.param("this", ast.type.native("y")),[]),
+                     "Substitute view");
+      test.done();
+  },
+    
+  "Subtitute view with non free variable": function (test) {
+      test.expect(1);
+      // Test
+      var entity = ast.view("A",["b"],ast.param("this", ast.type.variable("b")),[]);
+      test.deepEqual(types.substitute(list(pair("b",ast.type.native("y"))), entity),
+                    entity,
+                     "Substitute view");
+      test.done();
+  },
 };
  
