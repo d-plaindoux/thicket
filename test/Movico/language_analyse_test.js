@@ -88,4 +88,8 @@ exports['language'] = {
     correctSampleTest("model_04.mvc", test);    
   },
 
+  'entity 05': function(test) {
+    correctSampleTest("model_05.mvc", test);    
+  },
+
 };

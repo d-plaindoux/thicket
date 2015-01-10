@@ -1,0 +1,35 @@
+model Option [a] {}
+model None[a] : Option[a] {}
+model Some[a] : Option[a] { _ : a } 
+
+// ---------------------------------------------------------
+
+model native {
+    (@) : [a b] string -> a -> b
+}
+
+class xml this:native {} {}
+
+class number this:native {
+    (+) : number -> number
+    (-) : number -> number
+    (*) : number -> number
+    (/) : number -> number
+    string : string
+} {
+    def (+) i  = this @ "addInt" i
+    def (-) i  = this @ "minusInt" i
+    def (*) i  = this @ "multInt" i
+    def (/) i  = this @ "divInt" i
+    def string = this @ "stringInt" ()
+}
+
+class string this:native {
+    (+) : string -> string
+    number : Option[number]
+    xml : xml
+} {
+    def (+) s = this @ "addString" s
+    def number = this @ "numberString" (fun i -> Some i),None
+    def xml = this @ "xmlString" ()
+}
