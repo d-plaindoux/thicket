@@ -33,7 +33,7 @@ exports['types_generics'] = {
   "Model with generics": function (test) {
       test.expect(1);
       // Test
-      var entity = ast.model("A",["a"],[]);
+      var entity = ast.model("A",["a"],[ast.type.variable("a")],[]);
       test.deepEqual(types.genericsAndType(entity),
                      pair(list("a"),entity),
                      "Generics and model");
@@ -53,7 +53,7 @@ exports['types_generics'] = {
   "View with generics": function (test) {
       test.expect(1);
       // Test
-      var entity = ast.view("A",["a"],[],[]);
+      var entity = ast.view("A",["a"],[ast.type.variable('a')],[],[]);
       test.deepEqual(types.genericsAndType(entity),
                      pair(list("a"),entity),
                      "Generics and view");

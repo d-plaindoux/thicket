@@ -230,7 +230,7 @@ exports['expressions'] = {
       // Test
       var anExpression = ast.expr.invoke(ast.expr.ident("A"),"x"),
           aController = ast.controller("A",ast.param("this",ast.type.native("number")),
-                                       [],
+                                       [],[],
                                        [ast.param("x",ast.type.native("number"))],
                                        [ast.method("x",ast.expr.number(1))]);
       test.deepEqual(expression.analyse(list(), list(pair("A",aController)), list(), anExpression).success(),
@@ -244,7 +244,7 @@ exports['expressions'] = {
       // Test
       var anExpression = ast.expr.invoke(ast.expr.ident("A"),"x"),
           aModel = ast.model("A",
-                             [],
+                             [],[],
                              [ast.param("x",ast.type.native("number"))]);
       test.deepEqual(expression.analyse(list(), list(pair("A",aModel)), list(), anExpression).success(),
                      pair(list(), ast.type.native('number')),
@@ -257,7 +257,7 @@ exports['expressions'] = {
       // Test
       var anExpression = ast.expr.invoke(ast.expr.ident("A"),"y"),
           aModel = ast.model("A",
-                             [],
+                             [],[],
                              [ast.param("x",ast.type.native("number"))]);
       test.ok(expression.analyse(list(), list(), list(pair("A",aModel)), anExpression).isFailure(),              
               "Model invocation");

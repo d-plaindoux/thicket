@@ -44,9 +44,9 @@ exports['types_freevar'] = {
       
       types.reset();
       
-      var entity = ast.model("A",["a"],[ast.param("f",ast.type.variable("a"))]);
+      var entity = ast.model("A",["a"],[ast.type.variable("a")],[ast.param("f",ast.type.variable("a"))]);
       test.deepEqual(types.freshType(entity),
-                     ast.model("A",["#1"],[ast.param("f",ast.type.variable("#1"))]),
+                     ast.model("A",["#1"],[ast.type.variable("#1")],[ast.param("f",ast.type.variable("#1"))]),
                      "Fresh model with generics");
       test.done();
   },
@@ -57,9 +57,9 @@ exports['types_freevar'] = {
       
       types.reset();
       
-      var entity = ast.controller("A",["a"],ast.param("this",ast.type.variable("a")),[ast.param("f",ast.type.variable("a"))], []);
+      var entity = ast.controller("A",["a"],[ast.type.variable('a')],ast.param("this",ast.type.variable("a")),[ast.param("f",ast.type.variable("a"))], []);
       test.deepEqual(types.freshType(entity),
-                     ast.controller("A",["#1"],ast.param("this",ast.type.variable("#1")),[ast.param("f",ast.type.variable("#1"))], []),
+                     ast.controller("A",["#1"],[ast.type.variable('#1')],ast.param("this",ast.type.variable("#1")),[ast.param("f",ast.type.variable("#1"))], []),
                      "Fresh controller with generics");
       test.done();
   },
@@ -70,9 +70,9 @@ exports['types_freevar'] = {
       
       types.reset();
       
-      var entity = ast.view("A",["a"],ast.param("this",ast.type.variable("a")),[]);
+      var entity = ast.view("A",["a"],[ast.type.variable('a')],ast.param("this",ast.type.variable("a")),[]);
       test.deepEqual(types.freshType(entity),
-                     ast.view("A",["#1"],ast.param("this",ast.type.variable("#1")),[]),
+                     ast.view("A",["#1"],[ast.type.variable("#1")],ast.param("this",ast.type.variable("#1")),[]),
                      "Fresh view with generics");
       test.done();
   },

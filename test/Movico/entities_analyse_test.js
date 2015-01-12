@@ -33,7 +33,7 @@ exports['entities_analyse'] = {
   "Analyse empty controller": function (test) {
       test.expect(1);
       // Test
-      var aController = ast.controller("A",[],ast.param("this",ast.type.variable("number")),[],[]);
+      var aController = ast.controller("A",[],[],ast.param("this",ast.type.variable("number")),[],[]);
       test.ok(entities.analyse(list(), list(), aController).isSuccess(),
               "Empty controller");
       test.done();
@@ -42,7 +42,7 @@ exports['entities_analyse'] = {
   "Analyse simple controller": function (test) {
       test.expect(1);
       // Test
-      var aController = ast.controller("A",[],
+      var aController = ast.controller("A",[],[],
                                        ast.param("this",ast.type.variable("number")),
                                        [ ast.param("m", ast.type.variable("number")) ],
                                        [ ast.method("m", ast.expr.number(1)) ]);
@@ -54,7 +54,7 @@ exports['entities_analyse'] = {
   "Analyse simple wrong controller": function (test) {
       test.expect(1);
       // Test
-      var aController = ast.controller("A",[],
+      var aController = ast.controller("A",[],[],
                                        ast.param("this",ast.type.variable("number")),
                                        [ ast.param("m", ast.type.variable("string")) ],
                                        [ ast.method("m", ast.expr.number(1)) ]);
@@ -66,7 +66,7 @@ exports['entities_analyse'] = {
   "Analyse simple partial controller": function (test) {
       test.expect(1);
       // Test
-      var aController = ast.controller("A",[],
+      var aController = ast.controller("A",[],[],
                                        ast.param("this",ast.type.variable("number")),
                                        [ ],
                                        [ ast.method("m", ast.expr.number(1)) ]);
@@ -78,7 +78,7 @@ exports['entities_analyse'] = {
   "Analyse simple controller using this": function (test) {
       test.expect(1);
       // Test
-      var aController = ast.controller("A",[],
+      var aController = ast.controller("A",[],[],
                                        ast.param("this",ast.type.variable("number")),
                                        [ ast.param("m", ast.type.variable("number")) ],
                                        [ ast.method("m", ast.expr.ident("this")) ]);
@@ -90,7 +90,7 @@ exports['entities_analyse'] = {
   "Analyse simple controller using self": function (test) {
       test.expect(1);
       // Test
-      var aController = ast.controller("A",[],
+      var aController = ast.controller("A",[],[],
                                        ast.param("this",ast.type.variable("number")),
                                        [ ast.param("m", ast.type.variable("number")) ],
                                        [ ast.method("m", ast.expr.invoke(ast.expr.ident("self"), "m")) ]);
@@ -102,7 +102,7 @@ exports['entities_analyse'] = {
   "Analyse simple controller returning self": function (test) {
       test.expect(1);
       // Test
-      var aController = ast.controller("A",[],
+      var aController = ast.controller("A",[],[],
                                        ast.param("this",ast.type.variable("number")),
                                        [ ast.param("m", ast.type.variable("A")) ],
                                        [ ast.method("m", ast.expr.ident("self")) ]);
@@ -114,7 +114,7 @@ exports['entities_analyse'] = {
   "Analyse simple view": function (test) {
       test.expect(1);
       // Test
-      var aView = ast.view("A",[],ast.param("this",ast.type.variable("number")),ast.expr.tag('a',[],[]));
+      var aView = ast.view("A",[],[],ast.param("this",ast.type.variable("number")),ast.expr.tag('a',[],[]));
       test.ok(entities.analyse(list(), list(), aView).isSuccess(),
               "Simple view");
       test.done();
@@ -123,7 +123,7 @@ exports['entities_analyse'] = {
   "Analyse simple view using this": function (test) {
       test.expect(1);
       // Test
-      var aView = ast.view("A",[],ast.param("this",ast.type.variable("xml")),ast.expr.ident('this'));
+      var aView = ast.view("A",[],[],ast.param("this",ast.type.variable("xml")),ast.expr.ident('this'));
       test.ok(entities.analyse(list(), list(), aView).isSuccess(),
               "Simple view");
       test.done();
@@ -132,7 +132,7 @@ exports['entities_analyse'] = {
   "Analyse simple view with wrong content": function (test) {
       test.expect(1);
       // Test
-      var aView = ast.view("A",[],ast.param("this",ast.type.variable("number")),ast.expr.number(1));
+      var aView = ast.view("A",[],[],ast.param("this",ast.type.variable("number")),ast.expr.number(1));
       test.ok(entities.analyse(list(), list(pair("xml", ast.type.native("xml")),pair("string",ast.type.native("string")),pair("number",ast.type.native("number"))), aView).isFailure(),
               "Simple view");
       test.done();

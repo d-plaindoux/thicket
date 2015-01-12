@@ -13,6 +13,6 @@ class OptionClass[a] this:Option[a] {
     // def Some[a].map f = Some (f this._)
     def Some[a].flatmap f = f this._
 
-    // def None[a].map f = None
+    def None[a].map f = None
     // def None[a].flatmap f = None
 }
