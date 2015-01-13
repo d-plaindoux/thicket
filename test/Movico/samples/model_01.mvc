@@ -1,5 +1,5 @@
-model number {}
-model string {}
+model number
+model string
 
 model Point {
     x : number

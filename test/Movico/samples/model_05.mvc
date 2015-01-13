@@ -3,10 +3,10 @@ model Pair[a b] {
     _2 : b
 }
 
-model Option [a] {}
-model None[a] : Option[a] {}
-model Some[a] : Option[a] { _ : a } 
-
+type Option [a] {
+    model None
+    model Some { _ : a } 
+}
 // ---------------------------------------------------------
 
 model native {

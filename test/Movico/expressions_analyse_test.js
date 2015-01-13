@@ -229,8 +229,9 @@ exports['expressions'] = {
       test.expect(1);
       // Test
       var anExpression = ast.expr.invoke(ast.expr.ident("A"),"x"),
-          aController = ast.controller("A",ast.param("this",ast.type.native("number")),
+          aController = ast.controller("A",
                                        [],[],
+                                       ast.param("this",ast.type.native("number")),
                                        [ast.param("x",ast.type.native("number"))],
                                        [ast.method("x",ast.expr.number(1))]);
       test.deepEqual(expression.analyse(list(), list(pair("A",aController)), list(), anExpression).success(),

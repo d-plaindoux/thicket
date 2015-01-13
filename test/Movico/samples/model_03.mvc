@@ -2,15 +2,14 @@ model number {
     (+) : number -> number
 }
 
-model Expr {}
-
-model Int : Expr {
-    _ : number
-}
-
-model Add : Expr {
-    _1 : Expr
-    _2 : Expr
+type Expr {
+    model Int {
+        _ : number
+    }
+    model Add {
+        _1 : Expr
+        _2 : Expr
+    }
 }
 
 class ExprEval this:Expr {

@@ -95,5 +95,15 @@ exports['language_object'] = {
                    "accept a model");
     test.done();
   },
+        
+  'complexe type model set': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("type Location { model Address {} }");     
+    test.deepEqual(language.parser.group('typeDef').parse(aStream).get(), 
+                   [ ast.model('Address', [],[],[], ast.model('Location', [],[],[])), ast.model('Location', [],[],[]) ], 
+                   "accept a type of models");
+    test.done();
+  },
 
 };

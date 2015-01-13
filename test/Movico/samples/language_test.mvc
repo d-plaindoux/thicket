@@ -106,14 +106,13 @@ model Pair[a b] {
 // List model
 // --------------------------------------------------------------------
 
-model List[a] {}
- 
-model Cons[a] : List[a] {
-    head : a
-    tail : List[a]
+type List[a] {
+    model Nil
+    model Cons {
+        head : a
+        tail : List[a]
+    }
 }
-
-model Nil[a] : List[a] {}
 
 class ListClass [a] this:List[a] {
     map : [b] (a -> b) -> List[b]
@@ -126,13 +125,12 @@ class ListClass [a] this:List[a] {
 // Option model
 // --------------------------------------------------------------------
 
-model Option [a] {}
-
-model Some[a] : Option[a] {
-    _ : a
-} 
-
-model None[a] : Option[a] {}
+type Option [a] {
+    model None
+    model Some {
+        _ : a
+    } 
+}
 
 class OptionClass[a] this:Option[a] {
     map     : [b] (a -> b) -> Option[b]

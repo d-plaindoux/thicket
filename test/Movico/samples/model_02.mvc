@@ -1,6 +1,6 @@
 // Simple example with a model and a view 
 
-model xml {}
+model xml
 
 model string {
     xml : xml

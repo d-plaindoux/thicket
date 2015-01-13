@@ -4,15 +4,24 @@
  V3                                                              1/2/2015               
 --------------------------------------------------------------------------
 
-entity  ::= objectDef | typeDef | classDef | viewDef
+entity  ::= typeDef | objectDef | typeDef | classDef | viewDef
 
 --------------------------------------------------------------------------
 
-generics  ::= ("[" IDENT+ "]")?
+generics  ::= ("[" ID+ "]")?
 
-objectDef ::= "model" IDENT generics (":" type)? "{" tparam* "}"
-tparam    ::= (IDENT|"("OPERATOR")") ":" generics type
-type      ::= IDENT ("[" type+ "]")?
+--------------------------------------------------------------------------
+
+typeDef ::= "type" ID generics "{" ("model" ID ("{" tparam* "}")?)+ "}"
+
+--------------------------------------------------------------------------
+
+objectDef ::= "model" ID generics ("{" tparam* "}")?
+
+--------------------------------------------------------------------------
+
+tparam    ::= (ID|"("OP")") ":" generics type
+type      ::= ID ("[" type+ "]")?
             | "(" types ")" 
 
 types     ::= type "," types
@@ -21,32 +30,38 @@ types     ::= type "," types
 
 --------------------------------------------------------------------------
 
-classDef  ::= "class" IDENT generics param "{" tparam* "}" "{" method* "}"
-
-method    ::= "def" (type ".")? (IDENT|"("OPERATOR")") IDENT* "=" expr
-
-exprs     ::= expr (OPERATOR | expr)*
-
-expr      ::= iexpr ("," iexpr)*
-
-iexpr     ::= sexpr ("." IDENT)*
-
-sexpr     ::= NUMBER 
-            | STRING
-            | IDENT
-            | "(" exprs ")"
-            | "<" IDENT attr* ">" exprs "</" IDENT? ">" 
-            | "<" IDENT attr* "/>"
-            | "[" exprs ("for" IDENT "ingenerics ("if" exprs)? "]"
-            | "let" IDENT IDENT* "=" exprs "in" exprs
-            | "fun" IDENT+ -> exprs
-            
-attr      ::= IDENT "=" expr
-
-param     ::= IDENT ":" type
+classDef  ::= "class" ID generics param "{" tparam* "}" "{" method* "}"
 
 --------------------------------------------------------------------------
 
-viewDef   ::= "view" IDENT generics param "{" exprs "}"
+method    ::= "def" (type ".")? (ID|"("OP")") ID* "=" expr
+
+--------------------------------------------------------------------------
+
+exprs     ::= expr (OP | expr)*
+
+expr      ::= iexpr ("," iexpr)*
+
+iexpr     ::= sexpr ("." ID)*
+
+sexpr     ::= NUMBER 
+            | STRING
+            | ID
+            | "(" exprs ")"
+            | "<" ID attr* ">" exprs "</" ID? ">" 
+            | "<" ID attr* "/>"
+            | "[" exprs ("for" ID "ingenerics ("if" exprs)? "]"
+            | "let" ID ID* "=" exprs "in" exprs
+            | "fun" ID+ -> exprs
+            
+attr      ::= ID "=" expr
+
+--------------------------------------------------------------------------
+
+param     ::= ID ":" type
+
+--------------------------------------------------------------------------
+
+viewDef   ::= "view" ID generics param "{" exprs "}"
 
 --------------------------------------------------------------------------
