@@ -37,7 +37,9 @@ function correctSampleTest(sample, test) {
         var aStream = stream(data.toString()),
             allEntities = language.parser.group('entities').parse(aStream),
             nongenerics = entities.nongenerics(allEntities),            
-            variables = entities.substitutions(allEntities),
+            patternNongenerics = entities.patternNongenerics(allEntities),            
+            substitutions = entities.substitutions(allEntities),
+            patternSubstitutions = entities.patternSubstitutions(allEntities),
             environment = entities.environment(allEntities);
 
         if (!aStream.isEmpty()) {
@@ -47,13 +49,13 @@ function correctSampleTest(sample, test) {
         test.ok(allEntities.isPresent(), "accept a full example");
         test.ok(aStream.isEmpty(), "accept a full example");        
         test.ok(list(allEntities.orElse([])).foldL(list(), function (result, entity) {
-                    return result.append(entities.freeVariables(entity));
+                    return result.append(entities.freeVariables(patternNongenerics, entity));
                 }).minus(nongenerics).isEmpty(),
                 "No free variables");
 
         var analyse = list(allEntities.orElse([])).foldL(aTry.success(null), function (result, entity) {
             return result.flatmap(function () {
-                return entities.analyse(environment, variables, entity);
+                return entities.analyse(environment, substitutions, patternSubstitutions, entity);
             });
         });
         

@@ -101,7 +101,7 @@ exports['language_object'] = {
     // tests here  
     var aStream = stream("type Location { model Address {} }");     
     test.deepEqual(language.parser.group('typeDef').parse(aStream).get(), 
-                   [ ast.model('Address', [],[], ast.model('Location', [],[])), ast.model('Location', [],[]) ], 
+                   [ ast.model('Address', [],[], ast.model('Location', [],[], undefined, true)), ast.model('Location', [],[], undefined, true) ], 
                    "accept a type of models");
     test.done();
   },

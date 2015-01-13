@@ -43,7 +43,7 @@ exports['entities_freevar'] = {
       test.expect(1);
       // Test
       var aModel = ast.model("A",[],[ ast.param('m', ast.type.native('a'))]);
-      test.deepEqual(entities.freeVariables(aModel),
+      test.deepEqual(entities.freeVariables(list(), aModel),
                      list(),
                      "Closed model");
       test.done();
@@ -53,7 +53,7 @@ exports['entities_freevar'] = {
       test.expect(1);
       // Test
       var aModel = ast.model("A",[],[ ast.param('m', ast.type.variable('a'))]);
-      test.deepEqual(entities.freeVariables(aModel),
+      test.deepEqual(entities.freeVariables(list(), aModel),
                      list('a'),
                      "Closed model");
       test.done();
@@ -63,7 +63,7 @@ exports['entities_freevar'] = {
       test.expect(1);
       // Test
       var aModel = ast.type.forall(["a"], ast.model("A",[ast.type.variable('a')],[ ast.param('m', ast.type.variable('a'))]));
-      test.deepEqual(entities.freeVariables(aModel),
+      test.deepEqual(entities.freeVariables(list(), aModel),
                      list(),
                      "Closed model");
       test.done();
@@ -73,7 +73,7 @@ exports['entities_freevar'] = {
       test.expect(1);
       // Test
       var aController = ast.controller("A",[],ast.param("t",ast.type.native('a')),[],[]);
-      test.deepEqual(entities.freeVariables(aController),
+      test.deepEqual(entities.freeVariables(list(), aController),
                      list(),
                      "Empty model");
       test.done();
@@ -83,7 +83,7 @@ exports['entities_freevar'] = {
       test.expect(1);
       // Test
       var aController = ast.controller("A",[],ast.param("t",ast.type.variable('a')),[],[]);
-      test.deepEqual(entities.freeVariables(aController),
+      test.deepEqual(entities.freeVariables(list(), aController),
                      list('a'),
                      "Empty model");
       test.done();
@@ -93,7 +93,7 @@ exports['entities_freevar'] = {
       test.expect(1);
       // Test
       var aController = ast.type.forall(["a"], ast.controller("A",[ast.type.variable('a')],ast.param("t",ast.type.variable('a')),[],[]));
-      test.deepEqual(entities.freeVariables(aController),
+      test.deepEqual(entities.freeVariables(list(), aController),
                      list(),
                      "Empty model");
       test.done();
@@ -103,7 +103,7 @@ exports['entities_freevar'] = {
       test.expect(1);
       // Test
       var aController = ast.controller("A",[],ast.param("t",ast.type.native('a')),[ ast.param("t",ast.type.native('a')) ],[]);
-      test.deepEqual(entities.freeVariables(aController),
+      test.deepEqual(entities.freeVariables(list(), aController),
                      list(),
                      "Non empty model");
       test.done();
@@ -113,7 +113,7 @@ exports['entities_freevar'] = {
       test.expect(1);
       // Test
       var aController = ast.type.forall(["a"], ast.controller("A",[ast.type.variable('a')],ast.param("t",ast.type.native('a')),[ ast.param("t",ast.type.variable('a')) ],[]));
-      test.deepEqual(entities.freeVariables(aController),
+      test.deepEqual(entities.freeVariables(list(), aController),
                      list(),
                      "Non empty model");
       test.done();
@@ -123,7 +123,7 @@ exports['entities_freevar'] = {
       test.expect(1);
       // Test
       var aView = ast.view("A",[],ast.param("t",ast.type.native('a')),ast.expr.tag("a"));
-      test.deepEqual(entities.freeVariables(aView),
+      test.deepEqual(entities.freeVariables(list(), aView),
                      list(),
                      "Empty model");
       test.done();
@@ -133,7 +133,7 @@ exports['entities_freevar'] = {
       test.expect(1);
       // Test
       var aView = ast.view("A",[],ast.param("t",ast.type.variable('a')),ast.expr.tag("a"));
-      test.deepEqual(entities.freeVariables(aView),
+      test.deepEqual(entities.freeVariables(list(), aView),
                      list('a'),
                      "Empty model");
       test.done();
@@ -143,7 +143,7 @@ exports['entities_freevar'] = {
       test.expect(1);
       // Test
       var aView = ast.type.forall(["a"], ast.view("A",[ast.type.variable('a')],ast.param("t",ast.type.variable('a')),ast.expr.tag("a")));
-      test.deepEqual(entities.freeVariables(aView),
+      test.deepEqual(entities.freeVariables(list(), aView),
                      list(),
                      "Empty model");
       test.done();
