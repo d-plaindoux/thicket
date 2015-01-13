@@ -1,6 +1,7 @@
 'use strict';
 
 var expression = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/expressions.js').expressions,
+    types = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/types.js').types,
     ast = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/ast.js').ast,
     pair = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/pair.js').pair,
     list = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/list.js').list;
@@ -103,6 +104,7 @@ exports['expressions'] = {
       test.expect(1);
       // Test
       var anExpression = ast.expr.abstraction("a", ast.expr.ident("a"));
+      types.reset();
       test.deepEqual(expression.analyse(list(), list(), list(), anExpression).success(), 
                      pair(list(),ast.type.forall(["#1"], ast.type.abstraction(ast.type.variable("#1"),ast.type.variable("#1")))),
                      "Must be [a] (a -> a)");
@@ -133,8 +135,9 @@ exports['expressions'] = {
       test.expect(1);
       // Test
       var anExpression = ast.expr.application(ast.expr.abstraction("a",ast.expr.ident("a")), ast.expr.number(12));
+      types.reset();
       test.deepEqual(expression.analyse(list(), list(), list(), anExpression).success(), 
-                     pair(list(pair("#2", ast.type.native("number"))), ast.type.native("number")),
+                     pair(list(pair("#1", ast.type.native("number"))), ast.type.native("number")),
                      "Must be (number)");
       test.done();
   },

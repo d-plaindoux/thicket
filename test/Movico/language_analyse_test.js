@@ -91,5 +91,9 @@ exports['language'] = {
   'entity 05': function(test) {
     correctSampleTest("model_05.mvc", test);    
   },
+    
+  'entity 06': function(test) {
+    correctSampleTest("model_06.mvc", test);    
+  },
 
 };
