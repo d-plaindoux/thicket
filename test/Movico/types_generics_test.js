@@ -33,9 +33,9 @@ exports['types_generics'] = {
   "Model with generics": function (test) {
       test.expect(1);
       // Test
-      var entity = ast.model("A",["a"],[ast.type.variable("a")],[]);
+      var entity = ast.type.forall(["a"], ast.model("A",[ast.type.variable("a")],[]));
       test.deepEqual(types.genericsAndType(entity),
-                     pair(list("a"),entity),
+                     pair(list("a"),entity.type),
                      "Generics and model");
       test.done();
   },
@@ -43,9 +43,9 @@ exports['types_generics'] = {
   "Controller with generics": function (test) {
       test.expect(1);
       // Test
-      var entity = ast.controller("A",["a"],[],[],[]);
+      var entity = ast.type.forall(["a"], ast.controller("A",[],ast.param("this",ast.type.native("number")),[],[]));
       test.deepEqual(types.genericsAndType(entity),
-                     pair(list("a"),entity),
+                     pair(list("a"),entity.type),
                      "Generics and controller");
       test.done();
   },
@@ -53,9 +53,9 @@ exports['types_generics'] = {
   "View with generics": function (test) {
       test.expect(1);
       // Test
-      var entity = ast.view("A",["a"],[ast.type.variable('a')],[],[]);
+      var entity = ast.type.forall(["a"],ast.view("A",[ast.type.variable('a')],ast.param("this",ast.type.native("number")),[]));
       test.deepEqual(types.genericsAndType(entity),
-                     pair(list("a"),entity),
+                     pair(list("a"),entity.type),
                      "Generics and view");
       test.done();
   },
@@ -65,7 +65,7 @@ exports['types_generics'] = {
       // Test
       var entity = ast.type.forall(["a"],ast.type.variable("a"));
       test.deepEqual(types.genericsAndType(entity),
-                     pair(list("a"),ast.type.variable("a")),
+                     pair(list("a"),entity.type),
                      "Generics and forall");
       test.done();
   },

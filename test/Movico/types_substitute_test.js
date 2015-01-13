@@ -123,9 +123,9 @@ exports['types_subsitute'] = {
   "Subtitute model": function (test) {
       test.expect(1);
       // Test
-      var entity = ast.model("A",[],[],[ast.param("f",ast.type.variable("b"))]);
+      var entity = ast.model("A",[],[ast.param("f",ast.type.variable("b"))]);
       test.deepEqual(types.substitute(list(pair("b",ast.type.native("y"))), entity),
-                     ast.model("A",[],[],[ast.param("f",ast.type.native("y"))]),
+                     ast.model("A",[],[ast.param("f",ast.type.native("y"))]),
                      "Substitute model");
       test.done();
   },
@@ -133,7 +133,7 @@ exports['types_subsitute'] = {
   "Subtitute model with non free variable": function (test) {
       test.expect(1);
       // Test
-      var entity = ast.model("A",["b"],[ast.type.variable("b")],[ast.param("f",ast.type.variable("b"))]);
+      var entity = ast.type.forall(["b"], ast.model("A",[ast.type.variable("b")],[ast.param("f",ast.type.variable("b"))]));
       test.deepEqual(types.substitute(list(pair("b",ast.type.native("y"))), entity),
                      entity,
                      "Substitute model");
@@ -143,9 +143,9 @@ exports['types_subsitute'] = {
   "Subtitute controller": function (test) {
       test.expect(1);
       // Test
-      var entity = ast.controller("A",[],[],ast.param("this", ast.type.variable("b")),[ast.param("f",ast.type.variable("b"))],[]);
+      var entity = ast.controller("A",[],ast.param("this", ast.type.variable("b")),[ast.param("f",ast.type.variable("b"))],[]);
       test.deepEqual(types.substitute(list(pair("b",ast.type.native("y"))), entity),
-                    ast.controller("A",[],[],ast.param("this", ast.type.native("y")),[ast.param("f",ast.type.native("y"))],[]),
+                    ast.controller("A",[],ast.param("this", ast.type.native("y")),[ast.param("f",ast.type.native("y"))],[]),
                      "Substitute controller");
       test.done();
   },
@@ -153,7 +153,7 @@ exports['types_subsitute'] = {
   "Subtitute controller with non free variable": function (test) {
       test.expect(1);
       // Test
-      var entity = ast.controller("A",["b"],[ast.type.variable('b')],ast.param("this", ast.type.variable("b")),[ast.param("f",ast.type.variable("b"))],[]);
+      var entity = ast.type.forall(["b"], ast.controller("A",[ast.type.variable('b')],ast.param("this", ast.type.variable("b")),[ast.param("f",ast.type.variable("b"))],[]));
       test.deepEqual(types.substitute(list(pair("b",ast.type.native("y"))), entity),
                     entity,
                      "Substitute controller");
@@ -163,9 +163,9 @@ exports['types_subsitute'] = {
   "Subtitute view": function (test) {
       test.expect(1);
       // Test
-      var entity = ast.view("A",[],[],ast.param("this", ast.type.variable("b")),[]);
+      var entity = ast.view("A",[],ast.param("this", ast.type.variable("b")),[]);
       test.deepEqual(types.substitute(list(pair("b",ast.type.native("y"))), entity),
-                    ast.view("A",[],[],ast.param("this", ast.type.native("y")),[]),
+                    ast.view("A",[],ast.param("this", ast.type.native("y")),[]),
                      "Substitute view");
       test.done();
   },
@@ -173,7 +173,7 @@ exports['types_subsitute'] = {
   "Subtitute view with non free variable": function (test) {
       test.expect(1);
       // Test
-      var entity = ast.view("A",["b"],[ast.type.variable('b')],ast.param("this", ast.type.variable("b")),[]);
+      var entity = ast.type.forall(["b"], ast.view("A",[ast.type.variable('b')],ast.param("this", ast.type.variable("b")),[]));
       test.deepEqual(types.substitute(list(pair("b",ast.type.native("y"))), entity),
                     entity,
                      "Substitute view");

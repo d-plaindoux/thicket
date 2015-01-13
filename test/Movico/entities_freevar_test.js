@@ -32,7 +32,7 @@ exports['entities_freevar'] = {
   "Freevar for an empty model": function (test) {
       test.expect(1);
       // Test
-      var aModel = ast.model("A",[],[],[]);
+      var aModel = ast.model("A",[],[]);
       test.deepEqual(entities.freeVariables(aModel),
                      list(),
                      "Empty model");
@@ -42,7 +42,7 @@ exports['entities_freevar'] = {
   "Freevar for a closed model": function (test) {
       test.expect(1);
       // Test
-      var aModel = ast.model("A",[],[],[ ast.param('m', ast.type.native('a'))]);
+      var aModel = ast.model("A",[],[ ast.param('m', ast.type.native('a'))]);
       test.deepEqual(entities.freeVariables(aModel),
                      list(),
                      "Closed model");
@@ -52,7 +52,7 @@ exports['entities_freevar'] = {
   "Freevar for an opened model": function (test) {
       test.expect(1);
       // Test
-      var aModel = ast.model("A",[],[],[ ast.param('m', ast.type.variable('a'))]);
+      var aModel = ast.model("A",[],[ ast.param('m', ast.type.variable('a'))]);
       test.deepEqual(entities.freeVariables(aModel),
                      list('a'),
                      "Closed model");
@@ -62,7 +62,7 @@ exports['entities_freevar'] = {
   "Freevar for a generic model": function (test) {
       test.expect(1);
       // Test
-      var aModel = ast.model("A",['a'],[ast.type.variable('a')],[ ast.param('m', ast.type.variable('a'))]);
+      var aModel = ast.type.forall(["a"], ast.model("A",[ast.type.variable('a')],[ ast.param('m', ast.type.variable('a'))]));
       test.deepEqual(entities.freeVariables(aModel),
                      list(),
                      "Closed model");
@@ -72,7 +72,7 @@ exports['entities_freevar'] = {
   "Freevar for an empty controller with closed object": function (test) {
       test.expect(1);
       // Test
-      var aController = ast.controller("A",[],[],ast.param("t",ast.type.native('a')),[],[]);
+      var aController = ast.controller("A",[],ast.param("t",ast.type.native('a')),[],[]);
       test.deepEqual(entities.freeVariables(aController),
                      list(),
                      "Empty model");
@@ -82,7 +82,7 @@ exports['entities_freevar'] = {
   "Freevar for an empty controller with open object": function (test) {
       test.expect(1);
       // Test
-      var aController = ast.controller("A",[],[],ast.param("t",ast.type.variable('a')),[],[]);
+      var aController = ast.controller("A",[],ast.param("t",ast.type.variable('a')),[],[]);
       test.deepEqual(entities.freeVariables(aController),
                      list('a'),
                      "Empty model");
@@ -92,7 +92,7 @@ exports['entities_freevar'] = {
   "Freevar for a genetic controller with open object": function (test) {
       test.expect(1);
       // Test
-      var aController = ast.controller("A",['a'],[ast.type.variable('a')],ast.param("t",ast.type.variable('a')),[],[]);
+      var aController = ast.type.forall(["a"], ast.controller("A",[ast.type.variable('a')],ast.param("t",ast.type.variable('a')),[],[]));
       test.deepEqual(entities.freeVariables(aController),
                      list(),
                      "Empty model");
@@ -102,7 +102,7 @@ exports['entities_freevar'] = {
   "Freevar for non empty closed controller": function (test) {
       test.expect(1);
       // Test
-      var aController = ast.controller("A",[],[],ast.param("t",ast.type.native('a')),[ ast.param("t",ast.type.native('a')) ],[]);
+      var aController = ast.controller("A",[],ast.param("t",ast.type.native('a')),[ ast.param("t",ast.type.native('a')) ],[]);
       test.deepEqual(entities.freeVariables(aController),
                      list(),
                      "Non empty model");
@@ -112,7 +112,7 @@ exports['entities_freevar'] = {
   "Freevar for non empty generic opened controller": function (test) {
       test.expect(1);
       // Test
-      var aController = ast.controller("A",['a'],[ast.type.variable('a')],ast.param("t",ast.type.native('a')),[ ast.param("t",ast.type.variable('a')) ],[]);
+      var aController = ast.type.forall(["a"], ast.controller("A",[ast.type.variable('a')],ast.param("t",ast.type.native('a')),[ ast.param("t",ast.type.variable('a')) ],[]));
       test.deepEqual(entities.freeVariables(aController),
                      list(),
                      "Non empty model");
@@ -122,7 +122,7 @@ exports['entities_freevar'] = {
   "Freevar for an empty view with closed object": function (test) {
       test.expect(1);
       // Test
-      var aView = ast.view("A",[],[],ast.param("t",ast.type.native('a')),ast.expr.tag("a"));
+      var aView = ast.view("A",[],ast.param("t",ast.type.native('a')),ast.expr.tag("a"));
       test.deepEqual(entities.freeVariables(aView),
                      list(),
                      "Empty model");
@@ -132,7 +132,7 @@ exports['entities_freevar'] = {
   "Freevar for an empty view with open object": function (test) {
       test.expect(1);
       // Test
-      var aView = ast.view("A",[],[],ast.param("t",ast.type.variable('a')),ast.expr.tag("a"));
+      var aView = ast.view("A",[],ast.param("t",ast.type.variable('a')),ast.expr.tag("a"));
       test.deepEqual(entities.freeVariables(aView),
                      list('a'),
                      "Empty model");
@@ -142,7 +142,7 @@ exports['entities_freevar'] = {
   "Freevar for a genetic view with open object": function (test) {
       test.expect(1);
       // Test
-      var aView = ast.view("A",['a'],[ast.type.variable('a')],ast.param("t",ast.type.variable('a')),ast.expr.tag("a"));
+      var aView = ast.type.forall(["a"], ast.view("A",[ast.type.variable('a')],ast.param("t",ast.type.variable('a')),ast.expr.tag("a")));
       test.deepEqual(entities.freeVariables(aView),
                      list(),
                      "Empty model");
