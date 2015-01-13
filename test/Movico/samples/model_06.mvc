@@ -6,16 +6,19 @@ type List[a] {
     }
 }
 
-class ListClass [a] this:List[a] {
+class ListClass[a] this:List[a] {
+    new : List[a] -> ListClass[a]
     (++) : List[a] -> List[a]
     map : [b] (a -> b) -> List[b]
     flatmap : [b] (a -> List[b]) -> List[b]
 } {
+    def new = ListClass
+
     def Nil[a].(++) l = l    
     def Nil[a].map f = Nil
     def Nil[a].flatmap f = Nil
 
-    def Cons[a].(++) l = Cons this.head ((ListClass this.tail) ++ l)
-    def Cons[a].map f = Cons (f this.head) ((ListClass this.tail).map f)
-    def Cons[a].flatmap f = (ListClass (f this.head)) ++ ((ListClass this.tail).flatmap f)
+    def Cons[a].(++) l = Cons this.head ((self.new this.tail) ++ l)
+    def Cons[a].map f = Cons (f this.head) ((self.new this.tail).map f)
+    def Cons[a].flatmap f = (self.new (f this.head)) ++ ((self.new this.tail).flatmap f)
 }
