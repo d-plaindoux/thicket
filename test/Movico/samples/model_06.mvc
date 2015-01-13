@@ -17,5 +17,8 @@ class ListClass[a] this:List[a] {
 
     def Cons[a].(++) l = Cons this.head ((self this.tail) ++ l)
     def Cons[a].map f = Cons (f this.head) ((self this.tail).map f)
-    def Cons[a].flatmap f = (ListClass (f this.head)) ++ ((self this.tail).flatmap f)
+    def Cons[a].flatmap f = 
+        let head = ListClass (f this.head) in
+        let tail = (self this.tail).flatmap f in
+            head ++ tail
 }
