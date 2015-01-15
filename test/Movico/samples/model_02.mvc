@@ -16,15 +16,13 @@ model Todo {
 }
 
 class TodoClass this:Todo {
-    (@)    : Todo -> TodoClass
     date   : number
     what   : string     
     change : number -> string -> TodoClass    
 } {
-    def (@) t = TodoClass t
     def date = this.date
     def what = this.value
-    def change d w = self@(Todo d  w)
+    def change d w = self (Todo d  w)
 }
 
 view TodoView this:TodoClass {

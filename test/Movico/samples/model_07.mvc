@@ -1,0 +1,24 @@
+type Bool {
+    model True
+    model False
+}
+
+class bool this:Bool {
+    (&&) : bool -> bool
+    (||) : bool -> bool
+    (=>) : bool -> bool
+    not  : bool
+    select : [a] a -> a -> a
+} {
+    def (=>) l = self.not || l
+
+    def True.not = self False    
+    def True.(&&) l = l
+    def True.(||) _ = self
+    def True.select t f = t
+
+    def False.not = self True    
+    def False.(&&) _ = self
+    def False.(||) l = l
+    def False.select t f = f
+}

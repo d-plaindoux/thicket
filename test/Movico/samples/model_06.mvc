@@ -1,3 +1,32 @@
+type Bool {
+    model True
+    model False
+}
+
+class bool this:Bool {
+    (&&) : bool -> bool
+    (||) : bool -> bool
+    (=>) : bool -> bool
+    not  : bool
+    (?)  : [a] a -> a -> a
+    string : string
+} {
+    def (=>) l = self.not || l
+
+    def True.not = self False    
+    def True.(&&) l = l
+    def True.(||) _ = self
+    def True.(?) t f = t
+
+    def False.not = self True    
+    def False.(&&) _ = self
+    def False.(||) l = l
+    def False.(?) t f = f
+    
+    def True.string = "True"
+    def False.string = "False"
+}
+
 type List[a] {
     model Nil
     model Cons {
@@ -6,19 +35,31 @@ type List[a] {
     }
 }
 
-class ListClass[a] this:List[a] {
+class list[a] this:List[a] {
+    return  : List[a]
     (++)    : List[a] -> List[a]
-    map     : [b] (a -> b) -> List[b]
-    flatmap : [b] (a -> List[b]) -> List[b]
+    map     : [b] (a -> b) -> list[b]
+    flatmap : [b] (a -> List[b]) -> list[b]
+    filter  : (a -> Bool) -> list[a]
 } {
     def Nil[a].(++) l = l    
-    def Nil[a].map f = Nil
-    def Nil[a].flatmap f = Nil
+    def Nil[a].map _ = list Nil
+    def Nil[a].flatmap _ = list Nil
+    def Nil[a].filter _ = self
 
     def Cons[a].(++) l = Cons this.head ((self this.tail) ++ l)
-    def Cons[a].map f = Cons (f this.head) ((self this.tail).map f)
+    def Cons[a].map f = list (Cons (f this.head) ((self this.tail).map f).return)
     def Cons[a].flatmap f = 
-        let head = ListClass (f this.head) in
+        let head = list (f this.head) in
         let tail = (self this.tail).flatmap f in
-            head ++ tail
+            list (head ++ tail.return)
+    def Cons[a].filter p = 
+        let tail = (self this.tail).filter p in 
+            (bool (p this.tail)) ? (self (Cons this.head tail.return)) tail            
+}
+
+class main this:List[Bool] {
+    run : List[string]
+} {
+    def run = [(bool a).string for a in list(this) if a].return
 }

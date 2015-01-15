@@ -33,8 +33,7 @@ exports['types_subsitute'] = {
   "Subtitute native is identity": function (test) {
       test.expect(1);
       // Test
-      test.deepEqual(types.substitute(list(pair("x",ast.type.native("y"))), 
-                                      ast.type.native("a")), 
+      test.deepEqual(types.substitute(list(pair("x",ast.type.native("y"))), ast.type.native("a"), true), 
                      ast.type.native("a"), 
                      "Substitute native");
       test.done();
@@ -43,8 +42,7 @@ exports['types_subsitute'] = {
   "Subtitute native list is identity": function (test) {
       test.expect(1);
       // Test
-      test.deepEqual(types.substitute(list(pair("x",ast.type.native("y"))), 
-                                      ast.type.list(ast.type.native("a"))), 
+      test.deepEqual(types.substitute(list(pair("x",ast.type.native("y"))), ast.type.list(ast.type.native("a")), true),
                      ast.type.list(ast.type.native("a")), 
                      "Substitute list");
       test.done();
@@ -53,8 +51,7 @@ exports['types_subsitute'] = {
   "Subtitute native pair is identity": function (test) {
       test.expect(1);
       // Test
-      test.deepEqual(types.substitute(list(pair("x",ast.type.native("y"))), 
-                                      ast.type.pair(ast.type.native("a"),ast.type.native("b"))), 
+      test.deepEqual(types.substitute(list(pair("x",ast.type.native("y"))), ast.type.pair(ast.type.native("a"),ast.type.native("b")), true),
                      ast.type.pair(ast.type.native("a"),ast.type.native("b")),
                      "Substitute pair");
       test.done();
@@ -63,8 +60,7 @@ exports['types_subsitute'] = {
   "Subtitute native function is identity": function (test) {
       test.expect(1);
       // Test
-      test.deepEqual(types.substitute(list(pair("x",ast.type.native("y"))), 
-                                      ast.type.abstraction(ast.type.native("a"),ast.type.native("b"))), 
+      test.deepEqual(types.substitute(list(pair("x",ast.type.native("y"))), ast.type.abstraction(ast.type.native("a"),ast.type.native("b")), true),
                      ast.type.abstraction(ast.type.native("a"),ast.type.native("b")),
                      "Substitute function");
       test.done();
@@ -73,8 +69,7 @@ exports['types_subsitute'] = {
   "Subtitute variable is identity": function (test) {
       test.expect(1);
       // Test
-      test.deepEqual(types.substitute(list(pair("x",ast.type.native("y"))), 
-                                      ast.type.variable("a")), 
+      test.deepEqual(types.substitute(list(pair("x",ast.type.native("y"))), ast.type.variable("a"), true),  
                      ast.type.variable("a"), 
                      "Substitute variable");
       test.done();
@@ -83,8 +78,7 @@ exports['types_subsitute'] = {
   "Subtitute bound variable": function (test) {
       test.expect(1);
       // Test
-      test.deepEqual(types.substitute(list(pair("x",ast.type.native("y"))), 
-                                      ast.type.variable("x")), 
+      test.deepEqual(types.substitute(list(pair("x",ast.type.native("y"))), ast.type.variable("x"), true), 
                      ast.type.native("y"), 
                      "Substitute bound variable");
       test.done();
@@ -94,7 +88,7 @@ exports['types_subsitute'] = {
       test.expect(1);
       // Test
       test.deepEqual(types.substitute(list(pair("x",ast.type.native("y"))), 
-                                      ast.type.list(ast.type.variable("x"))), 
+                                      ast.type.list(ast.type.variable("x")), true), 
                      ast.type.list(ast.type.native("y")), 
                      "Substitute list bound variable");
       test.done();
@@ -104,7 +98,7 @@ exports['types_subsitute'] = {
       test.expect(1);
       // Test
       test.deepEqual(types.substitute(list(pair("x",ast.type.native("y"))), 
-                                      ast.type.pair(ast.type.variable("x"),ast.type.variable("x"))), 
+                                      ast.type.pair(ast.type.variable("x"),ast.type.variable("x")), true), 
                      ast.type.pair(ast.type.native("y"),ast.type.native("y")), 
                      "Substitute pair bound variable");
       test.done();
@@ -114,7 +108,7 @@ exports['types_subsitute'] = {
       test.expect(1);
       // Test
       test.deepEqual(types.substitute(list(pair("x",ast.type.native("y"))), 
-                                      ast.type.abstraction(ast.type.variable("x"),ast.type.variable("x"))), 
+                                      ast.type.abstraction(ast.type.variable("x"),ast.type.variable("x")), true), 
                      ast.type.abstraction(ast.type.native("y"),ast.type.native("y")), 
                      "Substitute function bound variable");
       test.done();
@@ -124,7 +118,7 @@ exports['types_subsitute'] = {
       test.expect(1);
       // Test
       var entity = ast.model("A",[],[ast.param("f",ast.type.variable("b"))]);
-      test.deepEqual(types.substitute(list(pair("b",ast.type.native("y"))), entity),
+      test.deepEqual(types.substitute(list(pair("b",ast.type.native("y"))), entity, true),
                      ast.model("A",[],[ast.param("f",ast.type.native("y"))]),
                      "Substitute model");
       test.done();
@@ -134,7 +128,7 @@ exports['types_subsitute'] = {
       test.expect(1);
       // Test
       var entity = ast.type.forall(["b"], ast.model("A",[ast.type.variable("b")],[ast.param("f",ast.type.variable("b"))]));
-      test.deepEqual(types.substitute(list(pair("b",ast.type.native("y"))), entity),
+      test.deepEqual(types.substitute(list(pair("b",ast.type.native("y"))), entity, true),
                      entity,
                      "Substitute model");
       test.done();
@@ -144,7 +138,7 @@ exports['types_subsitute'] = {
       test.expect(1);
       // Test
       var entity = ast.controller("A",[],ast.param("this", ast.type.variable("b")),[ast.param("f",ast.type.variable("b"))],[]);
-      test.deepEqual(types.substitute(list(pair("b",ast.type.native("y"))), entity),
+      test.deepEqual(types.substitute(list(pair("b",ast.type.native("y"))), entity, true),
                     ast.controller("A",[],ast.param("this", ast.type.native("y")),[ast.param("f",ast.type.native("y"))],[]),
                      "Substitute controller");
       test.done();
@@ -154,7 +148,7 @@ exports['types_subsitute'] = {
       test.expect(1);
       // Test
       var entity = ast.type.forall(["b"], ast.controller("A",[ast.type.variable('b')],ast.param("this", ast.type.variable("b")),[ast.param("f",ast.type.variable("b"))],[]));
-      test.deepEqual(types.substitute(list(pair("b",ast.type.native("y"))), entity),
+      test.deepEqual(types.substitute(list(pair("b",ast.type.native("y"))), entity, true), 
                     entity,
                      "Substitute controller");
       test.done();
@@ -164,7 +158,7 @@ exports['types_subsitute'] = {
       test.expect(1);
       // Test
       var entity = ast.view("A",[],ast.param("this", ast.type.variable("b")),[]);
-      test.deepEqual(types.substitute(list(pair("b",ast.type.native("y"))), entity),
+      test.deepEqual(types.substitute(list(pair("b",ast.type.native("y"))), entity, true),
                     ast.view("A",[],ast.param("this", ast.type.native("y")),[]),
                      "Substitute view");
       test.done();
@@ -174,7 +168,7 @@ exports['types_subsitute'] = {
       test.expect(1);
       // Test
       var entity = ast.type.forall(["b"], ast.view("A",[ast.type.variable('b')],ast.param("this", ast.type.variable("b")),[]));
-      test.deepEqual(types.substitute(list(pair("b",ast.type.native("y"))), entity),
+      test.deepEqual(types.substitute(list(pair("b",ast.type.native("y"))), entity, true), 
                     entity,
                      "Substitute view");
       test.done();

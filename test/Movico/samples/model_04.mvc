@@ -1,3 +1,28 @@
+type Bool {
+    model True
+    model False
+}
+
+class bool this:Bool {
+    (&&) : bool -> bool
+    (||) : bool -> bool
+    (=>) : bool -> bool
+    not  : bool
+    select : [a] a -> a -> a
+} {
+    def (=>) l = self.not || l
+
+    def True.not = self False    
+    def True.(&&) l = l
+    def True.(||) _ = self
+    def True.select t f = t
+
+    def False.not = self True    
+    def False.(&&) _ = self
+    def False.(||) l = l
+    def False.select t f = f
+}
+
 type Option [a] {
     model None
     model Some { _ : a }
@@ -6,13 +31,18 @@ type Option [a] {
 class OptionClass[a] this:Option[a] {
     map     : [b] (a -> b) -> Option[b]
     flatmap : [b] (a -> Option[b]) -> Option[b]
+    filter  : (a -> Bool) -> Option[a]
     orElse  : a -> a
 } {
     def Some[a].map f = Some (f this._)
     def Some[a].flatmap f = f this._
     def Some[a].orElse _ = this._
+    def Some[a].filter p = 
+        let ifThenElse = bool (p this._) in
+            ifThenElse.select this None   
 
     def None[a].map f = None
     def None[a].flatmap f = None
     def None[a].orElse a = a
+    def None[a].filter _ = this
 }

@@ -34,6 +34,7 @@ function correctSampleTest(sample, test) {
         if (err) {
             throw err;
         }
+                
         var aStream = stream(data.toString()),
             allEntities = language.parser.group('entities').parse(aStream),
             nongenerics = entities.nongenerics(allEntities),            
@@ -96,6 +97,10 @@ exports['language'] = {
     
   'entity 06': function(test) {
     correctSampleTest("model_06.mvc", test);    
+  },
+   
+  'entity 07': function(test) {
+    correctSampleTest("model_07.mvc", test);    
   },
 
 };
