@@ -21,16 +21,16 @@ class try[a] this:Try[a] {
     filter  : (a -> bool) -> try[a]
     recoverWith : a -> a
 } {
-    def Failure[a].map f = try (Failure this._)
-    def Success[a].map f = try (Success (f this._))
+    def Failure[a].map f = try $ Failure this._
+    def Success[a].map f = try $ Success $ f this._
 
-    def Failure[a].flatmap f = try (Failure this._)
+    def Failure[a].flatmap f = try $ Failure this._
     def Success[a].flatmap f = f this._
 
     def Failure[a].filter _ = self
     def Success[a].filter p = 
-        let ifThenElse = p this._ in
-            ifThenElse ? this (self (Failure "Filter fails"))
+        let filtered = p this._ in
+            filtered ? this $ self $ Failure "Filter fails"
 
     def Failure[a].recoverWith a = a
     def Success[a].recoverWith _ = this._

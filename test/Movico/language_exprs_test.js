@@ -311,7 +311,7 @@ exports['language_exprs'] = {
     var aStream = stream("(x + y)");
         
     test.deepEqual(language.parser.group('expr').parse(aStream).get(), 
-                   ast.expr.application(ast.expr.invoke(ast.expr.ident("x"),"+"), ast.expr.ident("y")),
+                   ast.expr.application(ast.expr.application(ast.expr.ident("x"),ast.expr.ident("+")), ast.expr.ident("y")),
                    "Expression with an operator");
     test.done();      
   }

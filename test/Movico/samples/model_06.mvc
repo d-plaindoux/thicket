@@ -32,19 +32,20 @@ class list[a] this:List[a] {
     def Nil[a].flatmap _ = list Nil
     def Nil[a].filter _ = self
 
-    def Cons[a].(++) l = self (Cons this.head ((self this.tail) ++ l).return)
-    def Cons[a].map f = list (Cons (f this.head) ((self this.tail).map f).return)
+    def Cons[a].(++) l = self $ Cons this.head (self this.tail ++ l return)
+    def Cons[a].map f = list $ Cons (f this.head) (self this.tail map f return)
     def Cons[a].flatmap f = 
-        let head = list (f this.head) in
-        let tail = (self this.tail).flatmap f in
+        let head = list $ f this.head in
+        let tail = self this.tail flatmap f in
             head ++ tail
     def Cons[a].filter p = 
-        let tail = (self this.tail).filter p in
-            (p this.head) ? (self (Cons this.head tail.return)) tail
+        let filtered = p this.head in
+        let tail = self this.tail filter p in
+            filtered ? (self $ Cons this.head tail.return) tail
 }
 
 class main this:List[bool] {
     run : List[string]
 } {
-    def run = [a.string for a in list(this) if a].return
+    def run = [a.string for a in list this if a].return
 }

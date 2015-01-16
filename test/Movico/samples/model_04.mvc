@@ -22,7 +22,7 @@ class option[a] this:Option[a] {
     orElse  : a -> a
 } {
     def None[a].map f = option None
-    def Some[a].map f = option (Some (f this._))
+    def Some[a].map f = option $ Some $ f this._
 
     def None[a].flatmap f = option None
     def Some[a].flatmap f = f this._
@@ -30,7 +30,7 @@ class option[a] this:Option[a] {
     def None[a].filter _ = self
     def Some[a].filter p = 
         let ifThenElse = p this._ in
-            ifThenElse ? self (option None)
+            ifThenElse ? self $ option None
 
     def None[a].orElse a = a
     def Some[a].orElse _ = this._

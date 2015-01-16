@@ -4,6 +4,8 @@
  V3                                                              1/2/2015               
 --------------------------------------------------------------------------
 
+comment ::= "//" line | "/*" line* "*/"
+         
 entity  ::= typeDef | objectDef | typeDef | classDef | viewDef
 
 --------------------------------------------------------------------------
@@ -38,7 +40,7 @@ method    ::= "def" (type ".")? (ID|"("OP")") ID* "=" expr
 
 --------------------------------------------------------------------------
 
-exprs     ::= expr (OP | expr)*
+exprs     ::= expr expr*
 
 expr      ::= iexpr ("," iexpr)*
 
@@ -47,10 +49,12 @@ iexpr     ::= sexpr ("." ID)*
 sexpr     ::= NUMBER 
             | STRING
             | ID
+            | OP
+            | "$" exprs 
             | "(" exprs ")"
             | "<" ID attr* ">" exprs "</" ID? ">" 
             | "<" ID attr* "/>"
-            | "[" exprs ("for" ID "ingenerics ("if" exprs)? "]"
+            | "[" exprs ("for" ID "in" exprs)+ ("if" exprs)* "]"
             | "let" ID ID* "=" exprs "in" exprs
             | "fun" ID+ -> exprs
             

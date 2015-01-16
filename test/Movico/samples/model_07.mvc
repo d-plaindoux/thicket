@@ -18,10 +18,10 @@ class bool this:Bool {
     def True.not = self False    
     def True.(&&) l = l
     def True.(||) _ = self
-    def True.select t f = t
+    def True.select t _ = t
 
     def False.not = self True    
     def False.(&&) _ = self
     def False.(||) l = l
-    def False.select t f = f
+    def False.select _ f = f
 }

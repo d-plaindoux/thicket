@@ -22,7 +22,7 @@ class todo this:Todo {
 } {
     def date = this.date
     def what = this.value
-    def change d w = self (Todo d  w)
+    def change d w = self $ Todo d w
 }
 
 view TodoView this:todo {

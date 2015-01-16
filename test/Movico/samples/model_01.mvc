@@ -6,3 +6,19 @@ model Point {
     y : number
     c : string
 }
+
+type Peano {
+    model Zero
+    model Succ { _ : Peano }
+}
+
+class peano this:Peano {
+    return : Peano
+    (+) : peano -> peano
+} {
+    def return = this
+    def Zero.(+) p = self
+    def Succ.(+) p = 
+        let p = self this._ + p in
+            self $ Succ p.return
+}

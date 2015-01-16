@@ -1,11 +1,13 @@
-class Function[a b] this:a -> b {
+class Function[a b] this:(a -> b) {
     (<<) : a -> b
-    (@) : (a -> b) -> Function[a b]
+    (@) : [c] Function[b c] -> (a -> c)
 } {
+    def (<<) a = this a
+    def (@) g a = g << (self << a)
 }
 
 class Main this:unit {
-    run : unit -> unit
+    run : unit -> unit    
 } {
-    def run u = (Function self.run) << ()
+    def run = Function self.run @ $ Function $ self run
 }
