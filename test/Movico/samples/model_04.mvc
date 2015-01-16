@@ -31,14 +31,14 @@ type Option [a] {
 class OptionClass[a] this:Option[a] {
     map     : [b] (a -> b) -> Option[b]
     flatmap : [b] (a -> Option[b]) -> Option[b]
-    filter  : (a -> Bool) -> Option[a]
+    filter  : (a -> bool) -> Option[a]
     orElse  : a -> a
 } {
     def Some[a].map f = Some (f this._)
     def Some[a].flatmap f = f this._
     def Some[a].orElse _ = this._
     def Some[a].filter p = 
-        let ifThenElse = bool (p this._) in
+        let ifThenElse = p this._ in
             ifThenElse.select this None   
 
     def None[a].map f = None

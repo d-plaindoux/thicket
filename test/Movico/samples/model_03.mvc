@@ -12,11 +12,10 @@ type Expr {
     }
 }
 
-class ExprEval this:Expr {
-    (#) : Expr -> ExprEval
+class expr this:Expr {
     eval : number
 } {
-    def (Int).eval = this._
-    def (Add).eval = (self#this._1).eval + (self#this._2).eval
+    def Int.eval = this._
+    def Add.eval = (self this._1).eval + (self this._2).eval
 }
 

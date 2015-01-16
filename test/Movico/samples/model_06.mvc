@@ -4,13 +4,16 @@ type Bool {
 }
 
 class bool this:Bool {
+    return : Bool
     (&&) : bool -> bool
     (||) : bool -> bool
     (=>) : bool -> bool
     not  : bool
-    (?)  : [a] a -> a -> a
+    (?)  : [c] c -> c -> c
     string : string
 } {
+    def return = this
+
     def (=>) l = self.not || l
 
     def True.not = self False    
@@ -37,29 +40,31 @@ type List[a] {
 
 class list[a] this:List[a] {
     return  : List[a]
-    (++)    : List[a] -> List[a]
+    (++)    : list[a] -> list[a]
     map     : [b] (a -> b) -> list[b]
     flatmap : [b] (a -> List[b]) -> list[b]
-    filter  : (a -> Bool) -> list[a]
+    filter  : (a -> bool) -> list[a]
 } {
+    def return = this
+    
     def Nil[a].(++) l = l    
     def Nil[a].map _ = list Nil
     def Nil[a].flatmap _ = list Nil
     def Nil[a].filter _ = self
 
-    def Cons[a].(++) l = Cons this.head ((self this.tail) ++ l)
+    def Cons[a].(++) l = self (Cons this.head ((self this.tail) ++ l).return)
     def Cons[a].map f = list (Cons (f this.head) ((self this.tail).map f).return)
     def Cons[a].flatmap f = 
         let head = list (f this.head) in
         let tail = (self this.tail).flatmap f in
-            list (head ++ tail.return)
+            head ++ tail
     def Cons[a].filter p = 
-        let tail = (self this.tail).filter p in 
-            (bool (p this.tail)) ? (self (Cons this.head tail.return)) tail            
+        let tail = (self this.tail).filter p in
+            (p this.head) ? (self (Cons this.head tail.return)) tail
 }
 
-class main this:List[Bool] {
+class main this:List[bool] {
     run : List[string]
 } {
-    def run = [(bool a).string for a in list(this) if a].return
+    def run = [a.string for a in list(this) if a].return
 }

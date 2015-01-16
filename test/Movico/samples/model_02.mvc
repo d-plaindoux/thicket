@@ -15,17 +15,17 @@ model Todo {
     value : string
 }
 
-class TodoClass this:Todo {
+class todo this:Todo {
     date   : number
     what   : string     
-    change : number -> string -> TodoClass    
+    change : number -> string -> todo    
 } {
     def date = this.date
     def what = this.value
     def change d w = self (Todo d  w)
 }
 
-view TodoView this:TodoClass {
+view TodoView this:todo {
     <div> 
         <div class="todo" when=this.date.string> this.what.xml </div>
     </div>
