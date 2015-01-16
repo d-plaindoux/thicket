@@ -58,12 +58,12 @@ class Person this:APerson {
   def tick = Person this.firstname this.name 0
 }
 
-class Population this:[APerson] {
+class Population this:list[APerson] {
   persons   : int -> [APerson]
   addPerson : string -> string -> Population
 } {
-  def persons age = this.filter(fun p -> p.age <= age)
-  def addPerson f n = Population (APerson f n)
+  def persons age = [p for p in this if p <= 100]
+  def addPerson f n = self $ this + (APerson f n)
 }
 ```
 
