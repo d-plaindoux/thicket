@@ -1,9 +1,6 @@
-type Bool {
-    model True
-    model False
-}
+model Bool
 
-class bool this:Bool {
+model bool {
     return : Bool
     (&&) : bool -> bool
     (||) : bool -> bool
@@ -11,23 +8,6 @@ class bool this:Bool {
     not  : bool
     (?)  : [c] c -> c -> c
     string : string
-} {
-    def return = this
-
-    def (=>) l = self.not || l
-
-    def True.not = self False    
-    def True.(&&) l = l
-    def True.(||) _ = self
-    def True.(?) t f = t
-
-    def False.not = self True    
-    def False.(&&) _ = self
-    def False.(||) l = l
-    def False.(?) t f = f
-    
-    def True.string = "True"
-    def False.string = "False"
 }
 
 type List[a] {

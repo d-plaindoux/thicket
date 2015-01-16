@@ -150,7 +150,10 @@ exports['expressions'] = {
       var anExpression = ast.expr.application(ast.expr.abstraction("a",ast.expr.ident("a")), ast.expr.number(12));
       types.reset();
       test.deepEqual(expression.analyse(list(), list(), list(), anExpression).success(), 
-                     pair(list(pair("#1", ast.type.native("number"))), ast.type.native("number")),
+                     pair(list(pair("#4", ast.type.native("number")),
+                               pair("#3", ast.type.native("number")),
+                               pair("#2", ast.type.native("number")),
+                               pair("#1", ast.type.native("number"))), ast.type.native("number")),
                      "Must be (number)");
       test.done();
   },
@@ -261,7 +264,7 @@ exports['expressions'] = {
                                        [ast.method("x",ast.expr.number(1))]);
       types.reset();
       test.deepEqual(expression.analyse(list(), list(pair("A",aController)), list(), anExpression).success(),
-                     pair(list(pair('#1',ast.type.native("number")),pair('#2',aController)), ast.type.native('number')),
+                     pair(list(pair('#2',aController),pair('#1',ast.type.native("number"))), ast.type.native('number')),
                      "Controller invocation");
       test.done();
   },
@@ -275,7 +278,7 @@ exports['expressions'] = {
                              [ast.param("x",ast.type.native("number"))]);
       types.reset();
       test.deepEqual(expression.analyse(list(), list(pair("A",aModel)), list(), anExpression).success(),
-                     pair(list(pair('#1',ast.type.native("number")), pair('#2',aModel)), ast.type.native('number')),
+                     pair(list(pair('#2',aModel), pair('#1',ast.type.native("number"))), ast.type.native('number')),
                      "Model invocation");
       test.done();
   },

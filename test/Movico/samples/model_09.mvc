@@ -1,0 +1,11 @@
+class Function[a b] this:a -> b {
+    (<<) : a -> b
+    (@) : (a -> b) -> Function[a b]
+} {
+}
+
+class Main this:unit {
+    run : unit -> unit
+} {
+    def run u = (Function self.run) << ()
+}

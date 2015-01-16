@@ -4,12 +4,15 @@ type Bool {
 }
 
 class bool this:Bool {
+    return : Bool
     (&&) : bool -> bool
     (||) : bool -> bool
     (=>) : bool -> bool
     not  : bool
     select : [a] a -> a -> a
 } {
+    def return = this
+
     def (=>) l = self.not || l
 
     def True.not = self False    

@@ -102,5 +102,13 @@ exports['language'] = {
   'entity 07': function(test) {
     correctSampleTest("model_07.mvc", test);    
   },
+   
+  'entity 08': function(test) {
+    correctSampleTest("model_08.mvc", test);    
+  },
+   
+  'entity 09': function(test) {
+    correctSampleTest("model_09.mvc", test);    
+  },
 
 };
