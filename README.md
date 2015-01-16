@@ -59,11 +59,11 @@ class Person this:APerson {
 }
 
 class Population this:list[APerson] {
-  persons   : int -> [APerson]
+  persons   : int -> list[APerson]
   addPerson : string -> string -> Population
 } {
   def persons age = [p for p in this if p <= 100]
-  def addPerson f n = self $ this + (APerson f n)
+  def addPerson f n = self $ this +: (APerson f n)
 }
 ```
 

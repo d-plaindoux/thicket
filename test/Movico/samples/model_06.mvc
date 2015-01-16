@@ -21,11 +21,14 @@ type List[a] {
 class list[a] this:List[a] {
     return  : List[a]
     (++)    : list[a] -> list[a]
+    (+:)    : a -> list[a]
     map     : [b] (a -> b) -> list[b]
     flatmap : [b] (a -> List[b]) -> list[b]
     filter  : (a -> bool) -> list[a]
 } {
     def return = this
+    
+    def (+:) a = self $ Cons a this
     
     def Nil[a].(++) l = l    
     def Nil[a].map _ = list Nil

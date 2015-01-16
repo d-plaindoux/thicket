@@ -8,6 +8,10 @@ class Function[a b] this:(a -> b) {
 
 class Main this:unit {
     run : unit -> unit    
+    f1  : unit -> string
+    f2  : string -> unit
 } {
-    def run = Function self.run @ $ Function $ self run
+    def run = (Function self.f1) @ (Function self.f2)
+    def f1 _ = "Hello World!"
+    def f2 _ = ()
 }
