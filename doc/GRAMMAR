@@ -55,7 +55,7 @@ sexpr     ::= NUMBER
             | "<" ID attr* ">" exprs "</" ID? ">" 
             | "<" ID attr* "/>"
             | "[" exprs ("for" ID "in" exprs)+ ("if" exprs)* "]"
-            | "let" ID ID* "=" exprs "in" exprs
+            | "let" ID (":" generics type)? "=" exprs "in" exprs
             | "fun" ID+ -> exprs
             
 attr      ::= ID "=" expr

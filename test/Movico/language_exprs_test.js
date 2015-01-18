@@ -168,40 +168,6 @@ exports['language_exprs'] = {
     test.done();
   },  
     
-  'let definition function with unit is accepted': function(test) {
-    test.expect(1);
-    // tests here  
-    var aStream = stream("let f _ = 1 in x");
-        
-    test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
-                   ast.expr.let('f', ast.expr.abstraction("_", ast.expr.number(1)), ast.expr.ident('x')),
-                   "accept a let definition");
-    test.done();
-  },  
-    
-  'let definition function with an int is accepted': function(test) {
-    test.expect(1);
-    // tests here  
-    var aStream = stream("let f x = 1 in f x");
-        
-    test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
-                   ast.expr.let('f', ast.expr.abstraction("x", ast.expr.number(1)), 
-                                ast.expr.application(ast.expr.ident('f'),ast.expr.ident('x'))),
-                   "accept a let definition");
-    test.done();
-  },  
-    
-  'let definition function with an int and a string is accepted': function(test) {
-    test.expect(1);
-    // tests here  
-    var aStream = stream("let f x y = 1 in x");
-        
-    test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
-                   ast.expr.let('f', ast.expr.abstraction("x",ast.expr.abstraction("y",ast.expr.number(1))), ast.expr.ident('x')),
-                   "accept a let definition");
-    test.done();
-  },  
-    
   'canonical empty tag is accepted': function(test) {
     test.expect(1);
     // tests here  

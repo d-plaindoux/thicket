@@ -17,7 +17,7 @@ view PersonView this:Person {
 }
  
 view NewPerson this:Population {
-    let onSubmit _ = this.addPerson (self.firstname,self.name) in
+    let onSubmit = fun _ -> this.addPerson (self.firstname,self.name) in
         <form onSubmit=(onSubmit())>
             <input type="text" id="firstname"/>
             <input type="text" id="name"/>
