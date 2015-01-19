@@ -1,0 +1,39 @@
+model Bool
+
+model bool {
+    (?) : [c] c -> c -> c
+}
+
+model number {
+    (+) : number -> number
+    max : number -> number
+    (<=) : number -> bool
+}
+
+type Tree[a] {
+    model Leaf {
+        _ : a
+    }
+    model Node {
+        left  : Tree[a]
+        right : Tree[a]
+    }
+}
+
+class tree[a] this:Tree[a] {
+    return : Tree[a]
+    depth : number
+    add : a -> tree[a]
+} {
+    def return = this
+
+    def Leaf[a].depth = 0
+    def Node[a].depth = (self this.left depth) max (self this.right depth)
+    
+    def Leaf[a].add a = self $ Node this $ Leaf a
+    def Node[a].add a = 
+        let selector = (self this.left depth) <= (self this.right depth) in
+        let toLeft = self $ Node (self this.left add a return) this.right in
+        let toRight = self $ Node this.left (self this.right add a return) in
+            selector ? toLeft toRight
+}

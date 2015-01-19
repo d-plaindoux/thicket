@@ -6,6 +6,12 @@ model string {
     xml : xml
 }
 
+model list[a] {
+    (+) : a -> list[a]
+    map : [b] (a -> b) -> list[b]
+    xml : xml
+}
+
 model number {
     string : string
 }
@@ -15,19 +21,28 @@ model Todo {
     value : string
 }
 
-class todo this:Todo {
-    date   : number
-    what   : string     
-    change : number -> string -> todo    
+/**
+ * Todo set controller
+ */
+
+class todos this:list[Todo] {
+    return : list[Todo]
+    change : number -> string -> todos    
 } {
-    def date = this.date
-    def what = this.value
-    def change d w = self $ Todo d w
+    def return = this
+    def change d w = self $ this + $ Todo d w
 }
 
-view TodoView this:todo {
+/**
+ * View for rendering
+ */
+
+view TodoSetView this:todos {
     <div> 
-        <div class="todo" when=this.date.string> this.what.xml </div>
+        [ TodoView t for t in this.return ].xml
     </div>
-}
- 
+} 
+
+view TodoView this:Todo {
+    <div class="todo" when=this.date.string> this.value.xml </div>
+} 
