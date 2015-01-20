@@ -6,7 +6,7 @@
 
 comment ::= "//" line | "/*" line* "*/"
          
-entity  ::= typeDef | objectDef | typeDef | classDef | viewDef
+entity  ::= typeDef | sortDef | objectDef | typeDef | classDef | viewDef
 
 --------------------------------------------------------------------------
 
@@ -14,7 +14,11 @@ generics  ::= ("[" ID+ "]")?
 
 --------------------------------------------------------------------------
 
-typeDef ::= "type" ID generics "{" ("model" ID ("{" tparam* "}")?)+ "}"
+typeDef ::= "type" ID generics = generics types
+
+--------------------------------------------------------------------------
+
+sortDef ::= "type" ID generics "{" ("model" ID ("{" tparam* "}")?)+ "}"
 
 --------------------------------------------------------------------------
 

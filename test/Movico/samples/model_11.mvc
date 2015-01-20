@@ -1,0 +1,25 @@
+// Reference http://blog.podsnap.com/ducers2.html
+
+typedef ReducingFn[a r] = r -> a -> r
+typedef Transducer[a b] = [r] ReducingFn[a r] -> ReducingFn[b r] 
+
+model number {
+    (*) : number -> number
+}
+
+model Read[a] {
+}
+
+model string {
+    next : Read[string]
+}
+
+class transducer this:unit {
+    t_dub   : Transducer[number number]
+    t_rep   : [a] Transducer[a a]
+    t_parse : [a] Transducer[Read[string] string]
+} {
+    def t_dub   f r b = f r (2 * b)
+    def t_rep   f r b = f (f r b) b
+    def t_parse f r s = f r $ s next
+}

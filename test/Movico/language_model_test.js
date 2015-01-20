@@ -100,9 +100,19 @@ exports['language_object'] = {
     test.expect(1);
     // tests here  
     var aStream = stream("type Location { model Address {} }");     
-    test.deepEqual(language.parser.group('typeDef').parse(aStream).get(), 
+    test.deepEqual(language.parser.group('sortDef').parse(aStream).get(), 
                    [ ast.model('Address', [],[], ast.model('Location', [],[], undefined, true)), ast.model('Location', [],[], undefined, true) ], 
                    "accept a type of models");
+    test.done();
+  },
+        
+  'type definitin set': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("typedef Id = [a] a -> a");     
+    test.deepEqual(language.parser.group('typeDef').parse(aStream).get(), 
+                   ast.typedef("Id",[],ast.type.forall(["a"], ast.type.abstraction(ast.type.variable("a"), ast.type.variable("a")))), 
+                   "accept a type definition");
     test.done();
   },
 
