@@ -32,7 +32,7 @@ simple  way  for  data  structuration and  storage.   It's  the  model
 definition in the illustrated MVC design pattern.
 
 ```
-model APerson {
+model Person {
    firstname: String
    name: String
    age: Int
@@ -41,29 +41,33 @@ model APerson {
 
 A  class provides  a  set of  behaviors where  the  internal state  is
 represented by  a model.  For instance  in the  next code  two classes
-`Person`  and  `Population`  are  proposed for  objects  `APerson`  and
-`[APerson]`. Such class is similar to a controller in charge of managing
+`person`  and  `population`  are  proposed for  objects  `Person`  and
+`list[Person]`. Such class is similar to a controller in charge of managing
 a given model.
 
 ```
-class Person this:APerson {  
+class person this:Person {  
   firstname: String
   name: String
   age: Int
-  tick: self
+  tick: person
 } {
   def firstname = this.firstname
   def name = this.name
   def age = this.age
-  def tick = Person this.firstname this.name 0
+  def tick = self this.firstname this.name (this.age + 1)
 }
 
-class Population this:list[APerson] {
-  persons   : int -> list[APerson]
-  addPerson : string -> string -> Population
+typedef Population = list[Person]
+
+class population this:Population {
+  return  : Population
+  persons : int -> population
+  (+:)     : string -> string -> population
 } {
-  def persons age = [p for p in this if p <= 100]
-  def addPerson f n = self $ this +: (APerson f n)
+  def return = this
+  def persons age = self [p for p in this if p <= 100]
+  def addNew f n = self $ this +: (APerson f n)
 }
 ```
 
@@ -73,7 +77,7 @@ example  we   propose  views  dedicated   to  a  `Person`  and   to  a
 approach is  similar to  [Reac](http://facebook.github.io/react/).
 
 ```
-view PersonView this:Person {
+view personView this:person {
   <div onClick=this.tick> 
     <div>this.firstname</div>
     <div>this.name</div>
@@ -85,14 +89,14 @@ view PersonView this:Person {
 The main  purpose of views is  the capability to define  a specific UI
 (HTML  fragment) in  a  single and  isolated  block.  Then  identified
 elements become  part of  the definition in  opposite to  anonymous UI
-definition.   In  the  next  definition  a  `PersonAdder`  has  always
+definition.   In  the  next  definition  a  `personAdder`  has  always
 identified  elements  like  `firstname`  and  `name`.  Based  on  such
 definition each `PersonAdder` instance  provides these definitions and
 then can be referenced as we do in the `Population#addPerson` method.
 
 ```
-view PersonAdder this:Population {
-  let onSubmit = this.addPerson self.firstname self.name in
+view personAdder this:population {
+  let onSubmit = this addNew self.firstname self.name in
       <form onSubmit=onSubmit>
         <input type="text" id="firstname"/>
         <input type="text" id="name"/>
@@ -100,9 +104,9 @@ view PersonAdder this:Population {
       </form>   
 }
 
-view PopulationView this:Population {
-  [PersonView (Person p) for p in (this.persons 100)]
-  (PersonAdder this)
+view populationView this:population {
+  [personView (person p) for p in this persons 100 return].xml
+  (personAdder this)
 }
 ```
 
