@@ -73,7 +73,7 @@ class population this:Population {
 
 Finally  views can  be  designed  and linked  to  controllers. In  the
 example  we   propose  views  dedicated   to  a  `person`  and   to  a
-`^opulation`. These  views define  the UI  using HTML  fragments. This
+`population`. These  views define  the UI  using HTML  fragments. This
 approach is  similar to  [Reac](http://facebook.github.io/react/).
 
 ```
