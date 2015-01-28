@@ -5,8 +5,8 @@ model bool {
 }
 
 model number {
-    (+) : number -> number
-    max : number -> number
+    (+)  : number -> number
+    max  : number -> number
     (<=) : number -> bool
 }
 
@@ -22,13 +22,19 @@ type Tree[a] {
 
 class tree[a] this:Tree[a] {
     return : Tree[a]
-    depth : number
-    add : a -> tree[a]
+    match  : [b] (a -> b) -> (Tree[a] -> Tree[a] -> b) -> b
+    depth  : number
+    add    : a -> tree[a]
 } {
     def return = this
-
-    def Leaf[a].depth = 0
-    def Node[a].depth = (self this.left depth) max (self this.right depth)
+    
+    def Leaf[a].match l _ = l this._
+    def Node[a].match _ n = n this.left this.right
+    
+    def depth = 
+        self match 
+            (fun _ -> 0)
+            (fun l r -> (self l depth) max (self r depth))
     
     def Leaf[a].add a = self $ Node this $ Leaf a
     def Node[a].add a = 

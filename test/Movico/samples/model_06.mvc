@@ -52,6 +52,8 @@ class list[a] this:List[a] {
 
     isEmpty : bool
     lenght  : number
+    
+    (==)    : list[a] -> bool
 
     reverse : list[a]
     (++)    : list[a] -> list[a]
@@ -67,12 +69,14 @@ class list[a] this:List[a] {
     foldR   : [b] (a -> b -> b) -> b -> b
     
     zip     : [b] list[b] -> list[(a,b)]
+    
+    // TODO unzip : {a=>(b,c)} in [b c] (list[b],list[c])
 } {
     def return = this
 
     def Nil[a].match n c = n
     def Cons[a].match n c = c this.head (self this.tail)
-    
+
     def Nil[a].isEmpty = bool True
     def Cons[a].isEmpty = bool False
     
@@ -110,6 +114,15 @@ class list[a] this:List[a] {
         let ifNil = list Nil in
         let ifCons = fun head tail -> list $ Cons (this.head,head) $ self this.tail zip tail return in
             l match ifNil ifCons
+}
+
+class list2[a b] this:List[(a,b)] {
+    unzip : (list[a],list[b])
+} {
+    def Nil[(a,b)].unzip = (list Nil),(list Nil)
+    def Cons[(a,b)].unzip = 
+        let tail = self this.tail unzip in
+            (list $ Cons this.head._1 tail._1.return),(list $ Cons this.head._2 tail._2.return)
 }
 
 class example this:unit {

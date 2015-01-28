@@ -7,19 +7,18 @@ model number {
     (*) : number -> number
 }
 
-model Read[a] {
-}
+model Read
 
 model string {
-    next : Read[string]
+    read : Read
 }
 
 class transducer this:unit {
     t_dub   : Transducer[number number]
     t_rep   : [a] Transducer[a a]
-    t_parse : [a] Transducer[Read[string] string]
+    t_parse : [a] Transducer[Read string]
 } {
-    def t_dub   f r b = f r (2 * b)
+    def t_dub   f r b = f r $ 2 * b
     def t_rep   f r b = f (f r b) b
-    def t_parse f r s = f r $ s next
+    def t_parse f r s = f r $ s read
 }
