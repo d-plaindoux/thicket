@@ -63,7 +63,7 @@ typedef Population = list[Person]
 class population this:Population {
   return  : Population
   persons : int -> population
-  (+:)     : string -> string -> population
+  addNew  : string -> string -> population
 } {
   def return = this
   def persons age = self [p for p in this if p <= 100]
@@ -72,8 +72,8 @@ class population this:Population {
 ```
 
 Finally  views can  be  designed  and linked  to  controllers. In  the
-example  we   propose  views  dedicated   to  a  `Person`  and   to  a
-`Population`. These  views define  the UI  using HTML  fragments. This
+example  we   propose  views  dedicated   to  a  `person`  and   to  a
+`^opulation`. These  views define  the UI  using HTML  fragments. This
 approach is  similar to  [Reac](http://facebook.github.io/react/).
 
 ```
