@@ -74,7 +74,7 @@ class population this:Population {
 Finally  views can  be  designed  and linked  to  controllers. In  the
 example  we   propose  views  dedicated   to  a  `person`  and   to  a
 `population`. These  views define  the UI  using HTML  fragments. This
-approach is  similar to  [Reac](http://facebook.github.io/react/).
+approach is  similar to [React](http://facebook.github.io/react/).
 
 ```
 view personView this:person {
@@ -105,7 +105,7 @@ view personAdder this:population {
 }
 
 view populationView this:population {
-  [personView (person p) for p in this persons 100 return].xml
+  [personView (person p) for p in this persons 100 return]
   (personAdder this)
 }
 ```
