@@ -114,6 +114,7 @@ More informations and References
 ================================
 
 This language has been inspired  by major projects and frameworks like
+[Purescript](https://github.com/purescript/purescript),
 [AngularJS](https://angularjs.org),
 [React](http://facebook.github.io/react/) ...  In addition the Virtual
 DOM  approach is  also  studied in  order to  provide  a reactive  and
