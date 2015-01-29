@@ -61,11 +61,11 @@ class person this:Person {
 typedef Population = list[Person]
 
 class population this:Population {
-  return  : Population
+  unbox   : Population
   (<=)    : int -> population
   addNew  : string -> string -> population
 } {
-  def return = this
+  def unbox = this
   def (<=) age = self [p for p in this if p <= 100]
   def addNew f n = self $ this +: (APerson f n)
 }
@@ -105,7 +105,7 @@ view personAdder this:population {
 }
 
 view populationView this:population {
-  [personView (person p) for p in this <= 100 return]
+  [personView (person p) for p in this <= 100 unbox]
   (personAdder this)
 }
 ```
