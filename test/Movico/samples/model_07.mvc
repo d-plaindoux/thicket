@@ -4,24 +4,33 @@ type Bool {
 }
 
 class bool this:Bool {
-    return : Bool
-    (&&) : bool -> bool
-    (||) : bool -> bool
-    (=>) : bool -> bool
-    not  : bool
-    select : [a] a -> a -> a
+    unbox : Bool
+    (&&)  : bool -> bool
+    (||)  : bool -> bool
+    (=>)  : bool -> bool
+    not   : bool
+    (?)   : [a] a -> a -> a
 } {
-    def return = this
+    def unbox = this
+
+    def True.(?) t _  = t
+    def False.(?) _ f = f
 
     def (=>) l = self.not || l
+    def not    = self $ self ? False True 
+    def (&&) l = self ? l self
+    def (||) l = self ? self l
+}
 
-    def True.not = self False    
-    def True.(&&) l = l
-    def True.(||) _ = self
-    def True.select t _ = t
+model IO[a] {
+    put : a -> IO[a]
+    get : (a,IO[a])
+}
 
-    def False.not = self True    
-    def False.(&&) _ = self
-    def False.(||) l = l
-    def False.select _ f = f
+class pretty this:IO[string] {
+    string : string -> pretty
+    bool   : bool -> pretty
+} {
+    def bool b   = self string (b ? "true" "false")
+    def string s = self $ this put s
 }
