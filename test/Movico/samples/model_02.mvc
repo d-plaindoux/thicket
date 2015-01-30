@@ -3,17 +3,17 @@
 model xml
 
 model string {
-    xml : xml
+    toXml : xml
 }
 
 model list[a] {
-    (+) : a -> list[a]
-    map : [b] (a -> b) -> list[b]
-    xml : xml
+    (+)   : a -> list[a]
+    map   : [b] (a -> b) -> list[b]
+    toXml : xml
 }
 
 model number {
-    string : string
+    toString : string
 }
 
 model Todo {
@@ -26,10 +26,10 @@ model Todo {
  */
 
 class todos this:list[Todo] {
-    return : list[Todo]
+    unbox  : list[Todo]
     change : number -> string -> todos    
 } {
-    def return = this
+    def unbox = this
     def change d w = self $ this + $ Todo d w
 }
 
@@ -39,10 +39,10 @@ class todos this:list[Todo] {
 
 view TodoSetView this:todos {
     <div> 
-        [ TodoView t for t in this.return ].xml
+        [ TodoView t for t in this unbox ].toXml
     </div>
 } 
 
 view TodoView this:Todo {
-    <div class="todo" when=this.date.string> this.value.xml </div>
+    <div class="todo" when=(this date toString)> (this value toXml) </div>
 } 

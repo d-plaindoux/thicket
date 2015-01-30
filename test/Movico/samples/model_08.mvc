@@ -30,7 +30,7 @@ class try[a] this:Try[a] {
     def Failure[a].filter _ = self
     def Success[a].filter p = 
         let filtered = p this._ in
-            filtered ? this $ self $ Failure "Filter fails"
+            filtered ? self $ self $ Failure "Filter fails"
 
     def Failure[a].recoverWith a = a
     def Success[a].recoverWith _ = this._

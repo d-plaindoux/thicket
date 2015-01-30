@@ -249,6 +249,17 @@ exports['language_exprs'] = {
     test.done();
   },  
     
+  'abstraction with typed x': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("fun x:int -> 1");
+        
+    test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
+                   ast.expr.abstraction("x", ast.expr.number(1), ast.type.variable('int')),
+                   "accept function");
+    test.done();
+  },  
+    
   'abstraction with x and y': function(test) {
     test.expect(1);
     // tests here  

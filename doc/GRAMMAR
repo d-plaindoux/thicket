@@ -40,7 +40,7 @@ classDef  ::= "class" ID generics param "{" tparam* "}" "{" method* "}"
 
 --------------------------------------------------------------------------
 
-method    ::= "def" (type ".")? (ID|"("OP")") ID* "=" expr
+method    ::= "def" (type ".")? (ID|"("OP")") (ID(":" generics type)?)* "=" expr
 
 --------------------------------------------------------------------------
 
@@ -60,7 +60,7 @@ sexpr     ::= NUMBER
             | "<" ID attr* "/>"
             | "[" exprs ("for" ID "in" exprs)+ ("if" exprs)* "]"
             | "let" ID (":" generics type)? "=" exprs "in" exprs
-            | "fun" ID+ -> exprs
+            | "fun" (ID (":" generics type)?)+ -> exprs
             
 attr      ::= ID "=" expr
 

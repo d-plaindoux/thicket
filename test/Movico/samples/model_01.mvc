@@ -13,12 +13,12 @@ type Peano {
 }
 
 class peano this:Peano {
-    return : Peano
+    unbox : Peano
     (+) : peano -> peano
 } {
-    def return = this
+    def unbox = this
     def Zero.(+) p = self
     def Succ.(+) p = 
         let p = self this._ + p in
-            self $ Succ p.return
+            self $ Succ $ p unbox
 }

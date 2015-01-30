@@ -100,6 +100,20 @@ exports['language_class'] = {
     test.done();
   },
         
+  'controller with a functional typed behavior is accepted and provided': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("class Address this: Address { number : unit -> number } { def number _:unit = 123 }");        
+    test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
+                   ast.controller('Address', 
+                                  [],
+                                  ast.param('this', ast.type.variable('Address')), 
+                                  [ ast.param('number', ast.type.abstraction(ast.type.variable("unit"), ast.type.variable("number"))) ], 
+                                  [ ast.method('number', ast.expr.abstraction("_", ast.expr.number(123), ast.type.variable('unit'))) ]), 
+                   "accept a controller");
+    test.done();
+  },
+        
   'controller with a generic functional behavior is accepted and provided': function(test) {
     test.expect(1);
     // tests here  
