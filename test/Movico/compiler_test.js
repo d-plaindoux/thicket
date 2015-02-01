@@ -152,5 +152,21 @@ exports['compile'] = {
                  "M.invoke(mvc$a,'b')");
       test.done();
   },
+    
+  'Let expression': function (test) {
+      test.expect(1);
+      
+      test.equal(compiler.expression(list(), list('a'), ast.expr.let("b",ast.expr.ident("a"),ast.expr.ident("b"))).success(),
+                 "M.apply(function(mvc$b){return mvc$b;},M.lazy(function(){return mvc$a;}))");
+      test.done();
+  },
+    
+  'Comprehension expression': function (test) {
+      test.expect(1);
+      
+      test.equal(compiler.expression(list(), list('l'), ast.expr.comprehension(ast.expr.ident('x'),[['x',ast.expr.ident('l')]],[])).success(),
+                 "M.apply(M.invoke(mvc$l,'map'),M.lazy(function(){return function(mvc$x){return mvc$x;};}))");
+      test.done();
+  },
 };
     
