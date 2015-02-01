@@ -168,5 +168,49 @@ exports['compile'] = {
                  "M.apply(M.invoke(mvc$l,'map'),M.lazy(function(){return function(mvc$x){return mvc$x;};}))");
       test.done();
   },
+    
+  'Comprehension expression with condition': function (test) {
+      test.expect(1);
+      
+      test.equal(compiler.expression(list(), 
+                                     list('l'), 
+                                     ast.expr.comprehension(ast.expr.ident('x'),
+                                                            [['x',ast.expr.ident('l')]],
+                                                            [ast.expr.ident("b")])).success(),
+                 "M.apply(M.invoke(M.apply(M.invoke(mvc$l,'filter'),M.lazy(function(){return function(mvc$x){return M.ident('b');};})),'map'),M.lazy(function(){return function(mvc$x){return mvc$x;};}))");
+      test.done();
+  },
+    
+  'Simple Empty Tag': function (test) {
+      test.expect(1);
+      
+      test.equal(compiler.expression(list(), list('l'), ast.expr.tag("A",[],[])).success(),
+                 "Movico.tag('A',[],[])");
+      test.done();
+  },
+    
+  'Empty Tag with one attribute': function (test) {
+      test.expect(1);
+      
+      test.equal(compiler.expression(list(), list('l'), ast.expr.tag("A",[['a',ast.expr.string('b')]],[])).success(),
+                 "Movico.tag('A',[['a',M.string('b')]],[])");
+      test.done();
+  },
+    
+  'Empty Tag with two attributes': function (test) {
+      test.expect(1);
+      
+      test.equal(compiler.expression(list(), list('l'), ast.expr.tag("A",[['a',ast.expr.string('b')],['b',ast.expr.number(1)]],[])).success(),
+                 "Movico.tag('A',[['a',M.string('b')],['b',M.number(1)]],[])");
+      test.done();
+  },
+    
+  'Tag with a simple content': function (test) {
+      test.expect(1);
+      
+      test.equal(compiler.expression(list(), list('l'), ast.expr.tag("A",[],[ast.expr.tag("B",[],[]),ast.expr.number(1)])).success(),
+                 "Movico.tag('A',[],[Movico.tag('B',[],[]),M.number(1)])");
+      test.done();
+  },
 };
     
