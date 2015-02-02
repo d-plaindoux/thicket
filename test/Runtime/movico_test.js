@@ -1,3 +1,5 @@
+/*jshint -W061 */
+
 'use strict';
 
 var stream = require('../../lib' + (process.env.MOVICO_COV || '') + '/Parser/stream.js').stream,
