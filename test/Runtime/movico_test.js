@@ -99,16 +99,68 @@ exports['runtime'] = {
     test.done();
   },
     
-  'Simple model': function(test) {
+  'Simple model attribute': function(test) {
     test.expect(1);
     // tests here  
-    var model = compiler.model(language.parser.group('modelDef').parse(stream("model E { _ : number }")).get()).success(),
+    var modelSource = compiler.entity(list(), language.parser.group('modelDef').parse(stream("model E { _ : number }")).get()).success(),
         expression = language.parser.group('exprs').parse(stream("(E 1) _")).get(),
         source = compiler.expression(list(),list(),expression).success();
-      
-    eval(model); // define the model
+          
+    eval(modelSource); 
       
     test.deepEqual(M.$$(eval(source)), 1);
+    test.done();
+  },
+    
+  'Simple generic model attribute': function(test) {
+    test.expect(1);
+    // tests here  
+    var modelSource = compiler.entity(list(), language.parser.group('modelDef').parse(stream("model E[A] { _ : A }")).get()).success(),
+        expression = language.parser.group('exprs').parse(stream("(E 1) _")).get(),
+        source = compiler.expression(list(),list(),expression).success();
+        
+    eval(modelSource); 
+      
+    test.deepEqual(M.$$(eval(source)), 1);
+    test.done();
+  },
+    
+  'Simple model functional attribute': function(test) {
+    test.expect(1);
+    // tests here  
+    var modelSource = compiler.entity(list(), language.parser.group('modelDef').parse(stream("model E { _ : number -> number }")).get()).success(),
+        expression = language.parser.group('exprs').parse(stream("(E (fun e -> e)) _ 1")).get(),
+        source = compiler.expression(list(),list(),expression).success();
+
+    eval(modelSource); 
+      
+    test.deepEqual(M.$$(eval(source)), 1);
+    test.done();
+  },
+    
+  'Simple controller': function(test) {
+    test.expect(1);
+    // tests here  
+    var modelSource = compiler.entity(list(), language.parser.group('controllerDef').parse(stream("class E this:number {}{ def unbox = this }")).get()).success(),
+        expression = language.parser.group('exprs').parse(stream("E 1 unbox")).get(),
+        source = compiler.expression(list(),list(),expression).success();
+
+    eval(modelSource); 
+      
+    test.deepEqual(M.$$(eval(source)), 1);
+    test.done();
+  },
+    
+  'Simple controller calling self': function(test) {
+    test.expect(1);
+    // tests here  
+    var modelSource = compiler.entity(list(), language.parser.group('controllerDef').parse(stream("class E this:number {}{ def unbox = this def new i = self i }")).get()).success(),
+        expression = language.parser.group('exprs').parse(stream("E 1 new 2 unbox")).get(),
+        source = compiler.expression(list(),list(),expression).success();
+
+    eval(modelSource); 
+      
+    test.deepEqual(M.$$(eval(source)), 2);
     test.done();
   },
 };

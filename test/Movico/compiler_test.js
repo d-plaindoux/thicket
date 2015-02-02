@@ -32,44 +32,44 @@ exports['compile'] = {
   'Simple model': function (test) {
       test.expect(1);
       
-      test.equal(compiler.model(ast.model("A",[],[])).success(),
-                 "M.define('A',M.instance({$:'A'}))");
+      test.equal(compiler.entity(list(),ast.model("A",[],[])).success(),
+                 "M.define('A',M.instance({'[id]':'A'}))");
       test.done();
   },
 
   'Model with one attribute': function (test) {
       test.expect(1);
       
-      test.equal(compiler.model(ast.model("A",[],[ast.param("a",ast.type.native("a"))])).success(),
-                 "M.define('A',function(mvc$a){return M.instance({$:'A','a':mvc$a});})");
+      test.equal(compiler.entity(list(), ast.model("A",[],[ast.param("a",ast.type.native("a"))])).success(),
+                 "M.define('A',function(mvc$a){return M.instance({'[id]':'A','a':mvc$a});})");
       test.done();
   },
 
   'Model with two attributes': function (test) {
       test.expect(1);
       
-      test.equal(compiler.model(ast.model("A",list(),[ast.param("a1",ast.type.native("a")),
+      test.equal(compiler.entity(list(), ast.model("A",list(),[ast.param("a1",ast.type.native("a")),
                                                   ast.param("a2",ast.type.native("b"))])).success(), 
-                 "M.define('A',function(mvc$a1){return function(mvc$a2){return M.instance({$:'A','a1':mvc$a1,'a2':mvc$a2});};})");
+                 "M.define('A',function(mvc$a1){return function(mvc$a2){return M.instance({'[id]':'A','a1':mvc$a1,'a2':mvc$a2});};})");
       test.done();
   },
     
   'Simple controller': function (test) {
       test.expect(1);
       
-      test.equal(compiler.controller(list(), ast.controller("A",[],ast.param("this",ast.type.native("a")),[],[])).success(),
-                 "M.define('A',function(mvc$this){return M.controller(function(self){return {$:'A'});)};)");
+      test.equal(compiler.entity(list(), ast.controller("A",[],ast.param("this",ast.type.native("a")),[],[])).success(),
+                 "M.define('A',function(mvc$this){return M.controller(function(mvc$self){return {'[id]':'A'};})})");
       test.done();
   },
     
   'Controller with unbox': function (test) {
       test.expect(1);
       
-      test.equal(compiler.controller(list(), ast.controller("A",[],
+      test.equal(compiler.entity(list(), ast.controller("A",[],
                                                         ast.param("this",ast.type.native("a")),
                                                         [],
                                                         [ast.method("unbox", ast.expr.ident("this"))])).success(),
-                 "M.define('A',function(mvc$this){return M.controller(function(self){return {$:'A','unbox':mvc$this});)};)");
+                 "M.define('A',function(mvc$this){return M.controller(function(mvc$self){return {'[id]':'A','unbox':mvc$this};})})");
       test.done();
   },
     
@@ -166,6 +166,14 @@ exports['compile'] = {
       
       test.equal(compiler.expression(list(), list('l'), ast.expr.comprehension(ast.expr.ident('x'),[['x',ast.expr.ident('l')]],[])).success(),
                  "M.apply(M.invoke(mvc$l,'map'),M.lazy(function(){return function(mvc$x){return mvc$x;};}))");
+      test.done();
+  },
+    
+  'Comprehension expression with two map': function (test) {
+      test.expect(1);
+      
+      test.equal(compiler.expression(list(), list('l'), ast.expr.comprehension(ast.expr.ident('x'),[['x',ast.expr.ident('l')],['y',ast.expr.ident('m')]],[])).success(),
+                 "M.apply(M.invoke(M.ident('m'),'flatmap'),M.lazy(function(){return function(mvc$y){return M.apply(M.invoke(mvc$l,'map'),M.lazy(function(){return function(mvc$x){return mvc$x;};}));};}))");
       test.done();
   },
     
