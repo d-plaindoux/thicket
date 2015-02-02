@@ -8,7 +8,7 @@ type Bool {
 }
 
 class bool this:Bool {
-    return : Bool
+    unbox : Bool
     (&&)   : bool -> bool
     (||)   : bool -> bool
     (=>)   : bool -> bool
@@ -16,7 +16,7 @@ class bool this:Bool {
     (?)    : [a] a -> a -> a
     string : string
 } {
-    def return = this
+    def unbox = this
 
     def (=>) l = self.not || l
 
@@ -47,8 +47,8 @@ type List[a] {
 }
 
 class list[a] this:List[a] {
-    return  : List[a]
-    match   : [b] b -> (a -> list[a] -> b) -> b
+    unbox   : List[a]
+    fold    : [b] b -> (a -> list[a] -> b) -> b
 
     isEmpty : bool
     lenght  : number
@@ -72,10 +72,10 @@ class list[a] this:List[a] {
 
     // TODO unzip : {a=>(b,c)} in [b c] (list[b],list[c])
 } {
-    def return = this
+    def unbox = this
 
-    def Nil[a].match n c = n
-    def Cons[a].match n c = c this.head (self this.tail)
+    def Nil[a].fold n c = n
+    def Cons[a].fold n c = c this.head (self this.tail)
 
     def Nil[a].isEmpty = bool True
     def Cons[a].isEmpty = bool False
@@ -87,13 +87,13 @@ class list[a] this:List[a] {
     def (+:) a = self $ Cons a this
 
     def Nil[a].(++) l = l
-    def Cons[a].(++) l = self $ Cons this.head $ self this.tail ++ l return
+    def Cons[a].(++) l = self $ Cons this.head $ self this.tail ++ l unbox
 
     def Nil[a].(:+) a = self $ Cons a this
-    def Cons[a].(:+) a = self $ Cons this.head $ self this.tail :+ a return
+    def Cons[a].(:+) a = self $ Cons this.head $ self this.tail :+ a unbox
 
     def Nil[a].map _ = list Nil
-    def Cons[a].map f = list $ Cons (f this.head) $ self this.tail map f return
+    def Cons[a].map f = list $ Cons (f this.head) $ self this.tail map f unbox
 
     def Nil[a].flatmap _ = list Nil
     def Cons[a].flatmap f = (f this.head) ++ (self this.tail flatmap f)
@@ -101,7 +101,7 @@ class list[a] this:List[a] {
     def Nil[a].filter _ = self
     def Cons[a].filter p =
         let tail = self this.tail filter p in
-            (p this.head) ? (self $ Cons this.head tail.return) tail
+            (p this.head) ? (self $ Cons this.head $ tail.unbox) tail
 
     def Nil[a].foldL _ b = b
     def Cons[a].foldL f b = f (self this.tail foldL f b) this.head
@@ -112,8 +112,8 @@ class list[a] this:List[a] {
     def Nil[a].zip l = list Nil
     def Cons[a].zip l =
         let ifNil = list Nil in
-        let ifCons = fun head tail -> list $ Cons (this.head,head) $ self this.tail zip tail return in
-            l match ifNil ifCons
+        let ifCons = fun head tail -> list $ Cons (this.head,head) $ self this.tail zip tail unbox in
+            l fold ifNil ifCons
 }
 
 class list2[a b] this:List[(a,b)] {
@@ -122,7 +122,7 @@ class list2[a b] this:List[(a,b)] {
     def Nil[(a,b)].unzip = (list Nil),(list Nil)
     def Cons[(a,b)].unzip =
         let tail = self this.tail unzip in
-            (list $ Cons this.head._1 tail._1.return),(list $ Cons this.head._2 tail._2.return)
+            (list $ Cons this.head._1 tail._1.unbox),(list $ Cons this.head._2 tail._2.unbox)
 }
 
 class example this:unit {
@@ -130,7 +130,7 @@ class example this:unit {
     zip : List[string] -> List[bool] -> List[(string,bool)]
     all : List[string] -> List[bool] -> List[(string,bool)]
 } {
-    def ite l     = [a string for a in list l if a] return
-    def zip l1 l2 = (list l1) zip (list l2) return
-    def all l1 l2 = [(a,b) for a in list l1 for b in list l2] return
+    def ite l     = [a string for a in list l if a] unbox
+    def zip l1 l2 = (list l1) zip (list l2) unbox
+    def all l1 l2 = [(a,b) for a in list l1 for b in list l2] unbox
 }

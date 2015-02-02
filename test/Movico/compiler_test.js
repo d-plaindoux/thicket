@@ -33,7 +33,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.equal(compiler.model(ast.model("A",[],[])).success(),
-                 "M.model('A',{$:'A'})");
+                 "M.define('A',M.instance({$:'A'}))");
       test.done();
   },
 
@@ -41,7 +41,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.equal(compiler.model(ast.model("A",[],[ast.param("a",ast.type.native("a"))])).success(),
-                 "M.model('A',function(mvc$a){return {$:'A','a':mvc$a}})");
+                 "M.define('A',function(mvc$a){return M.instance({$:'A','a':mvc$a});})");
       test.done();
   },
 
@@ -50,7 +50,7 @@ exports['compile'] = {
       
       test.equal(compiler.model(ast.model("A",list(),[ast.param("a1",ast.type.native("a")),
                                                   ast.param("a2",ast.type.native("b"))])).success(), 
-                 "M.model('A',function(mvc$a1){return function(mvc$a2){return {$:'A','a1':mvc$a1,'a2':mvc$a2}}})");
+                 "M.define('A',function(mvc$a1){return function(mvc$a2){return M.instance({$:'A','a1':mvc$a1,'a2':mvc$a2});};})");
       test.done();
   },
     
@@ -58,7 +58,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.equal(compiler.controller(list(), ast.controller("A",[],ast.param("this",ast.type.native("a")),[],[])).success(),
-                 "M.controller('A',function(mvc$this){return {$:'A'};})");
+                 "M.define('A',function(mvc$this){return M.controller(function(self){return {$:'A'});)};)");
       test.done();
   },
     
@@ -69,7 +69,7 @@ exports['compile'] = {
                                                         ast.param("this",ast.type.native("a")),
                                                         [],
                                                         [ast.method("unbox", ast.expr.ident("this"))])).success(),
-                 "M.controller('A',function(mvc$this){return {$:'A','unbox':mvc$this};})");
+                 "M.define('A',function(mvc$this){return M.controller(function(self){return {$:'A','unbox':mvc$this});)};)");
       test.done();
   },
     
@@ -185,7 +185,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.equal(compiler.expression(list(), list('l'), ast.expr.tag("A",[],[])).success(),
-                 "Movico.tag('A',[],[])");
+                 "M.tag('A',[],[])");
       test.done();
   },
     
@@ -193,7 +193,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.equal(compiler.expression(list(), list('l'), ast.expr.tag("A",[['a',ast.expr.string('b')]],[])).success(),
-                 "Movico.tag('A',[['a',M.string('b')]],[])");
+                 "M.tag('A',[['a',M.string('b')]],[])");
       test.done();
   },
     
@@ -201,7 +201,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.equal(compiler.expression(list(), list('l'), ast.expr.tag("A",[['a',ast.expr.string('b')],['b',ast.expr.number(1)]],[])).success(),
-                 "Movico.tag('A',[['a',M.string('b')],['b',M.number(1)]],[])");
+                 "M.tag('A',[['a',M.string('b')],['b',M.number(1)]],[])");
       test.done();
   },
     
@@ -209,7 +209,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.equal(compiler.expression(list(), list('l'), ast.expr.tag("A",[],[ast.expr.tag("B",[],[]),ast.expr.number(1)])).success(),
-                 "Movico.tag('A',[],[Movico.tag('B',[],[]),M.number(1)])");
+                 "M.tag('A',[],[M.tag('B',[],[]),M.number(1)])");
       test.done();
   },
 };
