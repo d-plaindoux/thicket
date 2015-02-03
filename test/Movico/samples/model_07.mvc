@@ -12,10 +12,10 @@ class bool this:Bool {
     (?)   : [a] a -> a -> a
 } {
     def unbox = this
-
+    
     def True.(?) t _  = t
     def False.(?) _ f = f
-
+    
     def (=>) l = self.not || l
     def not    = self $ self ? False True 
     def (&&) l = self ? l self

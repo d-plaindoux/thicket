@@ -40,7 +40,7 @@ exports['compile'] = {
   'Model with one attribute': function (test) {
       test.expect(1);
       
-      test.equal(compiler.entity(list(), ast.model("A",[],[ast.param("a",ast.type.native("a"))])).success(),
+      test.equal(compiler.entity([], ast.model("A",[],[ast.param("a",ast.type.native("a"))])).success(),
                  "M.define('A',function(mvc$a){return M.instance({'[id]':'A','a':mvc$a});})");
       test.done();
   },
