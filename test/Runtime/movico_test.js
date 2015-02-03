@@ -167,13 +167,26 @@ exports['runtime'] = {
   'Simple controller filtered method': function(test) {
     test.expect(1);
     // tests here  
-    var modelSource = compiler.entity(list(), language.parser.group('controllerDef').parse(stream("class E this:number {}{ def string.unbox = this}")).get()).success(),
+    var modelSource = compiler.entity(list(), language.parser.group('controllerDef').parse(stream("class E this:number {}{ def number.unbox = this}")).get()).success(),
         expression = language.parser.group('exprs').parse(stream("E 1 unbox")).get(),
         source = compiler.expression(list(),list(),expression).success();
 
     eval(modelSource); 
       
     test.deepEqual(M.$$(eval(source)), M.$$(M.number(1)));
+    test.done();
+  },
+    
+  'Simple controller unfiltered method': function(test) {
+    test.expect(1);
+    // tests here  
+    var modelSource = compiler.entity(list(), language.parser.group('controllerDef').parse(stream("class E this:number {}{ def string.unbox = this}")).get()).success(),
+        expression = language.parser.group('exprs').parse(stream("E 1 unbox")).get(),
+        source = compiler.expression(list(),list(),expression).success();
+
+    eval(modelSource); 
+      
+    test.throws(function(){ M.$$(eval(source)); });
     test.done();
   },
 };

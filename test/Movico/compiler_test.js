@@ -58,18 +58,31 @@ exports['compile'] = {
       test.expect(1);
       
       test.equal(compiler.entity(list(), ast.controller("A",[],ast.param("this",ast.type.native("a")),[],[])).success(),
-                 "M.define('A',function(mvc$this){return M.controller(function(mvc$self){return {'[id]':'A'};})})");
+                 "M.define('A',function(mvc$this){return M.controller(function(mvc$self){return {'[id]':'A','[this]':mvc$this};})})");
       test.done();
   },
     
   'Controller with unbox': function (test) {
       test.expect(1);
       
-      test.equal(compiler.entity(list(), ast.controller("A",[],
-                                                        ast.param("this",ast.type.native("a")),
-                                                        [],
-                                                        [ast.method("unbox", ast.expr.ident("this"))])).success(),
-                 "M.define('A',function(mvc$this){return M.controller(function(mvc$self){return {'[id]':'A','unbox':mvc$this};})})");
+      test.equal(compiler.entity(list(), 
+                                 ast.controller("A",[],
+                                    ast.param("this",ast.type.native("a")),
+                                    [],
+                                    [ast.method("unbox", ast.expr.ident("this"))])).success(),
+                 "M.define('A',function(mvc$this){return M.controller(function(mvc$self){return {'[id]':'A','[this]':mvc$this,'unbox':mvc$this};})})");
+      test.done();
+  },
+    
+  'Controller with filtered unbox': function (test) {
+      test.expect(1);
+      
+      test.equal(compiler.entity(list(ast.model('number',[],[])),
+                                 ast.controller("A",[],
+                                                ast.param("this",ast.type.native("a")),
+                                                [],
+                                                [ast.method("unbox", ast.expr.ident("this"), ast.type.variable('number'))])).success(),
+                 "M.define('A',function(mvc$this){return M.controller(function(mvc$self){return {'[id]':'A','[this]':mvc$this,'number.unbox':mvc$this};})})");
       test.done();
   },
     
@@ -100,7 +113,7 @@ exports['compile'] = {
   'Pair': function (test) {
       test.expect(1);
       
-      test.equal(compiler.expression(list('Pair'), list(), ast.expr.pair(ast.expr.number(1),ast.expr.string("1"))).success(),
+      test.equal(compiler.expression(list(ast.model("PAIR",[],[])), list(), ast.expr.pair(ast.expr.number(1),ast.expr.string("1"))).success(),
                  "M.apply(M.apply(M.ident('Pair'),M.lazy(function(){return M.number(1);})),M.lazy(function(){return M.string('1');}))");
       test.done();
   },
@@ -192,7 +205,7 @@ exports['compile'] = {
   'Simple Empty Tag': function (test) {
       test.expect(1);
       
-      test.equal(compiler.expression(list(), list('l'), ast.expr.tag("A",[],[])).success(),
+      test.equal(compiler.expression(list(), list(), ast.expr.tag("A",[],[])).success(),
                  "M.tag('A',[],[])");
       test.done();
   },
