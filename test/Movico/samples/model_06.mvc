@@ -1,5 +1,10 @@
-model number {
-    (+) : number -> number
+model native
+
+class number this:native {
+    unbox : native 
+    (+)   : number -> number
+} {
+    def unbox = this
 }
 
 type Bool {
@@ -134,3 +139,4 @@ class example this:unit {
     def zip l1 l2 = (list l1) zip (list l2) unbox
     def all l1 l2 = [(a,b) for a in list l1 for b in list l2] unbox
 }
+
