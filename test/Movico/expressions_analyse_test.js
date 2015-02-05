@@ -114,8 +114,8 @@ exports['expressions'] = {
       var anExpression = ast.expr.abstraction("a", ast.expr.ident("a"));
       types.reset();
       test.deepEqual(expression.analyse(list(), list(), list(), anExpression, ast.type.abstraction(types.newVar(),types.newVar())).success(), 
-                     pair(list(pair("#5", ast.type.variable("#2")),
-                               pair("#4", ast.type.variable("#2")),
+                     pair(list(pair("#4", ast.type.variable("#2")),
+                               pair("#5", ast.type.variable("#2")),
                                pair("#1", ast.type.variable("#2"))), 
                           ast.type.abstraction(ast.type.variable("#2"),ast.type.variable("#2"))),
                      "Must be (a -> a)");
@@ -128,8 +128,8 @@ exports['expressions'] = {
       var anExpression = ast.expr.let("a", ast.expr.string("b"), ast.expr.ident("a"));
       types.reset();
       test.deepEqual(expression.analyse(list(), list(), list(), anExpression).success(), 
-                     pair(list(pair("#4", ast.type.native("string")),
-                               pair("#3", ast.type.native("string")),
+                     pair(list(pair("#3", ast.type.native("string")),
+                               pair("#4", ast.type.native("string")),
                                pair("#2", ast.type.native("string")),
                                pair("#1", ast.type.native("string"))), ast.type.native("string")),
                      "Must be (string)");
@@ -142,8 +142,8 @@ exports['expressions'] = {
       var anExpression = ast.expr.let("a",ast.expr.ident("b"),ast.expr.ident("a"));
       types.reset();      
       test.deepEqual(expression.analyse(list("c"), list(pair("b",ast.type.native("c"))), list(), anExpression).success(), 
-                     pair(list(pair("#4", ast.type.native("c")),
-                               pair("#3", ast.type.native("c")),
+                     pair(list(pair("#3", ast.type.native("c")),
+                               pair("#4", ast.type.native("c")),
                                pair("#2", ast.type.native("c")),
                                pair("#1", ast.type.native("c"))), ast.type.native("c")),
                      "Must be (c)");
@@ -156,8 +156,8 @@ exports['expressions'] = {
       var anExpression = ast.expr.application(ast.expr.abstraction("a",ast.expr.ident("a")), ast.expr.number(12));
       types.reset();
       test.deepEqual(expression.analyse(list(), list(), list(), anExpression).success(), 
-                     pair(list(pair("#4", ast.type.native("number")),
-                               pair("#3", ast.type.native("number")),
+                     pair(list(pair("#3", ast.type.native("number")),
+                               pair("#4", ast.type.native("number")),
                                pair("#2", ast.type.native("number")),
                                pair("#1", ast.type.native("number"))), ast.type.native("number")),
                      "Must be (number)");

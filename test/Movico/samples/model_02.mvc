@@ -29,8 +29,8 @@ class todos this:list[Todo] {
     unbox  : list[Todo]
     change : number -> string -> todos    
 } {
-    def unbox = this
-    def change d w = self $ this + $ Todo d w
+    //def unbox = this
+    //def change d w = self $ this + $ Todo d w
 }
 
 /**

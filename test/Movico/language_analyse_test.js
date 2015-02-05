@@ -61,7 +61,7 @@ function correctSampleTest(sample, test) {
         });
         
         if (analyse.isFailure()) {
-            console.log(analyse.failure().stack);
+            console.log(analyse.failure());
         }
         
         test.ok(analyse.isSuccess(), "Type ");

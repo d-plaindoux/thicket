@@ -101,7 +101,7 @@ exports['types_freevar'] = {
       // Test
       test.deepEqual(types.unify(ast.type.abstraction(ast.type.variable("b"),ast.type.variable("a")),
                                  ast.type.abstraction(ast.type.native("a"),ast.type.native("b"))).success(), 
-                     list(pair("a",ast.type.native("b")),pair("b",ast.type.native("a"))),
+                     list(pair("b",ast.type.native("a")),pair("a",ast.type.native("b"))),
                      "Unify function variable & function native");
       test.done();
   },
@@ -111,7 +111,7 @@ exports['types_freevar'] = {
       // Test
       test.deepEqual(types.unify(ast.type.abstraction(ast.type.native("b"),ast.type.native("a")),
                                  ast.type.abstraction(ast.type.variable("a"),ast.type.variable("b"))).success(), 
-                     list(pair("b",ast.type.native("a")),pair("a",ast.type.native("b"))),
+                     list(pair("a",ast.type.native("b")),pair("b",ast.type.native("a"))),
                      "Unify function native & function variable");
       test.done();
   },  
@@ -151,5 +151,16 @@ exports['types_freevar'] = {
                      "Unify same type variable");
       test.done();
   },      
+
+    "Unify embedded variable": function (test) {
+      test.expect(1);
+      // Test
+      var model = ast.type.forall(["z"],ast.model("A",[ast.type.variable("z")],[]));
+      test.deepEqual(types.unify(ast.type.abstraction(ast.type.variable("X"),ast.type.specialize(model,ast.type.variable("X"))),
+                                 ast.type.abstraction(ast.type.variable("a"),ast.type.specialize(model,ast.type.variable("b")))).success(), 
+                     list(pair("X",ast.type.variable("b")),pair("a",ast.type.variable("b"))),
+              "Unify embedded variables");
+      test.done();
+  },  
 };
  
