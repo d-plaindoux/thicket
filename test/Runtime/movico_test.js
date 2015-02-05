@@ -38,7 +38,7 @@ exports['runtime'] = {
     // tests here  
     var aStream = stream("123"),
         expression = language.parser.group('exprs').parse(aStream).get(),
-        source = compiler.expression(list(),list(),expression).success();
+        source = compiler.sentence(list(),expression).success();
         
     test.deepEqual(M.$$(eval(source)), M.$$(M.number(123)));
     test.done();
@@ -49,7 +49,7 @@ exports['runtime'] = {
     // tests here  
     var aStream = stream("'123'"),
         expression = language.parser.group('exprs').parse(aStream).get(),
-        source = compiler.expression(list(),list(),expression).success();
+        source = compiler.sentence(list(),expression).success();
         
     test.deepEqual(M.$$(eval(source)), M.$$(M.string('123')));
     test.done();
@@ -60,7 +60,7 @@ exports['runtime'] = {
     // tests here  
     var aStream = stream("()"),
         expression = language.parser.group('exprs').parse(aStream).get(),
-        source = compiler.expression(list(),list(),expression).success();
+        source = compiler.sentence(list(),expression).success();
         
     test.deepEqual(M.$$(eval(source)), M.$$(M.unit));
     test.done();
@@ -71,7 +71,7 @@ exports['runtime'] = {
     // tests here  
     var aStream = stream("(fun f -> f) 1"),
         expression = language.parser.group('exprs').parse(aStream).get(),
-        source = compiler.expression(list(),list(),expression).success();
+        source = compiler.sentence(list(),expression).success();
         
     test.deepEqual(M.$$(eval(source)), M.$$(M.number(1)));
     test.done();
@@ -82,7 +82,7 @@ exports['runtime'] = {
     // tests here  
     var aStream = stream("(fun x y -> x) 1 2"),
         expression = language.parser.group('exprs').parse(aStream).get(),
-        source = compiler.expression(list(),list(),expression).success();
+        source = compiler.sentence(list(),expression).success();
         
     test.deepEqual(M.$$(eval(source)), M.$$(M.number(1)));
     test.done();
@@ -93,7 +93,7 @@ exports['runtime'] = {
     // tests here  
     var aStream = stream("(fun x y -> y) 1 2"),
         expression = language.parser.group('exprs').parse(aStream).get(),
-        source = compiler.expression(list(),list(),expression).success();
+        source = compiler.sentence(list(),expression).success();
         
     test.deepEqual(M.$$(eval(source)), M.$$(M.number(2)));
     test.done();
@@ -104,7 +104,7 @@ exports['runtime'] = {
     // tests here  
     var modelSource = compiler.entity(list(), language.parser.group('modelDef').parse(stream("model E { _ : number }")).get()).success(),
         expression = language.parser.group('exprs').parse(stream("(E 1) _")).get(),
-        source = compiler.expression(list(),list(),expression).success();
+        source = compiler.sentence(list(),expression).success();
           
     eval(modelSource); 
       
@@ -117,7 +117,7 @@ exports['runtime'] = {
     // tests here  
     var modelSource = compiler.entity(list(), language.parser.group('modelDef').parse(stream("model E[A] { _ : A }")).get()).success(),
         expression = language.parser.group('exprs').parse(stream("(E 1) _")).get(),
-        source = compiler.expression(list(),list(),expression).success();
+        source = compiler.sentence(list(),expression).success();
         
     eval(modelSource); 
       
@@ -130,7 +130,7 @@ exports['runtime'] = {
     // tests here  
     var modelSource = compiler.entity(list(), language.parser.group('modelDef').parse(stream("model E { _ : number -> number }")).get()).success(),
         expression = language.parser.group('exprs').parse(stream("(E (fun e -> e)) _ 1")).get(),
-        source = compiler.expression(list(),list(),expression).success();
+        source = compiler.sentence(list(),expression).success();
 
     eval(modelSource); 
       
@@ -143,7 +143,7 @@ exports['runtime'] = {
     // tests here  
     var modelSource = compiler.entity(list(), language.parser.group('controllerDef').parse(stream("class E this:number {}{ def unbox = this }")).get()).success(),
         expression = language.parser.group('exprs').parse(stream("E 1 unbox")).get(),
-        source = compiler.expression(list(),list(),expression).success();
+        source = compiler.sentence(list(),expression).success();
 
     eval(modelSource); 
       
@@ -156,7 +156,7 @@ exports['runtime'] = {
     // tests here  
     var modelSource = compiler.entity(list(), language.parser.group('controllerDef').parse(stream("class E this:number {}{ def unbox = this def new i = self i }")).get()).success(),
         expression = language.parser.group('exprs').parse(stream("E 1 new 2 unbox")).get(),
-        source = compiler.expression(list(),list(),expression).success();
+        source = compiler.sentence(list(),expression).success();
 
     eval(modelSource); 
       
@@ -169,7 +169,7 @@ exports['runtime'] = {
     // tests here  
     var modelSource = compiler.entity(list(), language.parser.group('controllerDef').parse(stream("class E this:number {}{ def number.unbox = this}")).get()).success(),
         expression = language.parser.group('exprs').parse(stream("E 1 unbox")).get(),
-        source = compiler.expression(list(),list(),expression).success();
+        source = compiler.sentence(list(),expression).success();
 
     eval(modelSource); 
       
@@ -182,7 +182,7 @@ exports['runtime'] = {
     // tests here  
     var modelSource = compiler.entity(list(), language.parser.group('controllerDef').parse(stream("class E this:number {}{ def string.unbox = this}")).get()).success(),
         expression = language.parser.group('exprs').parse(stream("E 1 unbox")).get(),
-        source = compiler.expression(list(),list(),expression).success();
+        source = compiler.sentence(list(),expression).success();
 
     eval(modelSource); 
       
