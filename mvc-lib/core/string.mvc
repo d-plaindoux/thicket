@@ -1,0 +1,4 @@
+class string this:native {
+    (+)   : string -> string
+} {
+}

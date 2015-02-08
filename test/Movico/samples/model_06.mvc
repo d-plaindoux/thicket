@@ -7,6 +7,11 @@ class number this:native {
     def unbox = this
 }
 
+model Pair[a b] {
+    _1 : a
+    _2 : b
+}
+
 type Bool {
     model True
     model False
@@ -36,11 +41,6 @@ class bool this:Bool {
 
     def True.(?) t _ = t
     def False.(?) _ f = f
-}
-
-model Pair[a b] {
-    _1 : a
-    _2 : b
 }
 
 type List[a] {

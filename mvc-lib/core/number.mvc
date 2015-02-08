@@ -1,0 +1,8 @@
+class number this:native {
+    (+)      : number -> number
+    (-)      : number -> number
+    (*)      : number -> number
+    (/)      : number -> number
+    toString : string
+} {
+}
