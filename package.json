@@ -33,13 +33,12 @@
   },
   "devDependencies": {
     "grunt": "~0.4.5",
-    "grunt-contrib-concat": "0.4.0",  
     "grunt-contrib-jshint": "~0.6.4",
     "grunt-contrib-nodeunit": "~0.4.1",
-    "grunt-contrib-watch": "~0.5.3",
     "grunt-coveralls": "~1.0.0",
     "grunt-jscoverage": "~0.1.3",
     "grunt-env": "~0.4.2",
+    "grunt-browserify":"~3.3.0",
     "jscoverage": "~0.5.9",
     "coveralls": "~2.11.2",
     "nodeunit": "~0.9.0"

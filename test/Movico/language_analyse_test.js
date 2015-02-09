@@ -3,8 +3,8 @@
 var stream = require('../../lib' + (process.env.MOVICO_COV || '') + '/Parser/stream.js').stream,
     aTry = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/atry.js').atry,
     list = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/list.js').list,
-    language = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/language.js').language(),
-    entities = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/entities.js').entities,
+    language = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/syntax/language.js').language(),
+    entities = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/checker/entities.js').entities,
     fs = require('fs');
 
 /*

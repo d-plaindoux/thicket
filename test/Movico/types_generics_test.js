@@ -1,8 +1,8 @@
 'use strict';
 
 var pair = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/pair.js').pair,
-    types = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/types.js').types,
-    ast = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/ast.js').ast,
+    types = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/checker/types.js').types,
+    ast = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/syntax/ast.js').ast,
     list = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/list.js').list;     
 
 /*

@@ -1,8 +1,8 @@
 'use strict';
 
-var ast = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/ast.js').ast,
+var ast = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/syntax/ast.js').ast,
     list = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/list.js').list,
-    compiler = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/compiler.js').compiler;
+    compiler = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/compiler/codegen.js').compiler;
 
 /*
   ======== A Handy Little Nodeunit Reference ========

@@ -1,7 +1,7 @@
 'use strict';
 
-var entities = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/entities.js').entities,
-    ast = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/ast.js').ast,
+var entities = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/checker/entities.js').entities,
+    ast = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/syntax/ast.js').ast,
     pair = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/pair.js').pair,
     list = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/list.js').list;
 

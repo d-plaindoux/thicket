@@ -1,7 +1,7 @@
 'use strict';
 
 var stream = require('../../lib' + (process.env.MOVICO_COV || '') + '/Parser/stream.js').stream,
-    language = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/language.js').language(),
+    language = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/syntax/language.js').language(),
     fs = require('fs');
 
 /*
