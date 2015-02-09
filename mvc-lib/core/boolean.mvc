@@ -1,29 +1,36 @@
-type Bool {
+/*
+ * Movico
+ * https://github.com/d-plaindoux/movico
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+ type Bool {
     model True
     model False
 }
 
 class bool this:Bool {
     unbox : Bool
-    (&&)   : bool -> bool
-    (||)   : bool -> bool
-    (=>)   : bool -> bool
-    not    : bool
-    fold   : [a] a -> a -> a
-    string : string
+    (&&)  : bool -> bool
+    (||)  : bool -> bool
+    (=>)  : bool -> bool
+    not   : bool
+    fold  : [a] a -> a -> a
 } {
     def unbox = this
 
-    def (=>) l = self.not || l
-
-    def True.not = self False
-    def False.not = self True
-
-    def True.(&&) l = l
+    def True.(&&)  l = l
     def False.(&&) _ = self
 
-    def True.(||) _ = self
+    def True.(||)  _ = self
     def False.(||) l = l
+
+    def (=>) l = self.not || l
+
+    def True.not  = self False
+    def False.not = self True
 
     def True.fold  t _ = t
     def False.fold _ f = f

@@ -1,0 +1,92 @@
+/*
+ * Movico
+ * https://github.com/d-plaindoux/movico
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+
+type List[a] {
+    model Nil
+    model Cons {
+        head : a
+        tail : List[a]
+    }
+}
+
+class list[a] this:List[a] {
+    unbox   : List[a]
+    fold    : [b] b -> (a -> list[a] -> b) -> b
+
+    isEmpty : bool
+    lenght  : number
+
+    (==)    : list[a] -> bool
+
+    reverse : list[a]
+    (++)    : list[a] -> list[a]
+    (+:)    : a -> list[a]
+    (:+)    : a -> list[a]
+
+    map     : [b] (a -> b) -> list[b]
+    flatmap : [b] (a -> list[b]) -> list[b]
+
+    filter  : (a -> bool) -> list[a]
+
+    foldL   : [b] (b -> a -> b) -> b -> b
+    foldR   : [b] (a -> b -> b) -> b -> b
+
+    zip     : [b] list[b] -> list[(a,b)]
+
+    // TODO unzip : [b c] {a=(b,c)} (list[b],list[c])
+} {
+    def unbox = this
+
+    def Nil[a].fold n c = n
+    def Cons[a].fold n c = c this.head (self this.tail)
+
+    def Nil[a].isEmpty = bool True
+    def Cons[a].isEmpty = bool False
+
+    def lenght = self foldR (fun _ r -> 1 + r) 0
+
+    def reverse = self $ self foldL (fun b a -> Cons a b) Nil
+
+    def (+:) a = self $ Cons a this
+
+    def Nil[a].(++) l = l
+    def Cons[a].(++) l = self $ Cons this.head $ self this.tail ++ l unbox
+
+    def Nil[a].(:+) a = self $ Cons a this
+    def Cons[a].(:+) a = self $ Cons this.head $ self this.tail :+ a unbox
+
+    def Nil[a].map _ = list Nil
+    def Cons[a].map f = list $ Cons (f this.head) $ self this.tail map f unbox
+
+    def Nil[a].flatmap _ = list Nil
+    def Cons[a].flatmap f = (f this.head) ++ (self this.tail flatmap f)
+
+    def Nil[a].filter _ = self
+    def Cons[a].filter p =
+        let tail = self this.tail filter p in
+            (p this.head) ? (self $ Cons this.head $ tail.unbox) tail
+
+    def Nil[a].foldL _ b = b
+    def Cons[a].foldL f b = f (self this.tail foldL f b) this.head
+
+    def Nil[a].foldR _ b = b
+    def Cons[a].foldR f b = self this.tail foldR f $ f this.head b
+
+    def Nil[a].zip l = list Nil
+    def Cons[a].zip l =
+        let ifNil = list Nil in
+        let ifCons = fun head tail -> list $ Cons (this.head,head) $ self this.tail zip tail unbox in
+            l fold ifNil ifCons
+/*            
+    def Nil[(b,c]].unzip = (list Nil),(list Nil)
+    def Cons[(b,c)].unzip = 
+        let tail = self this.tail unzip in
+            (list $ Cons this.head._1 tail._1.unbox),(list $ Cons this.head._2 tail._2.unbox)
+
+*/            
+}

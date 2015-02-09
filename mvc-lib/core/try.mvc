@@ -1,12 +1,20 @@
-type Try [a] {
+/*
+ * Movico
+ * https://github.com/d-plaindoux/movico
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+ type Try [a] {
     model Success { _ : a }
     model Failure { _ : string }
 }
 
 class try[a] this:Try[a] {
-    map     : [b] (a -> b) -> try[b]
-    flatmap : [b] (a -> try[b]) -> try[b]
-    filter  : (a -> bool) -> try[a]
+    map         : [b] (a -> b) -> try[b]
+    flatmap     : [b] (a -> try[b]) -> try[b]
+    filter      : (a -> bool) -> try[a]
     recoverWith : a -> a
 } {
     def Failure[a].map f = try $ Failure this._
@@ -18,7 +26,7 @@ class try[a] this:Try[a] {
     def Failure[a].filter _ = self
     def Success[a].filter p = 
         let filtered = p this._ in
-            filtered ? self $ self $ Failure "Filter fails"
+            filtered fold self $ self (Failure "Filter fails")
 
     def Failure[a].recoverWith a = a
     def Success[a].recoverWith _ = this._

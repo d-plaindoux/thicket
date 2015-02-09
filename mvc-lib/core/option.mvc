@@ -1,0 +1,35 @@
+/*
+ * Movico
+ * https://github.com/d-plaindoux/movico
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+type Option [a] {
+    model None
+    model Some { _ : a }
+}
+
+class option[a] this:Option[a] {
+    fold    : [b] b -> (a -> b) -> b
+    map     : [b] (a -> b) -> option[b]
+    flatmap : [b] (a -> option[b]) -> option[b]
+    filter  : (a -> bool) -> option[a]
+    orElse  : a -> a
+} {
+    def None[a].fold n _ = n
+    def Some[a].fold _ s = s this._
+
+    def None[a].map f = option None
+    def Some[a].map f = option $ Some $ f this._
+
+    def None[a].flatmap f = option None
+    def Some[a].flatmap f = f this._
+
+    def None[a].filter _ = self
+    def Some[a].filter p = (p this._) fold self $ option None
+
+    def None[a].orElse a = a
+    def Some[a].orElse _ = this._
+} 
