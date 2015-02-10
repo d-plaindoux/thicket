@@ -34,7 +34,7 @@ exports['repl'] = {
   'Number': function(test) {
     test.expect(1);
     // tests here  
-    var expression = movicoc.sentence([], "123")
+    var expression = movicoc.sentence([], "123");
         
     test.deepEqual(M.$$(eval(expression.success().expression)), M.$$(M.number(123)));
     test.done();
@@ -43,7 +43,7 @@ exports['repl'] = {
   'String': function(test) {
     test.expect(1);
     // tests here  
-    var expression = movicoc.sentence([], "'123'")
+    var expression = movicoc.sentence([], "'123'");
         
     test.deepEqual(M.$$(eval(expression.success().expression)), M.$$(M.string("123")));
     test.done();
@@ -52,7 +52,7 @@ exports['repl'] = {
   'Unit': function(test) {
     test.expect(1);
     // tests here  
-    var expression = movicoc.sentence([], "()")
+    var expression = movicoc.sentence([], "()");
         
     test.deepEqual(M.$$(eval(expression.success().expression)), M.$$(M.unit));
     test.done();
