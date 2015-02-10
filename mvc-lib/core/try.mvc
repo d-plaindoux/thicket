@@ -12,11 +12,15 @@
 }
 
 class try[a] this:Try[a] {
+    fold        : [b] (a -> b) -> (string -> b) -> b
     map         : [b] (a -> b) -> try[b]
     flatmap     : [b] (a -> try[b]) -> try[b]
     filter      : (a -> bool) -> try[a]
     recoverWith : a -> a
 } {
+    def Failure[a].fold _ f = f this._
+    def Success[a].fold s _ = s this._
+
     def Failure[a].map f = try $ Failure this._
     def Success[a].map f = try $ Success $ f this._
 
