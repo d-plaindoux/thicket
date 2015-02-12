@@ -56,6 +56,7 @@ sexpr     ::= NUMBER
             | OP
             | "$" exprs 
             | "(" exprs ")"
+            | "{" exprs "}"
             | "<" ID attr* ">" exprs "</" ID? ">" 
             | "<" ID attr* "/>"
             | "[" exprs ("for" ID "in" exprs)+ ("if" exprs)* "]"

@@ -6,8 +6,8 @@ var stream = require('../../lib' + (process.env.MOVICO_COV || '') + '/Parser/str
     list = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/list.js').list,    
     language = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/syntax/language.js').language(),
     compiler = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/compiler/codegen.js').compiler,
-    predefine = require('../../lib' + (process.env.MOVICO_COV || '') + '/Runtime/predefine.js').predefine,
-    M = predefine(require('../../lib' + (process.env.MOVICO_COV || '') + '/Runtime/movico.js').M);
+    native = require('../../lib' + (process.env.MOVICO_COV || '') + '/Runtime/native.js').native,
+    M = native(require('../../lib' + (process.env.MOVICO_COV || '') + '/Runtime/movico.js').M);
 
 /*
   ======== A Handy Little Nodeunit Reference ========

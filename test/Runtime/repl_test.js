@@ -3,8 +3,8 @@
 'use strict';
 
 var movicoc = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/movicoc.js').movicoc,
-    predefine = require('../../lib' + (process.env.MOVICO_COV || '') + '/Runtime/predefine.js').predefine,
-    M = predefine(require('../../lib' + (process.env.MOVICO_COV || '') + '/Runtime/movico.js').M);
+    native = require('../../lib' + (process.env.MOVICO_COV || '') + '/Runtime/native.js').native,
+    M = native(require('../../lib' + (process.env.MOVICO_COV || '') + '/Runtime/movico.js').M);
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -36,7 +36,7 @@ exports['repl'] = {
     // tests here  
     var expression = movicoc.sentence([], "123");
         
-    test.deepEqual(M.$$(eval(expression.success().expression)), M.$$(M.number(123)));
+    test.deepEqual(M.$$(eval(expression.success().code)), M.$$(M.number(123)));
     test.done();
   },
     
@@ -45,7 +45,7 @@ exports['repl'] = {
     // tests here  
     var expression = movicoc.sentence([], "'123'");
         
-    test.deepEqual(M.$$(eval(expression.success().expression)), M.$$(M.string("123")));
+    test.deepEqual(M.$$(eval(expression.success().code)), M.$$(M.string("123")));
     test.done();
   },
     
@@ -54,7 +54,51 @@ exports['repl'] = {
     // tests here  
     var expression = movicoc.sentence([], "()");
         
-    test.deepEqual(M.$$(eval(expression.success().expression)), M.$$(M.unit));
+    test.deepEqual(M.$$(eval(expression.success().code)), M.$$(M.unit));
     test.done();
   },
+    
+  'Identity function': function(test) {
+    test.expect(1);
+    // tests here  
+    var expression = movicoc.sentence([], "(fun f -> f) 1");
+        
+    test.deepEqual(M.$$(eval(expression.success().code)), M.$$(M.number(1)));
+    test.done();
+  },
+    
+  'Left projection function': function(test) {
+    test.expect(1);
+    // tests here  
+    var expression = movicoc.sentence([], "(fun x y -> x) 1 2");
+        
+    test.deepEqual(M.$$(eval(expression.success().code)), M.$$(M.number(1)));
+    test.done();
+  },
+    
+  'Right projection function': function(test) {
+    test.expect(1);
+    // tests here  
+    var expression = movicoc.sentence([], "(fun x y -> y) 1 2");
+        
+    test.deepEqual(M.$$(eval(expression.success().code)), M.$$(M.number(2)));
+    test.done();
+  },    
+/*   
+  'Simple model attribute': function(test) {
+    test.expect(1);
+    // tests here  
+    var entities = movicoc.entities([], "model E { _ : number }"),
+        expression = movicoc.sentence(entities.success().map(function(entity){
+            return entity.entity;
+        }),"(E 1) _");
+          
+    entities.success().map(function(entity) {
+        eval(entity.code);
+    });
+      
+    test.deepEqual(M.$$(eval(expression.success().code)), M.$$(M.number(1)));      
+    test.done();
+  },
+*/    
 };
