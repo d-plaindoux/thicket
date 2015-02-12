@@ -25,8 +25,13 @@ module.exports = function(grunt) {
     browserify: {
         dist: {
             files: {
-                'build/movico-lang.js': ['lib/Data/*.js','lib/Parser/*.js','lib/Movico/*.js'],
+                'build/movico-lang.js': './lib/movico.js',
             }
+        },
+        options: {
+            alias: [
+                './lib/movico.js:movico'
+            ]
         }
     }
   });

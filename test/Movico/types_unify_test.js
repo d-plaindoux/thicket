@@ -1,9 +1,9 @@
 'use strict';
 
-var types = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/checker/types.js').types,
-    ast = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/syntax/ast.js').ast,
-    list = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/list.js').list,
-    pair = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/pair.js').pair;     
+var types = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/checker/types.js'),
+    ast = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/syntax/ast.js'),
+    list = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/list.js'),
+    pair = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/pair.js');     
 
 /*
   ======== A Handy Little Nodeunit Reference ========

@@ -1,10 +1,10 @@
 'use strict';
 
-var stream = require('../../lib' + (process.env.MOVICO_COV || '') + '/Parser/stream.js').stream,
-    aTry = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/atry.js').atry,
-    list = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/list.js').list,
-    language = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/syntax/language.js').language(),
-    entities = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/checker/entities.js').entities,
+var stream = require('../../lib' + (process.env.MOVICO_COV || '') + '/Parser/stream.js'),
+    aTry = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/atry.js'),
+    list = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/list.js'),
+    language = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/syntax/language.js')(),
+    entities = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/checker/entities.js'),
     fs = require('fs');
 
 /*

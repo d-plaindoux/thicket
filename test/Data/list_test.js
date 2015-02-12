@@ -1,7 +1,7 @@
 'use strict';
 
-var list = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/list.js').list,
-    pair = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/pair.js').pair;
+var list = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/list.js'),
+    pair = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/pair.js');
 
 /*
   ======== A Handy Little Nodeunit Reference ========

@@ -7,12 +7,11 @@
  */
  
 class document this:native {
-    (@) : string -> xml
-    element 
+    (@) : string -> dom
 } {
 }
 
-class xml this:native {
-    (<<) : xml -> xml
+class dom this:native {
+    (<<) : dom -> dom
 } {
 }

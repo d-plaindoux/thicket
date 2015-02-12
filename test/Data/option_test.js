@@ -1,6 +1,6 @@
 'use strict';
 
-var option = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/option.js').option;
+var option = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/option.js');
 
 /*
   ======== A Handy Little Nodeunit Reference ========

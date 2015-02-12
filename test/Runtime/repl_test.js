@@ -2,9 +2,9 @@
 
 'use strict';
 
-var movicoc = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/movicoc.js').movicoc,
-    native = require('../../lib' + (process.env.MOVICO_COV || '') + '/Runtime/native.js').native,
-    M = native(require('../../lib' + (process.env.MOVICO_COV || '') + '/Runtime/movico.js').M);
+var movicoc = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/movicoc.js'),
+    native = require('../../lib' + (process.env.MOVICO_COV || '') + '/Runtime/native.js'),
+    M = native(require('../../lib' + (process.env.MOVICO_COV || '') + '/Runtime/runtime.js'));
 
 /*
   ======== A Handy Little Nodeunit Reference ========

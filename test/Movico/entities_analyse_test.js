@@ -1,9 +1,9 @@
 'use strict';
 
-var entities = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/checker/entities.js').entities,
-    ast = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/syntax/ast.js').ast,
-    pair = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/pair.js').pair,
-    list = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/list.js').list;
+var entities = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/checker/entities.js'),
+    ast = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/syntax/ast.js'),
+    pair = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/pair.js'),
+    list = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/list.js');
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -123,7 +123,7 @@ exports['entities_analyse'] = {
   "Analyse simple view using this": function (test) {
       test.expect(1);
       // Test
-      var aView = ast.view("A",[],ast.param("this",ast.type.variable("xml")),ast.expr.ident('this'));
+      var aView = ast.view("A",[],ast.param("this",ast.type.variable("dom")),ast.expr.ident('this'));
       test.ok(entities.analyse(list(), list(), list(), aView).isSuccess(),
               "Simple view");
       test.done();
@@ -133,7 +133,7 @@ exports['entities_analyse'] = {
       test.expect(1);
       // Test
       var aView = ast.view("A",[],ast.param("this",ast.type.variable("number")),ast.expr.number(1));
-      test.ok(entities.analyse(list(), list(pair("xml", ast.type.native("xml")),pair("string",ast.type.native("string")),pair("number",ast.type.native("number"))), list(), aView).isFailure(),
+      test.ok(entities.analyse(list(), list(pair("dom", ast.type.native("dom")),pair("string",ast.type.native("string")),pair("number",ast.type.native("number"))), list(), aView).isFailure(),
               "Simple view");
       test.done();
   },
