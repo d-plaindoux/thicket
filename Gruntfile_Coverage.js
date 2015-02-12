@@ -38,5 +38,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-env');    
   
   // Tasks
-  grunt.registerTask('default', ['env:coverage', 'nodeunit']);
+  grunt.registerTask('default', ['jscoverage', 'env:coverage', 'nodeunit']);
 };

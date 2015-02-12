@@ -1,0 +1,18 @@
+/*
+ * Movico
+ * https://github.com/d-plaindoux/movico
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+class document this:native {
+    (@) : string -> xml
+    element 
+} {
+}
+
+class xml this:native {
+    (<<) : xml -> xml
+} {
+}
