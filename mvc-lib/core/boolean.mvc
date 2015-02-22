@@ -38,6 +38,11 @@ class bool this:Bool {
 }
 
 /*
-let true : bool = bool True
-let false : bool = bool False
+global {
+    true : bool
+    false: bool
+} {
+    def true  = bool True
+    def false = bool False
+}
 */

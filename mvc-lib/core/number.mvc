@@ -5,12 +5,14 @@
  * Copyright (c) 2015 Didier Plaindoux
  * Licensed under the LGPL2 license.
  */
- 
+
+/*
 from native import *
 from boolean import *
- 
+*/
+
 class number this:native {
-    (=)      : number -> boolean
+    (==)     : number -> bool
     (+)      : number -> number
     (-)      : number -> number
     (*)      : number -> number

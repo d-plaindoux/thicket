@@ -6,9 +6,11 @@
  * Licensed under the LGPL2 license.
  */
 
+/*
 from pair import *
 from boolean import *
 from number import *
+*/
 
 type List[a] {
     model Nil

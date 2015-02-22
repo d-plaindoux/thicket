@@ -34,7 +34,7 @@
       def (+:) a = self $ Cons a this
     
       def Nil[a].foldL  _ b = b
-      def Cons[a].foldL f b = f (self this.tail foldL f b) this.head
+      def Cons[a].foldL f b = f (self (this tail) foldL f b) this.head
     }
     
     model Todo {
@@ -44,13 +44,13 @@
     class todo this:Todo {
       toDom : dom
     } {
-      def toDom = <li> this._.toDom </li>
+      def toDom = <li><i> this._.toDom </i></li>
     }
   </script>
 
   <script type="text/movico">
-	let title = document() elementById "title" in 
-	    title << ("Things to be done:" toDom)
+    let title = document() elementById "title" in 
+        title << ("Things to be done:" toDom)
   </script>	
 
   <script type="text/movico">
