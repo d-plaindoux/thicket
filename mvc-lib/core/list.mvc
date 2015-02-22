@@ -6,6 +6,10 @@
  * Licensed under the LGPL2 license.
  */
 
+from pair import *
+from boolean import *
+from number import *
+
 type List[a] {
     model Nil
     model Cons {
@@ -38,7 +42,7 @@ class list[a] this:List[a] {
 
     zip     : [b] list[b] -> list[(a,b)]
 
-    // TODO unzip : [b c] {a=(b,c)} (list[b],list[c])
+    // unzip   : [b c] {a=(b,c)} (list[b],list[c])
 } {
     def unbox = this
 
@@ -69,7 +73,7 @@ class list[a] this:List[a] {
     def Nil[a].filter _ = self
     def Cons[a].filter p =
         let tail = self this.tail filter p in
-            (p this.head) ? (self $ Cons this.head $ tail.unbox) tail
+            (p this.head) fold (self $ Cons this.head $ tail.unbox) tail
 
     def Nil[a].foldL _ b = b
     def Cons[a].foldL f b = f (self this.tail foldL f b) this.head
@@ -82,11 +86,10 @@ class list[a] this:List[a] {
         let ifNil = list Nil in
         let ifCons = fun head tail -> list $ Cons (this.head,head) $ self this.tail zip tail unbox in
             l fold ifNil ifCons
-/*            
+/*
     def Nil[(b,c]].unzip = (list Nil),(list Nil)
     def Cons[(b,c)].unzip = 
         let tail = self this.tail unzip in
             (list $ Cons this.head._1 tail._1.unbox),(list $ Cons this.head._2 tail._2.unbox)
-
 */            
 }

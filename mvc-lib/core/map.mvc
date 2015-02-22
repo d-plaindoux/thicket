@@ -1,0 +1,31 @@
+/*
+ * Movico
+ * https://github.com/d-plaindoux/movico
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+from number import *
+from boolean import *
+from list import *
+
+model number { 
+  (+)  : number -> number
+  (==) : number -> boolean
+} 
+
+typedef Map[k v] = List[(k,v)]
+typedef Comparable[k] = { (==) : k -> boolean } // TODO
+typedef Hashable[k] = { hash : k -> number }
+
+class map[k v] this:Map[k v] {
+  (?) : Comparable[k] -> option[v]
+  (+) : Hashable[k] -> v -> map[k v]
+} {
+  def (?) k   = list this find (fun e -> bool $ e._1 == k)
+  def (+) k v = 
+      let nlist = list this foldR (fun e r -> (bool $ e._1 == k) fold r (Cons e r)) Nil in
+      let nmap  = nlist +: (k,v) unbox in
+          self nmap
+}

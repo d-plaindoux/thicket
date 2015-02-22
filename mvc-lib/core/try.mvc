@@ -6,6 +6,8 @@
  * Licensed under the LGPL2 license.
  */
  
+ require boolean
+ 
  type Try [a] {
     model Success { _ : a }
     model Failure { _ : string }

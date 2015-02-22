@@ -154,7 +154,7 @@ class ListClass [a] this:List[a] {
 // Option model
 // --------------------------------------------------------------------
 
-type Option [a] {
+type Option[a] {
     model None
     model Some {
         _ : a

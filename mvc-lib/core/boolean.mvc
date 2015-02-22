@@ -6,32 +6,38 @@
  * Licensed under the LGPL2 license.
  */
  
- type Bool {
+type Bool {
     model True
     model False
 }
 
 class bool this:Bool {
     unbox : Bool
+    fold  : [a] a -> a -> a
+    and   : bool -> bool
+    or    : bool -> bool
+    imply : bool -> bool
     (&&)  : bool -> bool
     (||)  : bool -> bool
     (=>)  : bool -> bool
     not   : bool
-    fold  : [a] a -> a -> a
 } {
     def unbox = this
 
-    def True.(&&)  l = l
-    def False.(&&) _ = self
-
-    def True.(||)  _ = self
-    def False.(||) l = l
-
-    def (=>) l = self.not || l
-
-    def True.not  = self False
-    def False.not = self True
-
     def True.fold  t _ = t
     def False.fold _ f = f
+
+    def and = self &&
+    def or = self ||
+    def imply = self =>
+    
+    def (&&) l = self fold l self
+    def (||) l = self fold self l
+    def (=>) l = self.not || l
+    def not = self $ self fold False True
 }
+
+/*
+let true : bool = bool True
+let false : bool = bool False
+*/

@@ -6,7 +6,11 @@
  * Licensed under the LGPL2 license.
  */
  
- class string this:native {
+from native import *
+from boolean import *
+ 
+class string this:native {
+    (=) : number -> boolean
     (+) : string -> string
 } {
 }

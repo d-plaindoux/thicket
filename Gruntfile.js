@@ -21,28 +21,18 @@ module.exports = function(grunt) {
         src: ['test/**/*.js']
       },
     },
-    pkg: grunt.file.readJSON('package.json'),
-    browserify: {
-        dist: {
-            files: {
-                'build/movico-lang.js': './lib/movico.js',
-            }
-        },
-        options: {
-            alias: [
-                './lib/movico.js:movico'
-            ]
-        }
+    exec: {
+        browserify: './node_modules/browserify/bin/cmd.js -r ./lib/movico.js:movico -o ./build/movico-lang.js'
     }
   });
 
   // These plugins provide necessary tasks.
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-browserify');
+  grunt.loadNpmTasks('grunt-contrib-jshint');  
+  grunt.loadNpmTasks('grunt-exec');
     
   // Tasks
-  grunt.registerTask('package', ['jshint', 'browserify:dist' ]);
+  grunt.registerTask('package', ['jshint', 'exec:browserify' ]);
   grunt.registerTask('default', ['jshint', 'nodeunit']);
 };
 
