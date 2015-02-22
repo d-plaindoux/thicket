@@ -1,0 +1,68 @@
+<html>
+<head>
+  <script src="../../build/movico-lang.js"></script>
+  <script type="text/movico">
+    model native
+    
+    class string this:native {
+      toDom : dom
+    }{}
+    
+    class dom this:native {
+	  appendChild : dom -> dom
+      (<<) : dom -> dom
+    }{
+	  def (<<) = self appendChild
+	}
+    
+    class document this:unit {
+      elementById : string -> dom
+    }{}
+    
+    type List[a] {
+      model Nil
+      model Cons {
+        head : a
+        tail : List[a]
+      }
+    }
+    
+    class list[a] this:List[a] {
+      (+:)  : a -> list[a]
+      foldL : [b] (b -> a -> b) -> b -> b
+    } {
+      def (+:) a = self $ Cons a this
+    
+      def Nil[a].foldL  _ b = b
+      def Cons[a].foldL f b = f (self this.tail foldL f b) this.head
+    }
+    
+    model Todo {
+      _ : string
+    }
+    
+    class todo this:Todo {
+      toDom : dom
+    } {
+      def toDom = <li> this._.toDom </li>
+    }
+  </script>
+
+  <script type="text/movico">
+	let title = document() elementById "title" in 
+	    title << ("Things to be done:" toDom)
+  </script>	
+
+  <script type="text/movico">
+    let text = list Nil +: "Something #1" +: "Something #2" +: "Something #3" in
+    let hook = document() elementById "todo" in
+        text foldL (fun h t -> h << $ todo (Todo t) toDom) hook
+   </script>
+</head>
+	
+<body onload="require('movico').compile().execute()">
+	<b id="title"></b>
+	<ul id="todo"></ul>
+</body>
+</html>
+
