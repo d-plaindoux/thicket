@@ -6,17 +6,30 @@
  * Licensed under the LGPL2 license.
  */
 
-/*
-from native import *
-from boolean import *
-*/
+module Number
+
+from Internal import internal
+from Native import native
+from Boolean import bool
 
 class number this:native {
     (==)     : number -> bool
+    (>=)     : number -> bool
+    (<=)     : number -> bool
     (+)      : number -> number
     (-)      : number -> number
     (*)      : number -> number
     (/)      : number -> number
+    hash     : number
     toString : string
 } {
+    def (==) n = internal "number_equal" apply this n
+    def (>=) n = internal "number_ge" apply this n
+    def (<=) n = internal "number_le" apply this n
+    def (+) n = internal "number_addition" apply this n
+    def (-) n = internal "number_substract" apply this n
+    def (*) n = internal "number_multiply" apply this n
+    def (/) n = internal "number_divide" apply this n
+    def hash = self
+    def toString = internal "number_to_string" apply this
 }

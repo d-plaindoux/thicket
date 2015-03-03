@@ -6,13 +6,21 @@
  * Licensed under the LGPL2 license.
  */
  
-/* 
-from native import *
-from boolean import *
-*/
+module String 
+
+from Internal import internal
+from Native import native
+from Boolean import bool
+from Number import number
 
 class string this:native {
-    (==) : number -> bool
+    (==) : string -> bool
     (+)  : string -> string
+    hash : number
 } {
+    def (==) s = internal "string_equal" apply this s
+    def (+) s = internal "string_concat" apply this s
+    def hash = internal "string_hash" apply this s
 }
+
+def eol : string = "\n"

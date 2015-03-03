@@ -6,6 +6,8 @@
  * Licensed under the LGPL2 license.
  */
  
+module Option
+ 
 type Option [a] {
     model None
     model Some { _ : a }
@@ -28,7 +30,7 @@ class option[a] this:Option[a] {
     def Some[a].flatmap f = f this._
 
     def None[a].filter _ = self
-    def Some[a].filter p = (p this._) fold self $ option None
+    def Some[a].filter p = p this._ fold self $ self None
 
     def None[a].orElse a = a
     def Some[a].orElse _ = this._

@@ -6,26 +6,25 @@
  * Licensed under the LGPL2 license.
  */
  
-from number import *
-from boolean import *
-from list import *
+module Map
+ 
+from Number import *
+from Boolean import *
+from List import *
+from Types import *
 
-model number { 
-  (+)  : number -> number
-  (==) : number -> boolean
-} 
-
-typedef Map[k v] = List[(k,v)]
-typedef Comparable[k] = { (==) : k -> boolean } // TODO
-typedef Hashable[k] = { hash : k -> number }
+typedef E[k,v] = (number,(k,v))
+typedef Map[k v] = List[E[k v]]
 
 class map[k v] this:Map[k v] {
-  (?) : Comparable[k] -> option[v]
-  (+) : Hashable[k] -> v -> map[k v]
+  (?) : comparable[k] -> option[v]
+  (+) : hashable[k] -> v -> map[k v]
 } {
   def (?) k   = list this find (fun e -> bool $ e._1 == k)
-  def (+) k v = 
-      let nlist = list this foldR (fun e r -> (bool $ e._1 == k) fold r (Cons e r)) Nil in
-      let nmap  = nlist +: (k,v) unbox in
-          self nmap
+  def Nil[E[k v]].(+) k v = self $ Cons (k hash,(k,v)) Nil
+  def Cons[E[k v]].(+) k v =
+      let eq e = k hash == this._1 fold (Cons (k hash,(k,v)) this.tail) e in
+      let min e = k hash <= this._1 fold (Cons (k hash,(k,v)) this) e in
+      let max = Cons this.head (self this.tail + k v) unbox in
+          self $ eq (min max)
 }

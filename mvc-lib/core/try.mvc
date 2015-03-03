@@ -6,19 +6,22 @@
  * Licensed under the LGPL2 license.
  */
  
- require boolean
+module Try
+
+from Boolean import bool
+from String import string
  
- type Try [a] {
+type Try[a] {
     model Success { _ : a }
     model Failure { _ : string }
 }
 
-class try[a] this:Try[a] {
-    fold        : [b] (a -> b) -> (string -> b) -> b
+class try[a] this:Try[a] {    
     map         : [b] (a -> b) -> try[b]
     flatmap     : [b] (a -> try[b]) -> try[b]
+    fold        : [b] (a -> b) -> (string -> b) -> b
     filter      : (a -> bool) -> try[a]
-    recoverWith : a -> a
+    recoverWith : (string -> a) -> a
 } {
     def Failure[a].fold _ f = f this._
     def Success[a].fold s _ = s this._
@@ -34,6 +37,6 @@ class try[a] this:Try[a] {
         let filtered = p this._ in
             filtered fold self $ self (Failure "Filter fails")
 
-    def Failure[a].recoverWith a = a
+    def Failure[a].recoverWith a = a this._
     def Success[a].recoverWith _ = this._
 }

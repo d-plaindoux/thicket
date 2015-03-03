@@ -1,0 +1,19 @@
+/*
+ * Movico
+ * https://github.com/d-plaindoux/movico
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+
+module Range
+
+from Number import number
+
+class range this:(number,number) {
+    fold : [b] (number -> b) -> b -> b
+} {
+    def fold f r =
+        let finish = this._1 == this._2 in
+            finish fold r $ self ((this._1 + 1), this._2) fold f (f this._1)
+}

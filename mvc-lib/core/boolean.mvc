@@ -5,7 +5,9 @@
  * Copyright (c) 2015 Didier Plaindoux
  * Licensed under the LGPL2 license.
  */
- 
+
+module Bool
+
 type Bool {
     model True
     model False
@@ -34,15 +36,8 @@ class bool this:Bool {
     def (&&) l = self fold l self
     def (||) l = self fold self l
     def (=>) l = self.not || l
-    def not = self $ self fold False True
+    def not = self fold false true
 }
 
-/*
-global {
-    true : bool
-    false: bool
-} {
-    def true  = bool True
-    def false = bool False
-}
-*/
+def true  : bool = bool True
+def false : bool = bool False

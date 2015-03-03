@@ -6,6 +6,8 @@
  * Licensed under the LGPL2 license.
  */
  
+module Pair 
+ 
 model Pair[a b] {
    _1 : a
    _2 : b

@@ -6,11 +6,11 @@
  * Licensed under the LGPL2 license.
  */
 
-/*
-from pair import *
-from boolean import *
-from number import *
-*/
+module List
+
+from Pair import *
+from Boolean import *
+from Number import *
 
 type List[a] {
     model Nil
@@ -43,8 +43,8 @@ class list[a] this:List[a] {
     foldR   : [b] (a -> b -> b) -> b -> b
 
     zip     : [b] list[b] -> list[(a,b)]
-
-    // unzip   : [b c] {a=(b,c)} (list[b],list[c])
+    
+    unzip   : [b c] {a=(b,c)} (list[b],list[c])
 } {
     def unbox = this
 
@@ -88,10 +88,9 @@ class list[a] this:List[a] {
         let ifNil = list Nil in
         let ifCons = fun head tail -> list $ Cons (this.head,head) $ self this.tail zip tail unbox in
             l fold ifNil ifCons
-/*
-    def Nil[(b,c]].unzip = (list Nil),(list Nil)
+
+    def Nil[(b,c)].unzip = (list Nil),(list Nil)
     def Cons[(b,c)].unzip = 
         let tail = self this.tail unzip in
-            (list $ Cons this.head._1 tail._1.unbox),(list $ Cons this.head._2 tail._2.unbox)
-*/            
+            (list $ Cons this.head._1 tail._1.unbox),(list $ Cons this.head._2 tail._2.unbox)            
 }

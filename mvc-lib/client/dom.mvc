@@ -6,12 +6,21 @@
  * Licensed under the LGPL2 license.
  */
  
+module Document
+
+from String import string
+from Native import native
+ 
 class document this:native {
+    elementById : string -> dom
     (@) : string -> dom
 } {
+    def (@) = self elementById
 }
 
 class dom this:native {
+    appendChild : dom -> dom
     (<<) : dom -> dom
 } {
+    def (<<) = self appendTochild
 }
