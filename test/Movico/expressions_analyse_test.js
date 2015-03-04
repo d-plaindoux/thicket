@@ -170,7 +170,7 @@ exports['expressions'] = {
       var anExpression = ast.expr.tag("A",[],[]);
       types.reset();      
       test.deepEqual(expression.analyse(list(), list(), list(), anExpression).success(),
-                     pair(list(pair("#1", ast.type.native("dom"))), ast.type.native('dom')),
+                     pair(list(pair("#1", ast.type.native("dom"))), ast.type.native("dom")),
                      "Simple Tag");
       test.done();
   },
@@ -181,7 +181,7 @@ exports['expressions'] = {
       var anExpression = ast.expr.tag("A",[["a",ast.expr.string("a")]],[]);
       types.reset();
       test.deepEqual(expression.analyse(list(), list(), list(), anExpression).success(),
-                     pair(list(pair("#1", ast.type.native("dom"))), ast.type.native('dom')),
+                     pair(list(pair("#1", ast.type.native("dom"))), ast.type.native("dom")),
                      "Simple Tag with one attribute");
       test.done();
   },
@@ -212,7 +212,7 @@ exports['expressions'] = {
       var anExpression = ast.expr.tag("A",[],[ast.expr.tag("B",[],[])]);
       types.reset();
       test.deepEqual(expression.analyse(list(), list(), list(), anExpression).success(),
-                     pair(list(pair("#1", ast.type.native("dom"))), ast.type.native('dom')),
+                     pair(list(pair("#1", ast.type.native("dom"))), ast.type.native("dom")),
                      "Tag containing Tag");
       test.done();
   },
@@ -243,7 +243,7 @@ exports['expressions'] = {
       var anExpression = ast.expr.tag("A",[],[ast.expr.ident("a")]);
       types.reset();
       test.deepEqual(expression.analyse(list(), list(pair("a",ast.type.variable("a"))), list(), anExpression).success(),
-                     pair(list(pair('#1',ast.type.native("dom"))), ast.type.native('dom')),
+                     pair(list(pair('#1',ast.type.native("dom"))), ast.type.native("dom")),
                      "Tag containing ident");
       test.done();
   },
@@ -254,7 +254,7 @@ exports['expressions'] = {
       var anExpression = ast.expr.tag("A",[["a",ast.expr.ident("a")]],[]);
       types.reset();      
       test.deepEqual(expression.analyse(list(), list(pair("a",ast.type.variable("a"))), list(), anExpression).success(),
-                     pair(list(pair('#1',ast.type.native("dom"))), ast.type.native('dom')),
+                     pair(list(pair('#1',ast.type.native("dom"))), ast.type.native("dom")),
                      "Tag containing ident");
       test.done();
   },

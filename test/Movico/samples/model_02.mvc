@@ -1,15 +1,15 @@
 // Simple example with a model and a view 
 
-model dom
+model Element
 
 model string {
-    toDom : dom
+    element : dom
 }
 
 model list[a] {
     (+)   : a -> list[a]
     map   : [b] (a -> b) -> list[b]
-    toDom : dom
+    element : dom
 }
 
 model number {
@@ -39,10 +39,10 @@ class todos this:list[Todo] {
 
 view TodoSetView this:todos {
     <div> 
-        [ TodoView t for t in this unbox ].toDom
+        [ TodoView t for t in this unbox ].element
     </div>
 } 
 
 view TodoView this:Todo {
-    <div class="todo" when=(this date toString)> (this value toDom) </div>
+    <div class="todo" when=(this date toString)> (this value element) </div>
 } 

@@ -2,6 +2,10 @@
 <head>
   <script src="../../build/movico-lang.js"></script>
   <script type="text/movico">
+    // --------------------------------------------------------
+    // Core library
+    // --------------------------------------------------------
+    
     model native
     
     class string this:native {
@@ -17,25 +21,42 @@
     
     class document this:unit {
       elementById : string -> dom
-    }{}
+	  (@) : string -> dom
+    }{
+	  def (@) = self elementById
+	}
     
+	// List definition & implementation
+	
     type List[a] {
       model Nil
       model Cons {
-        head : a
+	    head : a
         tail : List[a]
       }
     }
     
     class list[a] this:List[a] {
-      (+:)  : a -> list[a]
-      foldL : [b] (b -> a -> b) -> b -> b
+	  unbox : List[a]
+      (:+)  : a -> list[a]
+      foldR : [b] (a -> b -> b) -> b -> b
+	  map   : [b] (a -> b) -> list[b]
     } {
-      def (+:) a = self $ Cons a this
+	  def unbox = this
+	  
+	  def Nil[a].(:+) a = self $ Cons a this
+	  def Cons[a].(:+) a = self $ Cons this.head $ self this.tail :+ a unbox
     
-      def Nil[a].foldL  _ b = b
-      def Cons[a].foldL f b = f (self (this tail) foldL f b) this.head
+      def Nil[a].foldR  _ b = b
+      def Cons[a].foldR f b = self (this tail) foldR f (f this.head b)
+	  
+	  def Nil[a].map f = list Nil
+	  def Cons[a].map f = list $ Cons (f this.head) $ self this.tail map f unbox  
     }
+	
+    // --------------------------------------------------------
+	// Todo simple example
+    // --------------------------------------------------------
     
     model Todo {
       _ : string
@@ -49,14 +70,15 @@
   </script>
 
   <script type="text/movico">
-    let title = document() elementById "title" in 
-        title << ("Things to be done:" toDom)
-  </script>	
+    let title = document() @ "title" in 
+        title << $ "Things to be done:" toDom
+  </script>
 
   <script type="text/movico">
-    let text = list Nil +: "Something #1" +: "Something #2" +: "Something #3" in
-    let hook = document() elementById "todo" in
-        text foldL (fun h t -> h << $ todo (Todo t) toDom) hook
+    let texts = list Nil :+ "Something #1" :+ "Something #2" :+ "Something #3" in
+	let todos = texts map (fun s -> Todo s) in
+	let node = document() @ "todo" in
+        todos foldR (fun t h -> h << $ todo t toDom) node
    </script>
 </head>
 	

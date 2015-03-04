@@ -108,6 +108,9 @@ class bool this:Bool {
     def False.select t f = f
 }
 
+def true : bool = bool True
+def false : bool = bool False
+
 // --------------------------------------------------------------------
 // Generic class
 // --------------------------------------------------------------------
