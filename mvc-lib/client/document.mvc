@@ -6,7 +6,7 @@
  * Licensed under the LGPL2 license.
  */
  
-module Document
+module Client.Document
 
 from Internal impot internal
 from String import string
@@ -16,7 +16,7 @@ class document this:native {
     elementById : string -> dom
     (@) : string -> dom
 } {
-    def elementById n = internal "document_elementById" self n
+    def elementById n = internal "document_elementById" apply self n
     def (@) = self elementById
 }
 
@@ -24,6 +24,6 @@ class dom this:native {
     appendChild : dom -> dom
     (<<) : dom -> dom
 } {
-    def appendChild d = internal "dom_appendChild" self d
+    def appendChild d = internal "dom_appendChild" apply self d
     def (<<) = self appendTochild
 }

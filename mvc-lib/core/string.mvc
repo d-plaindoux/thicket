@@ -20,7 +20,7 @@ class string this:native {
 } {
     def (==) s = internal "string_equal" apply self s
     def (+) s = internal "string_concat" apply self s
-    def hash = internal "string_hash" apply self s
+    def hash = internal "string_hash" apply self
 }
 
 def eol : string = "\n"
