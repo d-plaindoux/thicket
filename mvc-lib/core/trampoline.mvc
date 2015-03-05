@@ -1,0 +1,21 @@
+/*
+ * Movico
+ * https://github.com/d-plaindoux/movico
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Trampoline
+ 
+type Trampoline[a] {
+    model Done { _ : a }
+    model More { _ : unit -> Trampoline[a] }
+}
+ 
+class trampoline[a] this:Trampoline[a] {
+    run : a 
+} {
+    def Done[a].run = this._
+    def More[a].run = self (this._ ()) run
+}

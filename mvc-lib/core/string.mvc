@@ -18,9 +18,9 @@ class string this:native {
     (+)  : string -> string
     hash : number
 } {
-    def (==) s = internal "string_equal" apply this s
-    def (+) s = internal "string_concat" apply this s
-    def hash = internal "string_hash" apply this s
+    def (==) s = internal "string_equal" apply self s
+    def (+) s = internal "string_concat" apply self s
+    def hash = internal "string_hash" apply self s
 }
 
 def eol : string = "\n"

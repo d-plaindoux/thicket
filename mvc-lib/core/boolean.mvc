@@ -14,15 +14,16 @@ type Bool {
 }
 
 class bool this:Bool {
-    unbox : Bool
-    fold  : [a] a -> a -> a
-    and   : bool -> bool
-    or    : bool -> bool
-    imply : bool -> bool
-    (&&)  : bool -> bool
-    (||)  : bool -> bool
-    (=>)  : bool -> bool
-    not   : bool
+    unbox    : Bool
+    fold     : [a] a -> a -> a
+    and      : bool -> bool
+    or       : bool -> bool
+    imply    : bool -> bool
+    (&&)     : bool -> bool
+    (||)     : bool -> bool
+    (=>)     : bool -> bool
+    not      : bool
+    toString : string
 } {
     def unbox = this
 
