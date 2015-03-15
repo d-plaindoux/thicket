@@ -8,10 +8,10 @@
  
 module Map
  
-from Number import *
-from Boolean import *
-from List import *
-from Types import *
+from Number import number
+from Boolean import bool
+from List import list
+from Types import comparable hashable
 
 typedef E[k,v] = (number,(k,v))
 typedef Map[k v] = List[E[k v]]
@@ -23,8 +23,12 @@ class map[k v] this:Map[k v] {
   def (?) k   = list this find (fun e -> bool $ e._1 == k)
   def Nil[E[k v]].(+) k v = self $ Cons (k hash,(k,v)) Nil
   def Cons[E[k v]].(+) k v =
-      let eq e = k hash == this._1 fold (Cons (k hash,(k,v)) this.tail) e in
-      let min e = k hash <= this._1 fold (Cons (k hash,(k,v)) this) e in
+      let entry = k hash,(k,v) in
+      let eq = fun e -> k hash == this._1 fold (Cons entry this.tail) e in
+      let min = fun e -> k hash <= this._1 fold (Cons entry this) e in
       let max = Cons this.head (self this.tail + k v) unbox in
           self $ eq (min max)
 }
+
+def emptyMap : [a] unit -> map[a] 
+             = fun _ -> map $ list Nil

@@ -89,8 +89,8 @@ class list[a] this:List[a] {
         let ifCons = fun head tail -> list $ Cons (this.head,head) $ self this.tail zip tail unbox in
             l fold ifNil ifCons
 
-    def Nil[(b,c)].unzip = (list Nil),(list Nil)
-    def Cons[(b,c)].unzip = 
+    def Nil[a].unzip = (list Nil),(list Nil)
+    def Cons[a].unzip = 
         let tail = self this.tail unzip in
             (list $ Cons this.head._1 tail._1.unbox),(list $ Cons this.head._2 tail._2.unbox)            
 }

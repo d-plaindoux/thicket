@@ -9,5 +9,5 @@
 module Internal
  
 class internal this:symbol {
-    apply : [b] b
+    apply : [b] b // native
 }{}

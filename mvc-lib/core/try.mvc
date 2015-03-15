@@ -26,17 +26,23 @@ class try[a] this:Try[a] {
     def Failure[a].fold _ f = f this._
     def Success[a].fold s _ = s this._
 
-    def Failure[a].map f = try $ Failure this._
-    def Success[a].map f = try $ Success $ f this._
+    def Failure[a].map f = failure this._
+    def Success[a].map f = success $ f this._
 
-    def Failure[a].flatmap f = try $ Failure this._
+    def Failure[a].flatmap f = failure this._
     def Success[a].flatmap f = f this._
 
     def Failure[a].filter _ = self
     def Success[a].filter p = 
         let filtered = p this._ in
-            filtered fold self $ self (Failure "Filter fails")
+            filtered fold self $ failure "Filter fails"
 
     def Failure[a].recoverWith a = a this._
     def Success[a].recoverWith _ = this._
 }
+
+def success : [a] a -> try[a] 
+            = fun a -> try $ Success a
+
+def failure : [a] string -> try[a] 
+            = fun a -> try $ Failure a

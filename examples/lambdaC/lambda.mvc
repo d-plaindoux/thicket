@@ -1,0 +1,64 @@
+module Lambda
+
+from String impotrt string
+from Try import try success failure
+
+type LambdaTerm {
+    model Constant { 
+        value : string 
+    }
+    model Variable { 
+        name : string 
+    }
+    model Application { 
+        abstraction : LambdaTerm 
+        argument : LambdaTerm 
+    }
+    model Abstraction { 
+        variable : string 
+        body : LambdaTerm 
+    }
+}    
+
+typedef env = map[string Value]
+
+type Value {
+    model CstVal { 
+        value : string 
+    }
+    model Closure {
+        abstraction : (string,LambdaTerm)
+        environment : env
+    }
+}
+
+class value this:Value {
+    fold : [b] (string -> b) -> ((string,LambdaTerm) -> Env -> b) -> b
+} {
+    def CstVal.fold s _ = s this.value
+    def Closure.fold _ c = c this.abstraction this.environment
+}
+
+cass eval this:LambdaTerm {
+    eval : env -> try[Value]
+} {
+    def Constant.eval env = 
+        success $ CstVal this.value
+        
+    def Variable.eval env = 
+        let value = env ? this.name in 
+            value fold (failure "Unboud variable ${this.name}") 
+                       (success value)
+                       
+    def Application.eval env = 
+        let application = self this.abstraction eval env in
+        let parameter   = self this.argument eval env in
+            application flatmap (fun a -> 
+                parameter flatmap (fun p ->
+                    a fold (fun _   -> failure "Type Error")
+                           (fun a e -> success $ self a._2 eval $ e + a._1 p)
+                )
+            )
+                
+    def Abstraction.eval env = success $ Closure (this.variable,this.body) env
+}

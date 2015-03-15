@@ -17,13 +17,15 @@ type Peano {
 }
  
 class peano this:Peano {
-    unbox    : Peano
-    fold     : [a] a -> (peano -> a) -> a
-    (+)      : peano -> peano
+    unbox : Peano
+    fold  : [a] a -> (peano -> a) -> a
+    (+)   : peano -> peano
 } {
     def unbox = this
+    
     def Zero.fold z s = z
     def Succ.fold z s = s (self this._)
+    
     def Zero.(+) p = p
     def Succ.(+) p = self $ Succ $ self this._ + p unbox
 }
@@ -42,4 +44,4 @@ class peanoInterp this:peano {
 }
 
 def zero : peano = peano Zero
-def un   : peano = peano $ Succ Zero
+def one  : peano = peano $ Succ Zero
