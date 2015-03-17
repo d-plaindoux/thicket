@@ -2,8 +2,8 @@
 <head>
   <script src="../../build/movico-lang.js"></script>
   <script type="text/movico">
-    from List import *
-    from Client.Document import *
+    from List import list
+    from Client.Document import element
      
     model Todo { _ : string }
     
@@ -12,8 +12,7 @@
     }
 
     let todos = list Nil :+ "todo #1" :+ "todo #2" :+ "todo #3" in
-	let todoNode = document() @ "todos" in
-        todos foldR (fun t h -> h << $ todo $ Todo t) todoNode
+        todos foldR (fun t h -> h << $ todo $ Todo s) $ element "todos"
    </script>
 </head>    
 <body onload="require('movico').compile().execute()">
