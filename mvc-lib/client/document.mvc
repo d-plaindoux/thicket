@@ -11,12 +11,13 @@ module Client.Document
 from Internal impot internal
 from String import string
 from Native import native
+from Option import option None Some
  
-class document this:native {
-    elementById : string -> dom
-    (@) : string -> dom
+class document this:unit {
+    elementById : string -> option[dom]
+    (@) : string -> option[dom]
 } {
-    def elementById n = internal "document_elementById" apply self n
+    def elementById n = internal "document_elementById" apply self None Some n
     def (@) = self elementById
 }
 
@@ -27,3 +28,5 @@ class dom this:native {
     def appendChild d = internal "dom_appendChild" apply self d
     def (<<) = self appendTochild
 }
+
+def element : string -> dom = fun n -> document () @ n

@@ -40,5 +40,6 @@ class bool this:Bool {
     def not = self fold false true
 }
 
+def not   : bool -> bool = fun b -> b not
 def true  : bool = bool True
 def false : bool = bool False

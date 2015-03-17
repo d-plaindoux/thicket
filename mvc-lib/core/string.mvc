@@ -12,17 +12,19 @@ from Internal import internal
 from Native import native
 from Boolean import bool
 from Number import number
-from Option import *
+from Option import option None Some
 
 class string this:native {
-    (==) : string -> bool
-    (+)  : string -> string
+    (==)     : string -> bool
+    (!=)     : string -> bool
+    (+)      : string -> string
     toNumber : option[number]
-    hash : number
+    hash     : number
 } {
     def (==) s = internal "string.==" apply self s true false
+    def (!=) s = not (self == s)
     def (+) s = internal "string.+" apply self s
-    def toNumber = internal "string.toNumber" apply self (option Empty) (fun s -> option (Some s))
+    def toNumber = option $ internal "string.toNumber" apply self Empty Some s
     def hash = internal "string.hash" apply self
 }
 
