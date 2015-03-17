@@ -29,6 +29,3 @@ class map[k v] this:Map[k v] {
       let max = Cons this.head (self this.tail + k v) unbox in
           self $ eq (min max)
 }
-
-def emptyMap : [a] unit -> map[a] 
-             = fun _ -> map $ list Nil

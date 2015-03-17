@@ -1,6 +1,6 @@
 module Lambda
 
-from String impotrt string
+from String import string
 from Try import try success failure
 
 type LambdaTerm {
@@ -35,7 +35,7 @@ type Value {
 class value this:Value {
     fold : [b] (string -> b) -> ((string,LambdaTerm) -> Env -> b) -> b
 } {
-    def CstVal.fold s _ = s this.value
+    def CstVal.fold s _  = s this.value
     def Closure.fold _ c = c this.abstraction this.environment
 }
 

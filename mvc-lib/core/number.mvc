@@ -14,6 +14,7 @@ from Boolean import *
 
 class number this:native {
     (==)     : number -> bool
+    (!=)     : number -> bool
     (>>)     : number -> bool
     (<<)     : number -> bool
     (+)      : number -> number

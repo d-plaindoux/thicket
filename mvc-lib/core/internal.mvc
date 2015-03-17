@@ -8,6 +8,6 @@
  
 module Internal
  
-class internal this:symbol {
+class internal this:string {
     apply : [b] b // native
 }{}

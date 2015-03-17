@@ -11,9 +11,10 @@ module Range
 from Number import number
 
 class range this:(number,number) {
-    fold : [b] (number -> b) -> b -> b
+    fold : [b] b -> (number -> b -> b) -> b
 } {
-    def fold f r =
-        let finish = this._1 == this._2 in
-            finish fold r $ self ((this._1 + 1), this._2) fold f (f this._1)
+    def fold r f =
+        let isFinished = this._1 == this._2 in
+        let nextRange = (this._1 + 1), this._2 in
+            isFinished fold r $ self nextRange fold (f this._1 r) f
 }
