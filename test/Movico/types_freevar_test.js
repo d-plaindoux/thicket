@@ -78,10 +78,24 @@ exports['types_freevar'] = {
       test.done();
   },
     
-  "Polymorphic type with freevae": function (test) {
+  "Polymorphic type with freevar": function (test) {
       test.expect(1);
       // Test
       test.deepEqual(types.freeVariables(ast.type.forall(["a"],ast.type.abstraction(ast.type.variable("a"),ast.type.variable("b")))), list("b"), "Not empty free variables");
+      test.done();
+  },    
+    
+  "Structure type without freevae": function (test) {
+      test.expect(1);
+      // Test
+      test.deepEqual(types.freeVariables(ast.type.structure(ast.param("a",ast.type.native("a")))), list(), "Empty free variables");
+      test.done();
+  },
+    
+  "Structure type with freevar": function (test) {
+      test.expect(1);
+      // Test
+      test.deepEqual(types.freeVariables(ast.type.structure(ast.param("a",ast.type.variable("a")))), list("a"), "Not empty free variables");
       test.done();
   },    
 };
