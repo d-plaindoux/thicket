@@ -6,7 +6,7 @@
  * Licensed under the LGPL2 license.
  */
  
-module Trampoline
+module Utils.Trampoline
  
 type Trampoline[a] {
     model Done { _ : a }

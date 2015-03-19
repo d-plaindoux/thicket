@@ -1,0 +1,20 @@
+type Bool { 
+    model True 
+    model False 
+}
+
+class bool this:Bool {
+    fold : [a] a -> a -> a
+}{
+}
+
+typedef Comparable[a] = {
+    (>>): a -> bool 
+    unfold : a
+}
+
+class test this:number {
+    max : Comparable[number] -> test
+} {
+    def max c = c >> this fold (self c.unfold) self    
+}

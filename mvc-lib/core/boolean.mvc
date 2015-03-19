@@ -19,10 +19,10 @@ class bool this:Bool {
     and      : bool -> bool
     or       : bool -> bool
     imply    : bool -> bool
+    not      : bool
     (&&)     : bool -> bool
     (||)     : bool -> bool
     (=>)     : bool -> bool
-    not      : bool
     toString : string
 } {
     def unbox = this
@@ -30,16 +30,15 @@ class bool this:Bool {
     def True.fold  t _ = t
     def False.fold _ f = f
 
-    def and = self &&
-    def or = self ||
-    def imply = self =>
+    def and l   = self fold l self
+    def or l    = self fold self l
+    def imply l = self.not || l
+    def not     = self fold false true
     
-    def (&&) l = self fold l self
-    def (||) l = self fold self l
-    def (=>) l = self.not || l
-    def not = self fold false true
+    def (&&) = self and
+    def (||) = self ||
+    def (=>) = self imply
 }
 
-def not   : bool -> bool = fun b -> b not
 def true  : bool = bool True
 def false : bool = bool False

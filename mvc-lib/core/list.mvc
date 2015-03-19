@@ -96,3 +96,12 @@ class list[a] this:List[a] {
             (list $ Cons this.head._1 tail._1.unbox),(list $ Cons this.head._2 tail._2.unbox)            
 */            
 }
+
+class list2[a b] this:List[(a,b)] {
+    unzip : list[a],list[b] 
+} {
+    def Nil[(a,b)].unzip = (list Nil),(list Nil)
+    def Cons[(a,b)].unzip = 
+        let tail = self this.tail unzip in
+            (list $ Cons this.head._1 tail._1.unbox),(list $ Cons this.head._2 tail._2.unbox)        
+}
