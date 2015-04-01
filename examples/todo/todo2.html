@@ -21,3 +21,18 @@
 </body>
 </html>
 
+from List import list
+
+model BreadCrumb {
+    name    : string
+    parents : list[Breadcrumb]
+}
+
+class breadcrumb (this:BreadCrumb) {
+    unfold : Breadcrumb
+    flappy : unit
+} {
+    def unfold = this
+    def flappy =    
+        console log "Hiiiii"
+}

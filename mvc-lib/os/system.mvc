@@ -1,0 +1,20 @@
+/*
+ * Movico
+ * https://github.com/d-plaindoux/movico
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+ 
+module System
+
+from Internal import internal
+
+class System this:unit {
+    (<<) : string -> System // Try ?
+} {
+    def (<<) s = internal "system_write" apply s
+}
+
+def system : System = System ()
