@@ -6,7 +6,7 @@
  * Licensed under the LGPL2 license.
  */
  
-module Option
+module Core.Option
  
 type Option [a] {
     model None

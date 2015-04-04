@@ -6,7 +6,7 @@
  * Licensed under the LGPL2 license.
  */
  
-module Combinators
+module Logic.Combinators
       
 def I : [a] a -> a 
       = fun a -> a

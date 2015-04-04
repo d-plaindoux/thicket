@@ -6,10 +6,31 @@
  * Licensed under the LGPL2 license.
  */
  
-module Types
+module Core.Types
  
-from Number import number
-from Boolean import bool
+from Core.Number import number
+from Core.Boolean import bool
 
-typedef comparable[k] = { (==) : k -> bool }
-typedef hashable[k] = { hash : number }
+// -------------------------
+
+typedef comparable[k] = { 
+    (==) : k -> bool 
+}
+
+// -------------------------
+
+typedef hashable[k] = { 
+    hash : number 
+}
+
+// -------------------------
+// Lens laws
+// -------------------------
+// l set (l view) == l
+// l view l set a == a
+// (l set a) set b = l set b
+
+typedef lens[a] = { 
+    set  : a -> lens[a] 
+    view : a 
+}

@@ -39,7 +39,7 @@ class value this:Value {
     def Closure.fold _ c = c this.abstraction this.environment
 }
 
-cass eval this:LambdaTerm {
+class eval this:LambdaTerm {
     eval : env -> try[Value]
 } {
     def Constant.eval env = 

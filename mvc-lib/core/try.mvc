@@ -6,10 +6,10 @@
  * Licensed under the LGPL2 license.
  */
  
-module Try
+module Core.Try
 
-from Boolean import bool
-from String import string
+from Core.Boolean import bool
+from Core.String import string
  
 type Try[a] {
     model Success { _ : a }

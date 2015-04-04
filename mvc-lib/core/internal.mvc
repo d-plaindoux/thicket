@@ -6,7 +6,7 @@
  * Licensed under the LGPL2 license.
  */
  
-module Internal
+module Core.Internal
  
 class internal this:string {
     apply : [b] b // native

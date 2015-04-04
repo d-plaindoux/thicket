@@ -7,9 +7,9 @@
  */
  
  
-module System
+module OS.System
 
-from Internal import internal
+from Core.Internal import internal
 
 class System this:unit {
     (<<) : string -> System // Try ?

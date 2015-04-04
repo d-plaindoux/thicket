@@ -6,11 +6,11 @@
  * Licensed under the LGPL2 license.
  */
 
-module Number
+module Core.Number
 
-from Internal import internal
-from Native import native
-from Boolean import *
+from Core.Internal import internal
+from Core.Native import native
+from Core.Boolean import *
 
 class number this:native {
     (==)     : number -> bool

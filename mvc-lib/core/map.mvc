@@ -8,10 +8,10 @@
  
 module Map
  
-from Number import number
-from Boolean import bool
-from List import list
-from Types import comparable hashable
+from Core.Number import number
+from Core.Boolean import bool
+from Core.List import list
+from Core.Types import comparable hashable
 
 typedef E[k,v] = (number,(k,v))
 typedef Map[k v] = List[E[k v]]

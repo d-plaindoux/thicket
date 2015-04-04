@@ -8,11 +8,11 @@
  
 module String 
 
-from Internal import internal
-from Native import native
-from Boolean import bool
-from Number import number
-from Option import option None Some
+from Core.Internal import internal
+from Core.Native import native
+from Core.Boolean import bool
+from Core.Number import number
+from Core.Option import option None Some
 
 class string this:native {
     (==)     : string -> bool

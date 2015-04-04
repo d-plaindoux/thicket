@@ -33,16 +33,16 @@ exports['entities_freevar'] = {
       test.expect(1);
       // Test
       var aModel = ast.model("A",[],[]);
-      test.deepEqual(entities.freeVariables(aModel),
+      test.deepEqual(entities.freeVariables(list(), aModel),
                      list(),
                      "Empty model");
       test.done();
   },    
-    
+   
   "Freevar for a closed model": function (test) {
       test.expect(1);
       // Test
-      var aModel = ast.model("A",[],[ ast.param('m', ast.type.native('a'))]);
+      var aModel = ast.model("A",[],[ast.param('m', ast.type.native('a'))]);
       test.deepEqual(entities.freeVariables(list(), aModel),
                      list(),
                      "Closed model");
@@ -52,7 +52,7 @@ exports['entities_freevar'] = {
   "Freevar for an opened model": function (test) {
       test.expect(1);
       // Test
-      var aModel = ast.model("A",[],[ ast.param('m', ast.type.variable('a'))]);
+      var aModel = ast.model("A",[],[ast.param('m', ast.type.variable('a'))]);
       test.deepEqual(entities.freeVariables(list(), aModel),
                      list('a'),
                      "Closed model");
@@ -147,4 +147,5 @@ exports['entities_freevar'] = {
                      list(),
                      "Empty model");
       test.done();
-  },};
+  },
+};

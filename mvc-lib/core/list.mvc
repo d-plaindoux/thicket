@@ -6,11 +6,11 @@
  * Licensed under the LGPL2 license.
  */
 
-module List
+module Core.List
 
-from Pair import *
-from Boolean import *
-from Number import *
+from Core.Pair import *
+from Core.Boolean import *
+from Core.Number import *
 
 type List[a] {
     model Nil

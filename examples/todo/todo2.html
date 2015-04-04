@@ -2,13 +2,13 @@
 <head>
   <script src="../../build/movico-lang.js"></script>
   <script type="text/movico">
-    from List import list
+    from Core.List import list
     from Client.Document import element
      
-    model Todo { _ : string }
+    model Todo { value : string }
     
     view todo this:Todo {
-      <li><i> {this._ toDom} </i></li>
+      <li><i> {this.value toDom} </i></li>
     }
 
     let todos = list Nil :+ "todo #1" :+ "todo #2" :+ "todo #3" in
@@ -20,19 +20,3 @@
 	<ul id="todos"></ul>
 </body>
 </html>
-
-from List import list
-
-model BreadCrumb {
-    name    : string
-    parents : list[Breadcrumb]
-}
-
-class breadcrumb (this:BreadCrumb) {
-    unfold : Breadcrumb
-    flappy : unit
-} {
-    def unfold = this
-    def flappy =    
-        console log "Hiiiii"
-}
