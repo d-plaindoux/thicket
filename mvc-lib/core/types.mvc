@@ -26,11 +26,11 @@ typedef hashable[k] = {
 // -------------------------
 // Lens laws
 // -------------------------
-// l set (l view) == l
-// l view l set a == a
-// (l set a) set b = l set b
+// l set (l get)   == l
+// l get (l set a) == a
+// (l set a) set b == l set b
 
 typedef lens[a] = { 
-    set  : a -> lens[a] 
-    view : a 
+    set : a -> lens[a] 
+    get : a 
 }

@@ -35,3 +35,6 @@ class option[a] this:Option[a] {
     def None[a].orElse a = a
     def Some[a].orElse _ = this._
 } 
+
+def some : [a] a -> option[a] = fun e -> option $ Some e
+def none : [a] option[a] = option None
