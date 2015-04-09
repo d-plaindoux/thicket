@@ -1,0 +1,14 @@
+#!/bin/sh
+
+#
+# Set the HOME
+# 
+
+RELATIVE=`dirname "$0"`/..
+MOVICO_HOME="`cd \"$RELATIVE\" 2>/dev/null && pwd || echo \"$RELATIVE\"`"
+
+#
+# Execute the command - Node access must be improved
+#
+
+node $MOVICO_HOME/lib/Frontend/repl.js

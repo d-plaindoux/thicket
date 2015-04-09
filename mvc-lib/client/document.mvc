@@ -8,9 +8,9 @@
  
 module Client.Document
 
-from Core.Internal impot internal
-from Core.String import string
 from Core.Native import native
+from Core.Internal import internal
+from Core.String import string
 from Core.Option import option None Some
  
 class document this:unit {

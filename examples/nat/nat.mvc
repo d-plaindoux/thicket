@@ -6,10 +6,10 @@
  * Licensed under the LGPL2 license.
  */
  
-module Nat
+module Examples.Nat
  
-from Number import number
-from String import string
+from Core.Number import number
+from Core.String import string
  
 type Nat {
     model Zero

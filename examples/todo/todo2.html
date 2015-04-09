@@ -2,20 +2,22 @@
 <head>
   <script src="../../build/movico-lang.js"></script>
   <script type="text/movico">
-    from Core.List import list
     from Client.Document import element
+    from Core.List import list
      
-    model Todo { value : string }
+    model Todo { _ : string }
     
-    view todo this:Todo {
-      <li><i> {this.value toDom} </i></li>
+    class todo this:Todo {
+        render : element
+    } {
+        def render = <li><i> {this._ toDom} </i></li>
     }
 
     let todos = list Nil :+ "todo #1" :+ "todo #2" :+ "todo #3" in
         todos foldR (fun t h -> h << $ todo $ Todo s) $ element "todos"
    </script>
 </head>    
-<body onload="require('movico').compile().execute()">
+<body onload="require('movico').boot()">
 	<b>Things to be done:</b>
 	<ul id="todos"></ul>
 </body>
