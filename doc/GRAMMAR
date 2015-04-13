@@ -14,7 +14,7 @@ generics  ::= ("[" ID+ "]")?
 
 --------------------------------------------------------------------------
 
-typeDef ::= "typedef" ID generics = generics types
+typeDef ::= "typedef" ID generics "=" generics types
 
 --------------------------------------------------------------------------
 

@@ -7,10 +7,8 @@
      
     model Todo { _ : string }
     
-    class todo this:Todo {
-        render : element
-    } {
-        def render = <li><i> {this._ toDom} </i></li>
+    view todo this:Todo { 
+        <li><i> {this._ toDom} </i></li>
     }
 
     let todos = list Nil :+ "todo #1" :+ "todo #2" :+ "todo #3" in

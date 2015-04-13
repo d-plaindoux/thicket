@@ -152,7 +152,7 @@ exports['types_freevar'] = {
       test.done();
   },      
 
-    "Unify embedded variable": function (test) {
+  "Unify embedded variable": function (test) {
       test.expect(1);
       // Test
       var model = ast.type.forall(["z"],ast.model("A",[ast.type.variable("z")],[]));
@@ -162,5 +162,52 @@ exports['types_freevar'] = {
               "Unify embedded variables");
       test.done();
   },  
+    
+  "Unify same structures": function (test) {
+      test.expect(1);
+      // Test
+      var struct1 = ast.type.structure([ast.param("a",ast.type.native("number"))]),
+          struct2 = ast.type.structure([ast.param("a",ast.type.native("number"))]);
+      
+      test.deepEqual(types.unify(struct1, struct2).success(), 
+                     list(),
+                     "Unify embedded variables");
+      test.done();
+  },
+    
+  "Unify unifiable structures": function (test) {
+      test.expect(1);
+      // Test
+      var struct1 = ast.type.structure([ast.param("a",ast.type.variable("a"))]),
+          struct2 = ast.type.structure([ast.param("a",ast.type.native("number"))]);
+      
+      test.deepEqual(types.unify(struct1, struct2).success(), 
+                     list(pair("a", ast.type.native("number"))),
+                     "Unify embedded variables");
+      test.done();
+  },
+    
+  "Unify different structures": function (test) {
+      test.expect(1);
+      // Test
+      var struct1 = ast.type.structure([ast.param("a",ast.type.native("number"))]),
+          struct2 = ast.type.structure([ast.param("b",ast.type.native("number"))]);
+      
+      test.ok(types.unify(struct1, struct2).isFailure(),
+              "Unify embedded variables");
+      test.done();
+  },
+
+  "Unify sub structures": function (test) {
+      test.expect(1);
+      // Test
+      var struct1 = ast.type.structure([ast.param("a",ast.type.native("number")),
+                                        ast.param("b",ast.type.native("number"))]),
+          struct2 = ast.type.structure([ast.param("b",ast.type.native("number"))]);
+      
+      test.ok(types.unify(struct1, struct2).isFailure(),
+              "Unify embedded variables");
+      test.done();
+  },
 };
  
