@@ -24,7 +24,7 @@ class number this:native {
     hash     : number
     toString : string
 } {
-    def (==) n = internal "number_equal" apply self n true false
+    def (==) n = internal "number_equals" apply self n true false
     def (!=) n = (self == n) not
     def (>>) n = internal "number_gt" apply self n
     def (<<) n = n >> self

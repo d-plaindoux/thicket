@@ -8,6 +8,14 @@
  
 module Core.Internal
  
+/**
+ * An internal instance provide an entry point to a given 
+ * system based function definition. This is mandatory when
+ * the cvode have to deal with so called delta-rules.
+ */
+ 
 class internal this:string {
     apply : [b] b // native -> No implementation for the moment
-}{}
+}{
+    // apply method is provided by the system
+}

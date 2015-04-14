@@ -8,6 +8,8 @@
  
 module Core.Trampoline
  
+from Core.Boolean import *
+ 
 type Trampoline[a] {
     model Done { _ : a }
     model More { _ : unit -> Trampoline[a] }

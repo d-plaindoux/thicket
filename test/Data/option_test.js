@@ -30,7 +30,7 @@ exports['options'] = {
   'option empty': function(test) {
     test.expect(1);
     // tests here  
-    test.equal(option.empty().isPresent(), false, 'should be empty option.');
+    test.equal(option.none().isPresent(), false, 'should be empty option.');
     test.done();
   },
 
@@ -44,7 +44,7 @@ exports['options'] = {
   'option empty mapped': function(test) {
     test.expect(1);
     // tests here      
-    test.equal(option.empty().map(function(a){return a;}).isPresent(), false, 'should be empty option.');
+    test.equal(option.none().map(function(a){return a;}).isPresent(), false, 'should be empty option.');
     test.done();
   },
     
@@ -72,7 +72,7 @@ exports['options'] = {
   'option empty or else': function(test) {
     test.expect(1);
     // tests here      
-    test.equal(option.empty().orElse(12), 12, 'should be empty option.');
+    test.equal(option.none().orElse(12), 12, 'should be empty option.');
     test.done();
   },
     
@@ -86,7 +86,7 @@ exports['options'] = {
   'option empty filter': function(test) {
     test.expect(1);
     // tests here      
-    test.equal(option.empty().filter(function (v) { return v === 1;} ).isPresent(), false, 'should be empty option.');
+    test.equal(option.none().filter(function (v) { return v === 1;} ).isPresent(), false, 'should be empty option.');
     test.done();
   },
     

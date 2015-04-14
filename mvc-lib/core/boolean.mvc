@@ -8,10 +8,19 @@
 
 module Core.Bool
 
+/**
+ * Boolean definition as an injective type domain
+ * defining two models True and False
+ */
+
 type Bool {
     model True
     model False
 }
+
+/** 
+ * A boolean class denotation
+ */
 
 class bool this:Bool {
     unfold   : Bool

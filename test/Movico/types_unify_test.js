@@ -126,7 +126,7 @@ exports['types_freevar'] = {
       test.done();
   },  
     
-  "Unify failure function with required substitution": function (test) {
+  "Do not unify function with required substitution": function (test) {
       test.expect(1);
       // Test
       test.ok(types.unify(ast.type.abstraction(ast.type.native("b"),ast.type.variable("a")),
@@ -135,7 +135,7 @@ exports['types_freevar'] = {
       test.done();
   },  
     
-  "Unify cyclic dependency": function (test) {
+  "Do not unify cyclic dependency": function (test) {
       test.expect(1);
       // Test
       test.ok(types.unify(ast.type.variable("a"), ast.type.list(ast.type.variable("a"))).isFailure(), 
@@ -175,7 +175,7 @@ exports['types_freevar'] = {
       test.done();
   },
     
-  "Unify unifiable structures": function (test) {
+  "Unify structures with variables": function (test) {
       test.expect(1);
       // Test
       var struct1 = ast.type.structure([ast.param("a",ast.type.variable("a"))]),
@@ -187,7 +187,22 @@ exports['types_freevar'] = {
       test.done();
   },
     
-  "Unify different structures": function (test) {
+  "Unify multiple structures with variables": function (test) {
+      test.expect(1);
+      // Test
+      var struct1 = ast.type.structure([ast.param("a",ast.type.variable("c")),
+                                        ast.param("b",ast.type.native("number"))]),
+          struct2 = ast.type.structure([ast.param("a",ast.type.native("string")),
+                                        ast.param("b",ast.type.variable("d"))]);
+      
+      test.deepEqual(types.unify(struct1, struct2).success(), 
+                     list(pair("d", ast.type.native("number")),
+                          pair("c", ast.type.native("string"))),
+                     "Unify embedded variables");
+      test.done();
+  },
+    
+  "Do not unify different structu<res": function (test) {
       test.expect(1);
       // Test
       var struct1 = ast.type.structure([ast.param("a",ast.type.native("number"))]),
@@ -198,7 +213,7 @@ exports['types_freevar'] = {
       test.done();
   },
 
-  "Unify sub structures": function (test) {
+  "Do not unify sub structures": function (test) {
       test.expect(1);
       // Test
       var struct1 = ast.type.structure([ast.param("a",ast.type.native("number")),
@@ -209,5 +224,18 @@ exports['types_freevar'] = {
               "Unify embedded variables");
       test.done();
   },
+
+  "Do not unify multiple structures with variables": function (test) {
+      test.expect(1);
+      // Test
+      var struct1 = ast.type.structure([ast.param("a",ast.type.variable("c")),
+                                        ast.param("b",ast.type.native("number"))]),
+          struct2 = ast.type.structure([ast.param("a",ast.type.native("string")),
+                                        ast.param("b",ast.type.variable("c"))]);
+          
+      test.ok(types.unify(struct1, struct2).isFailure(),
+              "Unify embedded variables");
+      test.done();
+  },    
 };
  

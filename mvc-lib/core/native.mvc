@@ -8,4 +8,6 @@
 
 module Native
 
-model native
+model native {
+    // Defined for all embedded native type
+}
