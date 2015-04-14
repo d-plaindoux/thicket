@@ -24,7 +24,7 @@ class string this:native {
     def (==) s = internal "string.==" apply self s true false
     def (!=) s = not (self == s)
     def (+) s = internal "string.+" apply self s
-    def toNumber = option $ internal "string.toNumber" apply self Empty Some s
+    def toNumber = option $ internal "string.toNumber" apply self s Some Empty
     def hash = internal "string.hash" apply self
 }
 

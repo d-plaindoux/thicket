@@ -45,7 +45,7 @@ exports['dependency'] = {
       test.ok(dependency(loader).resolve(importation).isSuccess());
       test.done();
   },
-        
+/*        
   'Dependency adding a new import and chekcking existence': function (test) {
       test.expect(1);
       var importation = ast.imports(["Core","Bool"],"bool"),
@@ -56,5 +56,5 @@ exports['dependency'] = {
       test.ok(dependency(loader).contains(importation));
       test.done();
   },
-  
+*/  
 };
