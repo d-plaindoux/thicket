@@ -11,7 +11,7 @@ module Core.Internal
 /**
  * An internal instance provide an entry point to a given 
  * system based function definition. This is mandatory when
- * the cvode have to deal with so called delta-rules.
+ * the code have to deal with so called delta-rules.
  */
  
 class internal this:string {

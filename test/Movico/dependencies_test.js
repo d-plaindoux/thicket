@@ -1,9 +1,7 @@
 'use strict';
 
-var ast = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/syntax/ast.js'),
-    atry = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/atry.js'),
-    list = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/list.js'),
-    dependency = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/dependency/loader.js');
+var atry = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/atry.js'),
+    dependencies = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/symbol/dependencies.js');
 
 
 /*
@@ -33,28 +31,29 @@ exports['dependency'] = {
 
   'Dependency when imports are empty': function (test) {
       test.expect(1);
-      var importation = ast.imports(["Core","Bool"],"bool");
-      test.equal(dependency(null).contains(importation), false);
+      var importation = ["Core","Bool"];
+      test.equal(dependencies(null).contains(importation), false);
       test.done();
   },
     
   'Dependency adding a new import': function (test) {
       test.expect(1);
-      var importation = ast.imports(["Core","Bool"],"bool"),
-          loader = function () { return atry.success(list()); };
-      test.ok(dependency(loader).resolve(importation).isSuccess());
+      var importation = ["Core","Bool"],
+          loader = function (aModule) { return atry.success(aModule); };
+      test.ok(dependencies(loader).resolve(importation).isSuccess());
       test.done();
   },
-/*        
+        
   'Dependency adding a new import and chekcking existence': function (test) {
       test.expect(1);
-      var importation = ast.imports(["Core","Bool"],"bool"),
-          loader = function () { return atry.success(list()); };
+      var importation = ["Core","Bool"],
+          loader = function (aModule) { return atry.success(aModule); },
+          dependency = dependencies(loader);
       
-      dependency(loader).resolve(importation);
+      dependency.resolve(importation);
       
-      test.ok(dependency(loader).contains(importation));
+      test.ok(dependency.contains(importation));
       test.done();
   },
-*/  
+  
 };
