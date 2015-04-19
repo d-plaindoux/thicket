@@ -24,8 +24,8 @@ class map[k v] this:Map[k v] {
   def Nil[E[k v]].(+) k v = self $ Cons (k hash,(k,v)) Nil
   def Cons[E[k v]].(+) k v =
       let entry = k hash,(k,v) in
-      let eq = fun e -> k hash == this._1 fold (Cons entry this.tail) e in
-      let min = fun e -> k hash <= this._1 fold (Cons entry this) e in
-      let max = Cons this.head (self this.tail + k v) unbox in
-          self $ eq (min max)
+      let equal = fun e -> k hash == this._1 fold (Cons entry this.tail) e in
+      let minimun = fun e -> k hash <= this._1 fold (Cons entry this) e in
+      let maximum = Cons this.head (self this.tail + k v) unbox in
+          self $ equal (minimum maximum)
 }
