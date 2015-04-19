@@ -2,7 +2,7 @@
 
 var ast = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/syntax/ast.js'),
     list = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/list.js'),
-    compiler = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/compiler/codegen.js');
+    compiler = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/generator/code.js');
 
 /*
   ======== A Handy Little Nodeunit Reference ========

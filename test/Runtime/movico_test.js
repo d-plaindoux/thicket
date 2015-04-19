@@ -5,7 +5,7 @@
 var stream = require('../../lib' + (process.env.MOVICO_COV || '') + '/Parser/stream.js'),
     list = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/list.js'),    
     language = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/syntax/language.js')(),
-    compiler = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/compiler/codegen.js'),
+    compiler = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/generator/code.js'),
     native = require('../../lib' + (process.env.MOVICO_COV || '') + '/Runtime/native.js'),
     M = native(require('../../lib' + (process.env.MOVICO_COV || '') + '/Runtime/runtime.js'));
 
