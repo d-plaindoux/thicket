@@ -6,7 +6,7 @@
  * Licensed under the LGPL2 license.
  */
 
-module Native
+module Core.Native
 
 model native {
     // Defined for all embedded native type

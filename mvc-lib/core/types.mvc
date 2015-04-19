@@ -12,6 +12,18 @@ from Core.Number import number
 from Core.Boolean import bool
 
 // -------------------------
+// Monoid laws
+// -------------------------
+// m apply a (m apply b c) = m apply (m apply a b) c
+// m apply a (m neutral)   = a
+// m apply (m neutral) a   = a
+
+typedef monoid[k] = {
+    apply   : k -> k -> k
+    neutral : k
+}
+
+// -------------------------
 
 typedef comparable[k] = { 
     (==) : k -> bool 
