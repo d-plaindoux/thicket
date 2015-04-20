@@ -18,20 +18,23 @@ from Core.Boolean import bool
 // m apply a (m neutral)   = a
 // m apply (m neutral) a   = a
 
-typedef monoid[k] = {
+model monoid[k] {
     apply   : k -> k -> k
     neutral : k
 }
 
 // -------------------------
 
-typedef comparable[k] = { 
+model comparable[k] { 
     (==) : k -> bool 
+    (!=) : k -> bool
+    (>>) : k -> bool
+    (<<) : k -> bool    
 }
 
 // -------------------------
 
-typedef hashable[k] = { 
+model hashable[k] { 
     hash : number 
 }
 
@@ -42,7 +45,7 @@ typedef hashable[k] = {
 // l get (l set a) == a
 // (l set a) set b == l set b
 
-typedef lens[a] = { 
+model lens[a] { 
     set : a -> lens[a] 
     get : a 
 }

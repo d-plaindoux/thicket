@@ -13,10 +13,7 @@ from Core.Native import native
 from Core.Boolean import *
 
 class number this:native {
-    (==)     : number -> bool
-    (!=)     : number -> bool
-    (>>)     : number -> bool
-    (<<)     : number -> bool
+    isa comparable[number]
     (+)      : number -> number
     (-)      : number -> number
     (*)      : number -> number
@@ -24,14 +21,14 @@ class number this:native {
     hash     : number
     toString : string
 } {
-    def (==) n = internal "number_equals" apply self n true false
+    def (==) n = internal "number.==" apply self n true false
     def (!=) n = (self == n) not
-    def (>>) n = internal "number_gt" apply self n
+    def (>>) n = internal "number.<" apply self n
     def (<<) n = n >> self
-    def (+) n = internal "number_addition" apply self n
-    def (-) n = internal "number_substract" apply self n
-    def (*) n = internal "number_multiply" apply self n
-    def (/) n = internal "number_divide" apply self n
+    def (+) n = internal "number.+" apply self n
+    def (-) n = internal "number.-" apply self n
+    def (*) n = internal "number.*" apply self n
+    def (/) n = internal "number./" apply self n
     def hash = self
     def toString = internal "number_to_string" apply self
 }

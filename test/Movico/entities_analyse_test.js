@@ -34,7 +34,7 @@ exports['entities_analyse'] = {
       test.expect(1);
       // Test
       var aController = ast.controller("A",[],ast.param("this",ast.type.variable("number")),[],[]);
-      test.ok(entities.analyse(list(), list(), list(), aController).isSuccess(),
+      test.ok(entities.analyse(list(), list(), list(), list(), [aController]).isSuccess(),
               "Empty controller");
       test.done();
   },
@@ -46,7 +46,7 @@ exports['entities_analyse'] = {
                                        ast.param("this",ast.type.variable("number")),
                                        [ ast.param("m", ast.type.variable("number")) ],
                                        [ ast.method("m", ast.expr.number(1)) ]);
-      test.ok(entities.analyse(list(), list(), list(), aController).isSuccess(),
+      test.ok(entities.analyse(list(), list(), list(), list(), [aController]).isSuccess(),
               "Simple controller");
       test.done();
   },
@@ -58,7 +58,11 @@ exports['entities_analyse'] = {
                                        ast.param("this",ast.type.variable("number")),
                                        [ ast.param("m", ast.type.variable("string")) ],
                                        [ ast.method("m", ast.expr.number(1)) ]);
-      test.ok(entities.analyse(list(), list(pair("string",ast.type.native("string")),pair("number",ast.type.native("number"))), list(), aController).isFailure(),
+      test.ok(entities.analyse(list(), 
+                               list(), 
+                               list(pair("string",ast.type.native("string")),pair("number",ast.type.native("number"))), 
+                               list(), 
+                               [aController]).isFailure(),
               "Simple wrong controller");
       test.done();
   },
@@ -70,7 +74,7 @@ exports['entities_analyse'] = {
                                        ast.param("this",ast.type.variable("number")),
                                        [ ],
                                        [ ast.method("m", ast.expr.number(1)) ]);
-      test.ok(entities.analyse(list(), list(), list(), aController).isFailure(),
+      test.ok(entities.analyse(list(), list(), list(), list(), [aController]).isFailure(),
               "Simple partial controller");
       test.done();
   },
@@ -82,7 +86,7 @@ exports['entities_analyse'] = {
                                        ast.param("this",ast.type.variable("number")),
                                        [ ast.param("m", ast.type.variable("number")) ],
                                        [ ast.method("m", ast.expr.ident("this")) ]);
-      test.ok(entities.analyse(list(), list(), list(), aController).isSuccess(),
+      test.ok(entities.analyse(list(), list(), list(), list(), [aController]).isSuccess(),
               "This referencing controller");
       test.done();
   },
@@ -94,7 +98,7 @@ exports['entities_analyse'] = {
                                        ast.param("this",ast.type.variable("number")),
                                        [ ast.param("m", ast.type.variable("number")) ],
                                        [ ast.method("m", ast.expr.invoke(ast.expr.ident("self"), "m")) ]);
-      test.ok(entities.analyse(list(pair("A", aController)), list(), list(), aController).isSuccess(),
+      test.ok(entities.analyse(list(), list(pair("A", aController)), list(), list(), [aController]).isSuccess(),
               "Self referencing controller");
       test.done();
   },
@@ -106,7 +110,7 @@ exports['entities_analyse'] = {
                                        ast.param("this",ast.type.variable("number")),
                                        [ ast.param("m", ast.type.variable("A")) ],
                                        [ ast.method("m", ast.expr.ident("self")) ]);
-      test.ok(entities.analyse(list(pair("A", aController)), list(), list(), aController).isSuccess(),
+      test.ok(entities.analyse(list(), list(pair("A", aController)), list(), list(), [aController]).isSuccess(),
               "Self referencing controller");
       test.done();
   },
@@ -115,7 +119,7 @@ exports['entities_analyse'] = {
       test.expect(1);
       // Test
       var aView = ast.view("A",[],ast.param("this",ast.type.variable("number")),ast.expr.tag('a',[],[]));
-      test.ok(entities.analyse(list(), list(), list(), aView).isSuccess(),
+      test.ok(entities.analyse(list(), list(), list(), list(), [aView]).isSuccess(),
               "Simple view");
       test.done();
   },
@@ -124,7 +128,7 @@ exports['entities_analyse'] = {
       test.expect(1);
       // Test
       var aView = ast.view("A",[],ast.param("this",ast.type.variable("dom")),ast.expr.ident('this'));
-      test.ok(entities.analyse(list(), list(), list(), aView).isSuccess(),
+      test.ok(entities.analyse(list(), list(), list(), list(), [aView]).isSuccess(),
               "Simple view");
       test.done();
   },
@@ -133,7 +137,13 @@ exports['entities_analyse'] = {
       test.expect(1);
       // Test
       var aView = ast.view("A",[],ast.param("this",ast.type.variable("number")),ast.expr.number(1));
-      test.ok(entities.analyse(list(), list(pair("dom", ast.type.native("dom")),pair("string",ast.type.native("string")),pair("number",ast.type.native("number"))), list(), aView).isFailure(),
+      test.ok(entities.analyse(list(), 
+                               list(), 
+                               list(pair("dom", ast.type.native("dom")),
+                                    pair("string",ast.type.native("string")),
+                                    pair("number",ast.type.native("number"))), 
+                               list(), 
+                               [aView]).isFailure(),
               "Simple view");
       test.done();
   },

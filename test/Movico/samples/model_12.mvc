@@ -8,7 +8,7 @@ class bool this:Bool {
 }{
 }
 
-typedef Comparable[a] = {
+model Comparable[a] {
     (>>): a -> bool 
     unfold : a
 }

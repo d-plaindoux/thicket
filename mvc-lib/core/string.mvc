@@ -15,16 +15,15 @@ from Core.Number import number
 from Core.Option import option None Some
 
 class string this:native {
-    (==)     : string -> bool
-    (!=)     : string -> bool
+    isa comparable[string]
     (+)      : string -> string
     toNumber : option[number]
     hash     : number
 } {
     def (==) s = internal "string.==" apply self s true false
-    def (!=) s = not (self == s)
+    def (!=) s = (self == s) not
     def (+) s = internal "string.+" apply self s
-    def toNumber = option $ internal "string.toNumber" apply self s Some Empty
+    def toNumber = option $ internal "string.toNumber" apply self Some None
     def hash = internal "string.hash" apply self
 }
 

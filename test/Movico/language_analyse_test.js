@@ -1,7 +1,6 @@
 'use strict';
 
 var stream = require('../../lib' + (process.env.MOVICO_COV || '') + '/Parser/stream.js'),
-    aTry = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/atry.js'),
     list = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/list.js'),
     language = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/syntax/language.js')(),
     entities = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/checker/entities.js'),
@@ -54,11 +53,7 @@ function correctSampleTest(sample, test) {
                 }).minus(nongenerics).isEmpty(),
                 "No free variables");
 
-        var analyse = list(allEntities.orElse([])).foldL(aTry.success(null), function (result, entity) {
-            return result.flatmap(function () {
-                return entities.analyse(environment, substitutions, patternSubstitutions, entity);
-            });
-        });
+        var analyse = entities.analyse(nongenerics, environment, substitutions, patternSubstitutions, allEntities.orElse([]));
         
         if (analyse.isFailure()) {
             console.log(analyse.failure());

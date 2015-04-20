@@ -11,8 +11,8 @@ module Core.Option
 from Core.Bool import bool
  
 type Option [a] {
-    model None
     model Some { _ : a }
+    model None
 }
 
 class option[a] this:Option[a] {

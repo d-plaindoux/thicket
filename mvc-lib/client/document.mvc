@@ -11,13 +11,13 @@ module Client.Document
 from Core.Native import native
 from Core.Internal import internal
 from Core.String import string
-from Core.Option import option None Some
+from Core.Option import option Some None
  
 class document this:unit {
     elementById : string -> option[dom]
     (@) : string -> option[dom]
 } {
-    def elementById n = internal "document_elementById" apply self None Some n
+    def elementById n = internal "document_elementById" apply self n Some None
     def (@) = self elementById
 }
 

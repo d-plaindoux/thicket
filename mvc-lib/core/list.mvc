@@ -8,9 +8,9 @@
 
 module Core.List
 
-from Core.Pair import *
-from Core.Boolean import *
-from Core.Number import *
+from Core.Pair import Pair
+from Core.Boolean import bool
+from Core.Number import number
 
 type List[a] {
     model Nil
