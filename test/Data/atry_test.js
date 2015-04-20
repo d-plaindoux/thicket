@@ -111,6 +111,20 @@ exports['options'] = {
     test.done();
   },
          
+  'atry success lazyRecoverWith': function(test) {
+    test.expect(1);
+    // tests here  
+    test.equal(atry.success(1).lazyRecoverWith(function() { return 2; }), 1, 'should be success.');
+    test.done();
+  },
+         
+  'atry failure lazyRecoverWith': function(test) {
+    test.expect(1);
+    // tests here  
+    test.equal(atry.failure(1).lazyRecoverWith(function() { return 2; }), 2, 'should be failure.');
+    test.done();
+  },
+         
   'atry success filter': function(test) {
     test.expect(1);
     // tests here  

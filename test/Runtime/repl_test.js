@@ -36,7 +36,7 @@ exports['repl'] = {
     test.expect(1);
     // tests here  
     var expression = movicoc.sentence([], "123"),
-        code = codegen.sentence([], expression.success().expr).success();
+        code = codegen.sentence([], expression.get().success().expr).success();
         
     test.deepEqual(M.$$(eval(code)), M.$$(M.number(123)));
     test.done();
@@ -46,7 +46,7 @@ exports['repl'] = {
     test.expect(1);
     // tests here  
     var expression = movicoc.sentence([], "'123'"),
-        code = codegen.sentence([], expression.success().expr).success();
+        code = codegen.sentence([], expression.get().success().expr).success();
         
     test.deepEqual(M.$$(eval(code)), M.$$(M.string("123")));
     test.done();
@@ -56,7 +56,7 @@ exports['repl'] = {
     test.expect(1);
     // tests here  
     var expression = movicoc.sentence([], "()"),
-        code = codegen.sentence([], expression.success().expr).success();
+        code = codegen.sentence([], expression.get().success().expr).success();
         
     test.deepEqual(M.$$(eval(code)), M.$$(M.unit));
     test.done();
@@ -66,7 +66,7 @@ exports['repl'] = {
     test.expect(1);
     // tests here  
     var expression = movicoc.sentence([], "(fun f -> f) 1"),
-        code = codegen.sentence([], expression.success().expr).success();
+        code = codegen.sentence([], expression.get().success().expr).success();
         
     test.deepEqual(M.$$(eval(code)), M.$$(M.number(1)));
     test.done();
@@ -76,7 +76,7 @@ exports['repl'] = {
     test.expect(1);
     // tests here  
     var expression = movicoc.sentence([], "(fun x y -> x) 1 2"),
-        code = codegen.sentence([], expression.success().expr).success();
+        code = codegen.sentence([], expression.get().success().expr).success();
         
     test.deepEqual(M.$$(eval(code)), M.$$(M.number(1)));
     test.done();
@@ -86,7 +86,7 @@ exports['repl'] = {
     test.expect(1);
     // tests here  
     var expression = movicoc.sentence([], "(fun x y -> y) 1 2"),
-        code = codegen.sentence([], expression.success().expr).success();
+        code = codegen.sentence([], expression.get().success().expr).success();
         
     test.deepEqual(M.$$(eval(code)), M.$$(M.number(2)));
     test.done();
