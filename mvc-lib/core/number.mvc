@@ -13,6 +13,7 @@ from Core.Native import native
 from Core.Boolean import *
 
 class number this:native {
+    // derive comparable[number]
     (==)     : number -> bool
     (!=)     : number -> bool
     (<<)     : number -> bool

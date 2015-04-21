@@ -1,10 +1,5 @@
-model number
-model string
-
-model Point {
-    x : number
-    y : number
-    c : string
+model string {
+    toDom : dom
 }
 
 type Peano {
@@ -15,10 +10,23 @@ type Peano {
 class peano this:Peano {
     unbox : Peano
     (+) : peano -> peano
+    fold : [a] (unit -> a) -> (peano -> a) -> a
 } {
     def unbox = this
+    
     def Zero.(+) p = self
     def Succ.(+) p = 
         let p = self this._ + p in
             self $ Succ $ p unbox
+
+    def Zero.fold z _ = z ()
+    def Succ.fold _ s = s $ self this._
+}
+
+view zero this:unit {
+    "Zero".toDom
+}
+
+view succ this:peano {
+    ("SUCC".toDom) (this fold zero succ)
 }
