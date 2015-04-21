@@ -21,8 +21,8 @@ class map[k v] this:Map[k v] {
   (+) : hashable[k] -> v -> map[k v]
 } {
   def (?) k   = list this find (fun e -> bool $ e._1 == k)
-  def Nil[E[k v]].(+) k v = self $ Cons (k hash,(k,v)) Nil
-  def Cons[E[k v]].(+) k v =
+  def Nil.(+) k v = self $ Cons (k hash,(k,v)) Nil
+  def Cons.(+) k v =
       let entry = k hash,(k,v) in
       let equal = fun e -> k hash == this._1 fold (Cons entry this.tail) e in
       let minimun = fun e -> k hash <= this._1 fold (Cons entry this) e in

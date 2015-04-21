@@ -8,14 +8,14 @@
  
 module Core.Trampoline
  
-type Trampoline[a] {
-    model Done { _ : a }
-    model More { _ : unit -> Trampoline[a] }
+type Trampoline[A] {
+    model Done { _ : A }
+    model More { _ : unit -> Trampoline[A] }
 }
  
-class trampoline[a] this:Trampoline[a] {
-    run : a 
+class trampoline[A] this:Trampoline[A] {
+    run : A
 } {
-    def Done[a].run = this._
-    def More[a].run = self (this._ ()) run
+    def Done.run = this._
+    def More.run = self (this._ ()) run
 }

@@ -23,22 +23,22 @@ class try[a] this:Try[a] {
     filter      : (a -> bool) -> try[a]
     recoverWith : (string -> a) -> a
 } {
-    def Failure[a].fold _ f = f this._
-    def Success[a].fold s _ = s this._
+    def Failure.fold _ f = f this._
+    def Success.fold s _ = s this._
 
-    def Failure[a].map f = failure this._
-    def Success[a].map f = success $ f this._
+    def Failure.map f = failure this._
+    def Success.map f = success $ f this._
 
-    def Failure[a].flatmap f = failure this._
-    def Success[a].flatmap f = f this._
+    def Failure.flatmap f = failure this._
+    def Success.flatmap f = f this._
 
-    def Failure[a].filter _ = self
-    def Success[a].filter p = 
+    def Failure.filter _ = self
+    def Success.filter p = 
         let filtered = p this._ in
             filtered fold self $ failure "Filter fails"
 
-    def Failure[a].recoverWith a = a this._
-    def Success[a].recoverWith _ = this._
+    def Failure.recoverWith a = a this._
+    def Success.recoverWith _ = this._
 }
 
 def success : [a] a -> try[a] 

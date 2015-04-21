@@ -22,20 +22,20 @@ class option[a] this:Option[a] {
     filter  : (a -> bool) -> option[a]
     orElse  : a -> a
 } {
-    def None[a].fold n _ = n
-    def Some[a].fold _ s = s this._
+    def None.fold n _ = n
+    def Some.fold _ s = s this._
 
-    def None[a].map f = option None
-    def Some[a].map f = option $ Some $ f this._
+    def None.map f = option None
+    def Some.map f = option $ Some $ f this._
 
-    def None[a].flatmap f = option None
-    def Some[a].flatmap f = f this._
+    def None.flatmap f = option None
+    def Some.flatmap f = f this._
 
-    def None[a].filter _ = self
-    def Some[a].filter p = p this._ fold self $ self None
+    def None.filter _ = self
+    def Some.filter p = p this._ fold self $ self None
 
-    def None[a].orElse a = a
-    def Some[a].orElse _ = this._
+    def None.orElse a = a
+    def Some.orElse _ = this._
 } 
 
 def some : [a] a -> option[a] = fun e -> option $ Some e
