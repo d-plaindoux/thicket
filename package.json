@@ -43,7 +43,7 @@
     "nodeunit": "~0.9.0"
   },
   "dependencies": {
-    "minimist": ">= 0.6.1"
+    "yargs": ">= 3.7.2"
   },
   "keywords": []
 }
