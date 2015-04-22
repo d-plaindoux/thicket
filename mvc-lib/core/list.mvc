@@ -42,7 +42,7 @@ class list[a] this:List[a] {
     foldL   : [b] (b -> a -> b) -> b -> b
     foldR   : [b] (a -> b -> b) -> b -> b
 
-    // zip     : [b] list[b] -> ziplist[a b]
+    zip     : [b] list[b] -> ziplist[a b]
 } {
     def unbox = this
 
@@ -82,15 +82,15 @@ class list[a] this:List[a] {
 
     def Nil.foldR _ b = b
     def Cons.foldR f b = self this.tail foldR f $ f this.head b
-/*
+
     def Nil.zip l = ziplist Nil
     def Cons.zip l =
         let ifNil = ziplist Nil in
         let ifCons = fun head tail -> ziplist $ Cons (this.head,head) $ self this.tail zip tail unbox in
             l fold ifNil ifCons
-*/
+
 }
-/*
+
 class ziplist[a b] this:List[(a,b)] {
     unbox : List[(a,b)] 
     unzip : list[a],list[b]     
@@ -102,4 +102,5 @@ class ziplist[a b] this:List[(a,b)] {
         let tail = self this.tail unzip in
             (list $ Cons this.head._1 tail._1.unbox),(list $ Cons this.head._2 tail._2.unbox)        
 }
-*/
+
+def emptyList : list = list Nil
