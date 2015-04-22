@@ -17,6 +17,7 @@ type Option [a] {
 
 class option[a] this:Option[a] {
     unbox   : Option[a]
+    present : bool
     fold    : [b] b -> (a -> b) -> b
     map     : [b] (a -> b) -> option[b]
     flatmap : [b] (a -> option[b]) -> option[b]
@@ -24,6 +25,8 @@ class option[a] this:Option[a] {
     orElse  : a -> a
 } {
     def unbox = this
+    
+    def present = self fold false (fun _ -> true)
     
     def None.fold n _ = n
     def Some.fold _ s = s this._

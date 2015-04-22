@@ -9,7 +9,7 @@
  
 module Core.Lang
  
-from Core.Boolean import bool
+from Data.Boolean import bool
  
 /* 
  * Language syntactic extension

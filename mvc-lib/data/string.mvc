@@ -15,18 +15,31 @@ from Data.Number    import number
 from Data.Option    import option None Some
 
 class string this:native {
-    // derive comparable[string]
     (==)     : string -> bool
     (!=)     : string -> bool
+    (<=)     : string -> bool
+    (<<)     : string -> bool
+    (>>)     : string -> bool
+    (>=)     : string -> bool
     (+)      : string -> string
     toNumber : option[number]
     hash     : number
+    
+    hashable   : hashable[string]
+    comparable : comparable[string]
 } {
-    def (==) s = internal "string.==" apply self s true false
-    def (!=) s = (self == s) not
+    def (==) n = internal "generic.==" apply self n true false
+    def (!=) n = (self == n) not
+    def (<=) n = (self == n) || (self << n)
+    def (<<) n = internal "generic.<<" apply self n true false
+    def (>>) n = n <= self
+    def (>=) n = n << self
     def (+) s = internal "string.+" apply self s
     def toNumber = internal "string.toNumber" apply self some none
     def hash = internal "string.hash" apply self
+    
+    def hashable = hashable self self.hash
+    def comparable = comparable self self.(==) self.(!=) self.(>>) self.(<<)
 }
 
 def eol : string = "\n"

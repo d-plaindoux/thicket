@@ -6,17 +6,27 @@
  * Licensed under the LGPL2 license.
  */
  
-module Misc
+module Example.Fibonacci
  
 from Data.Number import number
-from Data.Lang import when
+form Data.Mutable.Array import emptyarray
+from Core.Lang import when
  
 //
-// Fibonacci suite
+// Fibonacci suite fast implementation based on memoisation
 //
 
-def fib : number -> number = 
-     fun n -> 
+def fastfib : array[number] -> number -> number =
+    fun a n -> 
+        let compute =
+            fun n -> 
+                { when (a get n present not)
+                  then (a set n $ fastfib a n)
+                  else a
+                } get n fold 0 (fun a -> a) in
         when (n << 2) 
         then n
-        else { (fib $ n - 1) + (fib $ n - 2) }
+        else (compute $ n - 1) + (compute $ n - 2)        
+    
+def fib : number -> number = 
+    fun n -> fastfib (emptyarray n) n

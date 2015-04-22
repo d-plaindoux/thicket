@@ -30,10 +30,10 @@ class number this:native {
     hashable   : hashable[number]
     comparable : comparable[number]
 } {
-    def (==) n = internal "number.==" apply self n true false
+    def (==) n = internal "generic.==" apply self n true false
     def (!=) n = (self == n) not
     def (<=) n = (self == n) || (self << n)
-    def (<<) n = internal "number.<<" apply self n true false
+    def (<<) n = internal "generic.<<" apply self n true false
     def (>>) n = n <= self
     def (>=) n = n << self
     def (+) n = internal "number.+" apply self n
@@ -44,4 +44,5 @@ class number this:native {
     def toString = internal "number.toString" apply self
     
     def hashable = hashable self self
+    def comparable = comparable self self.(==) self.(!=) self.(>>) self.(<<)
 }
