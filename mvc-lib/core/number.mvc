@@ -10,14 +10,15 @@ module Core.Number
 
 from Core.Internal import internal
 from Core.Native import native
-from Core.Boolean import *
+from Core.Boolean import bool
 
 class number this:native {
-    // derive comparable[number]
     (==)     : number -> bool
     (!=)     : number -> bool
+    (<=)     : number -> bool
     (<<)     : number -> bool
     (>>)     : number -> bool
+    (>=)     : number -> bool
     (+)      : number -> number
     (-)      : number -> number
     (*)      : number -> number
@@ -27,12 +28,14 @@ class number this:native {
 } {
     def (==) n = internal "number.==" apply self n true false
     def (!=) n = (self == n) not
-    def (>>) n = internal "number.<" apply self n
-    def (<<) n = n >> self
+    def (<=) n = (self == n) || (self << n)
+    def (<<) n = internal "number.<<" apply self n true false
+    def (>>) n = n <= self
+    def (>=) n = n << self
     def (+) n = internal "number.+" apply self n
     def (-) n = internal "number.-" apply self n
     def (*) n = internal "number.*" apply self n
     def (/) n = internal "number./" apply self n
     def hash = self
-    def toString = internal "number_to_string" apply self
+    def toString = internal "number.toString" apply self
 }

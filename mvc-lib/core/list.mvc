@@ -11,6 +11,7 @@ module Core.List
 from Core.Pair import Pair
 from Core.Boolean import bool
 from Core.Number import number
+from Core.Option import option
 
 type List[a] {
     model Nil
@@ -36,11 +37,12 @@ class list[a] this:List[a] {
     flatmap : [b] (a -> list[b]) -> list[b]
 
     filter  : (a -> bool) -> list[a]
+    find    : (a -> bool) -> option[a]
 
     foldL   : [b] (b -> a -> b) -> b -> b
     foldR   : [b] (a -> b -> b) -> b -> b
 
-    zip     : [b] list[b] -> ziplist[a b]
+    // zip     : [b] list[b] -> ziplist[a b]
 } {
     def unbox = this
 
@@ -72,20 +74,23 @@ class list[a] this:List[a] {
     def Cons.filter p =
         let tail = self this.tail filter p in
             (p this.head) fold (self $ Cons this.head $ tail.unbox) tail
+            
+    def find p = self filter p fold none (fun a _ -> some a)
 
     def Nil.foldL _ b = b
     def Cons.foldL f b = f (self this.tail foldL f b) this.head
 
     def Nil.foldR _ b = b
     def Cons.foldR f b = self this.tail foldR f $ f this.head b
-
+/*
     def Nil.zip l = ziplist Nil
     def Cons.zip l =
         let ifNil = ziplist Nil in
         let ifCons = fun head tail -> ziplist $ Cons (this.head,head) $ self this.tail zip tail unbox in
             l fold ifNil ifCons
+*/
 }
-
+/*
 class ziplist[a b] this:List[(a,b)] {
     unbox : List[(a,b)] 
     unzip : list[a],list[b]     
@@ -97,3 +102,4 @@ class ziplist[a b] this:List[(a,b)] {
         let tail = self this.tail unzip in
             (list $ Cons this.head._1 tail._1.unbox),(list $ Cons this.head._2 tail._2.unbox)        
 }
+*/

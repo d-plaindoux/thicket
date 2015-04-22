@@ -1,0 +1,19 @@
+/*
+ * Movico
+ * https://github.com/d-plaindoux/movico
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+
+module Boot
+
+from Core.Native import *
+from Core.Internal import *
+from Core.Boolean import *
+from Core.Number import *
+from Core.String import *
+from Core.Option import *
+from Core.Try import *
+from Core.List import *
+from Core.Lang import *

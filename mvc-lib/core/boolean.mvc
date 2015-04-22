@@ -6,7 +6,7 @@
  * Licensed under the LGPL2 license.
  */
 
-module Core.Bool
+module Core.Boolean
 
 /**
  * Boolean definition as an injective type domain
@@ -45,7 +45,7 @@ class bool this:Bool {
     def not     = self fold false true
     
     def (&&) = self and
-    def (||) = self ||
+    def (||) = self or
     def (=>) = self imply
 }
 

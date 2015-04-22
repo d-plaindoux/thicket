@@ -17,7 +17,7 @@ class document this:unit {
     elementById : string -> option[dom]
     (@) : string -> option[dom]
 } {
-    def elementById n = internal "document_elementById" apply self n Some None
+    def elementById n = internal "document.elementById" apply self n (fun e -> Some $ dom e) None
     def (@) = self elementById
 }
 
@@ -25,8 +25,9 @@ class dom this:native {
     appendChild : dom -> dom
     (<<) : dom -> dom
 } {
-    def appendChild d = internal "dom_appendChild" apply self d
-    def (<<) = self appendTochild
+    def appendChild d = self $ internal "dom.appendChild" apply self d
+    def (<<) = self appendChild
 }
 
-def element : string -> dom = fun n -> document () @ n
+def element : string -> option[dom] = fun n -> document () @ n
+def toDom : string -> dom = fun s -> dom $ internal "string.toDom" apply s

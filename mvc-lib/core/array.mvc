@@ -1,0 +1,37 @@
+/*
+ * Movico
+ * https://github.com/d-plaindoux/movico
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Core.Array
+ 
+from Core.Internal import internal
+from Core.Try import some failure
+from Core.Native import native
+from Core.Boolean import bool
+from Core.Number import number
+ 
+class array[a] this:native {
+    set     : [b] number -> a -> (unit -> b) -> (array[a] -> b)
+    
+    (+:)    : a -> array[a]
+    (:+)    : a -> array[a]
+    (:?)    : number -> a -> try[array[a]]
+    
+    isEmpty : bool
+    lenght  : number
+} {
+    def set i a e s = internal "array.set" apply self i a e s
+    def lenght = internal "array.size" apply self
+    
+    // def (+:) a = self set 0 a (fun _ -> self) (fun a -> a)
+    // def (:+) a = self set self.lenght a (fun _ -> self) (fun a -> a)
+    // def (+?) i a = self set i a (fun _ -> failure "OutOfIndex") (fun a -> some a)
+    
+    def isEmpty = self lenght == 0
+}
+
+def ([]) : [a] unit -> array[a] = fun _ -> array $ internal "array.new" apply

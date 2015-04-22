@@ -6,26 +6,35 @@
  * Licensed under the LGPL2 license.
  */
  
-module Map
+module Core.Map
  
-from Core.Number import number
 from Core.Boolean import bool
 from Core.List import list
+from Core.Number import number
+from Core.Option import option
+from Core.Pair import Pair
 from Core.Types import comparable hashable
 
-typedef E[k,v] = (number,(k,v))
-typedef Map[k v] = List[E[k v]]
-
-class map[k v] this:Map[k v] {
-  (?) : comparable[k] -> option[v]
-  (+) : hashable[k] -> v -> map[k v]
+class hashmap[k v] this:List[(number,(k,v))] {
+  unbox : List[(number,(k,v))]
+  (?)   : comparable[k] -> option[v]
+  (+)   : hashable[k] -> v -> hashmap[k v]
 } {
-  def (?) k   = list this find (fun e -> bool $ e._1 == k)
-  def Nil.(+) k v = self $ Cons (k hash,(k,v)) Nil
-  def Cons.(+) k v =
-      let entry = k hash,(k,v) in
-      let equal = fun e -> k hash == this._1 fold (Cons entry this.tail) e in
-      let minimun = fun e -> k hash <= this._1 fold (Cons entry this) e in
-      let maximum = Cons this.head (self this.tail + k v) unbox in
+  def unbox = this
+
+  def (?) k = list this find (fun e -> k == e._2._1) map (fun e -> e._2._2)
+  
+  def Nil.(+) k v =
+      let entry = (k hash),((k unbox),v) in
+          self $ Cons entry Nil
+
+  def Cons.(+) k v = 
+      let entry = (k hash),((k unbox),v) in
+      let equal = fun e -> k hash == this.head._1 fold (Cons entry this.tail) e in
+      let minimum = fun e -> k hash << this.head._1 fold (Cons entry this) e in
+      let maximum = Cons this.head $ self this.tail + k v unbox in
           self $ equal (minimum maximum)
+          
 }
+
+def emptyMap : [k v] unit -> hashmap[k v] = fun _ -> hashmap Nil

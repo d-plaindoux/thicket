@@ -1,0 +1,32 @@
+/*
+ * Movico
+ * https://github.com/d-plaindoux/movico
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Core.Lang
+ 
+from Core.Boolean import bool
+ 
+/* 
+ * Language syntactic extension
+ * 
+ *     when COND then A1 else A2
+ * 
+ * NOTE: if is a reserved word so 
+ *       it cannot be used here!
+ */
+
+class when this:bool {
+    then : [a] a -> whenElse[a]
+} {
+    def then a = whenElse $ this fold a
+}
+
+class whenElse[a] this:(a -> a) {
+    else : a -> a
+} {
+    def else a = this a
+}

@@ -25,17 +25,20 @@ model monoid[k] {
 
 // -------------------------
 
-model comparable[k] { 
-    (==) : k -> bool 
-    (!=) : k -> bool
-    (>>) : k -> bool
-    (<<) : k -> bool    
+class comparable[k] this:k {
+    unbox : k
+    (==)  : k -> bool 
+    (!=)  : k -> bool
+    (>>)  : k -> bool
+    (<<)  : k -> bool    
+} {
 }
 
 // -------------------------
 
 model hashable[k] { 
-    hash : number 
+    unbox : k
+    hash  : number
 }
 
 // -------------------------

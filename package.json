@@ -43,6 +43,7 @@
     "nodeunit": "~0.9.0"
   },
   "dependencies": {
+    "colors": ">= 1.0.3",
     "yargs": ">= 3.7.2"
   },
   "keywords": []

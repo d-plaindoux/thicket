@@ -6,16 +6,18 @@
  * Licensed under the LGPL2 license.
  */
  
-module String 
+module Core.String
 
-from Core.Internal import internal
-from Core.Native import native
-from Core.Boolean import bool
-from Core.Number import number
-from Core.Option import option None Some
+from Core.Boolean   import bool
+from Core.Internal  import internal
+from Core.Native    import native
+from Core.Number    import number
+from Core.Option    import option None Some
 
 class string this:native {
-    isa comparable[string]
+    // derive comparable[string]
+    (==)     : string -> bool
+    (!=)     : string -> bool
     (+)      : string -> string
     toNumber : option[number]
     hash     : number
