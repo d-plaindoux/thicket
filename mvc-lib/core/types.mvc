@@ -25,13 +25,12 @@ model monoid[k] {
 
 // -------------------------
 
-class comparable[k] this:k {
+model comparable[k] {
     unbox : k
     (==)  : k -> bool 
     (!=)  : k -> bool
     (>>)  : k -> bool
     (<<)  : k -> bool    
-} {
 }
 
 // -------------------------
