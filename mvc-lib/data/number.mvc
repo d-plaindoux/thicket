@@ -43,6 +43,6 @@ class number this:native {
     def hash = self
     def toString = internal "number.toString" apply self
     
-    def hashable = hashable self self
+    def hashable = hashable self self.hash
     def comparable = comparable self self.(==) self.(!=) self.(>>) self.(<<)
 }
