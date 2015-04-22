@@ -6,9 +6,9 @@
  * Licensed under the LGPL2 license.
  */
 
-module Core.Range
+module Data.Range
 
-from Core.Number import number
+from Data.Number import number
 
 class range this:(number,number) {
     fold : [b] b -> (number -> b -> b) -> b

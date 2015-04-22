@@ -6,10 +6,10 @@
  * Licensed under the LGPL2 license.
  */
  
-module Core.Types
+module Data.Types
  
-from Core.Number import number
-from Core.Boolean import bool
+from Data.Number import number
+from Data.Boolean import bool
 
 // -------------------------
 // Monoid laws

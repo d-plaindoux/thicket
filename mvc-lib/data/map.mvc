@@ -6,14 +6,14 @@
  * Licensed under the LGPL2 license.
  */
  
-module Core.Map
+module Data.Map
  
-from Core.Boolean import bool
-from Core.List import list
-from Core.Number import number
-from Core.Option import option
-from Core.Pair import Pair
-from Core.Types import comparable hashable
+from Data.Boolean import bool
+from Data.List import list
+from Data.Number import number
+from Data.Option import option
+from Data.Pair import Pair
+from Data.Types import comparable hashable
 
 class hashmap[k v] this:List[(number,(k,v))] {
   unbox : List[(number,(k,v))]

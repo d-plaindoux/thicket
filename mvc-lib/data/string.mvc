@@ -6,13 +6,13 @@
  * Licensed under the LGPL2 license.
  */
  
-module Core.String
+module Data.String
 
-from Core.Boolean   import bool
-from Core.Internal  import internal
-from Core.Native    import native
-from Core.Number    import number
-from Core.Option    import option None Some
+from Data.Boolean   import bool
+from Data.Internal  import internal
+from Data.Native    import native
+from Data.Number    import number
+from Data.Option    import option None Some
 
 class string this:native {
     // derive comparable[string]
@@ -25,7 +25,7 @@ class string this:native {
     def (==) s = internal "string.==" apply self s true false
     def (!=) s = (self == s) not
     def (+) s = internal "string.+" apply self s
-    def toNumber = option $ internal "string.toNumber" apply self Some None
+    def toNumber = internal "string.toNumber" apply self some none
     def hash = internal "string.hash" apply self
 }
 

@@ -8,8 +8,8 @@
  
 module Examples.Nat
  
-from Core.Number import number
-from Core.String import string
+from Data.Number import number
+from Data.String import string
  
 type Nat {
     model Zero

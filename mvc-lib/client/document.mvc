@@ -8,10 +8,10 @@
  
 module Client.Document
 
-from Core.Native import native
-from Core.Internal import internal
-from Core.String import string
-from Core.Option import option Some None
+from Data.Native import native
+from Data.Internal import internal
+from Data.String import string
+from Data.Option import option Some None
  
 class document this:unit {
     elementById : string -> option[dom]

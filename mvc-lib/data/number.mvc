@@ -6,11 +6,12 @@
  * Licensed under the LGPL2 license.
  */
 
-module Core.Number
+module Data.Number
 
-from Core.Internal import internal
-from Core.Native import native
-from Core.Boolean import bool
+from Data.Internal import internal
+from Data.Native import native
+from Data.Boolean import bool
+from Data.Types import *
 
 class number this:native {
     (==)     : number -> bool
@@ -25,6 +26,9 @@ class number this:native {
     (/)      : number -> number
     hash     : number
     toString : string
+    
+    hashable   : hashable[number]
+    comparable : comparable[number]
 } {
     def (==) n = internal "number.==" apply self n true false
     def (!=) n = (self == n) not
@@ -38,4 +42,6 @@ class number this:native {
     def (/) n = internal "number./" apply self n
     def hash = self
     def toString = internal "number.toString" apply self
+    
+    def hashable = hashable self self
 }

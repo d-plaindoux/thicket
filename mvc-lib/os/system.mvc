@@ -9,7 +9,7 @@
  
 module OS.System
 
-from Core.Internal import internal
+from Data.Internal import internal
 
 class System this:unit {
     (<<) : string -> System // Try ?

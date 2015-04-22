@@ -6,7 +6,7 @@
  * Licensed under the LGPL2 license.
  */
  
-module Core.Pair 
+module Data.Pair 
  
 model Pair[a b] {
    _1 : a

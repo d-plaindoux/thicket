@@ -6,12 +6,12 @@
  * Licensed under the LGPL2 license.
  */
 
-module Core.List
+module Data.List
 
-from Core.Pair import Pair
-from Core.Boolean import bool
-from Core.Number import number
-from Core.Option import option
+from Data.Pair import Pair
+from Data.Boolean import bool
+from Data.Number import number
+from Data.Option import option
 
 type List[a] {
     model Nil
@@ -26,7 +26,7 @@ class list[a] this:List[a] {
     fold    : [b] b -> (a -> list[a] -> b) -> b
 
     isEmpty : bool
-    lenght  : number
+    length  : number
 
     reverse : list[a]
     (++)    : list[a] -> list[a]
@@ -52,7 +52,7 @@ class list[a] this:List[a] {
     def Nil.isEmpty = bool True
     def Cons.isEmpty = bool False
 
-    def lenght = self foldR (fun _ r -> 1 + r) 0
+    def length = self foldR (fun _ r -> 1 + r) 0
 
     def reverse = self $ self foldL (fun b a -> Cons a b) Nil
 

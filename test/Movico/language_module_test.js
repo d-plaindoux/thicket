@@ -32,7 +32,7 @@ exports['language_module'] = {
   'simple module is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("module Core.Bool model A"),
+    var aStream = stream("module Data.Bool model A"),
         aModule = ast.module(["Core","Bool"],[],[ast.model("A",[],[])]);
         
     test.deepEqual(language.parser.group('module').parse(aStream).get(), 
@@ -44,7 +44,7 @@ exports['language_module'] = {
   'simple module with imports is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("module Core.Bool from Core.Test import a model A"),
+    var aStream = stream("module Data.Bool from Data.Test import a model A"),
         aModule = ast.module(["Core","Bool"],[ast.imports(["Core","Test"],["a"])],[ast.model("A",[],[])]);
         
     test.deepEqual(language.parser.group('module').parse(aStream).get(), 

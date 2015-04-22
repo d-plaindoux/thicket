@@ -6,9 +6,9 @@
  * Licensed under the LGPL2 license.
  */
  
-module Core.Option
+module Data.Option
 
-from Core.Boolean import bool
+from Data.Boolean import bool
  
 type Option [a] {
     model Some { _ : a }

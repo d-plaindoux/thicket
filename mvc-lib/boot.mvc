@@ -8,12 +8,15 @@
 
 module Boot
 
-from Core.Native import *
-from Core.Internal import *
-from Core.Boolean import *
-from Core.Number import *
-from Core.String import *
-from Core.Option import *
-from Core.Try import *
-from Core.List import *
+from Data.Native import *
+from Data.Internal import *
+from Data.Boolean import *
+from Data.Option import *
+from Data.Try import *
+from Data.Number import *
+from Data.String import *
+from Data.List import *
+
+from Data.Mutable.Array import *
+
 from Core.Lang import *

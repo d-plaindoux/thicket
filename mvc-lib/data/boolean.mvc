@@ -6,7 +6,7 @@
  * Licensed under the LGPL2 license.
  */
 
-module Core.Boolean
+module Data.Boolean
 
 /**
  * Boolean definition as an injective type domain

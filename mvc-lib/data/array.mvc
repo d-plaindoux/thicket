@@ -1,0 +1,31 @@
+/*
+ * Movico
+ * https://github.com/d-plaindoux/movico
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Data.Mutable.Array
+ 
+from Data.Internal import internal
+from Data.Try import some failure
+from Data.Native import native
+from Data.Boolean import bool
+from Data.Number import number
+ 
+class array[a] this:native {
+    set     : number -> a -> array[a]
+    get     : number -> option[a]
+    
+    isEmpty : bool
+    length  : number
+} {
+    def set i a = internal "array.set" apply self i a array
+    def get i = internal "array.get" apply self i some none
+    
+    def isEmpty = self length == 0
+    def length = internal "array.size" apply self
+}
+
+def emptyarray : [a] number -> array[a] = fun n -> array $ internal "array.new" apply n

@@ -8,8 +8,8 @@
  
  module Examples.Lambda
 
-from Core.String import string
-from Core.Try import try success failure
+from Data.String import string
+from Data.Try import try success failure
 
 type LambdaTerm {
     model Constant { 

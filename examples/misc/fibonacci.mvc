@@ -8,8 +8,8 @@
  
 module Misc
  
-from Core.Number import number
-from Core.Lang import when
+from Data.Number import number
+from Data.Lang import when
  
 //
 // Fibonacci suite
