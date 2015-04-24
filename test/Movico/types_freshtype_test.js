@@ -46,7 +46,7 @@ exports['types_freevar'] = {
       
       var entity = ast.type.forall(["a"], ast.model("A",[ast.type.variable("a")],[ast.param("f",ast.type.variable("a"))]));
       test.deepEqual(types.freshType(entity),
-                     ast.type.forall(["#1"],ast.model("A",[ast.type.variable("#1")],[ast.param("f",ast.type.variable("#1"))])),
+                     ast.type.forall(["'a"],ast.model("A",[ast.type.variable("'a")],[ast.param("f",ast.type.variable("'a"))])),
                      "Fresh model with generics");
       test.done();
   },
@@ -59,7 +59,7 @@ exports['types_freevar'] = {
       
       var entity = ast.type.forall(["a"], ast.controller("A",[ast.type.variable('a')],ast.param("this",ast.type.variable("a")),[ast.param("f",ast.type.variable("a"))], []));
       test.deepEqual(types.freshType(entity),
-                     ast.type.forall(["#1"],ast.controller("A",[ast.type.variable('#1')],ast.param("this",ast.type.variable("#1")),[ast.param("f",ast.type.variable("#1"))], [])),
+                     ast.type.forall(["'a"],ast.controller("A",[ast.type.variable("'a")],ast.param("this",ast.type.variable("'a")),[ast.param("f",ast.type.variable("'a"))], [])),
                      "Fresh controller with generics");
       test.done();
   },
@@ -72,7 +72,7 @@ exports['types_freevar'] = {
       
       var entity = ast.type.forall(["a"], ast.view("A",[ast.type.variable('a')],ast.param("this",ast.type.variable("a")),[]));
       test.deepEqual(types.freshType(entity),
-                     ast.type.forall(["#1"],ast.view("A",[ast.type.variable("#1")],ast.param("this",ast.type.variable("#1")),[])),
+                     ast.type.forall(["'a"],ast.view("A",[ast.type.variable("'a")],ast.param("this",ast.type.variable("'a")),[])),
                      "Fresh view with generics");
       test.done();
   },
@@ -85,7 +85,7 @@ exports['types_freevar'] = {
       
       var entity = ast.type.forall(["a"],ast.type.variable("a"));
       test.deepEqual(types.freshType(entity),
-                     ast.type.forall(["#1"],ast.type.variable("#1")),
+                     ast.type.forall(["'a"],ast.type.variable("'a")),
                      "Fresh forall");
       test.done();
   },
