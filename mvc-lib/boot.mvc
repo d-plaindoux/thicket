@@ -8,6 +8,8 @@
 
 module Boot
 
+from Core.Lang import *
+
 from Data.Native import *
 from Data.Internal import *
 from Data.Boolean import *
@@ -16,7 +18,7 @@ from Data.Try import *
 from Data.Number import *
 from Data.String import *
 from Data.List import *
+from Data.Map import *
+from Data.Range import *
 
 from Data.Mutable.Array import *
-
-from Core.Lang import *

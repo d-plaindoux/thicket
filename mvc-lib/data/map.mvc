@@ -41,8 +41,7 @@ class hashmap[k v] this:List[(number,(k,v))] {
       let equal = fun e -> k hash == this.head._1 fold (Cons entry this.tail) e in
       let minimum = fun e -> k hash << this.head._1 fold (Cons entry this) e in
       let maximum = Cons this.head $ self this.tail + k v unbox in
-          self $ equal (minimum maximum)
-          
+          self $ equal (minimum maximum)          
 }
 
 def emptyMap : hashmap = hashmap Nil

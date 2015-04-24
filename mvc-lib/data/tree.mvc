@@ -1,0 +1,50 @@
+/*
+ * Movico
+ * https://github.com/d-plaindoux/movico
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Data.Tree
+ 
+from Core.Lang import *
+from Data.Boolean import *
+from Data.Number import *
+ 
+type Tree[a] {
+    model Empty
+    model Node { depth: number value : a left : Tree[a] right : Tree[a] }    
+}
+ 
+class tree[a] this:Tree[a] {
+    unbox : Tree[a]
+
+    depth : number
+    isEmpty : bool
+    
+    (+) : a -> tree[a]
+    map : [b] (a -> b) -> tree[b]
+} {
+    def unbox = this
+    
+    def Empty.depth = 0
+    def Node.depth = this.depth
+    
+    def Empty.isEmpty = true
+    def Node.isEmpty = false
+    
+    def Empty.(+) a = self $ Node 1 a Empty Empty
+    def Node.(+) a = 
+        when (self this.left depth << $ self this.right depth)
+        then (self $ Node (this.depth + 1) this.value (self this.left + a unbox) this.right)
+        else (self $ Node (this.depth + 1) this.value this.left (self this.right + a unbox))
+    
+    def Empty.map _ = emptyTree
+    def Node.map f = 
+        let left = self this.left map f unbox in
+        let right = self this.right map f unbox in
+            tree $ Node this.depth (f this.value) left right
+}
+
+def emptyTree : tree = tree Empty
