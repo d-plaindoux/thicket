@@ -8,7 +8,6 @@
  
 module Data.Types
  
-from Data.Number import number
 from Data.Boolean import bool
 
 // -------------------------

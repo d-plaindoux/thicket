@@ -1,0 +1,1 @@
+(function() {return function(M) {M.define('True',M.instance({'[id]':'True'}));M.define('False',M.instance({'[id]':'False'}));M.define('Bool',M.instance({'[id]':'Bool'}));};}());

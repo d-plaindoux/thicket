@@ -33,7 +33,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.equal(compiler.entity(list(),ast.model("A",[],[])).success(),
-                 "M.define('A',M.instance({'[id]':'A'}))");
+                 "runtime.define('A',runtime.instance({'[id]':'A'}))");
       test.done();
   },
 
@@ -41,7 +41,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.equal(compiler.entity([], ast.model("A",[],[ast.param("a",ast.type.native("a"))])).success(),
-                 "M.define('A',function(mvc$a){return M.instance({'[id]':'A','a':mvc$a});})");
+                 "runtime.define('A',function(mvc$a){return runtime.instance({'[id]':'A','a':mvc$a});})");
       test.done();
   },
 
@@ -50,7 +50,7 @@ exports['compile'] = {
       
       test.equal(compiler.entity(list(), ast.model("A",list(),[ast.param("a1",ast.type.native("a")),
                                                   ast.param("a2",ast.type.native("b"))])).success(), 
-                 "M.define('A',function(mvc$a1){return function(mvc$a2){return M.instance({'[id]':'A','a1':mvc$a1,'a2':mvc$a2});};})");
+                 "runtime.define('A',function(mvc$a1){return function(mvc$a2){return runtime.instance({'[id]':'A','a1':mvc$a1,'a2':mvc$a2});};})");
       test.done();
   },
     
@@ -58,7 +58,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.equal(compiler.entity(list(), ast.controller("A",[],ast.param("this",ast.type.native("a")),[],[])).success(),
-                 "M.define('A',function(mvc$this){return M.controller(function(mvc$self){return {'[id]':'A','[this]':mvc$this};})})");
+                 "runtime.define('A',function(mvc$this){return runtime.controller(function(mvc$self){return {'[id]':'A','[this]':mvc$this};})})");
       test.done();
   },
     
@@ -70,7 +70,7 @@ exports['compile'] = {
                                     ast.param("this",ast.type.native("a")),
                                     [],
                                     [ast.method("unbox", ast.expr.ident("this"))])).success(),
-                 "M.define('A',function(mvc$this){return M.controller(function(mvc$self){return {'[id]':'A','[this]':mvc$this,'unbox':mvc$this};})})");
+                 "runtime.define('A',function(mvc$this){return runtime.controller(function(mvc$self){return {'[id]':'A','[this]':mvc$this,'unbox':mvc$this};})})");
       test.done();
   },
     
@@ -82,7 +82,7 @@ exports['compile'] = {
                                                 ast.param("this",ast.type.native("a")),
                                                 [],
                                                 [ast.method("unbox", ast.expr.ident("this"), ast.type.variable('number'))])).success(),
-                 "M.define('A',function(mvc$this){return M.controller(function(mvc$self){return {'[id]':'A','[this]':mvc$this,'number.unbox':mvc$this};})})");
+                 "runtime.define('A',function(mvc$this){return runtime.controller(function(mvc$self){return {'[id]':'A','[this]':mvc$this,'number.unbox':mvc$this};})})");
       test.done();
   },
     
@@ -90,7 +90,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.equal(compiler.expression(list(), list(), ast.expr.number(1)).success(),
-                 "M.number(1)");
+                 "runtime.number(1)");
       test.done();
   },
     
@@ -98,7 +98,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.equal(compiler.expression(list(), list(), ast.expr.string("1")).success(),
-                 "M.string('1')");
+                 "runtime.string('1')");
       test.done();
   },
     
@@ -106,7 +106,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.equal(compiler.expression(list(), list(), ast.expr.unit()).success(),
-                 "M.unit");
+                 "runtime.unit");
       test.done();
   },
     
@@ -114,7 +114,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.equal(compiler.expression(list(ast.model("PAIR",[],[])), list(), ast.expr.pair(ast.expr.number(1),ast.expr.string("1"))).success(),
-                 "M.apply(M.apply(M.ident('Pair'),M.lazy(function(){return M.number(1);})),M.lazy(function(){return M.string('1');}))");
+                 "runtime.apply(runtime.apply(runtime.ident('Pair'),runtime.lazy(function(){return runtime.number(1);})),runtime.lazy(function(){return runtime.string('1');}))");
       test.done();
   },
     
@@ -130,7 +130,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.equal(compiler.expression(list(), list(), ast.expr.ident("a")).success(),
-                 "M.ident('a')");
+                 "runtime.ident('a')");
       test.done();
   },
     
@@ -146,7 +146,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.equal(compiler.expression(list(), list('a', 'b'), ast.expr.application(ast.expr.ident("a"), ast.expr.ident("b"))).success(),
-                 "M.apply(mvc$a,M.lazy(function(){return mvc$b;}))");
+                 "runtime.apply(mvc$a,runtime.lazy(function(){return mvc$b;}))");
       test.done();
   },
     
@@ -154,7 +154,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.equal(compiler.expression(list(), list('a', 'b'), ast.expr.invoke(ast.expr.ident("a"), "b")).success(),
-                 "M.invoke(mvc$a,'b')");
+                 "runtime.invoke(mvc$a,'b')");
       test.done();
   },
     
@@ -162,7 +162,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.equal(compiler.expression(list(), list('a'), ast.expr.application(ast.expr.ident("a"), ast.expr.ident("b"))).success(),
-                 "M.invoke(mvc$a,'b')");
+                 "runtime.invoke(mvc$a,'b')");
       test.done();
   },
     
@@ -170,7 +170,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.equal(compiler.expression(list(), list('a'), ast.expr.let("b",ast.expr.ident("a"),ast.expr.ident("b"))).success(),
-                 "M.apply(function(mvc$b){return mvc$b;},M.lazy(function(){return mvc$a;}))");
+                 "runtime.apply(function(mvc$b){return mvc$b;},runtime.lazy(function(){return mvc$a;}))");
       test.done();
   },
     
@@ -178,7 +178,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.equal(compiler.expression(list(), list('l'), ast.expr.comprehension(ast.expr.ident('x'),[['x',ast.expr.ident('l')]],[])).success(),
-                 "M.apply(M.invoke(mvc$l,'map'),M.lazy(function(){return function(mvc$x){return mvc$x;};}))");
+                 "runtime.apply(runtime.invoke(mvc$l,'map'),runtime.lazy(function(){return function(mvc$x){return mvc$x;};}))");
       test.done();
   },
     
@@ -186,7 +186,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.equal(compiler.expression(list(), list('l'), ast.expr.comprehension(ast.expr.ident('x'),[['x',ast.expr.ident('l')],['y',ast.expr.ident('m')]],[])).success(),
-                 "M.apply(M.invoke(M.ident('m'),'flatmap'),M.lazy(function(){return function(mvc$y){return M.apply(M.invoke(mvc$l,'map'),M.lazy(function(){return function(mvc$x){return mvc$x;};}));};}))");
+                 "runtime.apply(runtime.invoke(runtime.ident('m'),'flatmap'),runtime.lazy(function(){return function(mvc$y){return runtime.apply(runtime.invoke(mvc$l,'map'),runtime.lazy(function(){return function(mvc$x){return mvc$x;};}));};}))");
       test.done();
   },
     
@@ -198,7 +198,7 @@ exports['compile'] = {
                                      ast.expr.comprehension(ast.expr.ident('x'),
                                                             [['x',ast.expr.ident('l')]],
                                                             [ast.expr.ident("b")])).success(),
-                 "M.apply(M.invoke(M.apply(M.invoke(mvc$l,'filter'),M.lazy(function(){return function(mvc$x){return M.ident('b');};})),'map'),M.lazy(function(){return function(mvc$x){return mvc$x;};}))");
+                 "runtime.apply(runtime.invoke(runtime.apply(runtime.invoke(mvc$l,'filter'),runtime.lazy(function(){return function(mvc$x){return runtime.ident('b');};})),'map'),runtime.lazy(function(){return function(mvc$x){return mvc$x;};}))");
       test.done();
   },
     
@@ -206,7 +206,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.equal(compiler.expression(list(), list(), ast.expr.tag("A",[],[])).success(),
-                 "M.tag('A',[],[])");
+                 "runtime.tag('A',[],[])");
       test.done();
   },
     
@@ -214,7 +214,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.equal(compiler.expression(list(), list('l'), ast.expr.tag("A",[['a',ast.expr.string('b')]],[])).success(),
-                 "M.tag('A',[['a',M.string('b')]],[])");
+                 "runtime.tag('A',[['a',runtime.string('b')]],[])");
       test.done();
   },
     
@@ -222,7 +222,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.equal(compiler.expression(list(), list('l'), ast.expr.tag("A",[['a',ast.expr.string('b')],['b',ast.expr.number(1)]],[])).success(),
-                 "M.tag('A',[['a',M.string('b')],['b',M.number(1)]],[])");
+                 "runtime.tag('A',[['a',runtime.string('b')],['b',runtime.number(1)]],[])");
       test.done();
   },
     
@@ -230,7 +230,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.equal(compiler.expression(list(), list('l'), ast.expr.tag("A",[],[ast.expr.tag("B",[],[]),ast.expr.number(1)])).success(),
-                 "M.tag('A',[],[M.tag('B',[],[]),M.number(1)])");
+                 "runtime.tag('A',[],[runtime.tag('B',[],[]),runtime.number(1)])");
       test.done();
   },
 };
