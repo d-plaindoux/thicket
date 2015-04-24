@@ -10,11 +10,13 @@ module Data.Range
 
 from Data.Number import number
 
+typedef generator = unit -> (number,generator)
+
 class range this:(number,number) {
     fold : [b] b -> (number -> b -> b) -> b
 } {
     def fold r f =
-        let isFinished = this._1 == this._2 in
+        let isFinished = this._1 >> this._2 in
         let nextRange = (this._1 + 1), this._2 in
             isFinished fold r $ self nextRange fold (f this._1 r) f
 }

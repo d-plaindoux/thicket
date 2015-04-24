@@ -19,6 +19,8 @@ class hashmap[k v] this:List[(number,(k,v))] {
   unbox : List[(number,(k,v))]
   (?)   : comparable[k] -> option[v]
   (+)   : hashable[k] -> v -> hashmap[k v]
+  keys  : list[k]
+  values: list[v]
 } {
   def unbox = this
 
@@ -27,6 +29,12 @@ class hashmap[k v] this:List[(number,(k,v))] {
   def Nil.(+) k v =
       let entry = (k hash),((k unbox),v) in
           self $ Cons entry Nil
+
+  def Nil.keys = list Nil
+  def Cons.keys = list $ Cons this.head._2._1 $ self this.tail keys unbox
+
+  def Nil.values = list Nil
+  def Cons.values = list $ Cons this.head._2._2 $ self this.tail values unbox
 
   def Cons.(+) k v = 
       let entry = (k hash),((k unbox),v) in
@@ -37,4 +45,4 @@ class hashmap[k v] this:List[(number,(k,v))] {
           
 }
 
-def emptyMap : [k v] unit -> hashmap[k v] = fun _ -> hashmap Nil
+def emptyMap : hashmap = hashmap Nil
