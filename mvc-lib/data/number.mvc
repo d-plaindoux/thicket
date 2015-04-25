@@ -24,6 +24,8 @@ class number this:native {
     (-)      : number -> number
     (*)      : number -> number
     (/)      : number -> number
+    max      : number -> number
+    min      : number -> number
     hash     : number
     toString : string
     
@@ -40,6 +42,10 @@ class number this:native {
     def (-) n = internal "number.-" apply self n
     def (*) n = internal "number.*" apply self n
     def (/) n = internal "number./" apply self n
+    
+    def max n = self << n fold n self
+    def min n = n max self
+    
     def hash = self
     def toString = internal "number.toString" apply self
     

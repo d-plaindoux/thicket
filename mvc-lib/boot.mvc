@@ -18,7 +18,3 @@ from Data.Try import *
 from Data.Number import *
 from Data.String import *
 from Data.List import *
-from Data.Map import *
-from Data.Range import *
-
-from Data.Mutable.Array import *
