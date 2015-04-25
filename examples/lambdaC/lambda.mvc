@@ -61,10 +61,10 @@ class eval this:LambdaTerm {
     def Application.eval env = 
         let application = self this.abstraction eval env in
         let parameter   = self this.argument eval env in
-            application flatmap (fun a -> 
-                parameter flatmap (fun p ->
-                    a fold (fun _   -> failure "Type Error")
-                           (fun a e -> success $ self a._2 eval $ e + a._1 p)
+            application flatmap (a -> 
+                parameter flatmap (p ->
+                    a fold (_   -> failure "Type Error")
+                           (a e -> success $ self a._2 eval $ e + a._1 p)
                 )
             )
                 

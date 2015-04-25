@@ -9,19 +9,19 @@
 module Logic.Combinators
       
 def I : [a] a -> a 
-      = fun a -> a
+      = a -> a
       
 def K : [a b] a -> b -> a 
-      = fun a b -> a
+      = a b -> a
 
 def W : [a b] (a -> a -> b) -> a -> b
-      = fun x y -> x y y
+      = x y -> x y y
 
 def C : [a b c] (a -> b -> c) -> b -> a -> c
-      = fun x y z -> x z y
+      = x y z -> x z y
 
 def B : [a b c] (b -> c) -> (a -> b) -> a -> c
-      = fun x y z -> x $ y z
+      = x y z -> x $ y z
  
 def S : [a b c] (a -> b -> c) -> (a -> b) -> a -> c 
-      = fun x y z -> x z $ y z
+      = x y z -> x z $ y z

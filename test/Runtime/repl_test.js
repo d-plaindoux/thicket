@@ -65,7 +65,7 @@ exports['repl'] = {
   'Identity function': function(test) {
     test.expect(1);
     // tests here  
-    var expression = movicoc.sentence([], "(fun f -> f) 1"),
+    var expression = movicoc.sentence([], "(f -> f) 1"),
         code = codegen.sentence([], expression.get().success().expr).success();
         
     test.deepEqual(M.$$(eval(code)(M)), M.$$(M.number(1)));
@@ -75,7 +75,7 @@ exports['repl'] = {
   'Left projection function': function(test) {
     test.expect(1);
     // tests here  
-    var expression = movicoc.sentence([], "(fun x y -> x) 1 2"),
+    var expression = movicoc.sentence([], "(x y -> x) 1 2"),
         code = codegen.sentence([], expression.get().success().expr).success();
         
     test.deepEqual(M.$$(eval(code)(M)), M.$$(M.number(1)));
@@ -85,7 +85,7 @@ exports['repl'] = {
   'Right projection function': function(test) {
     test.expect(1);
     // tests here  
-    var expression = movicoc.sentence([], "(fun x y -> y) 1 2"),
+    var expression = movicoc.sentence([], "(x y -> y) 1 2"),
         code = codegen.sentence([], expression.get().success().expr).success();
         
     test.deepEqual(M.$$(eval(code)(M)), M.$$(M.number(2)));

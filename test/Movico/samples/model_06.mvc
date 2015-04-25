@@ -85,9 +85,9 @@ class list[a] this:List[a] {
     def Nil[a].isEmpty = bool True
     def Cons[a].isEmpty = bool False
 
-    def lenght = self foldR (fun _ r -> 1 + r) 0
+    def lenght = self foldR (_ r -> 1 + r) 0
 
-    def reverse = self $ self foldL (fun b a -> Cons a b) Nil
+    def reverse = self $ self foldL (b a -> Cons a b) Nil
 
     def (+:) a = self $ Cons a this
 
@@ -117,7 +117,7 @@ class list[a] this:List[a] {
     def Nil[a].zip l = list Nil
     def Cons[a].zip l =
         let ifNil = list Nil in
-        let ifCons = fun head tail -> list $ Cons (this.head,head) $ self this.tail zip tail unbox in
+        let ifCons = head tail -> list $ Cons (this.head,head) $ self this.tail zip tail unbox in
             l fold ifNil ifCons
 }
 

@@ -17,7 +17,7 @@ view PersonView this:Person {
 }
  
 view NewPerson this:Population {
-    let onSubmit = fun _ -> this.addPerson (self.firstname,self.name) in
+    let onSubmit = _ -> this.addPerson (self.firstname,self.name) in
         <form onSubmit=(onSubmit())>
             <input type="text" id="firstname"/>
             <input type="text" id="name"/>
@@ -69,7 +69,7 @@ class Todos this:List[TodoModel] {
 }
 
 view TodosView this: Todos {
-    this.todos.map(fun p -> <li> p.what </li>)
+    this.todos.map(p -> <li> p.what </li>)
 }
 
 view TodoAdder this: Todos {
@@ -209,7 +209,7 @@ class string this:native {
     xml : xml
 } {
     def (+) s = this @ "addString" s
-    def int = this @ "intString" (fun i -> Some i, None)
+    def int = this @ "intString" (i -> Some i, None)
     def xml = this @ "xmlString"
 }
 

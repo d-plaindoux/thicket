@@ -3,7 +3,7 @@ class Function[a b] this:(a -> b) {
     (@) : [c] Function[b c] -> Function[a c]
 } {
     def (<<) a = this a
-    def (@) g = Function $ fun a -> g << (self << a)
+    def (@) g = Function $ a -> g << (self << a)
 }
 
 class Main this:unit {

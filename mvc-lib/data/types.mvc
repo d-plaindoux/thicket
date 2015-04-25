@@ -17,14 +17,14 @@ from Data.Boolean import bool
 // m apply a (m neutral)   = a
 // m apply (m neutral) a   = a
 
-model monoid[k] {
+model Monoid[k] {
     apply   : k -> k -> k
     neutral : k
 }
 
 // -------------------------
 
-model comparable[k] {
+model Comparable[k] {
     unbox : k
     (==)  : k -> bool 
     (!=)  : k -> bool
@@ -34,9 +34,30 @@ model comparable[k] {
 
 // -------------------------
 
-model hashable[k] { 
+model Hashable[k] { 
     unbox : k
     hash  : number
+}
+
+// -------------------------
+// Mapper laws
+// -------------------------
+// m add v t find v == t
+
+model Map[k e] {
+    find : Comparable[k] -> option[e]
+    add  : Hashable[k] -> e -> Map[k e]
+}
+
+// -------------------------
+// Collection laws
+// -------------------------
+
+model Collection[a] {
+    find   : (a -> bool) -> option[a]
+    filter : (a -> bool) -> Collection[a]
+    add    : a -> Collection[a]
+    map    : [b] (a -> b) -> Collection[b]
 }
 
 // -------------------------
@@ -46,7 +67,7 @@ model hashable[k] {
 // l get (l set a) == a
 // (l set a) set b == l set b
 
-model lens[a] { 
-    set : a -> lens[a] 
+model Lens[a] { 
+    set : a -> Lens[a] 
     get : a 
 }

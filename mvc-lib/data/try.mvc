@@ -42,7 +42,7 @@ class try[a] this:Try[a] {
 }
 
 def success : [a] a -> try[a] 
-            = fun a -> try $ Success a
+            = a -> try $ Success a
 
 def failure : [a] string -> try[a] 
-            = fun a -> try $ Failure a
+            = a -> try $ Failure a

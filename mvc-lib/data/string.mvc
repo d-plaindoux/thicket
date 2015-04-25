@@ -25,8 +25,8 @@ class string this:native {
     toNumber : option[number]
     hash     : number
     
-    hashable   : hashable[string]
-    comparable : comparable[string]
+    hashable   : Hashable[string]
+    comparable : Comparable[string]
 } {
     def (==) n = internal "generic.==" apply self n true false
     def (!=) n = (self == n) not
@@ -38,8 +38,8 @@ class string this:native {
     def toNumber = internal "string.toNumber" apply self some none
     def hash = internal "string.hash" apply self
     
-    def hashable = hashable self self.hash
-    def comparable = comparable self self.(==) self.(!=) self.(>>) self.(<<)
+    def hashable = Hashable self self.hash
+    def comparable = Comparable self self.(==) self.(!=) self.(>>) self.(<<)
 }
 
 def eol : string = "\n"

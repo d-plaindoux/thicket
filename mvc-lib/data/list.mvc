@@ -12,6 +12,7 @@ from Data.Pair import Pair
 from Data.Boolean import bool
 from Data.Number import number
 from Data.Option import option
+from Data.Types import Collection
 
 type List[a] {
     model Nil
@@ -43,6 +44,8 @@ class list[a] this:List[a] {
     foldR   : [b] (a -> b -> b) -> b -> b
 
     zip     : [b] list[b] -> ziplist[a b]
+    
+    collection : Collection[a]
 } {
     def unbox = this
 
@@ -52,9 +55,9 @@ class list[a] this:List[a] {
     def Nil.isEmpty = bool True
     def Cons.isEmpty = bool False
 
-    def length = self foldR (fun _ r -> 1 + r) 0
+    def length = self foldR (_ r -> 1 + r) 0
 
-    def reverse = self $ self foldL (fun b a -> Cons a b) Nil
+    def reverse = self $ self foldL (b a -> Cons a b) Nil
 
     def (+:) a = self $ Cons a this
 
@@ -75,7 +78,7 @@ class list[a] this:List[a] {
         let tail = self this.tail filter p in
             (p this.head) fold (self $ Cons this.head $ tail.unbox) tail
             
-    def find p = self filter p fold none (fun a _ -> some a)
+    def find p = self filter p fold none (a _ -> some a)
 
     def Nil.foldL _ b = b
     def Cons.foldL f b = f (self this.tail foldL f b) this.head
@@ -86,9 +89,13 @@ class list[a] this:List[a] {
     def Nil.zip l = ziplist Nil
     def Cons.zip l =
         let ifNil = ziplist Nil in
-        let ifCons = fun head tail -> ziplist $ Cons (this.head,head) $ self this.tail zip tail unbox in
+        let ifCons = head tail -> ziplist $ Cons (this.head,head) $ self this.tail zip tail unbox in
             l fold ifNil ifCons
 
+    def collection = Collection self.find 
+                                (p -> self filter p collection) 
+                                (v -> self +: v collection) 
+                                (f -> self map f collection)
 }
 
 class ziplist[a b] this:List[(a,b)] {

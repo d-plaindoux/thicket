@@ -13,18 +13,19 @@ from Data.List import list
 from Data.Number import number
 from Data.Option import option
 from Data.Pair import Pair
-from Data.Types import comparable hashable
+from Data.Types import comparable hashables
 
 class hashmap[k v] this:List[(number,(k,v))] {
   unbox  : List[(number,(k,v))]
-  find   : comparable[k] -> option[v]
-  add    : hashable[k] -> v -> hashmap[k v]
+  find   : Comparable[k] -> option[v]
+  add    : Hashable[k] -> v -> hashmap[k v]
   keys   : list[k]
   values : list[v]
+  mapper : Map[k v]
 } {
   def unbox = this
 
-  def find k = list this find (fun e -> k == e._2._1) map (fun e -> e._2._2)
+  def find k = list this find (e -> k == e._2._1) map (e -> e._2._2)
   
   def Nil.add k v =
       let entry = (k hash),((k unbox),v) in
@@ -32,8 +33,8 @@ class hashmap[k v] this:List[(number,(k,v))] {
 
   def Cons.add k v = 
       let entry = (k hash),((k unbox),v) in
-      let equal = fun e -> k hash == this.head._1 fold (Cons entry this.tail) e in
-      let minimum = fun e -> k hash << this.head._1 fold (Cons entry this) e in
+      let equal = e -> k hash == this.head._1 fold (Cons entry this.tail) e in
+      let minimum = e -> k hash << this.head._1 fold (Cons entry this) e in
       let maximum = Cons this.head $ self this.tail add k v unbox in
           self $ equal (minimum maximum)          
 
@@ -42,6 +43,8 @@ class hashmap[k v] this:List[(number,(k,v))] {
 
   def Nil.values = list Nil
   def Cons.values = list $ Cons this.head._2._2 $ self this.tail values unbox
+  
+  def mapper = Map self.find $ k v -> (self.add k v) mapper
 }
 
-def emptyMap : hashmap = hashmap Nil
+def emptyHashMap : hashmap = hashmap Nil

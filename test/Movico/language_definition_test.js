@@ -42,7 +42,7 @@ exports['language_definition '] = {
   'Function expression definition': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("def idNumber : number -> number = fun s -> s");
+    var aStream = stream("def idNumber : number -> number = s -> s");
         
     test.deepEqual(language.parser.group('expressionDef').parse(aStream).get(),
                    ast.expression("idNumber", 

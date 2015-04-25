@@ -6,7 +6,7 @@
  * Licensed under the LGPL2 license.
  */
  
-module Data.Array
+module Data.Mutable.Array
  
 from Data.Internal import internal
 from Data.Try import some failure

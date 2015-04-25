@@ -35,8 +35,8 @@ class tree[a] this:Tree[a] {
     
     def depth = 
         self match 
-            (fun _ -> 0)
-            (fun l r -> (self l depth) max (self r depth))
+            (_ -> 0)
+            (l r -> (self l depth) max (self r depth))
     
     def Leaf[a].add a = self $ Node this $ Leaf a
     def Node[a].add a = 

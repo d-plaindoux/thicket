@@ -74,7 +74,7 @@ exports['runtime'] = {
   'Identity function': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("(fun f -> f) 1"),
+    var aStream = stream("(f -> f) 1"),
         expression = language.parser.group('exprs').parse(aStream).get(),
         source = compiler.sentence(list(),expression).success();
         
@@ -85,7 +85,7 @@ exports['runtime'] = {
   'Left projection function': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("(fun x y -> x) 1 2"),
+    var aStream = stream("(x y -> x) 1 2"),
         expression = language.parser.group('exprs').parse(aStream).get(),
         source = compiler.sentence(list(),expression).success();
         
@@ -96,7 +96,7 @@ exports['runtime'] = {
   'Right projection function': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("(fun x y -> y) 1 2"),
+    var aStream = stream("(x y -> y) 1 2"),
         expression = language.parser.group('exprs').parse(aStream).get(),
         source = compiler.sentence(list(),expression).success();
         
@@ -134,7 +134,7 @@ exports['runtime'] = {
     test.expect(1);
     // tests here  
     var modelSource = compiler.entity(list(), language.parser.group('modelDef').parse(stream("model E { _ : number -> number }")).get()).success(),
-        expression = language.parser.group('exprs').parse(stream("(E (fun e -> e)) _ 1")).get(),
+        expression = language.parser.group('exprs').parse(stream("(E (e -> e)) _ 1")).get(),
         source = compiler.sentence(list(),expression).success();
 
     eval(runtimeFun(modelSource))(runtime); 

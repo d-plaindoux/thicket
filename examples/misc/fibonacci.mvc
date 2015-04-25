@@ -17,16 +17,16 @@ from Core.Lang import when
 //
 
 def fastfib : array[number] -> number -> number =
-    fun a n -> 
+    a n -> 
         let compute =
-            fun n -> 
+            n -> 
                 { when (a get n present not)
                   then (a set n $ fastfib a n)
                   else a
-                } get n fold 0 (fun a -> a) in
+                } get n fold 0 (a -> a) in
         when (n << 2) 
         then n
         else (compute $ n - 1) + (compute $ n - 2)        
     
 def fib : number -> number = 
-    fun n -> fastfib (emptyarray n) n
+    n -> fastfib (emptyarray n) n

@@ -26,7 +26,7 @@ class option[a] this:Option[a] {
 } {
     def unbox = this
     
-    def present = self fold false (fun _ -> true)
+    def present = self fold false (_ -> true)
     
     def None.fold n _ = n
     def Some.fold _ s = s this._
@@ -44,5 +44,5 @@ class option[a] this:Option[a] {
     def Some.orElse _ = this._
 } 
 
-def some : [a] a -> option[a] = fun e -> option $ Some e
+def some : [a] a -> option[a] = e -> option $ Some e
 def none : [a] option[a] = option None
