@@ -17,6 +17,6 @@ class range this:(number,number) {
 } {
     def fold r f =
         let isFinished = this._1 >> this._2 in
-        let nextRange = (this._1 + 1), this._2 in
+        let nextRange = (this._1 ++), this._2 in
             isFinished fold r $ self nextRange fold (f this._1 r) f
 }
