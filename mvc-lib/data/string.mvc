@@ -40,7 +40,7 @@ class string this:native {
     def hash = internal "string.hash" apply self
     
     def hashable = Hashable self self.hash
-    def comparable = Comparable self self.(==) self.(!=) self.(>>) self.(<<)
+    def comparable = Comparable self self.(==) self.(!=) self.(>>) self.(<<) self.hashable
 }
 
 def eol : string = "\n"

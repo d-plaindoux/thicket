@@ -18,7 +18,7 @@ from Data.Boolean import bool
 // m apply (m neutral) a   = a
 
 model Monoid[k] {
-    apply   : k -> k -> k
+    apply : k -> k -> k
     neutral : k
 }
 
@@ -26,17 +26,18 @@ model Monoid[k] {
 
 model Comparable[k] {
     unbox : k
-    (==)  : k -> bool 
-    (!=)  : k -> bool
-    (>>)  : k -> bool
-    (<<)  : k -> bool    
+    (==) : k -> bool 
+    (!=) : k -> bool
+    (>>) : k -> bool
+    (<<) : k -> bool    
+    hashable : Hashable[k]
 }
 
 // -------------------------
 
 model Hashable[k] { 
     unbox : k
-    hash  : number
+    hash : number
 }
 
 // -------------------------
@@ -54,10 +55,10 @@ model Map[k e] {
 // -------------------------
 
 model Collection[a] {
-    find   : (a -> bool) -> option[a]
+    find : (a -> bool) -> option[a]
     filter : (a -> bool) -> Collection[a]
-    add    : a -> Collection[a]
-    map    : [b] (a -> b) -> Collection[b]
+    add : a -> Collection[a]
+    map : [b] (a -> b) -> Collection[b]
 }
 
 // -------------------------

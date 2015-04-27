@@ -29,3 +29,13 @@ class array[a] this:native {
 }
 
 def emptyarray : [a] number -> array[a] = n -> array $ internal "array.new" apply n
+
+/* 
+ * -------------------------------------------
+ * Rules
+ * -------------------------------------------
+ * emptyarray 1 get 0         = success none
+ * emptyarray 1 set 1 1 get 1 = success some 1
+ * emptyarray 1 get 1         = success none
+ * -------------------------------------------
+ */
