@@ -56,9 +56,9 @@ function correctSampleTest(sample, test) {
         var analyse = entities.analyse(nongenerics, environment, substitutions, patternSubstitutions, allEntities.orElse([]));
         
         if (analyse.isFailure()) {
-            console.log(analyse.failure());
+            console.log(analyse.failure().stack);
         }
-        
+
         test.ok(analyse.isSuccess(), "Type ");
 
         test.done();                

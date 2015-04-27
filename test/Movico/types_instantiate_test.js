@@ -32,7 +32,7 @@ exports['types_freevar'] = {
   "Fresh native": function (test) {
       test.expect(1);
       // Test
-      test.deepEqual(types.freshType(ast.type.native("a")),
+      test.deepEqual(types.instantiate(ast.type.native("a")),
                      ast.type.native("a"),
                      "Fresh native is native");
       test.done();
@@ -45,8 +45,8 @@ exports['types_freevar'] = {
       types.reset();
       
       var entity = ast.type.forall(["a"], ast.model("A",[ast.type.variable("a")],[ast.param("f",ast.type.variable("a"))]));
-      test.deepEqual(types.freshType(entity),
-                     ast.type.forall(["'a"],ast.model("A",[ast.type.variable("'a")],[ast.param("f",ast.type.variable("'a"))])),
+      test.deepEqual(types.instantiate(entity),
+                     ast.model("A",[ast.type.variable("'a")],[ast.param("f",ast.type.variable("'a"))]),
                      "Fresh model with generics");
       test.done();
   },
@@ -58,8 +58,8 @@ exports['types_freevar'] = {
       types.reset();
       
       var entity = ast.type.forall(["a"], ast.controller("A",[ast.type.variable('a')],ast.param("this",ast.type.variable("a")),[ast.param("f",ast.type.variable("a"))], []));
-      test.deepEqual(types.freshType(entity),
-                     ast.type.forall(["'a"],ast.controller("A",[ast.type.variable("'a")],ast.param("this",ast.type.variable("'a")),[ast.param("f",ast.type.variable("'a"))], [])),
+      test.deepEqual(types.instantiate(entity),
+                     ast.controller("A",[ast.type.variable("'a")],ast.param("this",ast.type.variable("'a")),[ast.param("f",ast.type.variable("'a"))], []),
                      "Fresh controller with generics");
       test.done();
   },
@@ -71,8 +71,8 @@ exports['types_freevar'] = {
       types.reset();
       
       var entity = ast.type.forall(["a"], ast.view("A",[ast.type.variable('a')],ast.param("this",ast.type.variable("a")),[]));
-      test.deepEqual(types.freshType(entity),
-                     ast.type.forall(["'a"],ast.view("A",[ast.type.variable("'a")],ast.param("this",ast.type.variable("'a")),[])),
+      test.deepEqual(types.instantiate(entity),
+                     ast.view("A",[ast.type.variable("'a")],ast.param("this",ast.type.variable("'a")),[]),
                      "Fresh view with generics");
       test.done();
   },
@@ -84,8 +84,8 @@ exports['types_freevar'] = {
       types.reset();
       
       var entity = ast.type.forall(["a"],ast.type.variable("a"));
-      test.deepEqual(types.freshType(entity),
-                     ast.type.forall(["'a"],ast.type.variable("'a")),
+      test.deepEqual(types.instantiate(entity),
+                     ast.type.variable("'a"),
                      "Fresh forall");
       test.done();
   },
