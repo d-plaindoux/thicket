@@ -40,7 +40,7 @@ classDef  ::= "class" ID generics param "{" tparam* "}" "{" method* "}"
 
 --------------------------------------------------------------------------
 
-method    ::= "def" (type ".")? (ID|"("OP")") (ID(":" generics type)?)* "=" expr
+method    ::= "def" (ID ".")? (ID|"("OP")") (ID(":" generics type)?)* "=" expr
 
 --------------------------------------------------------------------------
 

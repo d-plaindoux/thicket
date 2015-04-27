@@ -130,7 +130,7 @@ exports['language_class'] = {
   'controller with a method and specific caller': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("class Address this: Address { number : [a] a -> a } { def (a).number x = x }");        
+    var aStream = stream("class Address this: Address { number : [a] a -> a } { def a.number x = x }");        
     test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
                    ast.controller('Address',
                                   [],

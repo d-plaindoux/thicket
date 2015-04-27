@@ -11,7 +11,7 @@ module Data.Number
 from Data.Internal import internal
 from Data.Native import native
 from Data.Boolean import bool
-from Data.Types import *
+from Data.Types import Hashable Comparable
 
 class number this:native {
     (==)     : number -> bool
@@ -53,7 +53,6 @@ class number this:native {
     def hash = self
     def toString = internal "number.toString" apply self
     
-    // Hand made conversion - Boiler plate to be managed later        
     def hashable = Hashable self self.hash
     def comparable = Comparable self self.(==) self.(!=) self.(>>) self.(<<)
 }

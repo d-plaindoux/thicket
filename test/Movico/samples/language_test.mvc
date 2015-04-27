@@ -149,8 +149,8 @@ type List[a] {
 class ListClass [a] this:List[a] {
     map : [b] (a -> b) -> List[b]
 } {
-    def Cons[a].map f = Cons (f this.head) ((self this.tail).map f)
-    def Nil[a].map f = Nil
+    def Nil.map f = Nil
+    def Cons.map f = Cons (f this.head) ((self this.tail).map f)
 }
 
 // --------------------------------------------------------------------
@@ -168,11 +168,11 @@ class OptionClass[a] this:Option[a] {
     map     : [b] (a -> b) -> Option[b]
     flatmap : [b] (a -> Option[b]) -> Option[b]
 } {
-    def Some[a].map f = Some (f this._)
-    def Some[a].flatmap f = f this._
+    def Some.map f = Some (f this._)
+    def Some.flatmap f = f this._
 
-    def None[a].map f = None
-    def None[a].flatmap f = None
+    def None.map f = None
+    def None.flatmap f = None
 }
 
 // Functor

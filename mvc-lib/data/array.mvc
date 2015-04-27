@@ -21,7 +21,7 @@ class array[a] this:native {
     isEmpty : bool
     length  : number
 } {
-    def set i a = internal "array.set" apply self i a array
+    def set i a = array $ internal "immutable.array.set" apply self i a
     def get i = internal "array.get" apply self i some none
     
     def isEmpty = self length == 0

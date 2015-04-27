@@ -30,16 +30,16 @@ class tree[a] this:Tree[a] {
 } {
     def return = this
     
-    def Leaf[a].match l _ = l this._
-    def Node[a].match _ n = n this.left this.right
+    def Leaf.match l _ = l this._
+    def Node.match _ n = n this.left this.right
     
     def depth = 
         self match 
             (_ -> 0)
             (l r -> (self l depth) max (self r depth))
     
-    def Leaf[a].add a = self $ Node this $ Leaf a
-    def Node[a].add a = 
+    def Leaf.add a = self $ Node this $ Leaf a
+    def Node.add a = 
         let selector = (self this.left depth) <= (self this.right depth) in
         let toLeft = self $ Node (self this.left add a return) this.right in
         let toRight = self $ Node this.left (self this.right add a return) in

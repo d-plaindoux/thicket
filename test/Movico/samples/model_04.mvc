@@ -21,17 +21,17 @@ class option[a] this:Option[a] {
     filter  : (a -> bool) -> option[a]
     orElse  : a -> a
 } {
-    def None[a].map f = option None
-    def Some[a].map f = option $ Some $ f this._
+    def None.map f = option None
+    def Some.map f = option $ Some $ f this._
 
-    def None[a].flatmap f = option None
-    def Some[a].flatmap f = f this._
+    def None.flatmap f = option None
+    def Some.flatmap f = f this._
 
-    def None[a].filter _ = self
-    def Some[a].filter p = 
+    def None.filter _ = self
+    def Some.filter p = 
         let ifThenElse = p this._ in
             ifThenElse ? self $ option None
 
-    def None[a].orElse a = a
-    def Some[a].orElse _ = this._
+    def None.orElse a = a
+    def Some.orElse _ = this._
 } 
