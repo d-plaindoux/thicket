@@ -13,6 +13,10 @@ from Data.Try import some failure
 from Data.Native import native
 from Data.Boolean import bool
 from Data.Number import number
+
+/*
+ * Immutable array version
+ */
  
 class array[a] this:native {
     set     : number -> a -> array[a]

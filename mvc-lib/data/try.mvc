@@ -41,8 +41,8 @@ class try[a] this:Try[a] {
     def Success.recoverWith _ = this._
 }
 
-def success : [a] a -> try[a] 
-            = a -> try $ Success a
+def success : [a] a -> try[a]             
+    = a -> try $ Success a
 
 def failure : [a] string -> try[a] 
-            = a -> try $ Failure a
+    = a -> try $ Failure a

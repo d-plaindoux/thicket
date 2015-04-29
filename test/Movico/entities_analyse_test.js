@@ -60,7 +60,8 @@ exports['entities_analyse'] = {
                                        [ ast.method("m", ast.expr.number(1)) ]);
       test.ok(entities.analyse(list(), 
                                list(), 
-                               list(pair("string",ast.type.native("string")),pair("number",ast.type.native("number"))), 
+                               list(pair("string",ast.type.native("string")),
+                                    pair("number",ast.type.native("number"))), 
                                list(), 
                                [aController]).isFailure(),
               "Simple wrong controller");

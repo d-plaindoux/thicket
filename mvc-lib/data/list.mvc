@@ -110,4 +110,5 @@ class ziplist[a b] this:List[(a,b)] {
             (list $ Cons this.head._1 tail._1.unbox),(list $ Cons this.head._2 tail._2.unbox)        
 }
 
-def emptyList : list = list Nil
+def nil : list = 
+    list Nil

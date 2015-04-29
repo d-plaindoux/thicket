@@ -10,8 +10,6 @@ module Data.Range
 
 from Data.Number import number
 
-typedef generator = unit -> (number,generator)
-
 class range this:(number,number) {
     fold : [b] b -> (number -> b -> b) -> b
 } {

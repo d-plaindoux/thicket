@@ -9,24 +9,26 @@
 module Example.Fibonacci
  
 from Data.Number import number
-form Data.Mutable.Array import emptyarray
+from Data.Array import emptyarray
 from Core.Lang import when
  
 //
 // Fibonacci suite fast implementation based on memoisation
+// Not tail recursive
 //
 
-def fastfib : array[number] -> number -> number =
+def fastfib : array[number] -> number -> (array[number],number) =
     a n -> 
-        let compute =
-            n -> 
-                { when (a get n present not)
-                  then (a set n $ fastfib a n)
-                  else a
-                } get n fold 0 (a -> a) in
         when (n << 2) 
-        then n
-        else (compute $ n - 1) + (compute $ n - 2)        
+        then (a,n)
+        else {
+            when (a get n present)
+            then (a,(a get n fold 0 (a -> a)))
+            else let r1 = fastfib a (n - 2) in
+                 let r2 = fastfib r1._1 (n - 1) in
+                 let r = r1._2 + r2._2 in
+                    (r2._1 set n r),r
+        }
     
 def fib : number -> number = 
-    n -> fastfib (emptyarray n) n
+    n -> fastfib (emptyarray n) n _2

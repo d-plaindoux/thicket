@@ -15,8 +15,11 @@ from Data.Option import option
 from Data.Pair import Pair
 from Data.Types import comparable hashables
 
-class hashmap[k v] this:List[(number,(k,v))] {
-  unbox  : List[(number,(k,v))]
+typedef MapEntry[k v] = number,(k,v)
+typedef HashMap[k v] = List[MapEntry[k v]] 
+
+class hashmap[k v] this:HashMap[k v] {
+  unbox  : HashMap[k v]
   find   : Comparable[k] -> option[v]
   add    : Hashable[k] -> v -> hashmap[k v]
   keys   : list[k]

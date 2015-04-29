@@ -37,9 +37,9 @@ function correctSampleTest(sample, test) {
         var aStream = stream(data.toString()),
             allEntities = language.parser.group('entities').parse(aStream),
             nongenerics = entities.nongenerics(allEntities),            
-            patternNongenerics = entities.patternNongenerics(allEntities),            
-            substitutions = entities.substitutions(allEntities),
-            patternSubstitutions = entities.patternSubstitutions(allEntities),
+            nongenericModels = entities.nongenericModels(allEntities),            
+            specifications = entities.specifications(allEntities),
+            models = entities.models(allEntities),
             environment = entities.environment(allEntities);
 
         if (!aStream.isEmpty()) {
@@ -49,11 +49,11 @@ function correctSampleTest(sample, test) {
         test.ok(allEntities.isPresent(), "accept a full example");
         test.ok(aStream.isEmpty(), "accept a full example");        
         test.ok(list(allEntities.orElse([])).foldL(list(), function (result, entity) {
-                    return result.append(entities.freeVariables(patternNongenerics, entity));
+                    return result.append(entities.freeVariables(nongenericModels, entity));
                 }).minus(nongenerics).isEmpty(),
                 "No free variables");
 
-        var analyse = entities.analyse(nongenerics, environment, substitutions, patternSubstitutions, allEntities.orElse([]));
+        var analyse = entities.analyse(nongenerics, environment, models,  specifications, allEntities.orElse([]));
         
         if (analyse.isFailure()) {
             console.log(analyse.failure().stack);
