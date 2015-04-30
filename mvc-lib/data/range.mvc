@@ -8,13 +8,21 @@
 
 module Data.Range
 
+from Core.Lang import when
+
 from Data.Number import number
 
-class range this:(number,number) {
+class rangeIterator this:(number,number) {
     fold : [b] b -> (number -> b -> b) -> b
 } {
     def fold r f =
         let isFinished = this._1 >> this._2 in
         let nextRange = (this._1 ++), this._2 in
             isFinished fold r $ self nextRange fold (f this._1 r) f
+}
+
+class range this:number {
+    to : number -> rangeIterator
+} {
+    def to n = rangeIterator (this,n)
 }

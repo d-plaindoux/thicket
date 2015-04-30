@@ -7,29 +7,38 @@
  */
  
 module Data.Array
+
+from Core.Lang import when
  
 from Data.Internal import internal
 from Data.Try import some failure
 from Data.Native import native
 from Data.Boolean import bool
 from Data.Number import number
+from Data.Range import range
 
 /*
  * Immutable array version
  */
- 
+
 class array[a] this:native {
     set     : number -> a -> array[a]
+    reset   : number -> array[a]
     get     : number -> option[a]
     
-    isEmpty : bool
     length  : number
+    
+    map     : [b] (a -> b) -> array[b]
 } {
-    def set i a = array $ internal "immutable.array.set" apply self i a
+    def set i a = array $ internal "array.set" apply self i a
+    def reset i = array $ internal "array.reset" apply self i
     def get i = internal "array.get" apply self i some none
     
-    def isEmpty = self length == 0
     def length = internal "array.size" apply self
+
+    def map f = 
+        let update = i r -> self get i fold r { a -> r set i $ f a } in
+            range 0 to (self.length - 1) fold (emptyarray self.length) update
 }
 
 def emptyarray : [a] number -> array[a] = n -> array $ internal "array.new" apply n

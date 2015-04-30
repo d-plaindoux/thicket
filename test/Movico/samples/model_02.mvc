@@ -7,7 +7,7 @@ model string {
 }
 
 model list[a] {
-    (+)   : a -> list[a]
+    (+:)   : a -> list[a]
     map   : [b] (a -> b) -> list[b]
     element : dom
 }
@@ -30,7 +30,7 @@ class todos this:list[Todo] {
     change : number -> string -> todos    
 } {
     def unbox = this
-    def change d w = self $ this + $ Todo d w
+    def change d w = self $ this +: $ Todo d w
 }
 
 /**

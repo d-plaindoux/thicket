@@ -50,7 +50,7 @@ exports['entities_analyse'] = {
               "Simple controller");
       test.done();
   },
-/* TODO -- Check why this test is broken    
+
   "Analyse simple wrong controller": function (test) {
       test.expect(1);
       // Test
@@ -60,14 +60,14 @@ exports['entities_analyse'] = {
                                        [ ast.method("m", ast.expr.number(1)) ]);
       test.ok(entities.analyse(list(), 
                                list(), 
+                               list(), 
                                list(pair("string",ast.type.native("string")),
                                     pair("number",ast.type.native("number"))), 
-                               list(), 
                                [aController]).isFailure(),
               "Simple wrong controller");
       test.done();
   },
-*/    
+    
   "Analyse simple partial controller": function (test) {
       test.expect(1);
       // Test
@@ -140,13 +140,12 @@ exports['entities_analyse'] = {
       var aView = ast.view("A",[],ast.param("this",ast.type.variable("number")),ast.expr.number(1));
       test.ok(entities.analyse(list(), 
                                list(), 
+                               list(), 
                                list(pair("dom", ast.type.native("dom")),
                                     pair("string",ast.type.native("string")),
                                     pair("number",ast.type.native("number"))), 
-                               list(), 
                                [aView]).isFailure(),
               "Simple view");
       test.done();
-  },
-    
+  },  
 };
