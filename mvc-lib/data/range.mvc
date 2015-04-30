@@ -8,21 +8,26 @@
 
 module Data.Range
 
-from Core.Lang import when
-
+from Data.Pair import *
 from Data.Number import number
 
-class rangeIterator this:(number,number) {
+model rangeIterator {
     fold : [b] b -> (number -> b -> b) -> b
+}
+
+class abstractRangeIterator this:(number,number) {
+    fold : [b] (number -> number -> bool) -> (number -> number) -> b -> (number -> b -> b) -> b
 } {
-    def fold r f =
-        let isFinished = this._1 >> this._2 in
-        let nextRange = (this._1 ++), this._2 in
-            isFinished fold r $ self nextRange fold (f this._1 r) f
+    def fold pred dep r f =
+        let isFinished = pred this._1 this._2 in
+        let nextRange = (dep this._1), this._2 in
+            isFinished fold r $ self nextRange fold pred dep (f this._1 r) f
 }
 
 class range this:number {
-    to : number -> rangeIterator
+    to     : number -> rangeIterator
+    downto : number -> rangeIterator
 } {
-    def to n = rangeIterator (this,n)
+    def to n     = rangeIterator $ abstractRangeIterator (this, n) fold number#(>>) (a -> a + 1)
+    def downto n = rangeIterator $ abstractRangeIterator (n, this) fold number#(<<) (a -> a - 1)
 }

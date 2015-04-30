@@ -10,11 +10,11 @@ module Data.Array
 
 from Core.Lang import when
  
-from Data.Internal import internal
-from Data.Try import some failure
-from Data.Native import native
 from Data.Boolean import bool
+from Data.Native import native
 from Data.Number import number
+from Data.Internal import internal
+from Data.Option import options some none
 from Data.Range import range
 
 /*
@@ -29,6 +29,10 @@ class array[a] this:native {
     length  : number
     
     map     : [b] (a -> b) -> array[b]
+    find    : (a -> bool) -> option[a]
+
+    foldL   : [b] (b -> a -> b) -> b -> b
+    foldR   : [b] (a -> b -> b) -> b -> b
 } {
     def set i a = array $ internal "array.set" apply self i a
     def reset i = array $ internal "array.reset" apply self i
@@ -39,6 +43,17 @@ class array[a] this:native {
     def map f = 
         let update = i r -> self get i fold r { a -> r set i $ f a } in
             range 0 to (self.length - 1) fold (emptyarray self.length) update
+            
+    def find p = 
+        let filter = a -> p a fold (some a) none in
+        let check = i r -> r fold (self get i fold r filter) (_ -> r) in
+            range 0 to (self.length - 1) fold none check
+            
+    def foldL f r = 
+        range 0 to (self.length - 1) fold r (i r -> self get i fold r $ f r)
+
+    def foldR f r = 
+        range (self.length - 1) downto 0 fold r (i r -> self get i fold r $ (a -> f a r))
 }
 
 def emptyarray : [a] number -> array[a] = n -> array $ internal "array.new" apply n
