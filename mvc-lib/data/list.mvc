@@ -89,7 +89,7 @@ class list[a] this:List[a] {
     def Nil.zip l = ziplist Nil
     def Cons.zip l =
         let ifNil = ziplist Nil in
-        let ifCons = head tail -> ziplist $ Cons (this.head,head) $ self this.tail zip tail unbox in
+        let ifCons = head tail -> ziplist $ Cons (this.head,head) (self this.tail zip tail unbox) in
             l fold ifNil ifCons
 
     def collection = Collection self.find 
