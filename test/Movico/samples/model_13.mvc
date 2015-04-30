@@ -1,0 +1,9 @@
+model Collection[a] {
+    map : [b] (a -> b) -> list[b]
+}
+
+model list[a] {
+    map : [b] (a -> b) -> list[a]
+}
+
+def collection : [a] list[a] -> Collection[a] = l -> Collection l.map

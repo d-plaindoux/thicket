@@ -26,7 +26,7 @@ var stream = require('../../lib' + (process.env.MOVICO_COV || '') + '/Parser/str
     test.ifError(value)
 */
 
-function correctSampleTest(sample, test) {
+function sampleTest(sample, test, checker) {
     test.expect(4);
     // tests here  
     fs.readFile('./test/Movico/samples/' + sample, function (err,data) {
@@ -55,14 +55,19 @@ function correctSampleTest(sample, test) {
 
         var analyse = entities.analyse(nongenerics, environment, models,  specifications, allEntities.orElse([]));
         
-        if (analyse.isFailure()) {
-            console.log(analyse.failure().stack);
-        }
-
-        test.ok(analyse.isSuccess(), "Type ");
+        test.ok(checker(analyse), "Type");
 
         test.done();                
     });    
+}
+
+
+function correctSampleTest(sample, test) {
+    return sampleTest(sample, test, function (r) { return r.isSuccess(); });
+}
+
+function wrongSampleTest(sample, test) {
+    return sampleTest(sample, test, function (r) { return r.isFailure(); });
 }
 
 exports['language'] = {
@@ -117,4 +122,11 @@ exports['language'] = {
   'entity 12': function(test) {
     correctSampleTest("model_12.mvc", test);    
   },
-};
+
+  'entity 13': function(test) {
+    wrongSampleTest("model_13.mvc", test);    
+  },
+
+  'entity 14': function(test) {
+    wrongSampleTest("model_14.mvc", test);    
+  },};
