@@ -9,7 +9,9 @@
 module Data.Array
 
 from Core.Lang import when
- 
+
+from Logic.Combinators import C
+
 from Data.Boolean import bool
 from Data.Native import native
 from Data.Number import number
@@ -46,24 +48,14 @@ class array[a] this:native {
             
     def find p = 
         let filter = a -> p a fold (some a) none in
-        let check = i r -> r fold (self get i fold r filter) (_ -> r) in
+        let check = i r -> r fold (self get i fold r filter) some in
             range 0 to (self.length - 1) fold none check
             
     def foldL f r = 
         range 0 to (self.length - 1) fold r (i r -> self get i fold r $ f r)
 
     def foldR f r = 
-        range (self.length - 1) downto 0 fold r (i r -> self get i fold r $ (a -> f a r))
+        range (self.length - 1) downto 0 fold r (i r -> self get i fold r $ C f r)
 }
 
 def emptyarray : [a] number -> array[a] = n -> array $ internal "array.new" apply n
-
-/* 
- * -------------------------------------------
- * Rules
- * -------------------------------------------
- * emptyarray 1 get 0         = success none
- * emptyarray 1 set 1 1 get 1 = success some 1
- * emptyarray 1 get 1         = success none
- * -------------------------------------------
- */
