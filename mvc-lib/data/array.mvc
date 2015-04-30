@@ -44,18 +44,18 @@ class array[a] this:native {
 
     def map f = 
         let update = i r -> self get i fold r { a -> r set i $ f a } in
-            range 0 to (self.length - 1) fold (emptyarray self.length) update
+            range 0 to (self.length --) fold (emptyarray self.length) update
             
     def find p = 
         let filter = a -> p a fold (some a) none in
         let check = i r -> r fold (self get i fold r filter) some in
-            range 0 to (self.length - 1) fold none check
+            range 0 to (self.length --) fold none check
             
     def foldL f r = 
-        range 0 to (self.length - 1) fold r (i r -> self get i fold r $ f r)
+        range 0 to (self.length --) fold r (i r -> self get i fold r $ f r)
 
     def foldR f r = 
-        range (self.length - 1) downto 0 fold r (i r -> self get i fold r $ C f r)
+        range (self.length --) downto 0 fold r (i r -> self get i fold r $ C f r)
 }
 
 def emptyarray : [a] number -> array[a] = n -> array $ internal "array.new" apply n
