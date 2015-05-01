@@ -92,11 +92,19 @@ exports['native'] = {
     test.done();
   },
     
-  'strings toNumber': function(test) {
+  'string toNumber': function(test) {
     test.expect(1);
     // tests here  
     test.deepEqual(M.deltarules["string.toNumber"](M.string("1"))(function(n) { return n;})(M.number(-1)),
                    M.$$(M.number(1)));
+    test.done();
+  },
+        
+  'string wrong toNumber': function(test) {
+    test.expect(1);
+    // tests here  
+    test.deepEqual(M.deltarules["string.toNumber"](M.string("a1"))(function(n) { return n;})(M.string("Fail")),
+                   M.$$(M.string("Fail")));
     test.done();
   },
         
@@ -148,4 +156,71 @@ exports['native'] = {
     test.done();
   },
      
+  'array new': function(test) {
+    test.expect(1);
+    // tests here  
+    test.deepEqual(M.deltarules["array.new"](M.number(1)),
+                   M.$$(new Array(1)));
+    test.done();
+  },
+     
+  'array set': function(test) {
+    test.expect(1);
+    // tests here  
+    test.deepEqual(M.deltarules["array.set"](M.number(new Array(2)))(M.number(1))(M.string("1")),
+                   M.$$([, M.string("1")]));
+    test.done();
+  },
+
+  'array set out of bound': function(test) {
+    test.expect(1);
+    // tests here  
+    test.deepEqual(M.deltarules["array.set"](M.number(new Array(1)))(M.number(1))(M.string("1")),
+                   M.$$(new Array(1)));
+    test.done();
+  },
+
+  'array reset': function(test) {
+    test.expect(1);
+    // tests here  
+    var array = [ M.number(1) ];
+    test.deepEqual(M.deltarules["array.reset"](M.number(array))(M.number(0)),
+                   M.$$(new Array(1)));
+    test.done();
+  },
+
+  'array reset out of bound': function(test) {
+    test.expect(1);
+    // tests here  
+    var array = [ M.number(1) ];
+    test.deepEqual(M.deltarules["array.reset"](M.number(array))(M.number(1)),
+                   M.$$([ M.number(1) ]));
+    test.done();
+  },
+
+  'array get': function(test) {
+    test.expect(1);
+    // tests here  
+    var array = [ M.number(1) ];
+    test.deepEqual(M.deltarules["array.get"](M.number(array))(M.number(0))(function (a) { return a; })(M.string("Fail")),
+                   M.$$(M.number(1)));
+    test.done();
+  },
+
+  'array get out of bound': function(test) {
+    test.expect(1);
+    // tests here  
+    var array = [ M.number(1) ];
+    test.deepEqual(M.deltarules["array.get"](M.number(array))(M.number(1))(function (a) { return a; })(M.string("Fail")),
+                   M.$$(M.string("Fail")));
+    test.done();
+  },
+
+  'array size': function(test) {
+    test.expect(1);
+    // tests here  
+    test.deepEqual(M.deltarules["array.size"](M.number(new Array(10))),
+                   M.$$(M.number(10)));
+    test.done();
+  },
 };
