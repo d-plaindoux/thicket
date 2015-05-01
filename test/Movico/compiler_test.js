@@ -73,15 +73,6 @@ exports['compile'] = {
                  "runtime.define('A',function(mvc$this){return runtime.controller(function(mvc$self){return {'[id]':'A','[this]':mvc$this,'unbox':mvc$this};})})");
       test.done();
   },
-    
-  'Simple view': function (test) {
-      test.expect(1);
-      
-      test.equal(compiler.entity(list(), ast.view("A",[],ast.param("this",ast.type.native("a")),[ast.expr.number(1)])).success(),
-                 "runtime.define('A',function(mvc$this){return runtime.view(function(mvc$self){return {'[id]':'A','[this]':mvc$this,'[render]':[runtime.number(1)]};})})");
-      test.done();
-  },
-    
   'Controller with filtered unbox': function (test) {
       test.expect(1);
       
@@ -91,6 +82,22 @@ exports['compile'] = {
                                                 [],
                                                 [ast.method("unbox", ast.expr.ident("this"), ast.type.variable('number'))])).success(),
                  "runtime.define('A',function(mvc$this){return runtime.controller(function(mvc$self){return {'[id]':'A','[this]':mvc$this,'number.unbox':mvc$this};})})");
+      test.done();
+  },
+    
+  'Simple view': function (test) {
+      test.expect(1);
+      
+      test.equal(compiler.entity(list(), ast.view("A",[],ast.param("this",ast.type.native("a")),[ast.expr.number(1)])).success(),
+                 "runtime.define('A',function(mvc$this){return runtime.view(function(mvc$self){return {'[id]':'A','[this]':mvc$this,'[render]':[runtime.number(1)]};})})");
+      test.done();
+  },    
+    
+  'Simple Definition': function (test) {
+      test.expect(1);
+      
+      test.equal(compiler.entity(list(), ast.expression("A",ast.type.native("number"),ast.expr.number(1))).success(),
+                 "runtime.define('A',runtime.lazy(function(){ return runtime.number(1);}))");
       test.done();
   },
     
