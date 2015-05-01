@@ -24,7 +24,7 @@ var stream = require('../../lib' + (process.env.MOVICO_COV || '') + '/Parser/str
     test.ifError(value)
 */
 
-exports['language_view '] = {
+exports['language_view'] = {
   setUp: function(done) {
     done();
   },
