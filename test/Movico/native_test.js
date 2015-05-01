@@ -207,6 +207,15 @@ exports['native'] = {
     test.done();
   },
 
+  'array get undefined': function(test) {
+    test.expect(1);
+    // tests here  
+    var array = new Array(1);
+    test.deepEqual(M.deltarules["array.get"](M.number(array))(M.number(0))(function (a) { return a; })(M.string("Fail")),
+                   M.$$(M.string("Fail")));
+    test.done();
+  },
+
   'array get out of bound': function(test) {
     test.expect(1);
     // tests here  
