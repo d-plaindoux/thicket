@@ -74,6 +74,14 @@ exports['compile'] = {
       test.done();
   },
     
+  'Simple view': function (test) {
+      test.expect(1);
+      
+      test.equal(compiler.entity(list(), ast.view("A",[],ast.param("this",ast.type.native("a")),[ast.expr.number(1)])).success(),
+                 "runtime.define('A',function(mvc$this){return runtime.view(function(mvc$self){return {'[id]':'A','[this]':mvc$this,'[render]':[runtime.number(1)]};})})");
+      test.done();
+  },
+    
   'Controller with filtered unbox': function (test) {
       test.expect(1);
       
