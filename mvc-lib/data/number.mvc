@@ -24,6 +24,7 @@ class number this:native {
     (-)      : number -> number
     (*)      : number -> number
     (/)      : number -> number
+    (%)      : number -> number
     
     (++)     : number
     (--)     : number    
@@ -47,6 +48,7 @@ class number this:native {
     def (-) n = internal "number.-" apply self n
     def (*) n = internal "number.*" apply self n
     def (/) n = internal "number./" apply self n
+    def (%) n = internal "number.%" apply self n
     
     def (++) = self + 1
     def (--) = self - 1    
@@ -58,6 +60,6 @@ class number this:native {
     def hash = self
     def toString = internal "number.toString" apply self
     
-    def hashable = Hashable self self.hash
+    def hashable = Hashable self self.hash self.comparable
     def comparable = Comparable self self.(==) self.(!=) self.(>>) self.(<<) self.hashable
 }

@@ -39,7 +39,7 @@ class string this:native {
     def toNumber = internal "string.toNumber" apply self some none
     def hash = internal "string.hash" apply self
     
-    def hashable = Hashable self self.hash
+    def hashable = Hashable self self.hash self.comparable
     def comparable = Comparable self self.(==) self.(!=) self.(>>) self.(<<) self.hashable
 }
 

@@ -8,6 +8,7 @@
  
 module Data.Types
  
+from Data.Option import option
 from Data.Boolean import bool
 
 // -------------------------
@@ -38,6 +39,7 @@ model Comparable[k] {
 model Hashable[k] { 
     unbox : k
     hash : number
+    comparable : Comparable[k]
 }
 
 // -------------------------

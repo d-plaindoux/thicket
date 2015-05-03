@@ -14,9 +14,11 @@ from Data.Number import number
 from Data.Option import option
 from Data.Pair import Pair
 from Data.Types import comparable hashables
+from Data.Array import array
+from Logic.Combinators import I
 
-typedef MapEntry[k v] = number,(k,v)
-typedef Hashmap[k v] = List[MapEntry[k v]] 
+typedef MapEntries[k v] = list[(k,v)]
+typedef Hashmap[k v] = array[MapEntries[k v]] 
 
 class hashmap[k v] this:Hashmap[k v] {
   unbox  : Hashmap[k v]
@@ -31,23 +33,16 @@ class hashmap[k v] this:Hashmap[k v] {
 } {
   def unbox = this
 
-  def find k = list this find (e -> k == e._2._1) map (e -> e._2._2)
-  
-  def Nil.add k v =
-      let entry = (k hash),((k unbox),v) in
-          self $ Cons entry Nil
-
-  def Cons.add k v = 
-      let entry = (k hash),((k unbox),v) in
-      let equal = k hash == this.head._1 fold (Cons entry this.tail) in
-      let minimum = k hash << this.head._1 fold (Cons entry this) in
-      let maximum = Cons this.head $ self this.tail add k v unbox in
-          self $ equal (minimum maximum)          
-
-  def keys   = list this map (e -> e._2._1)
-  def values = list this map (e -> e._2._2)
-
-  def mapper = Map self.find (k v -> (self.add k v) mapper)
+  def find c = 
+      let index = c hashable hash % this.length in
+      let entries = this get index fold new$list I in
+          entries find (e -> c == e._1) map (e -> e._2)
+      
+  def add c v = 
+      let index = c hash % this.length in
+      let cleanup = l -> l filter (e -> c comparable != e._1) in
+      let entries = this get index fold new$list cleanup in
+          self $ this set index $ entries +: ((c unbox),v)
 }
 
-def new$map = hashmap Nil
+def new$map = hashmap $ new$array 256
