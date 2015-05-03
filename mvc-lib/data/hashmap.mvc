@@ -22,12 +22,17 @@ typedef Hashmap[k v] = array[list[(k,v)]]
 class hashmap[k v] this:Hashmap[k v] {
   unbox  : Hashmap[k v]
  
+  empty  : bool
+ 
   find   : Comparable[k] -> option[v]
-  add    : Hashable[k] -> v -> hashmap[k v]
+  add    : Comparable[k] -> v -> hashmap[k v]
 
   mapper : Map[k v]
 } {
   def unbox = this
+
+  def empty = 
+      this foldR (e _ -> e empty) true
 
   def find c = 
       let index = c hashable hash % this.length in
@@ -35,8 +40,8 @@ class hashmap[k v] this:Hashmap[k v] {
           this get index flatmap retrieve
       
   def add c v = 
-      let index = c hash % this.length in
-      let cleanup = l -> [e for e in l if c comparable != e._1] in
+      let index = c hashable hash % this.length in
+      let cleanup = l -> l filter (e -> c != e._1) in
       let entries = this get index fold new$list cleanup in
           self $ this set index $ entries +: ((c unbox),v)          
           

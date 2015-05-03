@@ -39,7 +39,6 @@ model Comparable[k] {
 model Hashable[k] { 
     unbox : k
     hash : number
-    comparable : Comparable[k]
 }
 
 // -------------------------
@@ -49,7 +48,7 @@ model Hashable[k] {
 
 model Map[k e] {
     find : Comparable[k] -> option[e]
-    add  : Hashable[k] -> e -> Map[k e]
+    add  : Comparable[k] -> e -> Map[k e]
 }
 
 // -------------------------

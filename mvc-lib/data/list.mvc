@@ -26,7 +26,7 @@ class list[a] this:List[a] {
     unbox   : List[a]
     fold    : [b] b -> (a -> list[a] -> b) -> b
 
-    isEmpty : bool
+    empty   : bool
     length  : number
 
     reverse : list[a]
@@ -53,7 +53,7 @@ class list[a] this:List[a] {
     def Nil.fold n c = n
     def Cons.fold n c = c this.head (self this.tail)
 
-    def isEmpty = self fold true (_ _ -> false)
+    def empty = self fold true (_ _ -> false)
 
     def length = self foldR (_ r -> r ++) 0
 

@@ -9,5 +9,6 @@
 module Unit.Test
 
 class test this:string {
+    
 }{    
 }
