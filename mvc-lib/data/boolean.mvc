@@ -23,7 +23,7 @@ type Bool {
  */
 
 class bool this:Bool {
-    unfold   : Bool
+    unbox    : Bool
     fold     : [a] a -> a -> a
     and      : bool -> bool
     or       : bool -> bool
@@ -34,7 +34,7 @@ class bool this:Bool {
     (=>)     : bool -> bool
     toString : string
 } {
-    def unfold = this
+    def unbox = this
 
     def True.fold  t _ = t
     def False.fold _ f = f

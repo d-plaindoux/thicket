@@ -30,6 +30,7 @@ class list[a] this:List[a] {
     length  : number
 
     reverse : list[a]
+    
     (++)    : list[a] -> list[a]
     (+:)    : a -> list[a]
     (:+)    : a -> list[a]
@@ -52,32 +53,20 @@ class list[a] this:List[a] {
     def Nil.fold n c = n
     def Cons.fold n c = c this.head (self this.tail)
 
-    def Nil.isEmpty = bool True
-    def Cons.isEmpty = bool False
+    def isEmpty = self fold true (_ _ -> false)
 
-    def length = self foldR (_ r -> 1 + r) 0
+    def length = self foldR (_ r -> r ++) 0
 
     def reverse = self $ self foldL (b a -> Cons a b) Nil
 
+    def (++) l = self foldR (e r -> self $ Cons e r.unbox) l
     def (+:) a = self $ Cons a this
+    def (:+) a = self ++ $ new$list +: a
 
-    def Nil.(++) l = l
-    def Cons.(++) l = self $ Cons this.head $ self this.tail ++ l unbox
+    def map f = self foldR (e r -> list $ Cons (f e) r.unbox) $ new$list
+    def flatmap f = self foldR (e r -> (f e) ++ r) $ list Nil
 
-    def Nil.(:+) = self +:
-    def Cons.(:+) a = self $ Cons this.head $ self this.tail :+ a unbox
-
-    def Nil.map _ = list Nil
-    def Cons.map f = list $ Cons (f this.head) $ self this.tail map f unbox
-
-    def Nil.flatmap _ = list Nil
-    def Cons.flatmap f = (f this.head) ++ (self this.tail flatmap f)
-
-    def Nil.filter _ = self
-    def Cons.filter p =
-        let tail = self this.tail filter p in
-            (p this.head) fold (self $ Cons this.head $ tail.unbox) tail
-            
+    def filter p = self foldR (e r -> (p e) fold (self $ Cons e r.unbox) r) $ new$list 
     def find p = self filter p fold none (a _ -> some a)
 
     def Nil.foldL _ b = b
@@ -110,5 +99,4 @@ class ziplist[a b] this:List[(a,b)] {
             (list $ Cons this.head._1 tail._1.unbox),(list $ Cons this.head._2 tail._2.unbox)        
 }
 
-def nil : list = 
-    list Nil
+def new$list : list = list Nil

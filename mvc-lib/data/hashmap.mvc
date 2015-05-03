@@ -6,7 +6,7 @@
  * Licensed under the LGPL2 license.
  */
  
-module Data.HashMap
+module Data.Hashmap
  
 from Data.Boolean import bool
 from Data.List import list
@@ -16,14 +16,17 @@ from Data.Pair import Pair
 from Data.Types import comparable hashables
 
 typedef MapEntry[k v] = number,(k,v)
-typedef HashMap[k v] = List[MapEntry[k v]] 
+typedef Hashmap[k v] = List[MapEntry[k v]] 
 
-class hashmap[k v] this:HashMap[k v] {
-  unbox  : HashMap[k v]
+class hashmap[k v] this:Hashmap[k v] {
+  unbox  : Hashmap[k v]
+ 
   find   : Comparable[k] -> option[v]
   add    : Hashable[k] -> v -> hashmap[k v]
+
   keys   : list[k]
   values : list[v]
+
   mapper : Map[k v]
 } {
   def unbox = this
@@ -36,18 +39,15 @@ class hashmap[k v] this:HashMap[k v] {
 
   def Cons.add k v = 
       let entry = (k hash),((k unbox),v) in
-      let equal = e -> k hash == this.head._1 fold (Cons entry this.tail) e in
-      let minimum = e -> k hash << this.head._1 fold (Cons entry this) e in
+      let equal = k hash == this.head._1 fold (Cons entry this.tail) in
+      let minimum = k hash << this.head._1 fold (Cons entry this) in
       let maximum = Cons this.head $ self this.tail add k v unbox in
           self $ equal (minimum maximum)          
 
-  def Nil.keys = list Nil
-  def Cons.keys = list $ Cons this.head._2._1 $ self this.tail keys unbox
+  def keys   = list this map (e -> e._2._1)
+  def values = list this map (e -> e._2._2)
 
-  def Nil.values = list Nil
-  def Cons.values = list $ Cons this.head._2._2 $ self this.tail values unbox
-  
-  def mapper = Map self.find $ k v -> (self.add k v) mapper
+  def mapper = Map self.find (k v -> (self.add k v) mapper)
 }
 
-def emptyHashMap : hashmap = hashmap Nil
+def new$map = hashmap Nil

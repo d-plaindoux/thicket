@@ -44,7 +44,7 @@ class array[a] this:native {
 
     def map f = 
         let update = i r -> self get i fold r { a -> r set i $ f a } in
-            range 0 to (self.length --) fold (emptyarray self.length) update
+            range 0 to (self.length --) fold (new$array self.length) update
             
     def find p = 
         let filter = a -> p a fold (some a) none in
@@ -58,4 +58,4 @@ class array[a] this:native {
         range (self.length --) downto 0 fold r (i r -> self get i fold r $ C f r)
 }
 
-def emptyarray : [a] number -> array[a] = n -> array $ internal "array.new" apply n
+def new$array : [a] number -> array[a] = n -> array $ internal "array.new" apply n
