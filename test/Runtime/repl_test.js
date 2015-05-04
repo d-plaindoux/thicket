@@ -36,7 +36,7 @@ exports['repl'] = {
     test.expect(1);
     // tests here  
     var expression = movicoc.sentence([], "123"),
-        code = codegen.sentence([], expression.get().success().expr).success();
+        code = codegen.executable(codegen.sentence([], expression.get().success().expr).success());
         
     test.deepEqual(M.$$(eval(code)(M)), M.$$(M.number(123)));
     test.done();
@@ -46,7 +46,7 @@ exports['repl'] = {
     test.expect(1);
     // tests here  
     var expression = movicoc.sentence([], "'123'"),
-        code = codegen.sentence([], expression.get().success().expr).success();
+        code = codegen.executable(codegen.sentence([], expression.get().success().expr).success());
         
     test.deepEqual(M.$$(eval(code)(M)), M.$$(M.string("123")));
     test.done();
@@ -56,7 +56,7 @@ exports['repl'] = {
     test.expect(1);
     // tests here  
     var expression = movicoc.sentence([], "()"),
-        code = codegen.sentence([], expression.get().success().expr).success();
+        code = codegen.executable(codegen.sentence([], expression.get().success().expr).success());
         
     test.deepEqual(M.$$(eval(code)(M)), M.$$(M.unit));
     test.done();
@@ -66,7 +66,7 @@ exports['repl'] = {
     test.expect(1);
     // tests here  
     var expression = movicoc.sentence([], "(f -> f) 1"),
-        code = codegen.sentence([], expression.get().success().expr).success();
+        code = codegen.executable(codegen.sentence([], expression.get().success().expr).success());
         
     test.deepEqual(M.$$(eval(code)(M)), M.$$(M.number(1)));
     test.done();
@@ -76,7 +76,7 @@ exports['repl'] = {
     test.expect(1);
     // tests here  
     var expression = movicoc.sentence([], "(x y -> x) 1 2"),
-        code = codegen.sentence([], expression.get().success().expr).success();
+        code = codegen.executable(codegen.sentence([], expression.get().success().expr).success());
         
     test.deepEqual(M.$$(eval(code)(M)), M.$$(M.number(1)));
     test.done();
@@ -86,7 +86,7 @@ exports['repl'] = {
     test.expect(1);
     // tests here  
     var expression = movicoc.sentence([], "(x y -> y) 1 2"),
-        code = codegen.sentence([], expression.get().success().expr).success();
+        code = codegen.executable(codegen.sentence([], expression.get().success().expr).success());
         
     test.deepEqual(M.$$(eval(code)(M)), M.$$(M.number(2)));
     test.done();
@@ -101,11 +101,11 @@ exports['repl'] = {
         }),"(E 1) _");
           
     entities.success().map(function(entity) {
-        eval(entity.code);
+        eval(entity.code(M));
     });
       
     test.deepEqual(M.$$(eval(expression.success().code)), M.$$(M.number(1)));      
     test.done();
-  },
-*/    
+  }, 
+*/
 };

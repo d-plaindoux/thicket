@@ -43,4 +43,10 @@ class string this:native {
     def comparable = Comparable self self.(==) self.(!=) self.(>>) self.(<<) self.hashable
 }
 
+/*
+implicit number -> string = number::toString
+implicit string -> Hashable[string] = string::hashable
+implicit string -> Comparable[string] = string::comparable
+*/
+
 def eol : string = "\n"

@@ -1,1 +1,1 @@
-[  ]
+[{"namespace":["Data","Core"],"imports":["native"]}]

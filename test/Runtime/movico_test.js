@@ -29,10 +29,6 @@ var stream = require('../../lib' + (process.env.MOVICO_COV || '') + '/Parser/str
     test.ifError(value)
 */
 
-function runtimeFun(code) {
-    return "(function(){return function(runtime){"+code+"};}())";
-}
-
 exports['runtime'] = {
   setUp: function(done) {
     done();
@@ -45,7 +41,7 @@ exports['runtime'] = {
         expression = language.parser.group('exprs').parse(aStream).get(),
         source = compiler.sentence(list(),expression).success();
         
-    test.deepEqual(runtime.$$(eval(source)(runtime)), runtime.$$(runtime.number(123)));
+    test.deepEqual(runtime.$$(eval(compiler.executable(source))(runtime)), runtime.$$(runtime.number(123)));
     test.done();
   },
     
@@ -56,7 +52,7 @@ exports['runtime'] = {
         expression = language.parser.group('exprs').parse(aStream).get(),
         source = compiler.sentence(list(),expression).success();
         
-    test.deepEqual(runtime.$$(eval(source)(runtime)), runtime.$$(runtime.string('123')));
+    test.deepEqual(runtime.$$(eval(compiler.executable(source))(runtime)), runtime.$$(runtime.string('123')));
     test.done();
   },
     
@@ -67,7 +63,7 @@ exports['runtime'] = {
         expression = language.parser.group('exprs').parse(aStream).get(),
         source = compiler.sentence(list(),expression).success();
         
-    test.deepEqual(runtime.$$(eval(source)(runtime)), runtime.$$(runtime.unit));
+    test.deepEqual(runtime.$$(eval(compiler.executable(source))(runtime)), runtime.$$(runtime.unit));
     test.done();
   },
     
@@ -78,7 +74,7 @@ exports['runtime'] = {
         expression = language.parser.group('exprs').parse(aStream).get(),
         source = compiler.sentence(list(),expression).success();
         
-    test.deepEqual(runtime.$$(eval(source)(runtime)), runtime.$$(runtime.number(1)));
+    test.deepEqual(runtime.$$(eval(compiler.executable(source))(runtime)), runtime.$$(runtime.number(1)));
     test.done();
   },
     
@@ -89,7 +85,7 @@ exports['runtime'] = {
         expression = language.parser.group('exprs').parse(aStream).get(),
         source = compiler.sentence(list(),expression).success();
         
-    test.deepEqual(runtime.$$(eval(source)(runtime)), runtime.$$(runtime.number(1)));
+    test.deepEqual(runtime.$$(eval(compiler.executable(source))(runtime)), runtime.$$(runtime.number(1)));
     test.done();
   },
     
@@ -100,7 +96,7 @@ exports['runtime'] = {
         expression = language.parser.group('exprs').parse(aStream).get(),
         source = compiler.sentence(list(),expression).success();
         
-    test.deepEqual(runtime.$$(eval(source)(runtime)), runtime.$$(runtime.number(2)));
+    test.deepEqual(runtime.$$(eval(compiler.executable(source))(runtime)), runtime.$$(runtime.number(2)));
     test.done();
   },
     
@@ -111,9 +107,9 @@ exports['runtime'] = {
         expression = language.parser.group('exprs').parse(stream("(E 1) _")).get(),
         source = compiler.sentence(list(),expression).success();
           
-    runtime.$$(eval(runtimeFun(modelSource))(runtime)); 
+    runtime.$$(eval(compiler.executable(modelSource))(runtime)); 
       
-    test.deepEqual(runtime.$$(eval(source)(runtime)), runtime.$$(runtime.number(1)));
+    test.deepEqual(runtime.$$(eval(compiler.executable(source))(runtime)), runtime.$$(runtime.number(1)));
     test.done();
   },
     
@@ -124,9 +120,9 @@ exports['runtime'] = {
         expression = language.parser.group('exprs').parse(stream("(E 1) _")).get(),
         source = compiler.sentence(list(),expression).success();
         
-    eval(runtimeFun(modelSource))(runtime); 
+    eval(compiler.executable(modelSource))(runtime); 
       
-    test.deepEqual(runtime.$$(eval(source)(runtime)), runtime.$$(runtime.number(1)));
+    test.deepEqual(runtime.$$(eval(compiler.executable(source))(runtime)), runtime.$$(runtime.number(1)));
     test.done();
   },
     
@@ -137,9 +133,9 @@ exports['runtime'] = {
         expression = language.parser.group('exprs').parse(stream("(E (e -> e)) _ 1")).get(),
         source = compiler.sentence(list(),expression).success();
 
-    eval(runtimeFun(modelSource))(runtime); 
+    eval(compiler.executable(modelSource))(runtime); 
       
-    test.deepEqual(runtime.$$(eval(source)(runtime)), runtime.$$(runtime.number(1)));
+    test.deepEqual(runtime.$$(eval(compiler.executable(source))(runtime)), runtime.$$(runtime.number(1)));
     test.done();
   },
     
@@ -150,9 +146,9 @@ exports['runtime'] = {
         expression = language.parser.group('exprs').parse(stream("E 1 unbox")).get(),
         source = compiler.sentence(list(),expression).success();
 
-    eval(runtimeFun(modelSource))(runtime); 
+    eval(compiler.executable(modelSource))(runtime); 
       
-    test.deepEqual(runtime.$$(eval(source)(runtime)), runtime.$$(runtime.number(1)));
+    test.deepEqual(runtime.$$(eval(compiler.executable(source))(runtime)), runtime.$$(runtime.number(1)));
     test.done();
   },
     
@@ -163,9 +159,9 @@ exports['runtime'] = {
         expression = language.parser.group('exprs').parse(stream("E 1 new 2 unbox")).get(),
         source = compiler.sentence(list(),expression).success();
 
-    eval(runtimeFun(modelSource))(runtime); 
+    eval(compiler.executable(modelSource))(runtime); 
       
-    test.deepEqual(runtime.$$(eval(source)(runtime)), runtime.$$(runtime.number(2)));
+    test.deepEqual(runtime.$$(eval(compiler.executable(source))(runtime)), runtime.$$(runtime.number(2)));
     test.done();
   },
     
@@ -176,9 +172,9 @@ exports['runtime'] = {
         expression = language.parser.group('exprs').parse(stream("E 1 unbox")).get(),
         source = compiler.sentence(list(),expression).success();
 
-    eval(runtimeFun(modelSource))(runtime); 
+    eval(compiler.executable(modelSource))(runtime); 
       
-    test.deepEqual(runtime.$$(eval(source)(runtime)), runtime.$$(runtime.number(1)));
+    test.deepEqual(runtime.$$(eval(compiler.executable(source))(runtime)), runtime.$$(runtime.number(1)));
     test.done();
   },
     
@@ -189,9 +185,9 @@ exports['runtime'] = {
         expression = language.parser.group('exprs').parse(stream("E 1 unbox")).get(),
         source = compiler.sentence(list(),expression).success();
 
-    eval(runtimeFun(modelSource))(runtime); 
+    eval(compiler.executable(modelSource))(runtime); 
       
-    test.throws(function(){ runtime.$$(eval(source)(runtime)); });
+    test.throws(function(){ runtime.$$(eval(compiler.executable(source))(runtime)); });
     test.done();
   },
 };

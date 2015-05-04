@@ -22,7 +22,7 @@ module.exports = function(grunt) {
       },
     },
     exec: {
-        browserify: './node_modules/browserify/bin/cmd.js -r ./lib/movico.js:movico -o ./build/movico-lang.js'
+        browserify: './node_modules/browserify/bin/cmd.js -r ./lib/Frontend/wrt.js:movico -o ./build/movico-lang.js'
     }
   });
 
