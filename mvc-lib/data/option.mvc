@@ -32,7 +32,9 @@ class option[a] this:Option[a] {
     def Some.fold _ s = s this._
 
     def None.map f = option None
-    def Some.map f = option $ Some $ f this._
+    def Some.map f = 
+        let r = f this._ in
+            option $ Some r
 
     def None.flatmap f = option None
     def Some.flatmap f = f this._

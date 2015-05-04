@@ -27,7 +27,9 @@ class try[a] this:Try[a] {
     def Success.fold s _ = s this._
 
     def Failure.map f = failure this._
-    def Success.map f = success $ f this._
+    def Success.map f = 
+        let r = f this._ in
+            success $ f this._
 
     def Failure.flatmap f = failure this._
     def Success.flatmap f = f this._

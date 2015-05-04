@@ -17,17 +17,18 @@ class document this:unit {
     elementById : string -> option[dom]
     (@) : string -> option[dom]
 } {
-    def elementById n = internal "document.elementById" apply self n (e -> Some $ dom e) None
+    def elementById n = internal "document.elementById" apply n (e -> some $ dom e) none
     def (@) = self elementById
 }
 
 class dom this:native {
-    appendChild : dom -> dom
-    (<<) : dom -> dom
+    addAttribute : string -> dom -> dom
+    addChild : dom -> dom
 } {
-    def appendChild d = self $ internal "dom.appendChild" apply self d
-    def (<<) = self appendChild
+    def addAttribute n d = internal "dom.setAttribute" apply self n d
+    def addChild d = internal "dom.appendChild" apply self d
 }
 
+def new$element : string -> dom = s -> dom $ internal "dom.newElement" apply s 
 def element : string -> option[dom] = n -> document () @ n
 def toDom : string -> dom = s -> dom $ internal "string.toDom" apply s

@@ -63,7 +63,7 @@ class list[a] this:List[a] {
     def (+:) a = self $ Cons a this
     def (:+) a = self ++ $ new$list +: a
 
-    def map f = self foldR (e r -> list $ Cons (f e) r.unbox) $ new$list
+    def map f = self foldR (e r -> let ne = f e in list $ Cons ne r.unbox) $ new$list
     def flatmap f = self foldR (e r -> (f e) ++ r) $ list Nil
 
     def filter p = self foldR (e r -> (p e) fold (self $ Cons e r.unbox) r) $ new$list 
@@ -73,7 +73,7 @@ class list[a] this:List[a] {
     def Cons.foldL f b = f (self this.tail foldL f b) this.head
 
     def Nil.foldR _ b = b
-    def Cons.foldR f b = self this.tail foldR f $ f this.head b
+    def Cons.foldR f b = let r = f this.head b in self this.tail foldR f r
 
     def Nil.zip l = ziplist Nil
     def Cons.zip l =

@@ -185,7 +185,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.equal(compiler.expression(list(), list('a'), ast.expr.let("b",ast.expr.ident("a"),ast.expr.ident("b"))).success(),
-                 "runtime.apply(function(mvc$b){return mvc$b;},runtime.lazy(function(){return mvc$a;}))");
+                 "runtime.apply(function(mvc$b){return mvc$b;},mvc$a)");
       test.done();
   },
     

@@ -2,19 +2,20 @@
 <head>
   <script src="/build/movico-lang.js"></script>
   <script type="text/movico">
-    from Client.Document import element
+    from Client.Document import element toDom
     from Data.List import list
      
     model Todo { _ : string }
     
     view todo this:Todo { 
-        <li><i> {this._ toDom} </i></li>
+        <li><i> {toDom this._} </i></li>
     }
   </script>
 
   <script type="text/movico">
+    let node = element "todos" in
     let todos = list Nil :+ "todo #1" :+ "todo #2" :+ "todo #3" in
-        todos foldR (t h -> h << $ todo $ Todo s) $ element "todos"
+        node map (n -> todos foldR (s h -> h << $ todo $ Todo s) n)
   </script>
 </head>    
 <body onload="require('movico')('/site').boot()">

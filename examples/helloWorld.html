@@ -2,17 +2,11 @@
 <head>
   <script src="/build/movico-lang.js"></script>
   <script type="text/movico">
-    from Data.String import string
-    
-    def HelloWorld = "Hello World!"
-  </script>
-
-  <script type="text/movico">
-    HelloWorld
+    element "todos" map (n -> n addChild (toDom "Hello World!"))
   </script>
 </head>    
 
 <body onload="require('movico')('/site').boot()">
-  Open your console!  
+  Say hello? <i id="todos"></i>
 </body>
 </html>
