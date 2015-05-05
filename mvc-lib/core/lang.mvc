@@ -31,3 +31,17 @@ class whenElse[a] this:(a -> a) {
 } {
     def else a = this a
 }
+
+/* 
+ * Language syntactic extension
+ * 
+ *     do A1 ; A2 ; A3 return A4
+ */
+
+class do[a] this:a {
+    (;) : [b] b -> do[b]
+    return : [c] c -> c
+} {
+    def (;) b = let t = this in do b
+    def return c = let t = this in c
+}
