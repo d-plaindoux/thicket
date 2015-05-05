@@ -1,6 +1,6 @@
 <html>
 <head>
-  <script src="/build/movico-lang.js"></script>
+  <script src="../../build/movico-lang.js"></script>
   <script type="text/movico">
     from Client.Document import element toDom
     from Data.List import list
@@ -15,10 +15,10 @@
   <script type="text/movico">
     let node = element "todos" in
     let todos = list Nil :+ "todo #1" :+ "todo #2" :+ "todo #3" in
-        node map (n -> todos foldR (s h -> h << $ todo $ Todo s) n)
+        node.map (n -> todos.foldR (s h -> h addChild $ todo $ Todo s) n)
   </script>
 </head>    
-<body onload="require('movico')('/site').boot()">
+<body onload="require('movico')('../..//site').boot()">
 	<b>Things to be done:</b>
 	<ul id="todos"></ul>
 </body>

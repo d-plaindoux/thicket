@@ -1,12 +1,17 @@
 <html>
 <head>
-  <script src="/build/movico-lang.js"></script>
+  <script src="../build/movico-lang.js"></script>
   <script type="text/movico">
-    element "todos" map (n -> n addChild (toDom "Hello World!"))
+    from Client.Document import element
+  </script>
+    
+  <script type="text/movico">
+    let node = element "todos" in
+        node map (n -> n addChild (<b> {toDom "Hello World!"} </b>))
   </script>
 </head>    
 
-<body onload="require('movico')('/site').boot()">
+<body onload="require('movico')('../site').boot()">
   Say hello? <i id="todos"></i>
 </body>
 </html>

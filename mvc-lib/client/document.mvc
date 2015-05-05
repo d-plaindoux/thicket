@@ -29,6 +29,5 @@ class dom this:native {
     def addChild d = internal "dom.appendChild" apply self d
 }
 
-def new$element : string -> dom = s -> dom $ internal "dom.newElement" apply s 
 def element : string -> option[dom] = n -> document () @ n
 def toDom : string -> dom = s -> dom $ internal "string.toDom" apply s
