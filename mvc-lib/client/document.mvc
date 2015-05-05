@@ -13,14 +13,6 @@ from Data.Internal import internal
 from Data.String import string
 from Data.Option import option Some None
  
-class document this:unit {
-    elementById : string -> option[dom]
-    (@) : string -> option[dom]
-} {
-    def elementById n = internal "document.elementById" apply n (e -> some $ dom e) none
-    def (@) = self elementById
-}
-
 class dom this:native {
     addAttribute : string -> dom -> dom
     addChild : dom -> dom
@@ -29,5 +21,13 @@ class dom this:native {
     def addChild d = internal "dom.appendChild" apply self d
 }
 
-def element : string -> option[dom] = n -> document () @ n
-def toDom : string -> dom = s -> dom $ internal "string.toDom" apply s
+class document this:string {
+    new  : dom
+    find : option[dom]
+} {
+    def new  = dom $ internal "dom.createElement" apply this
+    def find = internal "dom.elementById" apply this (e -> some $ dom e) none
+}
+   
+def toDom : string -> dom = 
+    s -> dom $ internal "string.toDom" apply s
