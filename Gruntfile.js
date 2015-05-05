@@ -22,7 +22,8 @@ module.exports = function(grunt) {
       },
     },
     exec: {
-        browserify: './node_modules/browserify/bin/cmd.js -r ./lib/Frontend/wrt.js:movico -o ./build/movico-lang.js'
+        movico_lg: './node_modules/browserify/bin/cmd.js -r ./lib/Frontend/wrt.js:movico -o ./build/movico-lang.js',
+        movico_rt: './node_modules/browserify/bin/cmd.js -r ./lib/Runtime/runtime.js:runtime -o ./build/movico-rt.js'
     },
     uglify: {
         options: {
@@ -43,7 +44,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');  
     
   // Tasks
-  grunt.registerTask('package', ['jshint', 'exec:browserify' ]);
+  grunt.registerTask('package', ['jshint', 'exec:movico_lg', 'exec:movico_rt']);
   grunt.registerTask('default', ['jshint', 'nodeunit']);
 };
 
