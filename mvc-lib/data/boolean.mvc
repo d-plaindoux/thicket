@@ -61,10 +61,10 @@ class bool this:Bool {
     def comparable = 
         Comparable 
                 self 
-                (b -> self fold b (b not)) 
-                (b -> self fold (b not) b)
-                (b -> self fold b (b not)) 
-                (b -> self fold (b not) b)
+                (b -> self fold b b.not) 
+                (b -> self fold b.not b)
+                (b -> self fold b.not b)
+                (b -> self fold b b.not)
                 self.hashable
 }
 
