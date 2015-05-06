@@ -18,7 +18,7 @@
 
     def manageNode = id -> 
         let trigger = n:dom -> 
-            mouseTrigger$new 
+            new$mouseTrigger 
                 onmouseclick { e -> 
                     do 
                     { n removeChilds };

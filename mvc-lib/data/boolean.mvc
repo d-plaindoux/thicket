@@ -8,6 +8,8 @@
 
 module Data.Boolean
 
+from Data.Types import Comparable Hashable
+
 /**
  * Boolean definition as an injective type domain
  * defining two models True and False
@@ -33,6 +35,9 @@ class bool this:Bool {
     (||)     : bool -> bool
     (=>)     : bool -> bool
     toString : string
+    
+    hashable   : Hashable[bool]
+    comparable : Comparable[bool]
 } {
     def unbox = this
 
@@ -47,6 +52,20 @@ class bool this:Bool {
     def (&&) = self and
     def (||) = self or
     def (=>) = self imply
+    
+    def hashable = 
+        Hashable
+                self 
+                (self fold 7 13)
+                
+    def comparable = 
+        Comparable 
+                self 
+                (b -> self fold b (b not)) 
+                (b -> self fold (b not) b)
+                (b -> self fold b (b not)) 
+                (b -> self fold (b not) b)
+                self.hashable
 }
 
 def true  : bool = bool True

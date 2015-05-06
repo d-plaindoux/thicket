@@ -40,5 +40,5 @@ class mouseTrigger this:MouseTrigger {
     def onmouseclick f = self $ MouseTrigger this.onmouseover this.onmouseout this.onmousedown this.onmouseup (some f)
 }
 
-def mouseTrigger$new : mouseTrigger = 
+def new$mouseTrigger : mouseTrigger = 
     mouseTrigger $ MouseTrigger none none none none none

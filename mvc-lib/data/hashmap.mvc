@@ -9,7 +9,7 @@
 module Data.Hashmap
  
 from Data.Boolean import bool
-from Data.List import list
+from Data.List import list new$list
 from Data.Number import number
 from Data.Option import option
 from Data.Pair import Pair

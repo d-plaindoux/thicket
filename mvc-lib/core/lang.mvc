@@ -40,8 +40,10 @@ class whenElse[a] this:(a -> a) {
 
 class do[a] this:a {
     (;) : [b] b -> do[b]
+    and : [b] b -> do[b]
     return : [c] c -> c
 } {
-    def (;) b = let t = this in do b
+    def (;) = self and
+    def and = let t = this in do
     def return c = let t = this in c
 }

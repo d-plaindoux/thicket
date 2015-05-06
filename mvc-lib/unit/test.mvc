@@ -8,7 +8,15 @@
  
 module Unit.Test
 
-class test this:string {
-    
+from Data.Boolean import bool
+from Data.Types import Comparable Hashable
+
+model TestUnit {
+    action : test -> bool 
+}
+
+class test this:string { 
+    assertEqual : [a] Comparable[a] -> Comparable[a] -> bool
 }{    
+    def assertEqual c1 c2 = c1 == c2.unbox
 }
