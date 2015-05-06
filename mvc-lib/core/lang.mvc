@@ -20,8 +20,8 @@ from Data.Boolean import bool
  *       it cannot be used here!
  */
 
-class when this:bool {
-    then : [a] a -> whenElse[a]
+class when[a] this:bool {
+    then : a -> whenElse[a]
 } {
     def then a = whenElse $ this fold a
 }

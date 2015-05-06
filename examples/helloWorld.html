@@ -9,15 +9,15 @@
         <b> <u> {toDom this } </u> </b>
     }        
 
-    def addToNode : [a] string -> unit = name ->
-        let node = document name find in
+    def addToNode =
+        name what -> 
             do
-            { node map (n -> n addChild (hw  "Hello World!")) }
+            { document name find map (n -> n addChild (hw what)) }
             return ()            
   </script>
     
   <script type="text/movico">
-    addToNode "todos"
+    addToNode "todos" "Hello World!"
   </script>
 </head>    
 
