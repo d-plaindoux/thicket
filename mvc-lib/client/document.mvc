@@ -8,17 +8,43 @@
  
 module Client.Document
 
+from Client.Document import MouseTrigger
 from Data.Native import native
 from Data.Internal import internal
 from Data.String import string
 from Data.Option import option Some None
  
 class dom this:native {
-    addAttribute : string -> dom -> dom
+    addAttribute : string -> string -> dom
+    addFunction : [a] string -> (dom -> a) -> dom
+    
+    addMouseTrigger : MouseTrigger -> dom
+
     addChild : dom -> dom
+    removeChilds : dom
+    
+    clone : dom
+    replace : dom -> dom
+    remove : dom
 } {
     def addAttribute n d = internal "dom.setAttribute" apply self n d
-    def addChild d = internal "dom.appendChild" apply self d
+    def addFunction n d = internal "dom.setFunction" apply self n d
+    
+    def addMouseTrigger m =
+        do
+        { m onmouseover  map $ self addFunction "onmouseover" } ;
+        { m onmouseout   map $ self addFunction "onmouseout"  } ;
+        { m onmousedown  map $ self addFunction "onmousedown" } ;
+        { m onmouseup    map $ self addFunction "onmouseup"   } ;
+        { m onmouseclick map $ self addFunction "onclick"     } 
+        return self
+
+    def addChild d = internal "dom.appendChild" apply self d    
+    def removeChilds = internal "dom.removeChilds" apply self
+    
+    def clone = internal "dom.clone" apply self dom
+    def replace d = internal "dom.replace" apply self d dom
+    def remove = internal "dom.remove" apply self
 }
 
 class document this:string {
