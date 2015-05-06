@@ -22,9 +22,10 @@ module.exports = function(grunt) {
       },
     },
     exec: {
-        movico_prepare: 'mkdir build site; true',
+        movico_prepare: 'mkdir build; true',
         movico_lg: './node_modules/browserify/bin/cmd.js -r ./lib/Frontend/wrt.js:movico -o ./build/movico-lang.js',
         movico_rt: './node_modules/browserify/bin/cmd.js -r ./lib/Runtime/runtime.js:runtime -o ./build/movico-rt.js',
+        movico_site_prepare: 'mkdir build; true',
         movico_site: './bin/movicoc -i site/ -o site/ mvc-lib/*.mvc mvc-lib/*/*.mvc'
     },
     uglify: {
@@ -46,7 +47,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');  
     
   // Tasks
-  grunt.registerTask('package', ['jshint', 'exec:movico_prepare', 'exec:movico_lg', 'exec:movico_rt', 'exec:movico_site']);
+  grunt.registerTask('site',    ['exec:movico_site_prepare', 'exec:movico_site']);
+  grunt.registerTask('package', ['jshint', 'exec:movico_prepare', 'exec:movico_lg', 'exec:movico_rt']);
   grunt.registerTask('default', ['jshint', 'nodeunit']);
 };
 

@@ -1,4 +1,5 @@
 lib-cov
 node_modules
-dist
+build
+site
 .brackets.json
