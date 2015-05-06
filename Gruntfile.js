@@ -25,7 +25,7 @@ module.exports = function(grunt) {
         movico_prepare: 'mkdir build; true',
         movico_lg: './node_modules/browserify/bin/cmd.js -r ./lib/Frontend/wrt.js:movico -o ./build/movico-lang.js',
         movico_rt: './node_modules/browserify/bin/cmd.js -r ./lib/Runtime/runtime.js:runtime -o ./build/movico-rt.js',
-        movico_site_prepare: 'mkdir build; true',
+        movico_site_prepare: 'mkdir site; true',
         movico_site: './bin/movicoc -i site/ -o site/ mvc-lib/*.mvc mvc-lib/*/*.mvc'
     },
     uglify: {

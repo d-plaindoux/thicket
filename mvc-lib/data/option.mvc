@@ -9,6 +9,7 @@
 module Data.Option
 
 from Data.Boolean import bool
+from Logic.Combinators import I
  
 type Option [a] {
     model Some { _ : a }
@@ -17,8 +18,8 @@ type Option [a] {
 
 class option[a] this:Option[a] {
     unbox   : Option[a]
-    present : bool
     fold    : [b] b -> (a -> b) -> b
+    present : bool
     map     : [b] (a -> b) -> option[b]
     flatmap : [b] (a -> option[b]) -> option[b]
     filter  : (a -> bool) -> option[a]
@@ -26,24 +27,18 @@ class option[a] this:Option[a] {
 } {
     def unbox = this
     
-    def present = self fold false (_ -> true)
-    
     def None.fold n _ = n
     def Some.fold _ s = s this._
 
-    def None.map f = option None
-    def Some.map f = 
-        let r = f this._ in
-            option $ Some r
-
-    def None.flatmap f = option None
-    def Some.flatmap f = f this._
+    def present = self fold false (_ -> true)
+    
+    def map f = self fold none (s -> let r = f s in some r)
+    def flatmap f = self fold none f
 
     def None.filter _ = self
     def Some.filter p = p this._ fold self $ self None
 
-    def None.orElse a = a
-    def Some.orElse _ = this._
+    def orElse a = self fold a I
 } 
 
 def some : [a] a -> option[a] = e -> option $ Some e
