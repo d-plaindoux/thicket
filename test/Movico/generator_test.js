@@ -129,12 +129,12 @@ exports['compile'] = {
   'Pair': function (test) {
       test.expect(1);
       
-      test.deepEqual(compiler.expression(list(ast.model("PAIR",[],[])), list(), ast.expr.pair(ast.expr.number(1),ast.expr.string("1"))).success(),
+      test.deepEqual(compiler.expression(list(ast.model("Pair",[],[])), list(), ast.expr.pair(ast.expr.number(1),ast.expr.string("1"))).success(),
                      compiler.objCode("Apply",
                                       compiler.objCode("Apply", 
                                                        compiler.objCode("Ident", "Pair"),
-                                                       compiler.objCode("Lazy", compiler.objCode("Number", 1))),
-                                      compiler.objCode("Lazy", compiler.objCode("String", "1"))));
+                                                       compiler.objCode("Number", 1)),
+                                      compiler.objCode("String", "1")));
       test.done();
   },
   
@@ -168,7 +168,7 @@ exports['compile'] = {
       test.deepEqual(compiler.expression(list(), list('a', 'b'), ast.expr.application(ast.expr.ident("a"), ast.expr.ident("b"))).success(),
                      compiler.objCode("Apply", 
                                       compiler.objCode("Variable","a"),
-                                      compiler.objCode("Lazy", compiler.objCode("Variable","b"))));
+                                      compiler.objCode("Variable","b")));
       test.done();
   },
 
@@ -194,7 +194,7 @@ exports['compile'] = {
       test.deepEqual(compiler.expression(list(), list('a'), ast.expr.let("b",ast.expr.ident("a"),ast.expr.ident("b"))).success(),
                      compiler.objCode("Apply", 
                                       compiler.objCode("Function","b",compiler.objCode("Variable","b")),
-                                      compiler.objCode("Variable","a")));
+                                      compiler.objCode("Eval", compiler.objCode("Variable","a"))));
       test.done();
   },
  
@@ -204,7 +204,7 @@ exports['compile'] = {
       test.deepEqual(compiler.expression(list(), list('l'), ast.expr.comprehension(ast.expr.ident('x'),[['x',ast.expr.ident('l')]],[])).success(),
                      compiler.objCode("Apply", 
                                       compiler.objCode("Invoke", compiler.objCode("Variable","l"), "map"),
-                                      compiler.objCode("Lazy", compiler.objCode("Function","x",compiler.objCode("Variable","x")))));
+                                      compiler.objCode("Function","x",compiler.objCode("Variable","x"))));
       test.done();
   },
     
@@ -214,11 +214,10 @@ exports['compile'] = {
       test.deepEqual(compiler.expression(list(), list('l'), ast.expr.comprehension(ast.expr.ident('x'),[['x',ast.expr.ident('l')],['y',ast.expr.ident('m')]],[])).success(),
                      compiler.objCode("Apply", 
                                       compiler.objCode("Invoke", compiler.objCode("Ident","m"), "flatmap"),
-                                      compiler.objCode("Lazy",
-                                                       compiler.objCode("Function", "y",
-                                                                        compiler.objCode("Apply", 
-                                                                                         compiler.objCode("Invoke", compiler.objCode("Variable","l"), "map"),
-                                                                                         compiler.objCode("Lazy", compiler.objCode("Function","x",compiler.objCode("Variable","x"))))))));
+                                      compiler.objCode("Function", "y",
+                                                       compiler.objCode("Apply", 
+                                                                        compiler.objCode("Invoke", compiler.objCode("Variable","l"), "map"),
+                                                                        compiler.objCode("Function","x",compiler.objCode("Variable","x"))))));
       test.done();
   },
 
@@ -234,13 +233,10 @@ exports['compile'] = {
                                      compiler.objCode("Invoke", 
                                                       compiler.objCode("Apply", 
                                                                        compiler.objCode("Invoke", compiler.objCode("Variable","l"), "filter"),
-                                                                       compiler.objCode("Lazy", 
-                                                                                        compiler.objCode("Function","x",compiler.objCode("Ident","b"))
-                                                                                        )
-                                                                      ),
+                                                                       compiler.objCode("Function","x",compiler.objCode("Ident","b"))),
                                                       "map"
                                                      ),
-                                     compiler.objCode("Lazy", compiler.objCode("Function","x",compiler.objCode("Variable","x")))
+                                     compiler.objCode("Function","x",compiler.objCode("Variable","x"))
                                     )
                     );
                  // "runtime.apply(runtime.invoke(runtime.apply(runtime.invoke(mvc$l,'filter'),runtime.lazy(function(){return function(mvc$x){return runtime.ident('b');};})),'map'),runtime.lazy(function(){return function(mvc$x){return mvc$x;};}))");
