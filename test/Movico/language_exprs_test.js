@@ -29,13 +29,33 @@ exports['language_exprs'] = {
     done();
   },
     
-  'number expression is accepted': function(test) {
+  'number integer expression is accepted': function(test) {
     test.expect(1);
     // tests here  
     var aStream = stream("123");
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
                    ast.expr.number(123), "accept a number");
+    test.done();
+  },
+    
+  'number float expression is accepted': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("123.23");
+        
+    test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
+                   ast.expr.number(123.23), "accept a number");
+    test.done();
+  },
+    
+  'number small float expression is accepted': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("1e-12");
+        
+    test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
+                   ast.expr.number(1e-12), "accept a number");
     test.done();
   },
     
