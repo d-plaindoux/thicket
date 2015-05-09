@@ -21,7 +21,7 @@ model MouseTrigger {
     onmouseclick : option[(dom -> unit)]
 }
 
-// Factory
+// Mouse trigger Factory
 
 class mouseTrigger this:MouseTrigger {
     unbox        : MouseTrigger

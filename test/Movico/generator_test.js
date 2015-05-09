@@ -239,7 +239,6 @@ exports['compile'] = {
                                      compiler.objCode("Function","x",compiler.objCode("Variable","x"))
                                     )
                     );
-                 // "runtime.apply(runtime.invoke(runtime.apply(runtime.invoke(mvc$l,'filter'),runtime.lazy(function(){return function(mvc$x){return runtime.ident('b');};})),'map'),runtime.lazy(function(){return function(mvc$x){return mvc$x;};}))");
       test.done();
   },
     

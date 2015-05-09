@@ -29,20 +29,7 @@ exports['reader'] = {
   setUp: function(done) {
     done();
   },
-    
-  'Read dependencies': function(test) {
-    test.expect(1);
-    // tests here  
-    var aReader = reader(fsdriver('./test/Resource/samples')); 
-        
-    test.deepEqual(aReader.dependencies("Data.Boolean"), [ 
-        { namespace: [ 'Data', 'Core' ],
-          imports: [ 'native' ] 
-        } 
-        ]);
-    test.done();
-  },
-    
+
   'Read specifications': function(test) {
     test.expect(1);
     // tests here  
