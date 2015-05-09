@@ -128,7 +128,7 @@ The current code generator produces Javascript. Unfortunately this
 technic does not provide a good approach for two reasons. First is
 the usage of eval function which is known to be insecure. Second
 is the incapability of code optimisation which is not applicable because
-specificities of pure functional programming language is lost after 
+specificities of pure functional programming language are lost after 
 transpilation. For instance tail calls are not identified and then tail 
 recursive codes are not managed. 
 
