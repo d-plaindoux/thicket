@@ -28,8 +28,8 @@ Hello World
 
 A simple [Hello world](http://d.plaindoux.free.fr/movico/examples/helloWorld.html) 
 is available in order to demontrate the language. This current version 
-if not yet optimized. This example directly manipulates the DOM and not
-yet provides a simple and convenient library for reactive UI support.
+if not yet optimized and  irectly manipulates the DOM. This does not yet 
+provide a simple and convenient library for reactive UI support.
 
 A simple example
 -----------------
@@ -120,6 +120,21 @@ view populationView this:population {
 
 See current [Libraries](https://github.com/d-plaindoux/movico/tree/master/mvc-lib)
 for more language highlights.
+
+TODOS
+=====
+
+The current code generator produces Javascript. Unfortunately this 
+technic does not provide a good approach for two reasons. First is
+the usage of eval function which is known to be insecure. Second
+is the incapability of code optimisation which is not applicable because
+specificities of pure functional programming language is lost after 
+transpilation. For instance tail calls are not identified and then tail 
+recursive codes are not managed. 
+
+For these purposes an abstract machine inspired by Krivines' Machine is 
+in preparation. Such machine can therefor be implemented in various
+languages like Java, Python etc.
 
 More informations and References
 ================================
