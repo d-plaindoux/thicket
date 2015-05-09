@@ -23,6 +23,14 @@ addition UI management done using DOM fragment is provided in order to
 define  view   facet  in   addition  to   object  (model)   and  class
 (controller).
 
+Hello World
+-----------
+
+A simple [Hello world](http://d.plaindoux.free.fr/movico/examples/helloWorld.html) 
+is available in order to demontrate the language. This current version 
+if not yet optimized. This example directly manipulates the DOM and not
+yet provides a simple and convenient library for reactive UI support.
+
 A simple example
 -----------------
 
