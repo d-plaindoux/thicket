@@ -1,0 +1,61 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Data.Array
+
+from Core.Lang import when
+
+from Logic.Combinators import C
+
+from Data.Boolean import bool
+from Data.Native import native
+from Data.Number import number
+from Data.Internal import internal
+from Data.Option import options some none
+from Data.Range import range
+
+/*
+ * Immutable array version
+ */
+
+class array[a] this:native {
+    set     : number -> a -> array[a]
+    reset   : number -> array[a]
+    get     : number -> option[a]
+    
+    length  : number
+    
+    map     : [b] (a -> b) -> array[b]
+    find    : (a -> bool) -> option[a]
+
+    foldL   : [b] (b -> a -> b) -> b -> b
+    foldR   : [b] (a -> b -> b) -> b -> b
+} {
+    def set i a = array $ internal "array.set" apply self i a
+    def reset i = array $ internal "array.reset" apply self i
+    def get i = internal "array.get" apply self i some none
+    
+    def length = internal "array.size" apply self
+
+    def map f = 
+        let update = i r -> self get i fold r { a -> r set i $ f a } in
+            range 0 to (self.length --) fold (new$array self.length) update
+            
+    def find p = 
+        let filter = a -> p a fold (some a) none in
+        let check = i r -> r fold (self get i fold r filter) some in
+            range 0 to (self.length --) fold none check
+            
+    def foldL f r = 
+        range 0 to (self.length --) fold r (i r -> self get i fold r $ f r)
+
+    def foldR f r = 
+        range (self.length --) downto 0 fold r (i r -> self get i fold r $ C f r)
+}
+
+def new$array : [a] number -> array[a] = n -> array $ internal "array.new" apply n

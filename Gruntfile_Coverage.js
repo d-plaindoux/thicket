@@ -26,7 +26,7 @@ module.exports = function(grunt) {
     env: {
         coverage: {
             add: {
-                MOVICO_COV: '-cov'
+                THICKET_COV: '-cov'
             },
         }
     }

@@ -22,11 +22,11 @@ module.exports = function(grunt) {
       },
     },
     exec: {
-        movico_prepare: 'mkdir build; true',
-        movico_lg: './node_modules/browserify/bin/cmd.js -r ./lib/Frontend/wrt.js:movico -o ./build/movico-lang.js',
-        movico_rt: './node_modules/browserify/bin/cmd.js -r ./lib/Runtime/runtime.js:runtime -o ./build/movico-rt.js',
-        movico_site_prepare: 'mkdir site; true',
-        movico_site: './bin/movicoc -i site/ -o site/ mvc-lib/*.mvc mvc-lib/*/*.mvc'
+        thicket_prepare: 'mkdir build; true',
+        thicket_lg: './node_modules/browserify/bin/cmd.js -r ./lib/Frontend/wrt.js:thicket -o ./build/thicket-lang.js',
+        thicket_rt: './node_modules/browserify/bin/cmd.js -r ./lib/Runtime/runtime.js:runtime -o ./build/thicket-rt.js',
+        thicket_site_prepare: 'mkdir site; true',
+        thicket_site: './bin/thicketc -i site/ -o site/ mvc-lib/*.mvc mvc-lib/*/*.mvc'
     },
     uglify: {
         options: {
@@ -34,7 +34,7 @@ module.exports = function(grunt) {
         },
         my_target: {
             files: {
-                './build/movico-lang.min.js': ['./build/movico-lang.js']
+                './build/thicket-lang.min.js': ['./build/thicket-lang.js']
             }
         }
     }      
@@ -47,8 +47,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');  
     
   // Tasks
-  grunt.registerTask('site',    ['exec:movico_site_prepare', 'exec:movico_site']);
-  grunt.registerTask('package', ['jshint', 'exec:movico_prepare', 'exec:movico_lg', 'exec:movico_rt']);
+  grunt.registerTask('site',    ['exec:thicket_site_prepare', 'exec:thicket_site']);
+  grunt.registerTask('package', ['jshint', 'exec:thicket_prepare', 'exec:thicket_lg', 'exec:thicket_rt']);
   grunt.registerTask('default', ['jshint', 'nodeunit']);
 };
 

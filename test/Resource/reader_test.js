@@ -2,8 +2,8 @@
 
 'use strict';
 
-var fsdriver = require('../../lib' + (process.env.MOVICO_COV || '') + '/Resource/drivers/fsdriver.js'),
-    reader = require('../../lib' + (process.env.MOVICO_COV || '') + '/Resource/reader.js');
+var fsdriver = require('../../lib' + (process.env.THICKET_COV || '') + '/Resource/drivers/fsdriver.js'),
+    reader = require('../../lib' + (process.env.THICKET_COV || '') + '/Resource/reader.js');
 
 /*
   ======== A Handy Little Nodeunit Reference ========

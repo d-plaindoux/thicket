@@ -1,23 +1,23 @@
-Movico 
+Thicket
 ======
 
-[![Build Status](https://travis-ci.org/d-plaindoux/movico.svg)](https://travis-ci.org/d-plaindoux/movico) 
-[![Coverage Status](https://coveralls.io/repos/d-plaindoux/movico/badge.png?branch=master)](https://coveralls.io/r/d-plaindoux/movico?branch=master) 
+[![Build Status](https://travis-ci.org/d-plaindoux/thicket.svg)](https://travis-ci.org/d-plaindoux/thicket) 
+[![Coverage Status](https://coveralls.io/repos/d-plaindoux/thicket/badge.png?branch=master)](https://coveralls.io/r/d-plaindoux/thicket?branch=master) 
 [![experimental](http://badges.github.io/stability-badges/dist/experimental.svg)](http://github.com/badges/stability-badges)
 
-Movico is a language based on Model, Controller and View approach.  In
+Thicket is a language based on Model, Controller and View approach.  In
 this  approach  a model  denotes  a set  of  data  (atomic or  object)
 federated in  a named  structure. A controller  is a set  of behaviors
 applied to a  given object and finally a view  denotes an extended DOM
 fragment used for UI management.
 
-Movico is a  strong typed language based on  well known Hindley-Milner
+Thicket is a  strong typed language based on  well known Hindley-Milner
 type system and type inference paradigm.
 
 Language Overview
 =================
 
-The Movico language  came from research done about  strong [object and
+The Thicket language  came from research done about  strong [object and
 class   separation](http://d.plaindoux.free.fr/clump/index.html).   In
 addition UI management done using DOM fragment is provided in order to
 define  view   facet  in   addition  to   object  (model)   and  class
@@ -26,7 +26,7 @@ define  view   facet  in   addition  to   object  (model)   and  class
 Hello World
 -----------
 
-A simple [Hello world](http://d.plaindoux.free.fr/movico/examples/helloWorld.html) 
+A simple [Hello world](http://d.plaindoux.free.fr/thicket/examples/helloWorld.html) 
 is available in order to demontrate the language. This current version 
 if not yet optimized and  irectly manipulates the DOM. This does not yet 
 provide a simple and convenient library for reactive UI support.
@@ -118,7 +118,7 @@ view populationView this:population {
 }
 ```
 
-See current [Libraries](https://github.com/d-plaindoux/movico/tree/master/mvc-lib)
+See current [Libraries](https://github.com/d-plaindoux/thicket/tree/master/mvc-lib)
 for more language highlights.
 
 TODOS

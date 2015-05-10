@@ -1,0 +1,27 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Logic.Combinators
+      
+def I : [a] a -> a 
+      = a -> a
+      
+def K : [a b] a -> b -> a 
+      = a b -> a
+
+def W : [a b] (a -> a -> b) -> a -> b
+      = x y -> x y y
+
+def C : [a b c] (a -> b -> c) -> b -> a -> c
+      = x y z -> x z y
+
+def B : [a b c] (b -> c) -> (a -> b) -> a -> c
+      = x y z -> x $ y z
+ 
+def S : [a b c] (a -> b -> c) -> (a -> b) -> a -> c 
+      = x y z -> x z $ y z

@@ -1,0 +1,44 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Client.Trigger
+
+from Client.Document import dom
+from Data.Option import option
+
+// Trigger model
+
+model MouseTrigger {
+    onmouseover  : option[(dom -> unit)]
+    onmouseout   : option[(dom -> unit)]
+    onmousedown  : option[(dom -> unit)]
+    onmouseup    : option[(dom -> unit)]
+    onmouseclick : option[(dom -> unit)]
+}
+
+// Mouse trigger Factory
+
+class mouseTrigger this:MouseTrigger {
+    unbox        : MouseTrigger
+    onmouseover  : (dom -> unit) -> mouseTrigger
+    onmouseout   : (dom -> unit) -> mouseTrigger
+    onmousedown  : (dom -> unit) -> mouseTrigger
+    onmouseup    : (dom -> unit) -> mouseTrigger
+    onmouseclick : (dom -> unit) -> mouseTrigger
+} {    
+    def unbox = this
+    
+    def onmouseover  f = self $ MouseTrigger (some f) this.onmouseout this.onmousedown this.onmouseup this.onmouseclick
+    def onmouseout   f = self $ MouseTrigger this.onmouseover (some f) this.onmousedown this.onmouseup this.onmouseclick
+    def onmousedown  f = self $ MouseTrigger this.onmouseover this.onmouseout (some f) this.onmouseup this.onmouseclick
+    def onmouseup    f = self $ MouseTrigger this.onmouseover this.onmouseout this.onmousedown (some f) this.onmouseclick
+    def onmouseclick f = self $ MouseTrigger this.onmouseover this.onmouseout this.onmousedown this.onmouseup (some f)
+}
+
+def new$mouseTrigger : mouseTrigger = 
+    mouseTrigger $ MouseTrigger none none none none none

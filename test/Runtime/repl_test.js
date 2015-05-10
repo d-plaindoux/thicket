@@ -2,10 +2,10 @@
 
 'use strict';
 
-var movicoc = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/movicoc.js'),
-    codegen = require('../../lib' + (process.env.MOVICO_COV || '') + '/Movico/generator/code.js'),    
-    native = require('../../lib' + (process.env.MOVICO_COV || '') + '/Runtime/native.js'),
-    M = native(require('../../lib' + (process.env.MOVICO_COV || '') + '/Runtime/runtime.js'));
+var thicketc = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/thicketc.js'),
+    codegen = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/generator/code.js'),    
+    native = require('../../lib' + (process.env.THICKET_COV || '') + '/Runtime/native.js'),
+    M = native(require('../../lib' + (process.env.THICKET_COV || '') + '/Runtime/runtime.js'));
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -35,7 +35,7 @@ exports['repl'] = {
   'Number': function(test) {
     test.expect(1);
     // tests here  
-    var expression = movicoc.sentence([], "123"),
+    var expression = thicketc.sentence([], "123"),
         code = codegen.executable(codegen.sentence([], expression.get().success().expr).success());
         
     test.deepEqual(M.$$(eval(code)(M)), M.$$(M.number(123)));
@@ -45,7 +45,7 @@ exports['repl'] = {
   'String': function(test) {
     test.expect(1);
     // tests here  
-    var expression = movicoc.sentence([], "'123'"),
+    var expression = thicketc.sentence([], "'123'"),
         code = codegen.executable(codegen.sentence([], expression.get().success().expr).success());
         
     test.deepEqual(M.$$(eval(code)(M)), M.$$(M.string("123")));
@@ -55,7 +55,7 @@ exports['repl'] = {
   'Unit': function(test) {
     test.expect(1);
     // tests here  
-    var expression = movicoc.sentence([], "()"),
+    var expression = thicketc.sentence([], "()"),
         code = codegen.executable(codegen.sentence([], expression.get().success().expr).success());
         
     test.deepEqual(M.$$(eval(code)(M)), M.$$(M.unit));
@@ -65,7 +65,7 @@ exports['repl'] = {
   'Identity function': function(test) {
     test.expect(1);
     // tests here  
-    var expression = movicoc.sentence([], "(f -> f) 1"),
+    var expression = thicketc.sentence([], "(f -> f) 1"),
         code = codegen.executable(codegen.sentence([], expression.get().success().expr).success());
         
     test.deepEqual(M.$$(eval(code)(M)), M.$$(M.number(1)));
@@ -75,7 +75,7 @@ exports['repl'] = {
   'Left projection function': function(test) {
     test.expect(1);
     // tests here  
-    var expression = movicoc.sentence([], "(x y -> x) 1 2"),
+    var expression = thicketc.sentence([], "(x y -> x) 1 2"),
         code = codegen.executable(codegen.sentence([], expression.get().success().expr).success());
         
     test.deepEqual(M.$$(eval(code)(M)), M.$$(M.number(1)));
@@ -85,7 +85,7 @@ exports['repl'] = {
   'Right projection function': function(test) {
     test.expect(1);
     // tests here  
-    var expression = movicoc.sentence([], "(x y -> y) 1 2"),
+    var expression = thicketc.sentence([], "(x y -> y) 1 2"),
         code = codegen.executable(codegen.sentence([], expression.get().success().expr).success());
         
     test.deepEqual(M.$$(eval(code)(M)), M.$$(M.number(2)));
@@ -95,8 +95,8 @@ exports['repl'] = {
   'Simple model attribute': function(test) {
     test.expect(1);
     // tests here  
-    var entities = movicoc.entities([], "model E { _ : number }"),
-        expression = movicoc.sentence(entities.success().map(function(entity){
+    var entities = thicketc.entities([], "model E { _ : number }"),
+        expression = thicketc.sentence(entities.success().map(function(entity){
             return entity.entity;
         }),"(E 1) _");
           

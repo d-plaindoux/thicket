@@ -1,7 +1,7 @@
 <html>
 <head>
-  <script src="../build/movico-lang.js"></script>
-  <script type="text/movico">
+  <script src="../build/thicket-lang.js"></script>
+  <script type="text/thicket">
     from Core.Lang import do
     from Client.Document import element
     from Client.Trigger import mouseTrigger$new
@@ -33,12 +33,12 @@
             return ()
   </script>
     
-  <script type="text/movico">
+  <script type="text/thicket">
     manageNode "todo" 
   </script>
 </head>    
 
-<body onload="require('movico')('../site').boot()">
+<body onload="require('thicket')('../site').boot()">
     <p>
         <i id="todo">  </i>
     </p>

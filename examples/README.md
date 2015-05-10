@@ -1,7 +1,7 @@
 Examples
 ======
 
-Each example exposed in this directory requires the `movico-lang.js`
+Each example exposed in this directory requires the `thicket-lang.js`
 built calling the command:
 
 ```

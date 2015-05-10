@@ -1,6 +1,6 @@
 'use strict';
 
-var stream = require('../../lib' + (process.env.MOVICO_COV || '') + '/Parser/stream.js');
+var stream = require('../../lib' + (process.env.THICKET_COV || '') + '/Parser/stream.js');
 
 /*
   ======== A Handy Little Nodeunit Reference ========

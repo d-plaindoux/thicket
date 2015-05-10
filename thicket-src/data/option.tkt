@@ -1,0 +1,45 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Data.Option
+
+from Data.Boolean import bool
+from Logic.Combinators import I
+ 
+type Option [a] {
+    model Some { _ : a }
+    model None
+}
+
+class option[a] this:Option[a] {
+    unbox   : Option[a]
+    fold    : [b] b -> (a -> b) -> b
+    present : bool
+    map     : [b] (a -> b) -> option[b]
+    flatmap : [b] (a -> option[b]) -> option[b]
+    filter  : (a -> bool) -> option[a]
+    orElse  : a -> a
+} {
+    def unbox = this
+    
+    def None.fold n _ = n
+    def Some.fold _ s = s this._
+
+    def present = self fold false (_ -> true)
+    
+    def map f = self fold none (s -> let r = f s in some r)
+    def flatmap f = self fold none f
+
+    def None.filter _ = self
+    def Some.filter p = p this._ fold self $ self None
+
+    def orElse a = self fold a I
+} 
+
+def some : [a] a -> option[a] = e -> option $ Some e
+def none : [a] option[a] = option None

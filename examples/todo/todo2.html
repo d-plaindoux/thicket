@@ -1,7 +1,7 @@
 <html>
 <head>
-  <script src="../../build/movico-lang.js"></script>
-  <script type="text/movico">
+  <script src="../../build/thicket-lang.js"></script>
+  <script type="text/thicket">
     from Client.Document import element toDom
     from Core.Lang import do
     from Data.List import list
@@ -13,14 +13,14 @@
     }
   </script>
 
-  <script type="text/movico">
+  <script type="text/thicket">
     let node = document "todos" find in
     let todos = list Nil :+ "todo #1" :+ "todo #2" :+ "todo #3" in
         do {node map (n -> todos foldR (s h -> h addChild $ todo $ Todo s) n)}
         return ()
   </script>
 </head>    
-<body onload="require('movico')('../..//site').boot()">
+<body onload="require('thicket')('../..//site').boot()">
 	<b>Things to be done:</b>
 	<ul id="todos"></ul>
 </body>

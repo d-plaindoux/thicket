@@ -1,8 +1,8 @@
 {
-  "name": "movico",
+  "name": "thicket",
   "description": "Language dedicated to Model/View/Control web application design",
   "version": "0.1.0",
-  "homepage": "https://github.com/d-plaindoux/movico",
+  "homepage": "https://github.com/d-plaindoux/thicket",
   "author": {
     "name": "Didier Plaindoux",
     "email": "d.plaindoux@free.fr",
@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/d-plaindoux/movico"
+    "url": "https://github.com/d-plaindoux/thicket"
   },
   "bugs": {
-    "url": "https://github.com/d-plaindoux/movico/issues"
+    "url": "https://github.com/d-plaindoux/thicket/issues"
   },
   "licenses": [
     {
       "type": "LGPL2",
-      "url": "https://github.com/d-plaindoux/movico/blob/master/LICENSE-LGPL2"
+      "url": "https://github.com/d-plaindoux/thicket/blob/master/LICENSE-LGPL2"
     }
   ],
   "main": "src",

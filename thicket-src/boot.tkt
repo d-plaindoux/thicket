@@ -1,0 +1,22 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+
+module Boot
+
+from Core.Lang import *
+
+from Data.Native import *
+from Data.Internal import *
+from Data.Boolean import *
+from Data.Option import *
+from Data.Try import *
+from Data.Number import *
+from Data.String import *
+from Data.Array import *
+from Data.List import *
+from Data.Hashmap import *

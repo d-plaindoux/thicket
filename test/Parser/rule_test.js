@@ -1,11 +1,11 @@
 'use strict';
 
-var stream = require('../../lib' + (process.env.MOVICO_COV || '') + '/Parser/stream.js'),
-    rule = require('../../lib' + (process.env.MOVICO_COV || '') + '/Parser/rule.js'),
-    bind = require('../../lib' + (process.env.MOVICO_COV || '') + '/Parser/bind.js'),
-    optrep = require('../../lib' + (process.env.MOVICO_COV || '') + '/Parser/optrep.js'),
-    rep = require('../../lib' + (process.env.MOVICO_COV || '') + '/Parser/rep.js'),
-    opt = require('../../lib' + (process.env.MOVICO_COV || '') + '/Parser/opt.js');
+var stream = require('../../lib' + (process.env.THICKET_COV || '') + '/Parser/stream.js'),
+    rule = require('../../lib' + (process.env.THICKET_COV || '') + '/Parser/rule.js'),
+    bind = require('../../lib' + (process.env.THICKET_COV || '') + '/Parser/bind.js'),
+    optrep = require('../../lib' + (process.env.THICKET_COV || '') + '/Parser/optrep.js'),
+    rep = require('../../lib' + (process.env.THICKET_COV || '') + '/Parser/rep.js'),
+    opt = require('../../lib' + (process.env.THICKET_COV || '') + '/Parser/opt.js');
 
 /*
   ======== A Handy Little Nodeunit Reference ========

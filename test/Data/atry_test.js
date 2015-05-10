@@ -1,6 +1,6 @@
 'use strict';
 
-var atry = require('../../lib' + (process.env.MOVICO_COV || '') + '/Data/atry.js');
+var atry = require('../../lib' + (process.env.THICKET_COV || '') + '/Data/atry.js');
 
 /*
   ======== A Handy Little Nodeunit Reference ========

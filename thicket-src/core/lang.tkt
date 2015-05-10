@@ -1,0 +1,49 @@
+
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Core.Lang
+ 
+from Data.Boolean import bool
+ 
+/* 
+ * Language syntactic extension
+ * 
+ *     when COND then A1 else A2
+ * 
+ * NOTE: if is a reserved word so 
+ *       it cannot be used here!
+ */
+
+class when[a] this:bool {
+    then : a -> whenElse[a]
+} {
+    def then a = whenElse $ this fold a
+}
+
+class whenElse[a] this:(a -> a) {
+    else : a -> a
+} {
+    def else a = this a
+}
+
+/* 
+ * Language syntactic extension
+ * 
+ *     do A1 ; A2 ; A3 return A4
+ */
+
+class do[a] this:a {
+    (;) : [b] b -> do[b]
+    and : [b] b -> do[b]
+    return : [c] c -> c
+} {
+    def (;) = self and
+    def and = do
+    def return c = c
+}

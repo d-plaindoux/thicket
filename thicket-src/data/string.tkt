@@ -1,0 +1,52 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Data.String
+
+from Data.Boolean   import bool
+from Data.Internal  import internal
+from Data.Native    import native
+from Data.Number    import number
+from Data.Option    import option None Some
+from Data.Types import Hashable Comparable
+
+class string this:native {
+    (==)     : string -> bool
+    (!=)     : string -> bool
+    (<=)     : string -> bool
+    (<<)     : string -> bool
+    (>>)     : string -> bool
+    (>=)     : string -> bool
+    (+)      : string -> string
+    toNumber : option[number]
+    hash     : number
+    
+    hashable   : Hashable[string]
+    comparable : Comparable[string]
+} {
+    def (==) n = internal "generic.==" apply self n true false
+    def (!=) n = (self == n) not
+    def (<=) n = (self == n) || (self << n)
+    def (<<) n = internal "generic.<<" apply self n true false
+    def (>>) n = n <= self
+    def (>=) n = n << self
+    def (+) s = internal "string.+" apply self s
+    def toNumber = internal "string.toNumber" apply self some none
+    def hash = internal "string.hash" apply self
+    
+    def hashable = Hashable self self.hash
+    def comparable = Comparable self self.(==) self.(!=) self.(>>) self.(<<) self.hashable
+}
+
+/*
+implicit number -> string = number::toString
+implicit string -> Hashable[string] = string::hashable
+implicit string -> Comparable[string] = string::comparable
+*/
+
+def eol : string = "\n"

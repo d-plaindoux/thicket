@@ -1,0 +1,22 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Data.Pair 
+ 
+model Pair[a b] {
+   _1 : a
+   _2 : b
+}
+
+class pair[a b] this:Pair[a b] {
+   unbox : Pair[a b]
+   apply : [c d] (a -> c) -> (b -> d) -> pair[c d]
+} {
+   def unbox = this
+   def apply a b = pair $ Pair (a this._1) (b this._2)
+}
