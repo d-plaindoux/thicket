@@ -118,7 +118,7 @@ view populationView this:population {
 }
 ```
 
-See current [Libraries](https://github.com/d-plaindoux/thicket/tree/master/mvc-lib)
+See current [Libraries](https://github.com/d-plaindoux/thicket/tree/master/thicket-src)
 for more language highlights.
 
 TODOS
