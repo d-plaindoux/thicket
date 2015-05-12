@@ -33,7 +33,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(compiler.entity(list(),ast.model("A",[],[])).success(),
-                    compiler.objCode("Model","A",[]));
+                    compiler.abstractSyntax("Model","A",[]));
       test.done();
   },
 
@@ -41,7 +41,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(compiler.entity([], ast.model("A",[],[ast.param("a",ast.type.native("a"))])).success(),
-                     compiler.objCode("Model","A",["a"]));
+                     compiler.abstractSyntax("Model","A",["a"]));
       test.done();
   },
 
@@ -50,7 +50,7 @@ exports['compile'] = {
       
       test.deepEqual(compiler.entity(list(), ast.model("A",list(),[ast.param("a1",ast.type.native("a")),
                                                                    ast.param("a2",ast.type.native("b"))])).success(), 
-                    compiler.objCode("Model","A",["a1", "a2"]));
+                    compiler.abstractSyntax("Model","A",["a1", "a2"]));
       test.done();
   },
 
@@ -58,7 +58,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(compiler.entity(list(), ast.controller("A",[],ast.param("this",ast.type.native("a")),[],[])).success(),
-                     compiler.objCode("Controller","A","this",[]));
+                     compiler.abstractSyntax("Controller","A","this",[]));
       test.done();
   },
 
@@ -70,7 +70,7 @@ exports['compile'] = {
                                                     ast.param("this",ast.type.native("a")),
                                                     [],
                                                     [ast.method("unbox", ast.expr.ident("this"))])).success(),
-                    compiler.objCode("Controller","A","this",[["unbox",compiler.objCode("Variable","this")]]));
+                    compiler.abstractSyntax("Controller","A","this",[["unbox",compiler.abstractSyntax("Variable","this")]]));
       test.done();
   },
 
@@ -82,7 +82,7 @@ exports['compile'] = {
                                                     ast.param("this",ast.type.native("a")),
                                                     [],
                                                     [ast.method("unbox", ast.expr.ident("this"), ast.type.variable('number'))])).success(),
-                    compiler.objCode("Controller","A","this",[["number.unbox",compiler.objCode("Variable","this")]]));
+                    compiler.abstractSyntax("Controller","A","this",[["number.unbox",compiler.abstractSyntax("Variable","this")]]));
       test.done();
   },
     
@@ -90,7 +90,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(compiler.entity(list(), ast.view("A",[],ast.param("this",ast.type.native("a")),[ast.expr.number(1)])).success(),
-                     compiler.objCode("View","A","this",[compiler.objCode("Number",1)]));
+                     compiler.abstractSyntax("View","A","this",[compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","number"), compiler.abstractSyntax("Native",1))]));
       test.done();
   },    
      
@@ -98,7 +98,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(compiler.entity(list(), ast.expression("A",ast.type.native("number"),ast.expr.number(1))).success(),
-                     compiler.objCode("Definition","A",compiler.objCode("Number",1)));
+                     compiler.abstractSyntax("Definition","A",compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","number"), compiler.abstractSyntax("Native",1))));
       test.done();
   },
     
@@ -106,7 +106,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(compiler.expression(list(), list(), ast.expr.number(1)).success(),
-                     compiler.objCode("Number",1));
+                     compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","number"), compiler.abstractSyntax("Native",1)));
       test.done();
   },
     
@@ -114,7 +114,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(compiler.expression(list(), list(), ast.expr.string("1")).success(),
-                     compiler.objCode("String",1));
+                     compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), compiler.abstractSyntax("Native","1")));
       test.done();
   },
 
@@ -122,7 +122,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(compiler.expression(list(), list(), ast.expr.unit()).success(),
-                     compiler.objCode("Unit"));
+                     compiler.abstractSyntax("Ident","unit"));
       test.done();
   },
 
@@ -130,11 +130,11 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(compiler.expression(list(ast.model("Pair",[],[])), list(), ast.expr.pair(ast.expr.number(1),ast.expr.string("1"))).success(),
-                     compiler.objCode("Apply",
-                                      compiler.objCode("Apply", 
-                                                       compiler.objCode("Ident", "Pair"),
-                                                       compiler.objCode("Number", 1)),
-                                      compiler.objCode("String", "1")));
+                     compiler.abstractSyntax("Apply",
+                                             compiler.abstractSyntax("Apply", 
+                                                                     compiler.abstractSyntax("Ident", "Pair"),
+                                                                     compiler.abstractSyntax("Lazy", compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","number"), compiler.abstractSyntax("Native",1)))),
+                                             compiler.abstractSyntax("Lazy", compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), compiler.abstractSyntax("Native","1")))));
       test.done();
   },
   
@@ -142,7 +142,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(compiler.expression(list(), list('a'), ast.expr.ident("a")).success(),
-                     compiler.objCode("Variable","a"));
+                     compiler.abstractSyntax("Variable","a"));
       test.done();
   },
 
@@ -150,7 +150,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(compiler.expression(list(), list(), ast.expr.ident("a")).success(),
-                     compiler.objCode("Ident","a"));
+                     compiler.abstractSyntax("Ident","a"));
       test.done();
   },
 
@@ -158,7 +158,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(compiler.expression(list(), list(), ast.expr.abstraction("a", ast.expr.ident("a"))).success(),
-                     compiler.objCode("Function", "a", compiler.objCode("Variable","a")));
+                     compiler.abstractSyntax("Function", "a", compiler.abstractSyntax("Variable","a")));
       test.done();
   },
 
@@ -166,9 +166,9 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(compiler.expression(list(), list('a', 'b'), ast.expr.application(ast.expr.ident("a"), ast.expr.ident("b"))).success(),
-                     compiler.objCode("Apply", 
-                                      compiler.objCode("Variable","a"),
-                                      compiler.objCode("Variable","b")));
+                     compiler.abstractSyntax("Apply", 
+                                      compiler.abstractSyntax("Variable","a"),
+                                      compiler.abstractSyntax("Variable","b")));
       test.done();
   },
 
@@ -176,7 +176,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(compiler.expression(list(), list('a', 'b'), ast.expr.invoke(ast.expr.ident("a"), "b")).success(),
-                     compiler.objCode("Invoke",compiler.objCode("Variable","a"),"b"));
+                     compiler.abstractSyntax("Invoke",compiler.abstractSyntax("Variable","a"),"b"));
       test.done();
   },
 
@@ -184,7 +184,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(compiler.expression(list(), list('a'), ast.expr.application(ast.expr.ident("a"), ast.expr.ident("b"))).success(),
-                     compiler.objCode("Invoke",compiler.objCode("Variable","a"),"b"));
+                     compiler.abstractSyntax("Invoke",compiler.abstractSyntax("Variable","a"),"b"));
       test.done();
   },
 
@@ -192,9 +192,9 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(compiler.expression(list(), list('a'), ast.expr.let("b",ast.expr.ident("a"),ast.expr.ident("b"))).success(),
-                     compiler.objCode("Apply", 
-                                      compiler.objCode("Function","b",compiler.objCode("Variable","b")),
-                                      compiler.objCode("Eval", compiler.objCode("Variable","a"))));
+                     compiler.abstractSyntax("Apply", 
+                                      compiler.abstractSyntax("Function","b",compiler.abstractSyntax("Variable","b")),
+                                      compiler.abstractSyntax("Variable","a")));
       test.done();
   },
  
@@ -202,9 +202,9 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(compiler.expression(list(), list('l'), ast.expr.comprehension(ast.expr.ident('x'),[['x',ast.expr.ident('l')]],[])).success(),
-                     compiler.objCode("Apply", 
-                                      compiler.objCode("Invoke", compiler.objCode("Variable","l"), "map"),
-                                      compiler.objCode("Function","x",compiler.objCode("Variable","x"))));
+                     compiler.abstractSyntax("Apply", 
+                                      compiler.abstractSyntax("Invoke", compiler.abstractSyntax("Variable","l"), "map"),
+                                      compiler.abstractSyntax("Function","x",compiler.abstractSyntax("Variable","x"))));
       test.done();
   },
     
@@ -212,12 +212,12 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(compiler.expression(list(), list('l'), ast.expr.comprehension(ast.expr.ident('x'),[['x',ast.expr.ident('l')],['y',ast.expr.ident('m')]],[])).success(),
-                     compiler.objCode("Apply", 
-                                      compiler.objCode("Invoke", compiler.objCode("Ident","m"), "flatmap"),
-                                      compiler.objCode("Function", "y",
-                                                       compiler.objCode("Apply", 
-                                                                        compiler.objCode("Invoke", compiler.objCode("Variable","l"), "map"),
-                                                                        compiler.objCode("Function","x",compiler.objCode("Variable","x"))))));
+                     compiler.abstractSyntax("Apply", 
+                                      compiler.abstractSyntax("Invoke", compiler.abstractSyntax("Ident","m"), "flatmap"),
+                                      compiler.abstractSyntax("Function", "y",
+                                                       compiler.abstractSyntax("Apply", 
+                                                                        compiler.abstractSyntax("Invoke", compiler.abstractSyntax("Variable","l"), "map"),
+                                                                        compiler.abstractSyntax("Function","x",compiler.abstractSyntax("Variable","x"))))));
       test.done();
   },
 
@@ -229,14 +229,14 @@ exports['compile'] = {
                                      ast.expr.comprehension(ast.expr.ident('x'),
                                                             [['x',ast.expr.ident('l')]],
                                                             [ast.expr.ident("b")])).success(),
-                    compiler.objCode("Apply", 
-                                     compiler.objCode("Invoke", 
-                                                      compiler.objCode("Apply", 
-                                                                       compiler.objCode("Invoke", compiler.objCode("Variable","l"), "filter"),
-                                                                       compiler.objCode("Function","x",compiler.objCode("Ident","b"))),
+                    compiler.abstractSyntax("Apply", 
+                                     compiler.abstractSyntax("Invoke", 
+                                                      compiler.abstractSyntax("Apply", 
+                                                                       compiler.abstractSyntax("Invoke", compiler.abstractSyntax("Variable","l"), "filter"),
+                                                                       compiler.abstractSyntax("Function","x",compiler.abstractSyntax("Ident","b"))),
                                                       "map"
                                                      ),
-                                     compiler.objCode("Function","x",compiler.objCode("Variable","x"))
+                                     compiler.abstractSyntax("Function","x",compiler.abstractSyntax("Variable","x"))
                                     )
                     );
       test.done();
@@ -246,7 +246,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(compiler.expression(list(), list(), ast.expr.tag("A",[],[])).success(),
-                     compiler.objCode("Tag", "A", [], []));
+                     compiler.abstractSyntax("Tag", "A", [], []));
       test.done();
   },
 
@@ -254,7 +254,9 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(compiler.expression(list(), list('l'), ast.expr.tag("A",[['a',ast.expr.string('b')]],[])).success(),
-                     compiler.objCode("Tag", "A", [["a",compiler.objCode("String","b")]], []));
+                     compiler.abstractSyntax("Tag", "A", 
+                                             [["a",
+                                               compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), compiler.abstractSyntax("Native","b"))]], []));
       test.done();
   },
     
@@ -262,7 +264,9 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(compiler.expression(list(), list('l'), ast.expr.tag("A",[['a',ast.expr.string('b')],['b',ast.expr.number(1)]],[])).success(),
-                     compiler.objCode("Tag", "A", [["a",compiler.objCode("String","b")],["b",compiler.objCode("Number",1)]], []));                 
+                     compiler.abstractSyntax("Tag", "A", 
+                                             [["a",compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), compiler.abstractSyntax("Native","b"))],
+                                              ["b",compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","number"), compiler.abstractSyntax("Native",1))]], []));                 
       test.done();
   },
 
@@ -270,7 +274,9 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(compiler.expression(list(), list('l'), ast.expr.tag("A",[],[ast.expr.tag("B",[],[]),ast.expr.number(1)])).success(),
-                     compiler.objCode("Tag", "A", [], [compiler.objCode("Tag", "B", [], []), compiler.objCode("Number",1)]));
+                     compiler.abstractSyntax("Tag", "A", [], 
+                                             [compiler.abstractSyntax("Tag", "B", [], []), 
+                                              compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","number"), compiler.abstractSyntax("Native",1))]));
       test.done();
   },
   

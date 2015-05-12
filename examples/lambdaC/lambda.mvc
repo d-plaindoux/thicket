@@ -24,13 +24,13 @@ type LambdaTerm {
     }
 }    
 
-typedef env = Map[string Value]
+typedef Env = Map[string Value]
 
 type Value {
     model CstVal { value : string }
     model Closure {
         abstraction : (string,LambdaTerm)
-        environment : env
+        environment : Env
     }
 }
 
@@ -42,23 +42,24 @@ class value this:Value {
 }
 
 class eval this:LambdaTerm {
-    eval : env -> try[Value]
+    eval : Env -> try[Value]
 } {
     def Constant.eval env = success $ CstVal this.value
-        
+
     def Variable.eval env = 
-    	env find this.name fold (failure "Unboud variable") 
+    	env find this.name.comparable fold (failure "Unboud variable") 
                        	   	(success value)
-                       
+/*                       
     def Application.eval env = 
         let application = self this.abstraction eval env in
         let parameter   = self this.argument eval env in
             application flatmap (a -> 
                 parameter flatmap (p ->
-                    a fold (_   -> failure "Type Error")
+                    value a fold (_   -> failure "Type Error")
                            (a e -> success $ self a._2 eval $ e + a._1 p)
                 )
             )
                 
     def Abstraction.eval env = success $ Closure (this.variable,this.body) env
+*/    
 }
