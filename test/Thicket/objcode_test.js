@@ -41,7 +41,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(objcode.generateObjCode(objcode.deBruijnIndex(compiler.entity([], ast.model("A",[],[ast.param("a",ast.type.native("a"))])).success())),
-                     [ {'MODEL': ['A', [["a", [ {'ACCESS': 1} ]]]]} ] );                     
+                     [ {'MODEL': ['A', [["a", [ {'ACCESS': 1},{'RETURN':1} ]]]]} ] );                     
       test.done();
   },
 
@@ -50,7 +50,7 @@ exports['compile'] = {
       
       test.deepEqual(objcode.generateObjCode(objcode.deBruijnIndex(compiler.entity(list(), ast.model("A",list(),[ast.param("a1",ast.type.native("a")),
                                                                                                          ast.param("a2",ast.type.native("b"))])).success())), 
-                     [ {'MODEL': ['A', [ ["a1", [ {'ACCESS': 1} ]], ["a2", [ {'ACCESS': 2} ]] ]]} ]);
+                     [ {'MODEL': ['A', [ ["a1", [ {'ACCESS': 1},{'RETURN':1} ]], ["a2", [ {'ACCESS': 2},{'RETURN':1} ]] ]]} ]);
       test.done();
   },
 

@@ -31,7 +31,7 @@ exports['runtime'] = {
   setUp: function(done) {
     done();
   },
-  
+ 
   'Number': function(test) {
     test.expect(1);
     // tests here  
@@ -151,5 +151,61 @@ exports['runtime'] = {
                    [{ MODEL: [ 'number', [[ '_', [{ ACCESS:1 }]]]]}, [{ CONST:2 }] ]);
     test.done();
   }, 
-  
+    
+  'Defined function call': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("f 1"),
+        expression = language.parser.group('exprs').parse(aStream).get(),
+        source = compiler.sentence(list(),expression).success();
+    
+    runtime.register({ MODEL : [ "number", [[ "_" , [{ ACCESS:1 }]]] ] }); 
+    runtime.register({ DEFINITION : ["f" , [{CLOSURE : [{ACCESS:1},{RETURN:1}]}]] });
+
+    test.deepEqual(runtime.execute(objcode.generateObjCode(objcode.deBruijnIndex(source))),
+                   [{ MODEL: [ 'number', [[ '_', [{ ACCESS:1 }]]]]}, [{ CONST:1 }] ]);
+    test.done();
+  }, 
+     
+  'Model attribute': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("1 value"),
+        expression = language.parser.group('exprs').parse(aStream).get(),
+        source = compiler.sentence(list(),expression).success();
+    
+    runtime.register({ MODEL : [ "number", [[ "value" , [{ ACCESS:1 },{RETURN:1}]]] ] }); 
+
+    test.deepEqual(runtime.execute(objcode.generateObjCode(objcode.deBruijnIndex(source))),
+                   { CONST:1 });
+    test.done();
+  }, 
+     
+  'Class attribute': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("1 id value"),
+        expression = language.parser.group('exprs').parse(aStream).get(),
+        source = compiler.sentence(list(),expression).success();
+    
+    runtime.register({ CONTROLLER : [ "number", [[ "id" , [{ ACCESS:2 },{RETURN:1}]],[ "value" , [{ ACCESS:1 },{RETURN:1}]]] ] }); 
+
+    test.deepEqual(runtime.execute(objcode.generateObjCode(objcode.deBruijnIndex(source))),
+                   { CONST:1 });
+    test.done();
+  }, 
+     
+  'View rendering': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("1"),
+        expression = language.parser.group('exprs').parse(aStream).get(),
+        source = compiler.sentence(list(),expression).success();
+    
+    runtime.register({ VIEW : [ "number", [{ACCESS:1},{RETURN:1}] ] }); 
+
+    test.deepEqual(runtime.execute(objcode.generateObjCode(objcode.deBruijnIndex(source))),
+                   { CONST:1 });
+    test.done();
+  }, 
 };
