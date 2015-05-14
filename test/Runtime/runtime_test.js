@@ -99,6 +99,20 @@ exports['runtime'] = {
                    [{"MODEL":["unit",[]]},[]]);
     test.done();
   }, 
+
+  'Applied Application for TAILAPPLY': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("(x y -> x y) (x -> x) ()"),
+        expression = language.parser.group('exprs').parse(aStream).get(),
+        source = compiler.sentence(list(),expression).success();
+    
+    runtime.register({ MODEL : [ "unit", [] ] }); 
+    
+    test.deepEqual(runtime.execute(objcode.generateObjCode(objcode.deBruijnIndex(source))),
+                   [{"MODEL":["unit",[]]},[]]);
+    test.done();
+  }, 
     
   'Projection1': function(test) {
     test.expect(1);
