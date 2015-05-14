@@ -202,7 +202,7 @@ exports['runtime'] = {
         expression = language.parser.group('exprs').parse(aStream).get(),
         source = compiler.sentence(list(),expression).success();
     
-    runtime.register({ CONTROLLER : [ "number", [[ "id" , [{ ACCESS:2 },{RETURN:1}]],[ "value" , [{ ACCESS:1 },{RETURN:1}]]] ] }); 
+    runtime.register({ CLASS : [ "number", [[ "id" , [{ ACCESS:2 },{RETURN:1}]],[ "value" , [{ ACCESS:1 },{RETURN:1}]]] ] }); 
 
     test.deepEqual(runtime.execute(objcode.generateObjCode(objcode.deBruijnIndex(source))),
                    { CONST:1 });

@@ -58,7 +58,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(objcode.generateObjCode(objcode.deBruijnIndex(compiler.entity(list(), ast.controller("A",[],ast.param("this",ast.type.native("a")),[],[])).success())),
-                     [ {'CONTROLLER': ['A', []]} ]);
+                     [ {'CLASS': ['A', []]} ]);
       test.done();
   },
 
@@ -70,7 +70,7 @@ exports['compile'] = {
                                                     ast.param("this",ast.type.native("a")),
                                                     [],
                                                     [ast.method("unbox", ast.expr.ident("this"))])).success())),
-                     [ {'CONTROLLER': ['A', [ ["unbox", [ {'ACCESS': 1} ]] ]]} ]);
+                     [ {'CLASS': ['A', [ ["unbox", [ {'ACCESS': 1} ]] ]]} ]);
       test.done();
   },
 
@@ -82,7 +82,7 @@ exports['compile'] = {
                                                     ast.param("this",ast.type.native("a")),
                                                     [],
                                                     [ast.method("unbox", ast.expr.ident("this"), ast.type.variable('number'))])).success())),
-                     [ {'CONTROLLER': ['A', [ ["number.unbox", [ {'ACCESS': 1} ]] ]] } ]);
+                     [ {'CLASS': ['A', [ ["number.unbox", [ {'ACCESS': 1} ]] ]] } ]);
       test.done();
   },
     
