@@ -3,9 +3,9 @@
 var stream = require('../../lib' + (process.env.THICKET_COV || '') + '/Parser/stream.js'),
     list = require('../../lib' + (process.env.THICKET_COV || '') + '/Data/list.js'),    
     language = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/syntax/language.js')(),
-    compiler = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/generator/code2.js'),
+    compiler = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/generator/code.js'),
     objcode = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/generator/objcode.js'),
-    runtime = require('../../lib' + (process.env.THICKET_COV || '') + '/Runtime/runtime2.js');  
+    runtime = require('../../lib' + (process.env.THICKET_COV || '') + '/Runtime/runtime.js');  
 
 /*
   ======== A Handy Little Nodeunit Reference ========

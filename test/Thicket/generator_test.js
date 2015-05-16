@@ -2,7 +2,7 @@
 
 var ast = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/syntax/ast.js'),
     list = require('../../lib' + (process.env.THICKET_COV || '') + '/Data/list.js'),
-    compiler = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/generator/code2.js');
+    compiler = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/generator/code.js');
 
 /*
   ======== A Handy Little Nodeunit Reference ========
