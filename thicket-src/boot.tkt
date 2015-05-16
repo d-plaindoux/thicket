@@ -10,6 +10,7 @@ module Boot
 
 from Core.Lang import *
 
+from Data.Unit import *
 from Data.Native import *
 from Data.Internal import *
 from Data.Boolean import *
