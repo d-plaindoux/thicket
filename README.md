@@ -12,7 +12,9 @@ applied to a  given object and finally a view  denotes an extended DOM
 fragment used for UI management.
 
 Thicket is a  strong typed language based on  well known Hindley-Milner
-type system and type inference paradigm.
+type system and type inference paradigm. The runtime is based on an
+Krivines' abstract machine. Such machine can therefore be implemented 
+in various languages like Java, Python etc.
 
 Language Overview
 =================
@@ -120,21 +122,6 @@ view populationView this:population {
 
 See current [Libraries](https://github.com/d-plaindoux/thicket/tree/master/thicket-src)
 for more language highlights.
-
-TODOS
-=====
-
-The current code generator produces Javascript. Unfortunately this 
-technic does not provide a good approach for two reasons. First is
-the usage of eval function which is known to be insecure. Second
-is the incapability of code optimisation which is not applicable because
-specificities of pure functional programming language are lost after 
-transpilation. For instance tail calls are not identified and then tail 
-recursive codes are not managed. 
-
-For these purposes an abstract machine inspired by Krivines' Machine is 
-in preparation. Such machine can therefor be implemented in various
-languages like Java, Python etc.
 
 More informations and References
 ================================
