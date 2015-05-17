@@ -36,12 +36,12 @@ class tree[a] this:Tree[a] {
     def depth = 
         self match 
             (_ -> 0)
-            (l r -> (self l depth) max (self r depth))
+            (l r -> (tree l depth) max (tree r depth))
     
-    def Leaf.add a = self $ Node this $ Leaf a
+    def Leaf.add a = tree $ Node this $ Leaf a
     def Node.add a = 
-        let selector = (self this.left depth) <= (self this.right depth) in
-        let toLeft = self $ Node (self this.left add a return) this.right in
-        let toRight = self $ Node this.left (self this.right add a return) in
+        let selector = (tree this.left depth) <= (tree this.right depth) in
+        let toLeft = tree $ Node (tree this.left add a return) this.right in
+        let toRight = tree $ Node this.left (tree this.right add a return) in
             selector ? toLeft toRight
 }

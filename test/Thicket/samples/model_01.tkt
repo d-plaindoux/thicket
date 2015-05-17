@@ -16,11 +16,11 @@ class peano this:Peano {
     
     def Zero.(+) p = self
     def Succ.(+) p = 
-        let p = self this._ + p in
-            self $ Succ $ p unbox
+        let p = peano this._ + p in
+            peano $ Succ $ p unbox
 
     def Zero.fold z _ = z ()
-    def Succ.fold _ s = s $ self this._
+    def Succ.fold _ s = s $ peano this._
 }
 
 view zero this:unit {

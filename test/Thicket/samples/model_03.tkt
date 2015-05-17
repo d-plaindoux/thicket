@@ -17,8 +17,8 @@ class expr this:Expr {
 } {
     def Int.eval = this._
     def Add.eval = 
-        let e1 = self this._1 eval in
-        let e2 = self this._2 eval in
+        let e1 = expr this._1 eval in
+        let e2 = expr this._2 eval in
             e1 + e2
 }
 

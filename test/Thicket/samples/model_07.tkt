@@ -17,7 +17,7 @@ class bool this:Bool {
     def False.(?) _ f = f
     
     def (=>) l = self.not || l
-    def not    = self $ self ? False True 
+    def not    = bool $ self ? False True 
     def (&&) l = self ? l self
     def (||) l = self ? self l
 }
@@ -32,5 +32,5 @@ class pretty this:IO[string] {
     bool   : bool -> pretty
 } {
     def bool b   = self string (b ? "true" "false")
-    def string s = self $ this put s
+    def string s = pretty $ this put s
 }

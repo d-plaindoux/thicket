@@ -30,8 +30,8 @@ class bool this:Bool {
 
     def (=>) l = self.not || l
 
-    def True.not = self False
-    def False.not = self True
+    def True.not = bool False
+    def False.not = bool True
 
     def True.(&&) l = l
     def False.(&&) _ = self
@@ -80,44 +80,44 @@ class list[a] this:List[a] {
     def unbox = this
 
     def Nil.fold n c = n
-    def Cons.fold n c = c this.head (self this.tail)
+    def Cons.fold n c = c this.head (list this.tail)
 
     def Nil.isEmpty = bool True
     def Cons.isEmpty = bool False
 
     def lenght = self foldR (_ r -> 1 + r) 0
 
-    def reverse = self $ self foldL (b a -> Cons a b) Nil
+    def reverse = list $ self foldL (b a -> Cons a b) Nil
 
-    def (+:) a = self $ Cons a this
+    def (+:) a = list $ Cons a this
 
     def Nil.(++) l = l
-    def Cons.(++) l = self $ Cons this.head $ self this.tail ++ l unbox
+    def Cons.(++) l = list $ Cons this.head $ list this.tail ++ l unbox
 
-    def Nil.(:+) a = self $ Cons a this
-    def Cons.(:+) a = self $ Cons this.head $ self this.tail :+ a unbox
+    def Nil.(:+) a = list $ Cons a this
+    def Cons.(:+) a = list $ Cons this.head $ list this.tail :+ a unbox
 
     def Nil.map _ = list Nil
-    def Cons.map f = list $ Cons (f this.head) $ self this.tail map f unbox
+    def Cons.map f = list $ Cons (f this.head) $ list this.tail map f unbox
 
     def Nil.flatmap _ = list Nil
-    def Cons.flatmap f = (f this.head) ++ (self this.tail flatmap f)
+    def Cons.flatmap f = (f this.head) ++ (list this.tail flatmap f)
 
     def Nil.filter _ = self
     def Cons.filter p =
-        let tail = self this.tail filter p in
-            (p this.head) ? (self $ Cons this.head $ tail.unbox) tail
+        let tail = list this.tail filter p in
+            (p this.head) ? (list $ Cons this.head $ tail.unbox) tail
 
     def Nil.foldL _ b = b
-    def Cons.foldL f b = f (self this.tail foldL f b) this.head
+    def Cons.foldL f b = f (list this.tail foldL f b) this.head
 
     def Nil.foldR _ b = b
-    def Cons.foldR f b = self this.tail foldR f $ f this.head b
+    def Cons.foldR f b = list this.tail foldR f $ f this.head b
 
     def Nil.zip l = list Nil
     def Cons.zip l =
         let ifNil = list Nil in
-        let ifCons = head tail -> list $ Cons (this.head,head) $ self this.tail zip tail unbox in
+        let ifCons = head tail -> list $ Cons (this.head,head) $ list this.tail zip tail unbox in
             l fold ifNil ifCons
 }
 
@@ -126,7 +126,7 @@ class list2[a b] this:List[(a,b)] {
 } {
     def Nil.unzip = (list Nil),(list Nil)
     def Cons.unzip =
-        let tail = self this.tail unzip in
+        let tail = list2 this.tail unzip in
             (list $ Cons this.head._1 tail._1.unbox),(list $ Cons this.head._2 tail._2.unbox)
 }
 

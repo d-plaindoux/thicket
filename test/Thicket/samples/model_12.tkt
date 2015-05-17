@@ -16,5 +16,5 @@ model Comparable[a] {
 class test this:number {
     max : Comparable[number] -> test
 } {
-    def max c = c >> this fold (self c.unfold) self    
+    def max c = c >> this fold (test c.unfold) self    
 }
