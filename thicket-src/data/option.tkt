@@ -36,7 +36,7 @@ class option[a] this:Option[a] {
     def flatmap f = self fold none f
 
     def None.filter _ = self
-    def Some.filter p = p this._ fold self $ self None
+    def Some.filter p = p this._ fold self $ option None
 
     def orElse a = self fold a I
 } 

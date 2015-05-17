@@ -17,5 +17,5 @@ class trampoline[A] this:Trampoline[A] {
     run : A
 } {
     def Done.run = this._
-    def More.run = self (this._ ()) run
+    def More.run = trampoline (this._ ()) run
 }

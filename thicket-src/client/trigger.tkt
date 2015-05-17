@@ -33,11 +33,11 @@ class mouseTrigger this:MouseTrigger {
 } {    
     def unbox = this
     
-    def onmouseover  f = self $ MouseTrigger (some f) this.onmouseout this.onmousedown this.onmouseup this.onmouseclick
-    def onmouseout   f = self $ MouseTrigger this.onmouseover (some f) this.onmousedown this.onmouseup this.onmouseclick
-    def onmousedown  f = self $ MouseTrigger this.onmouseover this.onmouseout (some f) this.onmouseup this.onmouseclick
-    def onmouseup    f = self $ MouseTrigger this.onmouseover this.onmouseout this.onmousedown (some f) this.onmouseclick
-    def onmouseclick f = self $ MouseTrigger this.onmouseover this.onmouseout this.onmousedown this.onmouseup (some f)
+    def onmouseover  f = mouseTrigger $ MouseTrigger (some f) this.onmouseout this.onmousedown this.onmouseup this.onmouseclick
+    def onmouseout   f = mouseTrigger $ MouseTrigger this.onmouseover (some f) this.onmousedown this.onmouseup this.onmouseclick
+    def onmousedown  f = mouseTrigger $ MouseTrigger this.onmouseover this.onmouseout (some f) this.onmouseup this.onmouseclick
+    def onmouseup    f = mouseTrigger $ MouseTrigger this.onmouseover this.onmouseout this.onmousedown (some f) this.onmouseclick
+    def onmouseclick f = mouseTrigger $ MouseTrigger this.onmouseover this.onmouseout this.onmousedown this.onmouseup (some f)
 }
 
 def new$mouseTrigger : mouseTrigger = 

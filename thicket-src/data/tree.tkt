@@ -34,16 +34,16 @@ class tree[a] this:Tree[a] {
     def Empty.isEmpty = true
     def Node.isEmpty = false
     
-    def Empty.(+) a = self $ Node 1 a Empty Empty
+    def Empty.(+) a = tree $ Node 1 a Empty Empty
     def Node.(+) a = 
-        when (self this.left depth << $ self this.right depth)
-        then (self $ Node (this.depth + 1) this.value (self this.left + a unbox) this.right)
-        else (self $ Node (this.depth + 1) this.value this.left (self this.right + a unbox))
+        when (tree this.left depth << $ tree this.right depth)
+        then (tree $ Node (this.depth + 1) this.value (tree this.left + a unbox) this.right)
+        else (tree $ Node (this.depth + 1) this.value this.left (tree this.right + a unbox))
     
     def Empty.map _ = emptyTree
     def Node.map f = 
-        let left = self this.left map f unbox in
-        let right = self this.right map f unbox in
+        let left = tree this.left map f unbox in
+        let right = tree this.right map f unbox in
             tree $ Node this.depth (f this.value) left right
 }
     

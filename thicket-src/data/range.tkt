@@ -21,7 +21,7 @@ class abstractRangeIterator this:(number,number) {
     def fold pred dep r f =
         let isFinished = pred this._1 this._2 in
         let nextRange = (dep this._1), this._2 in
-            isFinished fold r $ self nextRange fold pred dep (f this._1 r) f
+            isFinished fold r $ abstractRangeIterator nextRange fold pred dep (f this._1 r) f
 }
 
 class range this:number {

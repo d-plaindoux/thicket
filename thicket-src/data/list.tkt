@@ -51,34 +51,34 @@ class list[a] this:List[a] {
     def unbox = this
 
     def Nil.fold n c = n
-    def Cons.fold n c = c this.head (self this.tail)
+    def Cons.fold n c = c this.head (list this.tail)
 
     def empty = self fold true (_ _ -> false)
 
     def length = self foldR (_ r -> r ++) 0
 
-    def reverse = self $ self foldL (b a -> Cons a b) Nil
+    def reverse = list $ self foldL (b a -> Cons a b) Nil
 
-    def (++) l = self foldR (e r -> self $ Cons e r.unbox) l
-    def (+:) a = self $ Cons a this
+    def (++) l = self foldR (e r -> list $ Cons e r.unbox) l
+    def (+:) a = list $ Cons a this
     def (:+) a = self ++ $ new$list +: a
 
     def map f = self foldR (e r -> let ne = f e in list $ Cons ne r.unbox) $ new$list
     def flatmap f = self foldR (e r -> (f e) ++ r) $ list Nil
 
-    def filter p = self foldR (e r -> (p e) fold (self $ Cons e r.unbox) r) $ new$list 
+    def filter p = self foldR (e r -> (p e) fold (list $ Cons e r.unbox) r) $ new$list 
     def find p = self filter p fold none (a _ -> some a)
 
     def Nil.foldL _ b = b
-    def Cons.foldL f b = f (self this.tail foldL f b) this.head
+    def Cons.foldL f b = f (list this.tail foldL f b) this.head
 
     def Nil.foldR _ b = b
-    def Cons.foldR f b = let r = f this.head b in self this.tail foldR f r
+    def Cons.foldR f b = let r = f this.head b in list this.tail foldR f r
 
     def Nil.zip l = ziplist Nil
     def Cons.zip l =
         let ifNil = ziplist Nil in
-        let ifCons = head tail -> ziplist $ Cons (this.head,head) (self this.tail zip tail unbox) in
+        let ifCons = head tail -> ziplist $ Cons (this.head,head) (list this.tail zip tail unbox) in
             l fold ifNil ifCons
 
     def collection = Collection self.find 
@@ -95,7 +95,7 @@ class ziplist[a b] this:List[(a,b)] {
     
     def Nil.unzip = (list Nil),(list Nil)
     def Cons.unzip = 
-        let tail = self this.tail unzip in
+        let tail = ziplist this.tail unzip in
             (list $ Cons this.head._1 tail._1.unbox),(list $ Cons this.head._2 tail._2.unbox)        
 }
 

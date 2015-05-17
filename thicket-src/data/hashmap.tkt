@@ -43,7 +43,7 @@ class hashmap[k v] this:Hashmap[k v] {
       let index = c hashable hash % this.length in
       let cleanup = l -> l filter (e -> c != e._1) in
       let entries = this get index fold new$list cleanup in
-          self $ this set index $ entries +: ((c unbox),v)          
+          hashmap $ this set index $ entries +: ((c unbox),v)          
           
   def mapper = Map self.find (c v -> self.add c v mapper)
 }
