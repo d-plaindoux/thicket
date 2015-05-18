@@ -30,15 +30,15 @@ class dom this:native {
 
     addMouseTrigger : MouseTrigger -> dom
 } {
-    def addAttribute n d = internal "dom.setAttribute" apply self n d
-    def addFunction n d = internal "dom.setFunction" apply self n d
+    def addAttribute n d = internal "dom.setAttribute" self n d
+    def addFunction n d = internal "dom.setFunction" self n d
     
-    def addChild d = internal "dom.appendChild" apply self d    
-    def removeChilds = internal "dom.removeChilds" apply self
+    def addChild d = internal "dom.appendChild" self d    
+    def removeChilds = internal "dom.removeChilds" self
     
-    def clone = internal "dom.clone" apply self dom
-    def replace d = internal "dom.replace" apply self d dom
-    def remove = internal "dom.remove" apply self
+    def clone = internal "dom.clone" self dom
+    def replace d = internal "dom.replace" self d dom
+    def remove = internal "dom.remove" self
     
     def addMouseTrigger m =
         do
@@ -54,9 +54,9 @@ class document this:string {
     new  : dom
     find : option[dom]
 } {
-    def new  = dom $ internal "dom.createElement" apply this
-    def find = internal "dom.elementById" apply this (e -> some $ dom e) none
+    def new  = dom $ internal "dom.createElement" this
+    def find = internal "dom.elementById" this (e -> some $ dom e) none
 }
    
 def toDom : string -> dom = 
-    s -> dom $ internal "string.toDom" apply s
+    s -> dom $ internal "string.toDom" s

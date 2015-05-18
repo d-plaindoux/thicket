@@ -29,15 +29,15 @@ class string this:native {
     hashable   : Hashable[string]
     comparable : Comparable[string]
 } {
-    def (==) n = internal "generic.==" apply self n true false
+    def (==) n = internal "generic.==" self n true false
     def (!=) n = (self == n) not
     def (<=) n = (self == n) || (self << n)
-    def (<<) n = internal "generic.<<" apply self n true false
+    def (<<) n = internal "generic.<<" self n true false
     def (>>) n = n <= self
     def (>=) n = n << self
-    def (+) s = internal "string.+" apply self s
-    def toNumber = internal "string.toNumber" apply self some none
-    def hash = internal "string.hash" apply self
+    def (+) s = internal "string.+" self s
+    def toNumber = internal "string.toNumber" self some none
+    def hash = internal "string.hash" self
     
     def hashable = Hashable self self.hash
     def comparable = Comparable self self.(==) self.(!=) self.(>>) self.(<<) self.hashable

@@ -36,11 +36,11 @@ class array[a] this:native {
     foldL   : [b] (b -> a -> b) -> b -> b
     foldR   : [b] (a -> b -> b) -> b -> b
 } {
-    def set i a = array $ internal "array.set" apply self i a
-    def reset i = array $ internal "array.reset" apply self i
-    def get i = internal "array.get" apply self i some none
+    def set i a = array $ internal "array.set" self i a
+    def reset i = array $ internal "array.reset" self i
+    def get i = internal "array.get" self i some none
     
-    def length = internal "array.size" apply self
+    def length = internal "array.size" self
 
     def map f = 
         let update = i r -> self get i fold r { a -> r set i $ f a } in
@@ -58,4 +58,4 @@ class array[a] this:native {
         range (self.length --) downto 0 fold r (i r -> self get i fold r $ C f r)
 }
 
-def new$array : [a] number -> array[a] = n -> array $ internal "array.new" apply n
+def new$array : [a] number -> array[a] = n -> array $ internal "array.new" n

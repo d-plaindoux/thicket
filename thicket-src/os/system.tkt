@@ -14,7 +14,7 @@ from Data.Internal import internal
 class System this:unit {
     (<<) : string -> System // Try ?
 } {
-    def (<<) s = internal "system_write" apply s
+    def (<<) s = internal "system_write" s
 }
 
 def system : System = System ()

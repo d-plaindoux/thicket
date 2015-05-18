@@ -14,8 +14,10 @@ module Data.Internal
  * the code have to deal with so called delta-rules.
  */
  
-class internal this:string {
+class internalClass this:string {
     apply : [b] b // native -> No implementation for the moment
 }{
     // apply method is provided by the system
 }
+
+def internal : [a] string -> a = s -> internalClass s apply
