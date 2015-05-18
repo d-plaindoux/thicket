@@ -31,4 +31,12 @@ def fastfib : array[number] -> number -> (array[number],number) =
         }
     
 def fib : number -> number = 
-    n -> fastfib (emptyarray n) n _2
+    n -> fastfib (new$array n) n _2
+
+def fact_tail : number -> number -> number =
+    acc n ->
+    when (n == 0) 
+    then acc
+    else { fact_tail (n * acc) (n - 1) }
+    
+def fact : number -> number = n -> fact_tail 1 n

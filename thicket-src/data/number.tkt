@@ -44,11 +44,11 @@ class number this:native {
     def (<<) n = internal "generic.<<" self n true false
     def (>>) n = n <= self
     def (>=) n = n << self
-    def (+) n = internal "number.+" self n
-    def (-) n = internal "number.-" self n
-    def (*) n = internal "number.*" self n
-    def (/) n = internal "number./" self n
-    def (%) n = internal "number.%" self n
+    def (+)  n = internal "number.+" self n
+    def (-)  n = internal "number.-" self n
+    def (*)  n = internal "number.*" self n
+    def (/)  n = internal "number./" self n
+    def (%)  n = internal "number.%" self n
     
     def (++) = self + 1
     def (--) = self - 1    
