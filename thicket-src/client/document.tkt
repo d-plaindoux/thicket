@@ -31,13 +31,13 @@ class dom this:native {
     addMouseTrigger : MouseTrigger -> dom
 } {
     def addAttribute n d = internal "dom.setAttribute" self n d
-    def addFunction n d = internal "dom.setFunction" self n d
+    def addFunction n f = internal "dom.setFunction" self n (n -> f $ dom n)
     
     def addChild d = internal "dom.appendChild" self d    
     def removeChilds = internal "dom.removeChilds" self
     
-    def clone = internal "dom.clone" self dom
-    def replace d = internal "dom.replace" self d dom
+    def clone = dom $ internal "dom.clone" self
+    def replace d = internal "dom.replace" self d
     def remove = internal "dom.remove" self
     
     def addMouseTrigger m =

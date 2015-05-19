@@ -44,11 +44,11 @@ class number this:native {
     def (<<) n = internal "generic.<<" self n true false
     def (>>) n = n <= self
     def (>=) n = n << self
-    def (+)  n = internal "number.+" self n
-    def (-)  n = internal "number.-" self n
-    def (*)  n = internal "number.*" self n
-    def (/)  n = internal "number./" self n
-    def (%)  n = internal "number.%" self n
+    def (+)  n = number $ internal "number.+" self n
+    def (-)  n = number $ internal "number.-" self n
+    def (*)  n = number $ internal "number.*" self n
+    def (/)  n = number $ internal "number./" self n
+    def (%)  n = number $ internal "number.%" self n
     
     def (++) = self + 1
     def (--) = self - 1    
@@ -58,7 +58,7 @@ class number this:native {
     def min n = n max self
     
     def hash = self
-    def toString = internal "number.toString" self
+    def toString = string $ internal "number.toString" self
     
     def hashable = Hashable self self.hash
     def comparable = Comparable self self.(==) self.(!=) self.(>>) self.(<<) self.hashable

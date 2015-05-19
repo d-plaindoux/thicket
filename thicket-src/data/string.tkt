@@ -35,9 +35,9 @@ class string this:native {
     def (<<) n = internal "generic.<<" self n true false
     def (>>) n = n <= self
     def (>=) n = n << self
-    def (+) s = internal "string.+" self s
-    def toNumber = internal "string.toNumber" self some none
-    def hash = internal "string.hash" self
+    def (+) s = string $ internal "string.+" self s
+    def toNumber = internal "string.toNumber" self (n -> some $ number n) none
+    def hash = number $ internal "string.hash" self
     
     def hashable = Hashable self self.hash
     def comparable = Comparable self self.(==) self.(!=) self.(>>) self.(<<) self.hashable
