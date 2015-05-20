@@ -27,7 +27,7 @@ Thicket v0.1
 > import Examples.Lambda ;;
 > interpreter (Application lIdent $ Constant "C")
         eval new$map.mapper 
-        map (s -> console.log valueClass s pretty) 
+        map (s -> console.log $ valueClass s pretty) 
 ;;
 C
 try[consoleClass] :: <class try>

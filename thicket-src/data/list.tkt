@@ -100,3 +100,7 @@ class ziplist[a b] this:List[(a,b)] {
 }
 
 def new$list : list = list Nil
+
+/*
+adapter [a] list[a] -> Collection[a] = list::collection
+*/

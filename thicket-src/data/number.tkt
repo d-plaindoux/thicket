@@ -63,3 +63,9 @@ class number this:native {
     def hashable = Hashable self self.hash
     def comparable = Comparable self self.(==) self.(!=) self.(>>) self.(<<) self.hashable
 }
+
+/*
+adapter number -> string             = number::toString
+adapter number -> Hashable[number]   = number::hashable
+adapter number -> Comparable[number] = number::comparable
+*/

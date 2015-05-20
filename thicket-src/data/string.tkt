@@ -44,9 +44,8 @@ class string this:native {
 }
 
 /*
-implicit number -> string = number::toString
-implicit string -> Hashable[string] = string::hashable
-implicit string -> Comparable[string] = string::comparable
+adapter string -> Hashable[string]   = string::hashable
+adapter string -> Comparable[string] = string::comparable
 */
 
 def eol : string = "\n"

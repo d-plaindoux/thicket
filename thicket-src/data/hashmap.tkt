@@ -49,3 +49,7 @@ class hashmap[k v] this:Hashmap[k v] {
 }
 
 def new$map = hashmap $ new$array 256
+
+/*
+adapter [k v] Hashmap[k v] -> Map[k v] = hashmap::mapper
+*/
