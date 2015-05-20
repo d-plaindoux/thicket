@@ -33,6 +33,11 @@ def fastfib : array[number] -> number -> (array[number],number) =
 def fib : number -> number = 
     n -> fastfib (new$array n) n _2
 
+def fib2 : number -> number = 
+    n -> 
+    when (n << 2)
+    then 
+    
 def fact_tail : number -> number -> number =
     acc n ->
     when (n == 0) 

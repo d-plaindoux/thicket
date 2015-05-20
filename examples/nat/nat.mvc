@@ -24,10 +24,10 @@ class nat this:Nat {
     def unbox = this
     
     def Zero.fold z s = z
-    def Succ.fold z s = s (self this._)
+    def Succ.fold z s = s (nat this._)
     
     def Zero.(+) p = p
-    def Succ.(+) p = self $ Succ $ self this._ + p unbox
+    def Succ.(+) p = nat $ Succ $ nat this._ + p unbox
 }
  
 class natInterp this:nat {
@@ -35,11 +35,11 @@ class natInterp this:nat {
     toString : string
 } {
     def toNumber = 
-        let onSucc = p -> 1 + $ self p toNumber in
+        let onSucc = p -> 1 + $ natInterp p toNumber in
             this fold 0 onSucc
             
     def toString = 
-        let onSucc = p -> "Succ(" + (self p toString) + ")" in
+        let onSucc = p -> "Succ(" + (natInterp p toString) + ")" in
             this fold "Zero" onSucc
 }
 

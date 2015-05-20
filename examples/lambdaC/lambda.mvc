@@ -10,6 +10,7 @@ module Examples.Lambda
 
 from Data.String import string
 from Data.Try import try success failure
+from Data.Pair import *
 
 type LambdaTerm {
     model Constant { value : string }
@@ -34,32 +35,42 @@ type Value {
     }
 }
 
-class value this:Value {
-    fold : [b] (string -> b) -> ((string,LambdaTerm) -> Env -> b) -> b
+class valueClass this:Value {
+    fold   : [b] (string -> b) -> ((string,LambdaTerm) -> Env -> b) -> b
+    pretty : string
 } {
     def CstVal.fold s _  = s this.value
     def Closure.fold _ c = c this.abstraction this.environment
+    def valuePretty = self fold (s -> s) (_ _ -> "<function>")
 }
 
-class eval this:LambdaTerm {
+class interpreter this:LambdaTerm {
     eval : Env -> try[Value]
 } {
-    def Constant.eval env = success $ CstVal this.value
+    def Constant.eval env = 
+        success $ CstVal this.value
 
     def Variable.eval env = 
-    	env find this.name.comparable fold (failure "Unboud variable") 
-                       	   	(success value)
-/*                       
+    	env find this.name.comparable fold (failure "Unboud variable") success
+                                       
     def Application.eval env = 
-        let application = self this.abstraction eval env in
-        let parameter   = self this.argument eval env in
+        let application = interpreter this.abstraction eval env in
+        let parameter   = interpreter this.argument eval env in
             application flatmap (a -> 
                 parameter flatmap (p ->
-                    value a fold (_   -> failure "Type Error")
-                           (a e -> success $ self a._2 eval $ e + a._1 p)
+                    valueFolder a fold 
+                           (_   -> failure "Type Error")
+                           (a e -> interpreter a._2 eval $ e add a._1.comparable p)
                 )
-            )
-                
-    def Abstraction.eval env = success $ Closure (this.variable,this.body) env
-*/    
+            )            
+
+    def Abstraction.eval env = success $ Closure (this.variable,this.body) env    
 }
+
+// Some definitions
+
+def lIdent = Abstraction "x" $ Variable "x"
+def lTrue  = Abstraction "x" $ Abstraction "y" $ Variable "x"
+def lFalse = Abstraction "x" $ Abstraction "y" $ Variable "y"
+
+// Example : interpreter (Application lIdent (Constant "A Value")) eval new$map.mapper
