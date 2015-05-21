@@ -12,6 +12,7 @@ from Data.Internal import internal
 from Data.Native import native
 from Data.Boolean import bool
 from Data.Types import Hashable Comparable
+from Data.String import string
 
 class number this:native {
     (==)     : number -> bool

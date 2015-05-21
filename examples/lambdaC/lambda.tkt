@@ -41,7 +41,7 @@ class valueClass this:Value {
 } {
     def CstVal.fold s _  = s this.value
     def Closure.fold _ c = c this.abstraction this.environment
-    def valuePretty = self fold (s -> s) (_ _ -> "<function>")
+    def pretty = self fold (s -> s) (_ _ -> "<function>")
 }
 
 class interpreter this:LambdaTerm {
@@ -58,7 +58,7 @@ class interpreter this:LambdaTerm {
         let parameter   = interpreter this.argument eval env in
             application flatmap (a -> 
                 parameter flatmap (p ->
-                    valueFolder a fold 
+                    valueClass a fold 
                            (_   -> failure "Type Error")
                            (a e -> interpreter a._2 eval $ e add a._1.comparable p)
                 )
