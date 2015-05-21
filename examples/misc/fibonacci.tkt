@@ -30,18 +30,10 @@ def fastfib : array[number] -> number -> (array[number],number) =
                     (r2._1 set n r),r
         }
     
-def fib : number -> number = 
-    n -> fastfib (new$array n) n _2
+def fib : number -> number = n -> fastfib (new$array n) n _2
 
 def fib2 : number -> number = 
     n -> 
-    when (n << 2)
-    then 
-    
-def fact_tail : number -> number -> number =
-    acc n ->
-    when (n == 0) 
-    then acc
-    else { fact_tail (n * acc) (n - 1) }
-    
-def fact : number -> number = n -> fact_tail 1 n
+        when (n << 2)
+        then n
+        else { (fib2 $ n - 1) + (fib2 $ n - 2 ) }

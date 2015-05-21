@@ -1,0 +1,22 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Example.Factorial
+ 
+from Data.Number import number
+from Data.Array import emptyarray
+from Core.Lang import when
+ 
+def fact_tail : number -> number -> number = 
+    acc n ->
+        when (n == 0) 
+        then acc
+        else { fact_tail (n * acc) (n - 1) }
+    
+def fact : number -> number = 
+    n -> fact_tail 1 n
