@@ -19,7 +19,7 @@ from Data.Option import option Some None
  
 class dom this:native {
     addAttribute : string -> string -> dom
-    addFunction : [a] string -> (dom -> a) -> dom
+    addReflex : [a] string -> (dom -> a) -> dom
     
     addChild : dom -> dom
     removeChilds : dom
@@ -31,9 +31,9 @@ class dom this:native {
     addMouseTrigger : MouseTrigger -> dom
 } {
     def addAttribute n d = internal "dom.setAttribute" self n d
-    def addFunction n f = internal "dom.setFunction" self n (n -> f $ dom n)
+    def addReflex n f = internal "dom.setFunction" self n (n -> f $ dom n)
     
-    def addChild d = internal "dom.appendChild" self d    
+    def addChild d = internal "dom.appendChild" self d
     def removeChilds = internal "dom.removeChilds" self
     
     def clone = dom $ internal "dom.clone" self
@@ -42,11 +42,11 @@ class dom this:native {
     
     def addMouseTrigger m =
         do
-        { m onmouseover  map $ self addFunction "onmouseover" } ;
-        { m onmouseout   map $ self addFunction "onmouseout"  } ;
-        { m onmousedown  map $ self addFunction "onmousedown" } ;
-        { m onmouseup    map $ self addFunction "onmouseup"   } ;
-        { m onmouseclick map $ self addFunction "onclick"     } 
+        { m onmouseover  map $ self addReflex "onmouseover" } ;
+        { m onmouseout   map $ self addReflex "onmouseout"  } ;
+        { m onmousedown  map $ self addReflex "onmousedown" } ;
+        { m onmouseup    map $ self addReflex "onmouseup"   } ;
+        { m onmouseclick map $ self addReflex "onclick"     } 
         return self
 }
 
@@ -58,5 +58,4 @@ class document this:string {
     def find = internal "dom.elementById" this (e -> some $ dom e) none
 }
    
-def toDom : string -> dom = 
-    s -> dom $ internal "string.toDom" s
+def toDom : string -> dom = s -> dom $ internal "string.toDom" s

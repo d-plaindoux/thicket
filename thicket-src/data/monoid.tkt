@@ -12,17 +12,25 @@ from Data.Pair import Pair
 from Data.Number import number
 from Data.Boolean import bool
 
+model Monoid[k] {
+    op : k -> k -> k
+    zero : k
+}
+
+/*
+model SemiGroup[k] {
+    op : k -> k -> k
+}
+
+adapter [k] Monoid[k] -> SemiGroup[k] = m -> SemiGroup m.op
+*/
+
 // -------------------------
 // Monoid laws
 // -------------------------
 // m apply a (m apply b c) = m apply (m apply a b) c
 // m apply a (m neutral)   = a
 // m apply (m neutral) a   = a
-
-model Monoid[k] {
-    op : k -> k -> k
-    zero : k
-}
 
 class monoidLaws[k] this:(Monoid[k],(k->k->bool)) {
     verifyLaws    : k -> k -> k -> bool
@@ -49,7 +57,7 @@ class monoidLaws[k] this:(Monoid[k],(k->k->bool)) {
 
 monoidLaws (Monoid number::(+) 0),number::(==) verifyLaws 4 2 3 == true
 monoidLaws (Monoid number::(*) 1),number::(==) verifyLaws 4 2 3 == true
-monoidLaws (Monoid number::(-) 0),number::(==) verifyLaws 4 2 3 == false
-monoidLaws (Monoid number::(/) 1),number::(==) verifyLaws 4 2 3 == false
+monoidLaws (Monoid number::(-) 0),number::(==) verifyLaws 4 2 3 == false // no Neutral element
+monoidLaws (Monoid number::(/) 1),number::(==) verifyLaws 4 2 3 == false // no Associativity
 
 */

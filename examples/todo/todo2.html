@@ -8,14 +8,14 @@
      
     model Todo { _ : string }
     
-    view todo this:Todo { 
+    def todo :Todo -> dom = this -> { 
         <li><i> {toDom this._} </i></li>
     }
   </script>
 
   <script type="text/thicket">
     let node = document "todos" find in
-    let todos = list Nil :+ "todo #1" :+ "todo #2" :+ "todo #3" in
+    let todos = list Nil :+ "todo #1" :+ "todo #2" in
         do {node map (n -> todos foldR (s h -> h addChild $ todo $ Todo s) n)}
         return ()
   </script>

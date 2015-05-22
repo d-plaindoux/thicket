@@ -8,7 +8,7 @@ model PersonModel {
     age: int
 }
 
-view PersonView this:Person {
+def PersonView :Person -> dom = this -> {
     <div onClick=this.tick> 
         <div>this.firstname</div>
         <div>this.name</div>
@@ -16,7 +16,7 @@ view PersonView this:Person {
     </div>
 }
  
-view NewPerson this:Population {
+def NewPerson :Population -> dom = this -> {
     let onSubmit = _ -> this.addPerson (self.firstname,self.name) in
         <form onSubmit=(onSubmit())>
             <input type="text" id="firstname"/>
@@ -25,10 +25,12 @@ view NewPerson this:Population {
         </form>
 }
 
-view Population this:Population {
-    [PersonView Person(p) for p in this.persons]
-    <hr/>
-    (NewPerson this)
+def Population :Population -> dom = this -> {
+    <div>
+        [PersonView Person(p) for p in this.persons]
+        <hr/>
+        (NewPerson this)
+    </div>
 }
 
 class Person this:PersonModel {
@@ -68,11 +70,11 @@ class Todos this:List[TodoModel] {
     def todos = this
 }
 
-view TodosView this: Todos {
-    this.todos.map(p -> <li> p.what </li>)
+def TodosView : Todos -> dom = this -> {
+    this.todos.map (p -> <li> p.what </li>)
 }
 
-view TodoAdder this: Todos {
+def TodoAdder : Todos -> dom = this -> {
     <form onSubmit=(this.new self.todo)>
         <input type="text" id="todo"/>
         <input type="submit" value="Add"/>

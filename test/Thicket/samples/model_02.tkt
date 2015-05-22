@@ -37,12 +37,12 @@ class todos this:list[Todo] {
  * View for rendering
  */
 
-view TodoSetView this:todos {
+def TodoSetView :todos -> dom = this ->  {
     <div> 
         [ TodoView t for t in this unbox ].element
     </div>
 } 
 
-view TodoView this:Todo {
+def TodoView :Todo -> dom = this -> {
     <div class="todo" when=(this date toString)> (this value element) </div>
 } 

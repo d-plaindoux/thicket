@@ -85,14 +85,6 @@ exports['compile'] = {
                      [ {'CLASS': ['A', [ ["number.unbox", [ {ACCESS: 1}, {RETURN: 1} ]] ]] } ]);
       test.done();
   },
-    
-  'Simple view': function (test) {
-      test.expect(1);
-      
-      test.deepEqual(objcode.generateObjCode(objcode.deBruijnIndex(compiler.entity(list(), ast.view("A",[],ast.param("this",ast.type.native("a")),[ast.expr.number(1)])).success())),
-                     [ {'VIEW': ['A', [ [ {'IDENT':'number'}, {'CONST':1} , {'APPLY':1} ] ]] } ]);
-      test.done();
-  },    
 
   'Simple Definition': function (test) {
       test.expect(1);
@@ -190,7 +182,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(objcode.generateObjCode(objcode.deBruijnIndex(compiler.expression(list(), list(), ast.expr.tag("A",[],[])).success())),
-                     [ { IDENT: 'document' }, { IDENT: 'string' }, { CONST: 'A' }, { APPLY: 1 }, { INVOKE: 'new' } ]);
+                     [ { IDENT: 'document' }, { IDENT: 'string' }, { CONST: 'A' }, { APPLY: 1 }, { APPLY: 1 }, { INVOKE: 'new' } ]);
       test.done();
   },
 
@@ -198,7 +190,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(objcode.generateObjCode(objcode.deBruijnIndex(compiler.expression(list(), list('l'), ast.expr.tag("A",[['a',ast.expr.string('b')]],[])).success())),
-                     [{ IDENT: 'document' }, { IDENT: 'string' }, { CONST: 'A' }, { APPLY: 1 }, { INVOKE: 'new' },
+                     [{ IDENT: 'document' }, { IDENT: 'string' }, { CONST: 'A' }, { APPLY: 1 }, { APPLY: 1 }, { INVOKE: 'new' },
                       { INVOKE: 'addAttribute' }, { IDENT: 'string' }, { CONST: 'a' }, { APPLY: 1 }, { APPLY: 1 },
                       { IDENT: 'string' }, { CONST: 'b' }, { APPLY: 1 }, { APPLY: 1 } ]);
       test.done();
@@ -208,7 +200,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(objcode.generateObjCode(objcode.deBruijnIndex(compiler.expression(list(), list('l'), ast.expr.tag("A",[['a',ast.expr.string('b')],['b',ast.expr.number(1)]],[])).success())),
-                     [{ IDENT: 'document' }, { IDENT: 'string' }, { CONST: 'A' }, { APPLY: 1 }, { INVOKE: 'new' },
+                     [{ IDENT: 'document' }, { IDENT: 'string' }, { CONST: 'A' }, { APPLY: 1 }, { APPLY: 1 }, { INVOKE: 'new' },
                       { INVOKE: 'addAttribute' }, { IDENT: 'string' }, { CONST: 'a' }, { APPLY: 1 }, { APPLY: 1 }, 
                       { IDENT: 'string' }, { CONST: 'b' }, { APPLY: 1 }, { APPLY: 1 },
                       { INVOKE: 'addAttribute' }, { IDENT: 'string' }, { CONST: 'b' }, { APPLY: 1 }, { APPLY: 1 }, 
@@ -221,8 +213,8 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(objcode.generateObjCode(objcode.deBruijnIndex(compiler.expression(list(), list('l'), ast.expr.tag("A",[],[ast.expr.tag("B",[],[]),ast.expr.number(1)])).success())),
-                     [{ IDENT: 'document' }, { IDENT: 'string' }, { CONST: 'A' }, { APPLY: 1 }, { INVOKE: 'new' },
-                      { INVOKE: 'addChild' }, { IDENT: 'document' }, { IDENT: 'string' }, { CONST: 'B' }, { APPLY: 1 }, { INVOKE: 'new' }, { APPLY: 1 },
+                     [{ IDENT: 'document' }, { IDENT: 'string' }, { CONST: 'A' }, { APPLY: 1 }, { APPLY: 1 }, { INVOKE: 'new' },
+                      { INVOKE: 'addChild' }, { IDENT: 'document' }, { IDENT: 'string' }, { CONST: 'B' }, { APPLY: 1 }, { APPLY: 1 }, { INVOKE: 'new' }, { APPLY: 1 },
                       { INVOKE: 'addChild' }, { IDENT: 'number' }, { CONST: 1 }, { APPLY: 1 }, { APPLY: 1 } ]);
       test.done();
   },

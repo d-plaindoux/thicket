@@ -1,4 +1,9 @@
 <html>
+  <style>
+    .actionable {
+        cursor: pointer;
+    }
+  </style>
 <head>
   <script src="../build/thicket-lang.js"></script>
   <script type="text/thicket">
@@ -6,31 +11,26 @@
     from Client.Document import element
     from Client.Trigger import mouseTrigger$new
     
-    view hs this:string {
-        {toDom this}
+    def hs : string -> dom = this -> {
+        <span class="actionable">
+            <b> {toDom this} </b>
+        </span>
     }        
 
-    view hw this:string {
-        <b> 
-            <u> {hs this } </u> 
-        </b> 
-    }        
+    def hw : string -> dom = this -> {
+        <u> {toDom this} </u>
+    } 
 
     def manageNode = id -> 
-        let trigger = n:dom -> 
-            new$mouseTrigger 
-                onmouseclick { e -> 
-                    do 
-                    { n removeChilds };
-                    { n addChild $ hw "Hello World!" }
-                    return () 
-                } in 
+        let onclick = n -> 
+            n removeChilds addChild (hw "Hello World!") in        
         let node = document id find in
             node map $ n ->   
-            do 
-            { n addChild $ hs "Say Hello? <Click>" };
-            { n addMouseTrigger $ trigger n unbox }
-            return ()
+                n removeChilds 
+                  addChild (hw "Say Hello? ")                  
+                  addChild ((n -> 
+                    do { n addReflex "onclick" onclick } return n
+                  ) (hs "<Click>"))                 
   </script>
     
   <script type="text/thicket">
@@ -40,7 +40,9 @@
 
 <body onload="require('thicket')('../site').boot()">
     <p>
-        <i id="todo">  </i>
+        <i id="todo"> Compilation in progress ... </i>
     </p>
+    <hr>
+    Powered by Thicket 0.1
 </body>
 </html>

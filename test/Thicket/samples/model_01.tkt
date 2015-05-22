@@ -23,10 +23,10 @@ class peano this:Peano {
     def Succ.fold _ s = s $ peano this._
 }
 
-view zero this:unit {
-    "Zero".toDom
+def zero :unit -> dom = this -> {
+    "Zero" toDom
 }
 
-view succ this:peano {
-    ("SUCC".toDom) (this fold zero succ)
+def succ :peano -> dom = this -> {
+    <div> ("SUCC".toDom) (this fold zero succ) </div>
 }

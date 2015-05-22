@@ -115,37 +115,4 @@ exports['entities_analyse'] = {
               "Self referencing controller");
       test.done();
   },
-    
-  "Analyse simple view": function (test) {
-      test.expect(1);
-      // Test
-      var aView = ast.view("A",[],ast.param("this",ast.type.variable("number")),ast.expr.tag('a',[],[]));
-      test.ok(entities.analyse(list(), list(), list(), list(), [aView]).isSuccess(),
-              "Simple view");
-      test.done();
-  },
-    
-  "Analyse simple view using this": function (test) {
-      test.expect(1);
-      // Test
-      var aView = ast.view("A",[],ast.param("this",ast.type.variable("dom")),ast.expr.ident('this'));
-      test.ok(entities.analyse(list(), list(), list(), list(), [aView]).isSuccess(),
-              "Simple view");
-      test.done();
-  },
-    
-  "Analyse simple view with wrong content": function (test) {
-      test.expect(1);
-      // Test
-      var aView = ast.view("A",[],ast.param("this",ast.type.variable("number")),ast.expr.number(1));
-      test.ok(entities.analyse(list(), 
-                               list(), 
-                               list(), 
-                               list(pair("dom", ast.type.native("dom")),
-                                    pair("string",ast.type.native("string")),
-                                    pair("number",ast.type.native("number"))), 
-                               [aView]).isFailure(),
-              "Simple view");
-      test.done();
-  },  
 };

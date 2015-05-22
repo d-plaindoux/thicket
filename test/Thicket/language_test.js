@@ -43,20 +43,7 @@ exports['language'] = {
         if (!aStream.isEmpty()) {
             console.log("\n<ERROR LOCATION> " + aStream.location());
         }
-/*                
-        var max = language.parser.groups["entities"].totalTime;
-        
-        console.log();
-        console.log("Profiling -----------");
-        
-        for (var name in language.parser.groups) {
-            var current = language.parser.groups[name].totalTime;
-            console.log("Profiling GROUP " + name + " consumes " + current + " ms / " + Math.floor(current * 100 / max) + "%");
-        }
-                
-        console.log("Profiling SKIPPED consumes " + language.parser.skipped.totalTime + " ms / " + Math.floor(language.parser.skipped.totalTime * 100 / max) + "%");
-        console.log("Profiling -----------");
-*/      
+
         test.ok(entities.isPresent(), "accept a full example");
         test.ok(aStream.isEmpty(), "accept a full example");
         test.done();                

@@ -50,16 +50,6 @@ exports['types_generics'] = {
       test.done();
   },
 
-  "View with generics": function (test) {
-      test.expect(1);
-      // Test
-      var entity = ast.type.forall(["a"],ast.view("A",[ast.type.variable('a')],ast.param("this",ast.type.native("number")),[]));
-      test.deepEqual(types.genericsAndType(entity),
-                     pair(list("a"),entity.type),
-                     "Generics and view");
-      test.done();
-  },
-
   "Forall": function (test) {
       test.expect(1);
       // Test

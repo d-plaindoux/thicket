@@ -42,7 +42,7 @@ exports['runtime'] = {
     runtime.register({ MODEL : [ "number", [[ "_" , [{ ACCESS : 1 }]]] ] }); 
       
     test.deepEqual(runtime.execute(objcode.generateObjCode(objcode.deBruijnIndex(source))),
-                    {OBJ: [{"MODEL":["number",[["_",[{"ACCESS":1}]]]]},[{"CONST":123}]]});
+                   {OBJ: [{"MODEL":["number",[["_",[{"ACCESS":1}]]]]},[{"CONST":123}]]});
     test.done();
   },
     
@@ -56,7 +56,7 @@ exports['runtime'] = {
     runtime.register({ MODEL : [ "string", [[ "_" , [{ ACCESS : 1 }]]] ] }); 
       
     test.deepEqual(runtime.execute(objcode.generateObjCode(objcode.deBruijnIndex(source))),
-                    {OBJ: [{"MODEL":["string",[["_",[{"ACCESS":1}]]]]},[{"CONST":"123"}]]});
+                   {OBJ: [{"MODEL":["string",[["_",[{"ACCESS":1}]]]]},[{"CONST":"123"}]]});
     test.done();
   },
     
@@ -208,18 +208,5 @@ exports['runtime'] = {
                    { CONST:1 });
     test.done();
   }, 
-     
-  'View rendering': function(test) {
-    test.expect(1);
-    // tests here  
-    var aStream = stream("1"),
-        expression = language.parser.group('exprs').parse(aStream).get(),
-        source = compiler.sentence(list(),expression).success();
-    
-    runtime.register({ VIEW : [ "number", [{ACCESS:1},{RETURN:1}] ] }); 
 
-    test.deepEqual(runtime.execute(objcode.generateObjCode(objcode.deBruijnIndex(source))),
-                   { CONST:1 });
-    test.done();
-  }, 
 };

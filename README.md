@@ -87,7 +87,7 @@ example  we   propose  views  dedicated   to  a  `person`  and   to  a
 approach is  similar to [React](http://facebook.github.io/react/).
 
 ```
-view personView this:person {
+def personView : person -> dom = this -> {
   <div onClick=this.tick> 
     <div>this.firstname</div>
     <div>this.name</div>
@@ -105,7 +105,7 @@ definition each `PersonAdder` instance  provides these definitions and
 then can be referenced as we do in the `Population#addPerson` method.
 
 ```
-view personAdder this:population {
+def personAdder : population -> dom = this -> {
   let onSubmit = this addNew self.firstname self.name in
       <form onSubmit=onSubmit>
         <input type="text" id="firstname"/>

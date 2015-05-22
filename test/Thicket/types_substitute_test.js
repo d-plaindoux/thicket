@@ -153,25 +153,5 @@ exports['types_subsitute'] = {
                      "Substitute controller");
       test.done();
   },
-    
-  "Subtitute view": function (test) {
-      test.expect(1);
-      // Test
-      var entity = ast.view("A",[],ast.param("this", ast.type.variable("b")),[]);
-      test.deepEqual(types.substitute(list(pair("b",ast.type.native("y"))), entity, true),
-                    ast.view("A",[],ast.param("this", ast.type.native("y")),[]),
-                     "Substitute view");
-      test.done();
-  },
-    
-  "Subtitute view with non free variable": function (test) {
-      test.expect(1);
-      // Test
-      var entity = ast.type.forall(["b"], ast.view("A",[ast.type.variable('b')],ast.param("this", ast.type.variable("b")),[]));
-      test.deepEqual(types.substitute(list(pair("b",ast.type.native("y"))), entity, true), 
-                    entity,
-                     "Substitute view");
-      test.done();
-  },
 };
  

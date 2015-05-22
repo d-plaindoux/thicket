@@ -118,34 +118,4 @@ exports['entities_freevar'] = {
                      "Non empty model");
       test.done();
   },    
-
-  "Freevar for an empty view with closed object": function (test) {
-      test.expect(1);
-      // Test
-      var aView = ast.view("A",[],ast.param("t",ast.type.native('a')),ast.expr.tag("a"));
-      test.deepEqual(entities.freeVariables(list(), aView),
-                     list(),
-                     "Empty model");
-      test.done();
-  },        
-
-  "Freevar for an empty view with open object": function (test) {
-      test.expect(1);
-      // Test
-      var aView = ast.view("A",[],ast.param("t",ast.type.variable('a')),ast.expr.tag("a"));
-      test.deepEqual(entities.freeVariables(list(), aView),
-                     list('a'),
-                     "Empty model");
-      test.done();
-  },
-    
-  "Freevar for a genetic view with open object": function (test) {
-      test.expect(1);
-      // Test
-      var aView = ast.type.forall(["a"], ast.view("A",[ast.type.variable('a')],ast.param("t",ast.type.variable('a')),ast.expr.tag("a")));
-      test.deepEqual(entities.freeVariables(list(), aView),
-                     list(),
-                     "Empty model");
-      test.done();
-  },
 };

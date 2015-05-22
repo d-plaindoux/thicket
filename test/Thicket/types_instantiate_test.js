@@ -63,19 +63,6 @@ exports['types_freevar'] = {
                      "Fresh controller with generics");
       test.done();
   },
-
-  "Fresh view": function (test) {
-      test.expect(1);
-      // Test
-      
-      types.reset();
-      
-      var entity = ast.type.forall(["a"], ast.view("A",[ast.type.variable('a')],ast.param("this",ast.type.variable("a")),[]));
-      test.deepEqual(types.instantiate(entity),
-                     ast.view("A",[ast.type.variable("'a")],ast.param("this",ast.type.variable("'a")),[]),
-                     "Fresh view with generics");
-      test.done();
-  },
         
   "Fresh forall": function (test) {
       test.expect(1);

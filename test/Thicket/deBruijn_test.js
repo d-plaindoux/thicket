@@ -86,14 +86,6 @@ exports['compile'] = {
                     compiler.abstractSyntax("Controller","A",[["number.unbox",compiler.abstractSyntax("Variable",1)]]));
       test.done();
   },
-    
-  'Simple view': function (test) {
-      test.expect(1);
-      
-      test.deepEqual(objcode.deBruijnIndex(compiler.entity(list(), ast.view("A",[],ast.param("this",ast.type.native("a")),[ast.expr.number(1)])).success()),
-                     compiler.abstractSyntax("View","A",[compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","number"), compiler.abstractSyntax("Native",1))]));
-      test.done();
-  },    
      
   'Simple Definition': function (test) {
       test.expect(1);
