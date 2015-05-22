@@ -1,0 +1,55 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Data.Monoid
+ 
+from Data.Pair import Pair
+from Data.Number import number
+from Data.Boolean import bool
+
+// -------------------------
+// Monoid laws
+// -------------------------
+// m apply a (m apply b c) = m apply (m apply a b) c
+// m apply a (m neutral)   = a
+// m apply (m neutral) a   = a
+
+model Monoid[k] {
+    op : k -> k -> k
+    zero : k
+}
+
+class monoidLaws[k] this:(Monoid[k],(k->k->bool)) {
+    verifyLaws    : k -> k -> k -> bool
+    associativity : k -> k -> k -> bool
+    neutral_left  : k -> bool
+    neutral_right : k -> bool
+} {
+    def verifyLaws a b c =
+          self associativity a b c and 
+        $ self neutral_left a and 
+        $ self neutral_right a
+    
+    def associativity a b c = 
+        this._2 { this._1 op a (this._1 op b c) } { this._1 op (this._1 op a b) c }
+        
+    def neutral_left a = 
+        this._2 { this._1 op a (this._1 zero) } a
+        
+    def neutral_right a = 
+        this._2 { this._1 op (this._1 zero) a } a
+}
+
+/* Some Monoid or not
+
+monoidLaws (Monoid number::(+) 0),number::(==) verifyLaws 4 2 3 == true
+monoidLaws (Monoid number::(*) 1),number::(==) verifyLaws 4 2 3 == true
+monoidLaws (Monoid number::(-) 0),number::(==) verifyLaws 4 2 3 == false
+monoidLaws (Monoid number::(/) 1),number::(==) verifyLaws 4 2 3 == false
+
+*/
