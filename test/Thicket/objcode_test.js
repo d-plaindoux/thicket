@@ -190,7 +190,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(objcode.generateObjCode(objcode.deBruijnIndex(compiler.expression(list(), list(), ast.expr.tag("A",[],[])).success())),
-                     [ { TAG: { '$type': 'Tag', '$values': [ 'A', [], [] ] } } ]);
+                     [ { IDENT: 'document' }, { IDENT: 'string' }, { CONST: 'A' }, { APPLY: 1 }, { INVOKE: 'new' } ]);
       test.done();
   },
 
@@ -198,16 +198,9 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(objcode.generateObjCode(objcode.deBruijnIndex(compiler.expression(list(), list('l'), ast.expr.tag("A",[['a',ast.expr.string('b')]],[])).success())),
-                     [ { TAG: 
-                         { '$type': 'Tag',
-                           '$values': 
-                            [ 'A',
-                              [ [ 'a',
-                                  { '$type': 'Apply',
-                                    '$values': 
-                                     [ { '$type': 'Ident', '$values': [ 'string' ] },
-                                       { '$type': 'Native', '$values': [ 'b' ] } ] } ] ],
-                              [] ] } } ]);
+                     [{ IDENT: 'document' }, { IDENT: 'string' }, { CONST: 'A' }, { APPLY: 1 }, { INVOKE: 'new' },
+                      { INVOKE: 'addAttribute' }, { IDENT: 'string' }, { CONST: 'a' }, { APPLY: 1 }, { APPLY: 1 },
+                      { IDENT: 'string' }, { CONST: 'b' }, { APPLY: 1 }, { APPLY: 1 } ]);
       test.done();
   },
     
@@ -215,21 +208,12 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(objcode.generateObjCode(objcode.deBruijnIndex(compiler.expression(list(), list('l'), ast.expr.tag("A",[['a',ast.expr.string('b')],['b',ast.expr.number(1)]],[])).success())),
-                     [ { TAG: 
-                         { '$type': 'Tag',
-                           '$values': 
-                            [ 'A',
-                              [ [ 'a',
-                                  { '$type': 'Apply',
-                                    '$values': 
-                                     [ { '$type': 'Ident', '$values': [ 'string' ] },
-                                       { '$type': 'Native', '$values': [ 'b' ] } ] } ],
-                                [ 'b',
-                                  { '$type': 'Apply',
-                                    '$values': 
-                                     [ { '$type': 'Ident', '$values': [ 'number' ] },
-                                       { '$type': 'Native', '$values': [ 1 ] } ] } ] ],
-                              [] ] } } ]);                 
+                     [{ IDENT: 'document' }, { IDENT: 'string' }, { CONST: 'A' }, { APPLY: 1 }, { INVOKE: 'new' },
+                      { INVOKE: 'addAttribute' }, { IDENT: 'string' }, { CONST: 'a' }, { APPLY: 1 }, { APPLY: 1 }, 
+                      { IDENT: 'string' }, { CONST: 'b' }, { APPLY: 1 }, { APPLY: 1 },
+                      { INVOKE: 'addAttribute' }, { IDENT: 'string' }, { CONST: 'b' }, { APPLY: 1 }, { APPLY: 1 }, 
+                      { IDENT: 'number' }, { CONST: 1 }, { APPLY: 1 }, { APPLY: 1 } ]);
+
       test.done();
   },
 
@@ -237,16 +221,9 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(objcode.generateObjCode(objcode.deBruijnIndex(compiler.expression(list(), list('l'), ast.expr.tag("A",[],[ast.expr.tag("B",[],[]),ast.expr.number(1)])).success())),
-                     [ { TAG: 
-                         { '$type': 'Tag',
-                           '$values': 
-                            [ 'A',
-                              [],
-                              [ { '$type': 'Tag', '$values': [ 'B', [], [] ] },
-                                { '$type': 'Apply',
-                                  '$values': 
-                                   [ { '$type': 'Ident', '$values': [ 'number' ] },
-                                     { '$type': 'Native', '$values': [ 1 ] } ] } ] ] } } ]);
+                     [{ IDENT: 'document' }, { IDENT: 'string' }, { CONST: 'A' }, { APPLY: 1 }, { INVOKE: 'new' },
+                      { INVOKE: 'addChild' }, { IDENT: 'document' }, { IDENT: 'string' }, { CONST: 'B' }, { APPLY: 1 }, { INVOKE: 'new' }, { APPLY: 1 },
+                      { INVOKE: 'addChild' }, { IDENT: 'number' }, { CONST: 1 }, { APPLY: 1 }, { APPLY: 1 } ]);
       test.done();
   },
   

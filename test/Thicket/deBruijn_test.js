@@ -240,7 +240,10 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(objcode.deBruijnIndex(compiler.expression(list(), list(), ast.expr.tag("A",[],[])).success()),
-                     compiler.abstractSyntax("Tag", "A", [], []));
+                     compiler.abstractSyntax("Tag", 
+                                             compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), compiler.abstractSyntax("Native","A")), 
+                                             [], 
+                                             []));
       test.done();
   },
 
@@ -248,9 +251,11 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(objcode.deBruijnIndex(compiler.expression(list(), list('l'), ast.expr.tag("A",[['a',ast.expr.string('b')]],[])).success()),
-                     compiler.abstractSyntax("Tag", "A", 
-                                             [["a",
-                                               compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), compiler.abstractSyntax("Native","b"))]], []));
+                     compiler.abstractSyntax("Tag", 
+                                             compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), compiler.abstractSyntax("Native","A")), 
+                                             [[compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), compiler.abstractSyntax("Native","a")),
+                                               compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), compiler.abstractSyntax("Native","b"))]], 
+                                             []));
       test.done();
   },
     
@@ -258,9 +263,13 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(objcode.deBruijnIndex(compiler.expression(list(), list('l'), ast.expr.tag("A",[['a',ast.expr.string('b')],['b',ast.expr.number(1)]],[])).success()),
-                     compiler.abstractSyntax("Tag", "A", 
-                                             [["a",compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), compiler.abstractSyntax("Native","b"))],
-                                              ["b",compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","number"), compiler.abstractSyntax("Native",1))]], []));                 
+                     compiler.abstractSyntax("Tag", 
+                                             compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), compiler.abstractSyntax("Native","A")), 
+                                             [[compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), compiler.abstractSyntax("Native","a")),
+                                               compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), compiler.abstractSyntax("Native","b"))],
+                                              [compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), compiler.abstractSyntax("Native","b")),
+                                               compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","number"), compiler.abstractSyntax("Native",1))]], 
+                                             []));                 
       test.done();
   },
 
@@ -268,8 +277,13 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(objcode.deBruijnIndex(compiler.expression(list(), list('l'), ast.expr.tag("A",[],[ast.expr.tag("B",[],[]),ast.expr.number(1)])).success()),
-                     compiler.abstractSyntax("Tag", "A", [], 
-                                             [compiler.abstractSyntax("Tag", "B", [], []), 
+                     compiler.abstractSyntax("Tag", 
+                                             compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), compiler.abstractSyntax("Native","A")),
+                                             [], 
+                                             [compiler.abstractSyntax("Tag", 
+                                                                      compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), compiler.abstractSyntax("Native","B")),
+                                                                      [], 
+                                                                      []), 
                                               compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","number"), compiler.abstractSyntax("Native",1))]));
       test.done();
   },
