@@ -114,7 +114,7 @@ def personAdder : population -> dom = this -> {
       </form>   
 }
 
-view populationView this:population {
+def populationView : population -> dom = this -> {
   [personView (person p) for p in this <= 100 unbox]
   (personAdder this)
 }
