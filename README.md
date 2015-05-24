@@ -105,19 +105,19 @@ definition each `PersonAdder` instance  provides these definitions and
 then can be referenced as we do in the `Population#addPerson` method.
 
 ```
-def personAdder : population -> dom = this -> {
+def personAdder : population -> dom = this ->
   let onSubmit = this addNew self.firstname self.name in
       <form onSubmit=onSubmit>
         <input type="text" id="firstname"/>
         <input type="text" id="name"/>
         <input type="submit" value="Add"/>
-      </form>   
-}
+      </form>
 
-view populationView this:population {
-  [personView (person p) for p in this <= 100 unbox]
-  (personAdder this)
-}
+def populationView : population -> dom = this ->
+  <div>
+      [personView (person p) for p in this <= 100 unbox]
+      (personAdder this)
+   </div>
 ```
 
 See current [Libraries](https://github.com/d-plaindoux/thicket/tree/master/thicket-src)
