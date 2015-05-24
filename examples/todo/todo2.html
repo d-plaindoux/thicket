@@ -15,7 +15,7 @@
 
   <script type="text/thicket">
     let node = document "todos" find in
-    let todos = list Nil :+ "todo #1" :+ "todo #2" in
+    let todos = list Nil +: "todo #1" +: "todo #2" +: "todo #3" in
         do {node map (n -> todos foldR (s h -> h addChild $ todo $ Todo s) n)}
         return ()
   </script>

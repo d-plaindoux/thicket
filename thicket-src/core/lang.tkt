@@ -47,3 +47,22 @@ class do[a] this:a {
     def and = do
     def return c = c
 }
+
+/* 
+ * Language syntactic extension for builder
+ * 
+ *     new list A1 ; A2 ; A3 return
+ */
+
+model Builder[a b] {
+    unbox : b
+    add : a -> Builder[a b]
+}
+
+class builder[a b] this:Builder[a b] {
+    (;) : a -> builder[a b]
+    end : b
+} {
+    def (;) a = builder $ this add a
+    def end = this unbox
+}

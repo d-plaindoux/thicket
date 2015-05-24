@@ -16,7 +16,7 @@ from Data.Native import native
 from Data.Internal import internal
 from Data.String import string
 from Data.Option import option Some None
- 
+
 class dom this:native {
     addAttribute : string -> string -> dom
     addReflex : [a] string -> (dom -> a) -> dom

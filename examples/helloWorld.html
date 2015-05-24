@@ -7,40 +7,31 @@
 <head>
   <script src="../build/thicket-lang.js"></script>
   <script type="text/thicket">
-    from Core.Lang import do
     from Client.Document import element
-    from Client.Trigger import mouseTrigger$new
     
-    def hs : string -> dom = this -> {
+    def hs : string -> dom = this ->
         <span class="actionable">
             <b> {toDom this} </b>
         </span>
-    }        
 
-    def hw : string -> dom = this -> {
+    def hw : string -> dom = this ->
         <u> {toDom this} </u>
-    } 
 
-    def manageNode = id -> 
-        let onclick = n -> 
-            n removeChilds addChild (hw "Hello World!") in        
-        let node = document id find in
-            node map $ n ->   
-                n removeChilds 
-                  addChild (hw "Say Hello? ")                  
-                  addChild ((n -> 
-                    do { n addReflex "onclick" onclick } return n
-                  ) (hs "<Click>"))                 
+    def manageNode : dom -> dom = node -> 
+        let onclick = n -> n removeChilds addChild (hw "Hello World!") in        
+            node addChild { toDom "Say Hello? " }
+                 addChild { hs "<Click>" addReflex "onclick" onclick }
   </script>
     
   <script type="text/thicket">
-    manageNode "todo" 
+    let node = document "todo" find in 
+        node map manageNode
   </script>
 </head>    
 
 <body onload="require('thicket')('../site').boot()">
     <p>
-        <i id="todo"> Compilation in progress ... </i>
+        <i id="todo"/>
     </p>
     <hr>
     Powered by Thicket 0.1

@@ -8,6 +8,7 @@
 
 module Data.List
 
+from Core.Lang import Builder
 from Data.Pair import Pair
 from Data.Boolean import bool
 from Data.Number import number
@@ -47,6 +48,7 @@ class list[a] this:List[a] {
     zip     : [b] list[b] -> ziplist[a b]
     
     collection : Collection[a]
+    builder : Builder[a list[a]]
 } {
     def unbox = this
 
@@ -61,12 +63,12 @@ class list[a] this:List[a] {
 
     def (++) l = self foldR (e r -> list $ Cons e r.unbox) l
     def (+:) a = list $ Cons a this
-    def (:+) a = self ++ $ new$list +: a
+    def (:+) a = self ++ $ list Nil +: a
 
-    def map f = self foldR (e r -> let ne = f e in list $ Cons ne r.unbox) $ new$list
+    def map f = self foldR (e r -> let ne = f e in list $ Cons ne r.unbox) $ list Nil
     def flatmap f = self foldR (e r -> (f e) ++ r) $ list Nil
 
-    def filter p = self foldR (e r -> (p e) fold (list $ Cons e r.unbox) r) $ new$list 
+    def filter p = self foldR (e r -> (p e) fold (list $ Cons e r.unbox) r) $ list Nil
     def find p = self filter p fold none (a _ -> some a)
 
     def Nil.foldL _ b = b
@@ -85,6 +87,8 @@ class list[a] this:List[a] {
                                 (p -> self filter p collection) 
                                 (v -> self +: v collection) 
                                 (f -> self map f collection)
+                                
+    def builder = Builder self (a ->(self :+ a).builder)
 }
 
 class ziplist[a b] this:List[(a,b)] {
@@ -99,7 +103,7 @@ class ziplist[a b] this:List[(a,b)] {
             (list $ Cons this.head._1 tail._1.unbox),(list $ Cons this.head._2 tail._2.unbox)        
 }
 
-def new$list : list = list Nil
+def newList : [a] a -> builder[a list[a]] = builder (list Nil).builder ;
 
 /*
 adapter [a] list[a] -> Collection[a] = list::collection
