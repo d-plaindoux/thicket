@@ -1,0 +1,19 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Data.Collection
+
+from Data.Boolean import bool
+from Data.Option import option
+ 
+model Collection[a] {
+    find : (a -> bool) -> option[a]
+    filter : (a -> bool) -> Collection[a]
+    add : a -> Collection[a]
+    map : [b] (a -> b) -> Collection[b]
+}

@@ -8,7 +8,8 @@
 
 module Data.Boolean
 
-from Data.Types import Comparable Hashable
+from Data.Comparable import Comparable
+from Data.Hashable import Hashable
 
 /**
  * Boolean definition as an injective type domain
@@ -70,3 +71,6 @@ class bool this:Bool {
 
 def true  : bool = bool True
 def false : bool = bool False
+
+adapter bool2hashable   : bool -> Hashable[bool]   = bool::hashable
+adapter bool2comparable : bool -> Comparable[bool] = bool::comparable

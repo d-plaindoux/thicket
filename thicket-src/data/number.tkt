@@ -11,7 +11,8 @@ module Data.Number
 from Data.Internal import internal
 from Data.Native import native
 from Data.Boolean import bool
-from Data.Types import Hashable Comparable
+from Data.Comparable import Comparable
+from Data.Hashable import Hashable
 from Data.String import string
 
 class number this:native {
@@ -65,8 +66,6 @@ class number this:native {
     def comparable = Comparable self self.(==) self.(!=) self.(>>) self.(<<) self.hashable
 }
 
-/*
-adapter number -> string             = number::toString
-adapter number -> Hashable[number]   = number::hashable
-adapter number -> Comparable[number] = number::comparable
-*/
+adapter number2string      : number -> string              = number::toString
+adapter number2hashable    : number -> Hashable[number]    = number::hashable
+adapter number2comparable  : number -> Comparable[number]  = number::comparable

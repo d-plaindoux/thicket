@@ -13,7 +13,9 @@ from Data.Pair import Pair
 from Data.Boolean import bool
 from Data.Number import number
 from Data.Option import option
-from Data.Types import Collection
+from Data.Comparable import Comparable
+from Data.Hashable import Hashable
+from Data.Collection import Collection
 
 type List[a] {
     model Nil
@@ -103,8 +105,6 @@ class ziplist[a b] this:List[(a,b)] {
             (list $ Cons this.head._1 tail._1.unbox),(list $ Cons this.head._2 tail._2.unbox)        
 }
 
-def newList : [a] a -> builder[a list[a]] = builder (list Nil).builder ;
+def listBuilder : [a] a -> builder[a list[a]] = builder (list Nil).builder ;
 
-/*
-adapter [a] list[a] -> Collection[a] = list::collection
-*/
+adapter list2colleciton : [a] list[a] -> Collection[a] = l -> l.collection

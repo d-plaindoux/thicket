@@ -7,18 +7,15 @@
 <head>
   <script src="../build/thicket-lang.js"></script>
   <script type="text/thicket">
-    from Client.Document import element
+    from Client.Document import document
     
     def hs : string -> dom = this ->
         <span class="actionable">
             <b> {toDom this} </b>
         </span>
 
-    def hw : string -> dom = this ->
-        <u> {toDom this} </u>
-
     def manageNode : dom -> dom = node -> 
-        let onclick = n -> n removeChilds addChild (hw "Hello World!") in        
+        let onclick = n -> n removeChilds addChild $ toDom "Hello World!" in        
             node addChild { toDom "Say Hello? " }
                  addChild { hs "<Click>" addReflex "onclick" onclick }
   </script>

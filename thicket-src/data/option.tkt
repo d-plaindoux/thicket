@@ -43,3 +43,5 @@ class option[a] this:Option[a] {
 
 def some : [a] a -> option[a] = e -> option $ Some e
 def none : [a] option[a] = option None
+
+adapter option2try : [a] option[a] -> try[a] = t -> t fold (failure "Undefined value") success

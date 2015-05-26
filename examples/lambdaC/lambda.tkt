@@ -51,7 +51,7 @@ class interpreter this:LambdaTerm {
         success $ CstVal this.value
 
     def Variable.eval env = 
-    	env find this.name.comparable fold (failure "Unboud variable") success
+    	env find (string2comparable this.name) fold (failure "Unboud variable") success
                                        
     def Application.eval env = 
         let application = interpreter this.abstraction eval env in
@@ -60,7 +60,7 @@ class interpreter this:LambdaTerm {
                 parameter flatmap (p ->
                     valueClass a fold 
                            (_   -> failure "Type Error")
-                           (a e -> interpreter a._2 eval $ e add a._1.comparable p)
+                           (a e -> interpreter a._2 eval $ e add (string2comparable a._1) p)
                 )
             )            
 

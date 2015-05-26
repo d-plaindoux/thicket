@@ -8,12 +8,14 @@
  
 module Data.Hashmap
  
+from Data.Map import Map
 from Data.Boolean import bool
-from Data.List import list new$list
+from Data.List import list newList
 from Data.Number import number
 from Data.Option import option
 from Data.Pair import Pair
-from Data.Types import comparable hashables
+from Data.Comparable import Comparable
+from Data.Hashable import Hashable
 from Data.Array import array
 from Logic.Combinators import I
 
@@ -27,12 +29,12 @@ class hashmap[k v] this:Hashmap[k v] {
   find   : Comparable[k] -> option[v]
   add    : Comparable[k] -> v -> hashmap[k v]
 
-  mapper : Map[k v]
+  map    : Map[k v]
 } {
   def unbox = this
 
   def empty = 
-      this foldR (e _ -> e empty) true
+       this foldR (e _ -> e empty) true
 
   def find c = 
       let index = c hashable hash % this.length in
@@ -42,14 +44,12 @@ class hashmap[k v] this:Hashmap[k v] {
   def add c v = 
       let index = c hashable hash % this.length in
       let cleanup = l -> l filter (e -> c != e._1) in
-      let entries = this get index fold new$list cleanup in
+      let entries = this get index fold (list Nil) cleanup in
           hashmap $ this set index $ entries +: ((c unbox),v)          
-          
-  def mapper = Map self.find (c v -> self.add c v mapper)
+         
+  def map = Map self.find (c v -> (self.add c v).map)
 }
 
-def new$map = hashmap $ new$array 256
+def newHashmap = hashmap $ newArray 256
 
-/*
-adapter [k v] Hashmap[k v] -> Map[k v] = hashmap::mapper
-*/
+adapter hashmap2map : [k v] hashmap[k v] -> Map[k v] = h -> h.map

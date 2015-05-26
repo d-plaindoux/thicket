@@ -30,7 +30,7 @@ def fastfib : array[number] -> number -> (array[number],number) =
                     (r2._1 set n r),r
         }
     
-def fib : number -> number = n -> fastfib (new$array n) n _2
+def fib : number -> number = n -> fastfib (newArray n) n _2
 
 def fib2 : number -> number = 
     n -> 

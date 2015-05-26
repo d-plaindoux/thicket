@@ -1,0 +1,16 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Data.Hashable
+ 
+from Data.Number import number
+
+model Hashable[k] { 
+    unbox : k
+    hash : number
+}

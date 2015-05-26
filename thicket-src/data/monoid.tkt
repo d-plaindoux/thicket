@@ -13,17 +13,9 @@ from Data.Number import number
 from Data.Boolean import bool
 
 model Monoid[k] {
-    op : k -> k -> k
-    zero : k
+    append : k -> k -> k
+    zero   : k
 }
-
-/*
-model SemiGroup[k] {
-    op : k -> k -> k
-}
-
-adapter [k] Monoid[k] -> SemiGroup[k] = m -> SemiGroup m.op
-*/
 
 // -------------------------
 // Monoid laws
@@ -44,13 +36,14 @@ class monoidLaws[k] this:(Monoid[k],(k->k->bool)) {
         $ self neutral_right a
     
     def associativity a b c = 
-        this._2 { this._1 op a (this._1 op b c) } { this._1 op (this._1 op a b) c }
+        this._2 { this._1 append a (this._1 append b c) } 
+                { this._1 append (this._1 append a b) c }
         
     def neutral_left a = 
-        this._2 { this._1 op a (this._1 zero) } a
+        this._2 { this._1 append a (this._1.zero) } a
         
     def neutral_right a = 
-        this._2 { this._1 op (this._1 zero) a } a
+        this._2 { this._1 append (this._1.zero) a } a
 }
 
 /* Some Monoid or not

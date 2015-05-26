@@ -13,7 +13,8 @@ from Data.Internal  import internal
 from Data.Native    import native
 from Data.Number    import number
 from Data.Option    import option None Some
-from Data.Types import Hashable Comparable
+from Data.Comparable import Comparable
+from Data.Hashable import Hashable
 
 class string this:native {
     (==)     : string -> bool
@@ -25,9 +26,6 @@ class string this:native {
     (+)      : string -> string
     toNumber : option[number]
     hash     : number
-    
-    hashable   : Hashable[string]
-    comparable : Comparable[string]
 } {
     def (==) n = internal "generic.==" self n true false
     def (!=) n = (self == n) not
@@ -38,14 +36,12 @@ class string this:native {
     def (+) s = string $ internal "string.+" self s
     def toNumber = internal "string.toNumber" self (n -> some $ number n) none
     def hash = number $ internal "string.hash" self
-    
-    def hashable = Hashable self self.hash
-    def comparable = Comparable self self.(==) self.(!=) self.(>>) self.(<<) self.hashable
 }
 
-/*
-adapter string -> Hashable[string]   = string::hashable
-adapter string -> Comparable[string] = string::comparable
-*/
-
 def eol : string = "\n"
+
+adapter string2hashable : string -> Hashable[string] = 
+    s -> Hashable s s.hash
+    
+adapter string2comparable : string -> Comparable[string] = 
+    s -> Comparable s s.(==) s.(!=) s.(>>) s.(<<) (string2hashable s)
