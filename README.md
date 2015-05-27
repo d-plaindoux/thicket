@@ -65,7 +65,7 @@ class person this:Person {
   def firstname = this.firstname
   def name = this.name
   def age = this.age
-  def tick = self $ Person this.firstname this.name (this.age + 1)
+  def tick = self $ Person this.firstname this.name $ this.age + 1
 }
 
 typedef Population = list[Person]
@@ -76,7 +76,7 @@ class population this:Population {
   addNew  : string -> string -> population
 } {
   def unbox = this
-  def (<=) age = self [p for p in this if p <= 100]
+  def (<=) age = self for p in this if p <= 100 yield p
   def addNew f n = self $ this +: (APerson f n)
 }
 ```
@@ -122,6 +122,33 @@ def populationView : population -> dom = this ->
 
 See current [Libraries](https://github.com/d-plaindoux/thicket/tree/master/thicket-src)
 for more language highlights.
+
+TODO
+================================
+
+
+Derivation
+----------
+
+Class derivation can help reducing specification by copy. But this 
+derivation is not meant to be used for sub-typing since subtyping
+does not exist in the language. For this purpose the adapter is 
+the preferred solution.
+
+Adapters
+--------
+
+Implicit adapters must be done in order to reduce boiler plate when
+dealing with objects. For instance when a `Comparable[number]` is
+required this one can be transparently created from a `number`.
+
+Model evolution
+---------------
+
+Model alteration using `with` ML operator increases language expessivity
+reducing model transformation. This can be significant when objects 
+have a lot of attributes for instance. In this case alteration means
+object evolution by copy induced by immutable approach.
 
 More informations and References
 ================================

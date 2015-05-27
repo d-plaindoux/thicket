@@ -71,4 +71,4 @@ adapter number2hashable : number -> Hashable[number] =
     s -> Hashable s s.hash
     
 adapter number2comparable : number -> Comparable[number] = 
-    s -> Comparable s s.(==) s.(!=) s.(>>) s.(<<) (number2hashable 2)
+    s -> Comparable s s.(==) s.(!=) s.(>>) s.(<<) (number2hashable s)
