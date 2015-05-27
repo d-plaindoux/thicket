@@ -11,6 +11,7 @@ module Examples.Lambda
 from Data.String import string
 from Data.Try import try success failure
 from Data.Pair import *
+from Data.Map import Map
 
 type LambdaTerm {
     model Constant { value : string }

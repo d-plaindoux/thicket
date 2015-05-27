@@ -49,9 +49,7 @@ class do[a] this:a {
 }
 
 /* 
- * Language syntactic extension for builder
- * 
- *     new list A1 ; A2 ; A3 return
+ * Language syntactic extension for set builder
  */
 
 model Builder[a b] {
