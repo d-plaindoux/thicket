@@ -58,6 +58,8 @@ class number this:native {
     def hash = self
 }
 
+def Infinity = 1 / 0
+
 /**
  * Adapters
  */
