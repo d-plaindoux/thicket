@@ -131,9 +131,22 @@ Derivation
 ----------
 
 Class derivation can help reducing specification by copy. But this 
-derivation is not meant to be used for sub-typing since subtyping
+derivation is not meant to be used for subtyping since subtyping
 does not exist in the language. For this purpose the adapter is 
 the preferred solution.
+
+````
+model Equal[a] { 
+    (==) : a -> bool
+)
+
+class number this:native {
+    derives Equal[number]
+} {
+    def (==) = ...
+}
+```
+
 
 Adapters
 --------
@@ -142,6 +155,11 @@ Implicit adapters must be done in order to reduce boiler plate when
 dealing with objects. For instance when a `Comparable[number]` is
 required this one can be transparently created from a `number`.
 
+```
+adapter number2comparable : number -> Comparable[number] = 
+    s -> ...
+```
+
 Model evolution
 ---------------
 
@@ -149,6 +167,14 @@ Model alteration using `with` ML operator increases language expessivity
 reducing model transformation. This can be significant when objects 
 have a lot of attributes for instance. In this case alteration means
 object evolution by copy induced by immutable approach.
+
+```
+class person this:Person {  
+  tick: person
+} {
+  def tick = self $ this with age = this.age + 1
+}
+```
 
 More informations and References
 ================================
