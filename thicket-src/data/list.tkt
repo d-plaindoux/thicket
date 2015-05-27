@@ -48,9 +48,6 @@ class list[a] this:List[a] {
     foldR   : [b] (a -> b -> b) -> b -> b
 
     zip     : [b] list[b] -> ziplist[a b]
-    
-    collection : Collection[a]
-    builder : Builder[a list[a]]
 } {
     def unbox = this
 
@@ -67,7 +64,7 @@ class list[a] this:List[a] {
     def (+:) a = list $ Cons a this
     def (:+) a = self ++ $ list Nil +: a
 
-    def map f = self foldR (e r -> let ne = f e in list $ Cons ne r.unbox) $ list Nil
+    def map f = self foldR (e r -> let ne = f e in list $ Cons ne r.unbox) $ emptyList
     def flatmap f = self foldR (e r -> (f e) ++ r) $ list Nil
 
     def filter p = self foldR (e r -> (p e) fold (list $ Cons e r.unbox) r) $ list Nil
@@ -84,13 +81,6 @@ class list[a] this:List[a] {
         let ifNil = ziplist Nil in
         let ifCons = head tail -> ziplist $ Cons (this.head,head) (list this.tail zip tail unbox) in
             l fold ifNil ifCons
-
-    def collection = Collection self.find 
-                                (p -> self filter p collection) 
-                                (v -> self +: v collection) 
-                                (f -> self map f collection)
-                                
-    def builder = Builder self (a ->(self :+ a).builder)
 }
 
 class ziplist[a b] this:List[(a,b)] {
@@ -99,12 +89,30 @@ class ziplist[a b] this:List[(a,b)] {
 } {
     def unbox = this
     
-    def Nil.unzip = (list Nil),(list Nil)
+    def Nil.unzip = emptyList,emptyList
     def Cons.unzip = 
         let tail = ziplist this.tail unzip in
             (list $ Cons this.head._1 tail._1.unbox),(list $ Cons this.head._2 tail._2.unbox)        
 }
 
-def listBuilder : [a] a -> builder[a list[a]] = builder (list Nil).builder ;
+/**
+ * Factory
+ */
 
-adapter list2colleciton : [a] list[a] -> Collection[a] = l -> l.collection
+def emptyList : list = list Nil
+
+def List : [a] builder[a list[a]] =
+    builder (list2builder emptyList)
+
+/**
+ * Adapters
+ */
+
+adapter list2collection : [a] list[a] -> Collection[a] =
+    l -> Collection l.find 
+        (p -> list2collection $ l filter p) 
+        (v -> list2collection $ l +: v) 
+        (f -> list2collection $ l map f)
+                
+adapter list2builder : [a] list[a] -> Builder[a list[a]] =
+    l -> Builder l (a -> list2builder $ l :+ a)

@@ -27,7 +27,7 @@ def NewPerson :Population -> dom = this -> {
 
 def Population :Population -> dom = this -> {
     <div>
-        [PersonView Person(p) for p in this.persons]
+        (for p <- this.persons yield PersonView Person(p))
         <hr/>
         (NewPerson this)
     </div>
@@ -50,7 +50,7 @@ class Population this:List[Person] {
     persons   : List[Person]
     addPerson : (string,string) -> self
 } {
-    def persons = [p for p in this if p.age leq 100]
+    def persons = for p <- this if p.age leq 100 yield p
     def addPerson p = self (this.add (APerson p._1 p._2 0))
 }
 
@@ -123,8 +123,8 @@ class ListClass[a] this:List[a] {
     filter : (a -> boolean) -> List[a]
 } {
     def empty = equals this.length 0
-    def map f = self [ f a for a in this ]        
-    def filter f = self [ a for a in this if f a ]
+    def map f = self for a <- this yield f a
+    def filter f = self for a <- this if f a yield a
 }
 
 // --------------------------------------------------------------------

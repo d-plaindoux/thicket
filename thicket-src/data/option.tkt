@@ -41,7 +41,16 @@ class option[a] this:Option[a] {
     def orElse a = self fold a I
 } 
 
+/**
+ * Factories
+ */
+
 def some : [a] a -> option[a] = e -> option $ Some e
 def none : [a] option[a] = option None
 
-adapter option2try : [a] option[a] -> try[a] = t -> t fold (failure "Undefined value") success
+/**
+ * Adapters
+ */
+
+adapter option2try : [a] option[a] -> try[a] = 
+    t -> t fold (failure "Undefined value") success

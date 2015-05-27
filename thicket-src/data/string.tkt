@@ -40,6 +40,10 @@ class string this:native {
 
 def eol : string = "\n"
 
+/**
+ * Adapters
+ */
+
 adapter string2hashable : string -> Hashable[string] = 
     s -> Hashable s s.hash
     

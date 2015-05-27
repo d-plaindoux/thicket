@@ -35,10 +35,6 @@ class number this:native {
     max      : number -> number
     min      : number -> number
     hash     : number
-    toString : string
-    
-    hashable   : Hashable[number]
-    comparable : Comparable[number]
 } {
     def (==) n = internal "generic.==" self n true false
     def (!=) n = (self == n) not
@@ -60,12 +56,17 @@ class number this:native {
     def min n = n max self
     
     def hash = self
-    def toString = string $ internal "number.toString" self
-    
-    def hashable = Hashable self self.hash
-    def comparable = Comparable self self.(==) self.(!=) self.(>>) self.(<<) self.hashable
 }
 
-adapter number2string      : number -> string              = number::toString
-adapter number2hashable    : number -> Hashable[number]    = number::hashable
-adapter number2comparable  : number -> Comparable[number]  = number::comparable
+/**
+ * Adapters
+ */
+
+adapter number2string : number -> string = 
+    s -> string $ internal "number.toString" s
+    
+adapter number2hashable : number -> Hashable[number] = 
+    s -> Hashable s s.hash
+    
+adapter number2comparable : number -> Comparable[number] = 
+    s -> Comparable s s.(==) s.(!=) s.(>>) s.(<<) (number2hashable 2)

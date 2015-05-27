@@ -69,8 +69,16 @@ class bool this:Bool {
                 self.hashable
 }
 
+/**
+ * Factories
+ */
+
 def true  : bool = bool True
 def false : bool = bool False
+
+/**
+ * Adapters
+ */
 
 adapter bool2hashable   : bool -> Hashable[bool]   = bool::hashable
 adapter bool2comparable : bool -> Comparable[bool] = bool::comparable

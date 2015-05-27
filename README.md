@@ -115,7 +115,7 @@ def personAdder : population -> dom = this ->
 
 def populationView : population -> dom = this ->
   <div>
-      [personView (person p) for p in this <= 100 unbox]
+      (for p <- (this <= 100 unbox) yield personView $ person p)
       (personAdder this)
    </div>
 ```

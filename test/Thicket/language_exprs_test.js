@@ -166,7 +166,7 @@ exports['language_exprs'] = {
   'comprehension is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("[(x,y) for x in f a for y in t 1 if eq x y]");
+    var aStream = stream("for x <- (f a) y <- (t 1) if eq x y yield (x,y)");
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
                    ast.expr.comprehension(ast.expr.pair(ast.expr.ident('x'),ast.expr.ident('y')),

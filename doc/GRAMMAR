@@ -60,7 +60,7 @@ sexpr     ::= NUMBER
             | "{" exprs "}"
             | "<" ID attr* ">" exprs "</" ID? ">" 
             | "<" ID attr* "/>"
-            | "[" exprs ("for" ID "in" exprs)+ ("if" exprs)* "]"
+            | "for" (ID "<-" expr)+ ("if" exprs)* "yield" exprs
             | "let" ID (":" generics type)? "=" exprs "in" exprs
             | type "::" ID
             | (ID (":" generics type)?)+ -> exprs

@@ -39,7 +39,7 @@ class todos this:list[Todo] {
 
 def TodoSetView :todos -> dom = this ->  {
     <div> 
-        [ TodoView t for t in this unbox ].element
+        (for t <- (this unbox) yield TodoView t).element
     </div>
 } 
 

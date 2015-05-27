@@ -59,10 +59,16 @@ model Builder[a b] {
     add : a -> Builder[a b]
 }
 
-class builder[a b] this:Builder[a b] {
-    (;) : a -> builder[a b]
-    end : b
+class builderOpened[a b] this:Builder[a b] {
+    (;)  : a -> builderOpened[a b]
+    (]) : b
 } {
-    def (;) a = builder $ this add a
-    def end = this unbox
+    def (;) a = builderOpened $ this add a
+    def (])  = this unbox
+}
+
+class builder[a b] this:Builder[a b] {
+    ([) : a -> builderOpened[a b]
+} {
+    def ([) = builderOpened this ;
 }

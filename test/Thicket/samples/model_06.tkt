@@ -135,8 +135,8 @@ class example this:unit {
     zip : List[string] -> List[bool] -> List[(string,bool)]
     all : List[string] -> List[bool] -> List[(string,bool)]
 } {
-    def ite l     = [a string for a in list l if a] unbox
+    def ite l     = (for a <- (list l) if a yield a string) unbox
     def zip l1 l2 = (list l1) zip (list l2) unbox
-    def all l1 l2 = [(a,b) for a in list l1 for b in list l2] unbox
+    def all l1 l2 = (for a <- (list l1) b <- (list l2) yield a,b) unbox
 }
 
