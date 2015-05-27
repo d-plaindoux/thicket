@@ -9,15 +9,16 @@
     model Todo { _ : string }
     
     def todo :Todo -> dom = this -> { 
-        <li><i> {toDom this._} </i></li>
+        <li><i> {string2dom this._} </i></li>
     }
+    
+    def manageTodos = n:dom ->
+        for s <- (List["todo #1";"todo #2";"todo #3"]) 
+        yield n addChild $ todo $ Todo s
   </script>
 
   <script type="text/thicket">
-    let node = document "todos" find in
-    let todos = list Nil +: "todo #1" +: "todo #2" +: "todo #3" in
-        do {node map (n -> todos foldR (s h -> h addChild $ todo $ Todo s) n)}
-        return ()
+    document "todos" find map manageTodos
   </script>
 </head>    
 <body onload="require('thicket')('../..//site').boot()">

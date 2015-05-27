@@ -11,18 +11,17 @@
     
     def hs : string -> dom = this ->
         <span class="actionable">
-            <b> {toDom this} </b>
+            <b> {string2dom this} </b>
         </span>
 
     def manageNode : dom -> dom = node -> 
-        let onclick = n -> n removeChilds addChild $ toDom "Hello World!" in        
-            node addChild { toDom "Say Hello? " }
+        let onclick = n -> n removeChilds addChild $ string2dom "Hello World!" in        
+            node addChild { string2dom "Say Hello? " }
                  addChild { hs "<Click>" addReflex "onclick" onclick }
   </script>
     
   <script type="text/thicket">
-    let node = document "todo" find in 
-        node map manageNode
+    document "todo" find map manageNode
   </script>
 </head>    
 
