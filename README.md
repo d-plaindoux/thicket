@@ -172,7 +172,7 @@ object evolution by copy induced by immutable approach.
 class person this:Person {  
   tick: person
 } {
-  def tick = self $ this with age <= this.age + 1
+  def tick = self $ this with age = this.age + 1
 }
 ```
 
@@ -185,9 +185,9 @@ Since model type exists for methods this does not exist yet for model
 type based.
 
 ```
-expression match l -> {
-when Nil  => /* l is a Nil in this block  s*/ ...
-when Cons => /* l is a Cons in this block */ ...
+expression match {
+case Nil       => ...
+case Cons as l => ... // l can be used for extraction
 }
 ```
 
