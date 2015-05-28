@@ -58,4 +58,4 @@ class document this:string {
     def find = internal "dom.elementById" this (e -> some $ dom e) none
 }
 
-adapter string2dom : string -> dom = s -> dom $ internal "string.toDom" s
+def adapter string2dom : string -> dom = s -> dom $ internal "string.toDom" s

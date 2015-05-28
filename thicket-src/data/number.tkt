@@ -64,12 +64,12 @@ def Infinity = 1 / 0
  * Adapters
  */
 
-adapter number2string : number -> string = 
+def adapter number2string : number -> string = 
     s -> string $ internal "number.toString" s
     
-adapter number2hashable : number -> Hashable[number] = 
+def adapter number2hashable : number -> Hashable[number] = 
     s -> Hashable s s.hash
     
-adapter number2comparable : number -> Comparable[number] = 
+def adapter number2comparable : number -> Comparable[number] = 
     s -> Comparable s s.(==) s.(!=) s.(>>) s.(<<) (number2hashable s)
  

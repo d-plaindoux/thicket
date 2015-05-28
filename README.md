@@ -156,7 +156,7 @@ dealing with objects. For instance when a `Comparable[number]` is
 required this one can be transparently created from a `number`.
 
 ```
-adapter number2comparable : number -> Comparable[number] = 
+def adapter number2comparable : number -> Comparable[number] = 
     s -> ...
 ```
 
@@ -172,9 +172,27 @@ object evolution by copy induced by immutable approach.
 class person this:Person {  
   tick: person
 } {
-  def tick = self $ this with age = this.age + 1
+  def tick = self $ this with age <= this.age + 1
 }
 ```
+
+The `with` function can be seen as a standard construction of the language.
+
+Model type case
+---------------
+
+Since model type exists for methods this does not exist yet for model
+type based.
+
+```
+expression match l -> {
+when Nil  => /* l is a Nil in this block  s*/ ...
+when Cons => /* l is a Cons in this block */ ...
+}
+```
+
+The `match` function  can be seen as a standard construction of the language.
+
 
 More informations and References
 ================================

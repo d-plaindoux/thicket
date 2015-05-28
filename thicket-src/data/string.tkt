@@ -44,8 +44,8 @@ def eol : string = "\n"
  * Adapters
  */
 
-adapter string2hashable : string -> Hashable[string] = 
+def adapter string2hashable : string -> Hashable[string] = 
     s -> Hashable s s.hash
     
-adapter string2comparable : string -> Comparable[string] = 
+def adapter string2comparable : string -> Comparable[string] = 
     s -> Comparable s s.(==) s.(!=) s.(>>) s.(<<) (string2hashable s)

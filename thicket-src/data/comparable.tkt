@@ -20,4 +20,4 @@ model Comparable[k] {
     hashable : Hashable[k]
 }
 
-adapter comparable2hashable : [a] Comparable[a] -> Hashable[a] = c -> c hashable
+def adapter comparable2hashable : [a] Comparable[a] -> Hashable[a] = c -> c hashable

@@ -80,5 +80,5 @@ def false : bool = bool False
  * Adapters
  */
 
-adapter bool2hashable   : bool -> Hashable[bool]   = bool::hashable
-adapter bool2comparable : bool -> Comparable[bool] = bool::comparable
+def adapter bool2hashable   : bool -> Hashable[bool]   = bool::hashable
+def adapter bool2comparable : bool -> Comparable[bool] = bool::comparable

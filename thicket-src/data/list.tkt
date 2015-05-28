@@ -101,18 +101,18 @@ class ziplist[a b] this:List[(a,b)] {
 
 def emptyList : list = list Nil
 
-def List : [a] builder[a list[a]] =
-    builder (list2builder emptyList)
+def List : [a] setBuilder[a list[a]] =
+    setBuilder (list2builder emptyList)
 
 /**
  * Adapters
  */
 
-adapter list2collection : [a] list[a] -> Collection[a] =
+def adapter list2collection : [a] list[a] -> Collection[a] =
     l -> Collection l.find 
         (p -> list2collection $ l filter p) 
         (v -> list2collection $ l +: v) 
         (f -> list2collection $ l map f)
                 
-adapter list2builder : [a] list[a] -> Builder[a list[a]] =
-    l -> Builder l (a -> list2builder $ l :+ a)
+def adapter list2builder : [a] list[a] -> SetBuilder[a list[a]] =
+    l -> SetBuilder l (a -> list2builder $ l :+ a)

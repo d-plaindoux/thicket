@@ -53,5 +53,5 @@ def none : [a] option[a] = option None
  * Adapters
  */
 
-adapter option2try : [a] option[a] -> try[a] = 
+def adapter option2try : [a] option[a] -> try[a] = 
     t -> t fold (failure "Undefined value") success

@@ -50,11 +50,18 @@ class hashmap[k v] this:Hashmap[k v] {
  * Factory
  */
 
-def newHashmap = hashmap $ newArray 256
+def emptyHashmap : hashmap = hashmap $ newArray 256
+
+def Hashmap : [a b] mapBuilder[a b hashmap[a b]] =
+    mapBuilder (map2builder emptyHashmap)
 
 /**
  * Adapters
  */
 
-adapter hashmap2map : [k v] hashmap[k v] -> Map[k v] = 
+def adapter hashmap2map : [k v] hashmap[k v] -> Map[k v] = 
     h -> Map h.find (c v -> hashmap2map $ h.add c v)
+
+def adapter map2builder : [a b] hashmap[a b] -> MapBuilder[a b hashmap[a b]] =
+    l -> MapBuilder l (a b -> map2builder $ l add a b)
+    
