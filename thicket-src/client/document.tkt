@@ -19,10 +19,10 @@ from Data.Option import option Some None
 
 class dom this:native {
     addAttribute : string -> string -> dom
-    addReflex : [a] string -> (dom -> a) -> dom
-    
     addChild : dom -> dom
     removeChilds : dom
+    
+    onEvent : [a] string -> (dom -> a) -> dom    
     
     clone : dom
     replace : dom -> dom
@@ -31,10 +31,10 @@ class dom this:native {
     addMouseTrigger : MouseTrigger -> dom
 } {
     def addAttribute n d = internal "dom.setAttribute" self n d
-    def addReflex n f = internal "dom.setFunction" self n (n -> f $ dom n)
-    
     def addChild d = internal "dom.appendChild" self d
     def removeChilds = internal "dom.removeChilds" self
+    
+    def onEvent n f = internal "dom.setFunction" self n (n -> f $ dom n)
     
     def clone = dom $ internal "dom.clone" self
     def replace d = internal "dom.replace" self d
@@ -42,11 +42,11 @@ class dom this:native {
     
     def addMouseTrigger m =
         do
-        { m onmouseover  map $ self addReflex "onmouseover" } ;
-        { m onmouseout   map $ self addReflex "onmouseout"  } ;
-        { m onmousedown  map $ self addReflex "onmousedown" } ;
-        { m onmouseup    map $ self addReflex "onmouseup"   } ;
-        { m onmouseclick map $ self addReflex "onclick"     } 
+        { m onmouseover  map $ self onEvent "onmouseover" } ;
+        { m onmouseout   map $ self onEvent "onmouseout"  } ;
+        { m onmousedown  map $ self onEvent "onmousedown" } ;
+        { m onmouseup    map $ self onEvent "onmouseup"   } ;
+        { m onmouseclick map $ self onEvent "click"       } 
         return self
 }
 

@@ -17,7 +17,7 @@
     def manageNode : dom -> dom = node -> 
         let onclick = n -> n removeChilds addChild $ string2dom "Hello World!" in        
             node addChild { string2dom "Say Hello? " }
-                 addChild { hs "<Click>" addReflex "onclick" onclick }
+                 addChild { hs "<Click>" onEvent "click" onclick }
   </script>
     
   <script type="text/thicket">
