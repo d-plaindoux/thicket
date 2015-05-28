@@ -40,7 +40,7 @@ class array[a] this:native {
     def reset i = array $ internal "array.reset" self i
     def get i = internal "array.get" self i some none
     
-    def length = internal "array.size" self
+    def length = number $ internal "array.size" self
 
     def map f = 
         let update = i r -> self get i fold r { a -> r set i $ f a } in

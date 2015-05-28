@@ -13,32 +13,35 @@ from Data.Option import option
 
 // Trigger model
 
-model MouseTrigger {
+model EventTrigger {
     onmouseover  : option[(dom -> unit)]
     onmouseout   : option[(dom -> unit)]
     onmousedown  : option[(dom -> unit)]
     onmouseup    : option[(dom -> unit)]
     onmouseclick : option[(dom -> unit)]
+    onload       : option[(dom -> unit)]
 }
 
 // Mouse trigger Factory
 
-class mouseTrigger this:MouseTrigger {
-    unbox        : MouseTrigger
-    onmouseover  : (dom -> unit) -> mouseTrigger
-    onmouseout   : (dom -> unit) -> mouseTrigger
-    onmousedown  : (dom -> unit) -> mouseTrigger
-    onmouseup    : (dom -> unit) -> mouseTrigger
-    onmouseclick : (dom -> unit) -> mouseTrigger
+class eventTrigger this:EventTrigger {
+    unbox        : EventTrigger
+    onmouseover  : (dom -> unit) -> eventTrigger
+    onmouseout   : (dom -> unit) -> eventTrigger
+    onmousedown  : (dom -> unit) -> eventTrigger
+    onmouseup    : (dom -> unit) -> eventTrigger
+    onmouseclick : (dom -> unit) -> eventTrigger
+    onload       : (dom -> unit) -> eventTrigger
 } {    
     def unbox = this
     
-    def onmouseover  f = mouseTrigger $ MouseTrigger (some f) this.onmouseout this.onmousedown this.onmouseup this.onmouseclick
-    def onmouseout   f = mouseTrigger $ MouseTrigger this.onmouseover (some f) this.onmousedown this.onmouseup this.onmouseclick
-    def onmousedown  f = mouseTrigger $ MouseTrigger this.onmouseover this.onmouseout (some f) this.onmouseup this.onmouseclick
-    def onmouseup    f = mouseTrigger $ MouseTrigger this.onmouseover this.onmouseout this.onmousedown (some f) this.onmouseclick
-    def onmouseclick f = mouseTrigger $ MouseTrigger this.onmouseover this.onmouseout this.onmousedown this.onmouseup (some f)
+    def onmouseover  f = eventTrigger $ EventTrigger (some f) this.onmouseout this.onmousedown this.onmouseup this.onmouseclick this.onload
+    def onmouseout   f = eventTrigger $ EventTrigger this.onmouseover (some f) this.onmousedown this.onmouseup this.onmouseclick this.onload
+    def onmousedown  f = eventTrigger $ EventTrigger this.onmouseover this.onmouseout (some f) this.onmouseup this.onmouseclick this.onload
+    def onmouseup    f = eventTrigger $ EventTrigger this.onmouseover this.onmouseout this.onmousedown (some f) this.onmouseclick this.onload
+    def onmouseclick f = eventTrigger $ EventTrigger this.onmouseover this.onmouseout this.onmousedown this.onmouseup (some f) this.onload
+    def onload       f = eventTrigger $ EventTrigger this.onmouseover this.onmouseout this.onmousedown this.onmouseup this.onmouseclick (some f)
 }
 
-def new$mouseTrigger : mouseTrigger = 
-    mouseTrigger $ MouseTrigger none none none none none
+def newEventTrigger : eventTrigger = 
+    eventTrigger $ EventTrigger none none none none none none

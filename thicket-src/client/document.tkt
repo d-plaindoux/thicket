@@ -28,7 +28,7 @@ class dom this:native {
     replace : dom -> dom
     remove : dom
 
-    addMouseTrigger : MouseTrigger -> dom
+    addEventTrigger : EventTrigger -> dom
 } {
     def addAttribute n d = internal "dom.setAttribute" self n d
     def addChild d = internal "dom.appendChild" self d
@@ -40,7 +40,7 @@ class dom this:native {
     def replace d = internal "dom.replace" self d
     def remove = internal "dom.remove" self
     
-    def addMouseTrigger m =
+    def addEventTrigger m =
         do
         { m onmouseover  map $ self onEvent "onmouseover" } ;
         { m onmouseout   map $ self onEvent "onmouseout"  } ;
