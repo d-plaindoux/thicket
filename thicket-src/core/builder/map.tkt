@@ -1,0 +1,43 @@
+
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Core.Builder.Map
+ 
+from Data.Comparable import Comparable
+from Data.Pair import Pair
+
+/* 
+ * Language syntactic extension for map builder
+ * Example with hashmap: Hashmap[1=>"2";2="3";3=>"3"]
+ */
+
+model MapBuilder[a b m] {
+    unbox : m
+    add : Comparable[a] -> b -> MapBuilder[a b m]
+}
+
+class mapValueBuilderOpened[a b m] this:MapBuilder[a b m] {
+    (;)  : Comparable[a] -> mapKeyBuilderOpened[a b m]
+    (]) : m
+} {
+    def (;) a = mapKeyBuilderOpened (a,this)
+    def (])  = this unbox
+}
+
+class mapKeyBuilderOpened[a b m] this:(Comparable[a],MapBuilder[a b m]) {
+    (=>)  : b -> mapValueBuilderOpened[a b m]
+} {
+    def (=>) b = mapValueBuilderOpened $ this._2 add this._1 b
+}
+
+class mapBuilder[a b m] this:MapBuilder[a b m] {
+    ([) : Comparable[a] -> mapKeyBuilderOpened[a b m]
+} {
+    def ([) a = mapKeyBuilderOpened (a,this)
+}

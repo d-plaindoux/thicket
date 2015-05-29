@@ -8,7 +8,8 @@
 
 module Boot
 
-from Core.Lang import *
+from Core.Lang.When import *
+from Core.Lang.Do import *
 
 from Data.Unit import *
 from Data.Native import *

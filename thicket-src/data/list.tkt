@@ -8,7 +8,7 @@
 
 module Data.List
 
-from Core.Lang import Builder
+from Core.Builder.Collection import *
 from Data.Pair import Pair
 from Data.Boolean import bool
 from Data.Number import number
@@ -101,8 +101,8 @@ class ziplist[a b] this:List[(a,b)] {
 
 def emptyList : list = list Nil
 
-def List : [a] setBuilder[a list[a]] =
-    setBuilder (list2builder emptyList)
+def List : [a] collectionBuilder[a list[a]] =
+    collectionBuilder (list2builder emptyList)
 
 /**
  * Adapters
@@ -114,5 +114,5 @@ def adapter list2collection : [a] list[a] -> Collection[a] =
         (v -> list2collection $ l +: v) 
         (f -> list2collection $ l map f)
                 
-def adapter list2builder : [a] list[a] -> SetBuilder[a list[a]] =
-    l -> SetBuilder l (a -> list2builder $ l :+ a)
+def adapter list2builder : [a] list[a] -> CollectionBuilder[a list[a]] =
+    l -> CollectionBuilder l (a -> list2builder $ l :+ a)

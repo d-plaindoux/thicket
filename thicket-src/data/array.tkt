@@ -8,14 +8,14 @@
  
 module Data.Array
 
-from Core.Lang import when
+from Core.Lang.When import when
 
 from Logic.Combinators import C
 
+from Data.Internal import internal
 from Data.Boolean import bool
 from Data.Native import native
 from Data.Number import number
-from Data.Internal import internal
 from Data.Option import options some none
 from Data.Range import range
 
@@ -44,7 +44,7 @@ class array[a] this:native {
 
     def map f = 
         let update = i r -> self get i fold r { a -> r set i $ f a } in
-            range 0 to (self.length --) fold (newArray self.length) update
+            range 0 to (self.length --) fold (emptyArray self.length) update
             
     def find p = 
         let filter = a -> p a fold (some a) none in
@@ -58,4 +58,4 @@ class array[a] this:native {
         range (self.length --) downto 0 fold r (i r -> self get i fold r $ C f r)
 }
 
-def newArray : [a] number -> array[a] = n -> array $ internal "array.new" n
+def emptyArray : [a] number -> array[a] = n -> array $ internal "array.new" n

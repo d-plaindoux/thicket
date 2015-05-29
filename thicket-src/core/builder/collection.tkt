@@ -1,0 +1,37 @@
+
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Core.Builder.Collection
+ 
+from Data.Comparable import Comparable
+from Data.Boolean import bool
+ 
+/* 
+ * Language syntactic extension for colllection builder
+ * Example with list: List[1;2;3]
+ */
+
+model CollectionBuilder[a b] {
+    unbox : b
+    add : a -> CollectionBuilder[a b]
+}
+
+class collectionBuilderOpened[a b] this:CollectionBuilder[a b] {
+    (;)  : a -> collectionBuilderOpened[a b]
+    (]) : b
+} {
+    def (;) a = collectionBuilderOpened $ this add a
+    def (])  = this unbox
+}
+
+class collectionBuilder[a b] this:CollectionBuilder[a b] {
+    ([) : a -> collectionBuilderOpened[a b]
+} {
+    def ([) = collectionBuilderOpened this ;
+}

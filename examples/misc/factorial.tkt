@@ -10,7 +10,7 @@ module Example.Factorial
  
 from Data.Number import number
 from Data.Array import emptyarray
-from Core.Lang import when
+from Core.Lang.When import when
  
 def fact_tail : number -> number -> number = 
     acc n ->

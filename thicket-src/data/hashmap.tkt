@@ -7,7 +7,8 @@
  */
  
 module Data.Hashmap
- 
+
+from Core.Builder.Map import *
 from Data.Map import Map
 from Data.Boolean import bool
 from Data.List import list newList
@@ -50,7 +51,7 @@ class hashmap[k v] this:Hashmap[k v] {
  * Factory
  */
 
-def emptyHashmap : hashmap = hashmap $ newArray 256
+def emptyHashmap : hashmap = hashmap $ emptyArray 256
 
 def Hashmap : [a b] mapBuilder[a b hashmap[a b]] =
     mapBuilder (map2builder emptyHashmap)

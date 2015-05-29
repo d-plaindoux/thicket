@@ -8,7 +8,7 @@
  
 module Client.Document
 
-from Core.Lang import do
+from Core.Lang.Do import do
 
 from Client.Trigger import MouseTrigger
 
