@@ -23,7 +23,7 @@ model MapBuilder[a b m] {
 }
 
 class mapValueBuilderOpened[a b m] this:MapBuilder[a b m] {
-    (;)  : Comparable[a] -> mapKeyBuilderOpened[a b m]
+    (;) : Comparable[a] -> mapKeyBuilderOpened[a b m]
     (]) : m
 } {
     def (;) a = mapKeyBuilderOpened (a,this)
@@ -31,7 +31,7 @@ class mapValueBuilderOpened[a b m] this:MapBuilder[a b m] {
 }
 
 class mapKeyBuilderOpened[a b m] this:(Comparable[a],MapBuilder[a b m]) {
-    (=>)  : b -> mapValueBuilderOpened[a b m]
+    (=>) : b -> mapValueBuilderOpened[a b m]
 } {
     def (=>) b = mapValueBuilderOpened $ this._2 add this._1 b
 }

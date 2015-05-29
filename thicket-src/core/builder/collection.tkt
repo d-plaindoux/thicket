@@ -13,7 +13,7 @@ from Data.Comparable import Comparable
 from Data.Boolean import bool
  
 /* 
- * Language syntactic extension for colllection builder
+ * Language syntactic extension for collection builder
  * Example with list: List[1;2;3]
  */
 
@@ -23,7 +23,7 @@ model CollectionBuilder[a b] {
 }
 
 class collectionBuilderOpened[a b] this:CollectionBuilder[a b] {
-    (;)  : a -> collectionBuilderOpened[a b]
+    (;) : a -> collectionBuilderOpened[a b]
     (]) : b
 } {
     def (;) a = collectionBuilderOpened $ this add a
