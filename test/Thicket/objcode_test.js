@@ -219,5 +219,12 @@ exports['compile'] = {
       test.done();
   },
   
+  'New model alteration': function (test) {
+      test.expect(1);
+      
+      test.deepEqual(objcode.generateObjCode(objcode.deBruijnIndex(compiler.expression(list(), list(),  ast.expr.newModel(ast.expr.ident("a"),[["b",ast.expr.ident("b")]])).success())),
+                     [{ IDENT: 'a' }, { IDENT: 'b' }, { ALTER: 'b' } ]);
+      test.done();
+  },
 };
     

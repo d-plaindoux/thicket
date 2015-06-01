@@ -195,6 +195,81 @@ exports['runtime'] = {
     test.done();
   }, 
      
+  'Model alteration': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("new A 1 with att=2 att value"),
+        expression = language.parser.group('exprs').parse(aStream).get(),
+        source = compiler.sentence(list(),expression).success();
+    
+    runtime.register({ MODEL : [ "number", [[ "value" , [{ ACCESS:1 },{RETURN:1}]]] ] }); 
+    runtime.register({ MODEL : [ "A", [[ "att" , [{ ACCESS:1 },{RETURN:1}]]] ] }); 
+
+    test.deepEqual(runtime.execute(objcode.generateObjCode(objcode.deBruijnIndex(source))),
+                   { CONST:2 });
+    test.done();
+  }, 
+     
+  'Model alteration with 2 attributes and first modified and first checked': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("new A 1 2 with _1=3 _1 value"),
+        expression = language.parser.group('exprs').parse(aStream).get(),
+        source = compiler.sentence(list(),expression).success();
+    
+    runtime.register({ MODEL : [ "number", [[ "value" , [{ ACCESS:1 },{RETURN:1}]]] ] }); 
+    runtime.register({ MODEL : [ "A", [[ "_1" , [{ ACCESS:1 },{RETURN:1}]],[ "_2" , [{ ACCESS:2 },{RETURN:1}]]] ] }); 
+
+    test.deepEqual(runtime.execute(objcode.generateObjCode(objcode.deBruijnIndex(source))),
+                   { CONST:3 });
+    test.done();
+  }, 
+     
+  'Model alteration with 2 attributes and first modified and second checked': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("new A 1 2 with _1=3 _2 value"),
+        expression = language.parser.group('exprs').parse(aStream).get(),
+        source = compiler.sentence(list(),expression).success();
+    
+    runtime.register({ MODEL : [ "number", [[ "value" , [{ ACCESS:1 },{RETURN:1}]]] ] }); 
+    runtime.register({ MODEL : [ "A", [[ "_1" , [{ ACCESS:1 },{RETURN:1}]],[ "_2" , [{ ACCESS:2 },{RETURN:1}]]] ] }); 
+
+    test.deepEqual(runtime.execute(objcode.generateObjCode(objcode.deBruijnIndex(source))),
+                   { CONST:2 });
+    test.done();
+  }, 
+     
+  'Model alteration with 2 attributes and second modified and first checked': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("new A 1 2 with _2=3 _1 value"),
+        expression = language.parser.group('exprs').parse(aStream).get(),
+        source = compiler.sentence(list(),expression).success();
+    
+    runtime.register({ MODEL : [ "number", [[ "value" , [{ ACCESS:1 },{RETURN:1}]]] ] }); 
+    runtime.register({ MODEL : [ "A", [[ "_1" , [{ ACCESS:1 },{RETURN:1}]],[ "_2" , [{ ACCESS:2 },{RETURN:1}]]] ] }); 
+
+    test.deepEqual(runtime.execute(objcode.generateObjCode(objcode.deBruijnIndex(source))),
+                   { CONST:1 });
+    test.done();
+  }, 
+     
+  'Model alteration with 2 attributes and secone modified and second checked': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("new A 1 2 with _2=3 _2 value"),
+        expression = language.parser.group('exprs').parse(aStream).get(),
+        source = compiler.sentence(list(),expression).success();
+    
+    runtime.register({ MODEL : [ "number", [[ "value" , [{ ACCESS:1 },{RETURN:1}]]] ] }); 
+    runtime.register({ MODEL : [ "A", [[ "_1" , [{ ACCESS:1 },{RETURN:1}]],[ "_2" , [{ ACCESS:2 },{RETURN:1}]]] ] }); 
+
+    test.deepEqual(runtime.execute(objcode.generateObjCode(objcode.deBruijnIndex(source))),
+                   { CONST:3 });
+    test.done();
+  }, 
+     
   'Class attribute': function(test) {
     test.expect(1);
     // tests here  

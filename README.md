@@ -65,7 +65,7 @@ class person this:Person {
   def firstname = this.firstname
   def name = this.name
   def age = this.age
-  def tick = self $ Person this.firstname this.name $ this.age + 1
+  def tick = self $ new this with age=(this.age + 1)
 }
 
 typedef Population = list[Person]
