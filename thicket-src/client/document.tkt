@@ -51,10 +51,10 @@ class dom this:native {
 }
 
 class document this:string {
-    new  : dom
+    create : dom
     find : option[dom]
 } {
-    def new  = dom $ internal "dom.createElement" this
+    def create = dom $ internal "dom.createElement" this
     def find = internal "dom.elementById" this (e -> some $ dom e) none
 }
 

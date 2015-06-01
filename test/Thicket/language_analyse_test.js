@@ -126,7 +126,17 @@ exports['language'] = {
   'entity 13': function(test) {
     wrongSampleTest("model_13.tkt", test);    
   },
-
+ 
   'entity 14': function(test) {
     wrongSampleTest("model_14.tkt", test);    
-  },};
+  },
+
+  'entity 15': function(test) {
+    correctSampleTest("model_15.tkt", test);    
+  },
+
+  'entity 16': function(test) {
+    wrongSampleTest("model_16.tkt", test);    
+  },
+
+};

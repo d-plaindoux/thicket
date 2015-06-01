@@ -63,10 +63,10 @@ model TodoModel {
 }
 
 class Todos this:List[TodoModel] {
-    new   : string -> Todos 
+    add   : string -> Todos 
     todos : List[TodoModel]
 } {
-    def new s = self (this.add (Todo s))
+    def add s = self (this.add (Todo s))
     def todos = this
 }
 
@@ -75,7 +75,7 @@ def TodosView : Todos -> dom = this -> {
 }
 
 def TodoAdder : Todos -> dom = this -> {
-    <form onSubmit=(this.new self.todo)>
+    <form onSubmit=(this.add self.todo)>
         <input type="text" id="todo"/>
         <input type="submit" value="Add"/>
     </form>

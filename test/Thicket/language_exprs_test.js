@@ -311,5 +311,29 @@ exports['language_exprs'] = {
                    ast.expr.application(ast.expr.application(ast.expr.ident("x"),ast.expr.ident("+")), ast.expr.ident("y")),
                    "Expression with an operator");
     test.done();      
+  },
+    
+  'model modification': function (test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("new a with b = 1");
+        
+    test.deepEqual(language.parser.group('expr').parse(aStream).get(), 
+                   ast.expr.newModel(ast.expr.ident("a"),[["b",ast.expr.number(1)]]),
+                   "Model modification");
+    test.done();      
+  },
+    
+  'mutiple model modification': function (test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("new a with b = 1 c = '2'");
+        
+    test.deepEqual(language.parser.group('expr').parse(aStream).get(), 
+                   ast.expr.newModel(ast.expr.ident("a"),[["b",ast.expr.number(1)],["c",ast.expr.string("2")]]),
+                   "Model modification");
+    test.done();      
   }
+    
+        
 };

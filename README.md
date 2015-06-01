@@ -147,7 +147,6 @@ class number this:native {
 }
 ```
 
-
 Adapters
 --------
 
@@ -159,24 +158,6 @@ required this one can be transparently created from a `number`.
 def adapter number2comparable : number -> Comparable[number] = 
     s -> ...
 ```
-
-Model evolution
----------------
-
-Model alteration using `with` ML operator increases language expessivity
-reducing model transformation. This can be significant when objects 
-have a lot of attributes for instance. In this case alteration means
-object evolution by copy induced by immutable approach.
-
-```
-class person this:Person {  
-  tick: person
-} {
-  def tick = self $ this with age = this.age + 1
-}
-```
-
-The `with` function can be seen as a standard construction of the language.
 
 Model type case
 ---------------

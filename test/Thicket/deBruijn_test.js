@@ -158,7 +158,7 @@ exports['compile'] = {
       test.done();
   },
 
-    'Invoke expression': function (test) {
+  'Invoke expression': function (test) {
       test.expect(1);
       
       test.deepEqual(objcode.deBruijnIndex(compiler.expression(list(), list(), ast.expr.invoke(ast.expr.ident("a"), "b")).success()),
@@ -279,6 +279,28 @@ exports['compile'] = {
                                               compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","number"), compiler.abstractSyntax("Native",1))]));
       test.done();
   },
-  
+
+  'New model': function (test) {
+      test.expect(1);
+      
+      test.deepEqual(objcode.deBruijnIndex(compiler.expression(list(), list(), ast.expr.newModel(ast.expr.ident("a"),[["b",ast.expr.ident("b")]])).success()),
+                     compiler.abstractSyntax("Alter",
+                                             compiler.abstractSyntax("Ident","a"),
+                                             'b',
+                                             compiler.abstractSyntax("Ident","b")));
+      test.done();
+  },
+
+  'New model with a variable': function (test) {
+      test.expect(1);
+      
+      test.deepEqual(objcode.deBruijnIndex(compiler.expression(list(), list(), ast.expr.abstraction("a", ast.expr.newModel(ast.expr.ident("a"),[["b",ast.expr.ident("b")]]))).success()),
+                     compiler.abstractSyntax("Function",
+                             compiler.abstractSyntax("Alter",
+                                                     compiler.abstractSyntax("Variable", 1),
+                                                     'b',
+                                                     compiler.abstractSyntax("Ident","b"))));
+      test.done();
+  },
 };
     

@@ -64,6 +64,7 @@ sexpr     ::= NUMBER
             | "let" ID (":" generics type)? "=" exprs "in" exprs
             | type "::" ID
             | (ID (":" generics type)?)+ -> exprs
+            | "new" exprs "with" (ID "=" sexpr)+
             
 attr      ::= ID "=" expr
 
