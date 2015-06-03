@@ -20,8 +20,8 @@ class string this:native {
     (==)     : string -> bool
     (!=)     : string -> bool
     (<=)     : string -> bool
-    (<<)     : string -> bool
-    (>>)     : string -> bool
+    (<?)     : string -> bool
+    (?>)     : string -> bool
     (>=)     : string -> bool
     (+)      : string -> string
     toNumber : option[number]
@@ -29,10 +29,10 @@ class string this:native {
 } {
     def (==) n = internal "generic.==" self n true false
     def (!=) n = (self == n) not
-    def (<=) n = (self == n) || (self << n)
-    def (<<) n = internal "generic.<<" self n true false
-    def (>>) n = n <= self
-    def (>=) n = n << self
+    def (<=) n = (self == n) || (self <? n)
+    def (<?) n = internal "generic.<" self n true false
+    def (?>) n = n <= self
+    def (>=) n = n <? self
     def (+) s = string $ internal "string.+" self s
     def toNumber = internal "string.toNumber" self (n -> some $ number n) none
     def hash = number $ internal "string.hash" self
@@ -48,4 +48,4 @@ def adapter string2hashable : string -> Hashable[string] =
     s -> Hashable s s.hash
     
 def adapter string2comparable : string -> Comparable[string] = 
-    s -> Comparable s s.(==) s.(!=) s.(>>) s.(<<) (string2hashable s)
+    s -> Comparable s s.(==) s.(!=) s.(?>) s.(<?) (string2hashable s)

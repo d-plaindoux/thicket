@@ -19,14 +19,15 @@ class number this:native {
     (==)     : number -> bool
     (!=)     : number -> bool
     (<=)     : number -> bool
-    (<<)     : number -> bool
-    (>>)     : number -> bool
+    (<?)     : number -> bool
+    (?>)     : number -> bool
     (>=)     : number -> bool
     (+)      : number -> number
     (-)      : number -> number
     (*)      : number -> number
     (/)      : number -> number
     (%)      : number -> number
+    (<<)     : number -> number
     
     (++)     : number
     (--)     : number    
@@ -38,21 +39,22 @@ class number this:native {
 } {
     def (==) n = internal "generic.==" self n true false
     def (!=) n = (self == n) not
-    def (<=) n = (self == n) || (self << n)
-    def (<<) n = internal "generic.<<" self n true false
-    def (>>) n = n <= self
-    def (>=) n = n << self
+    def (<=) n = (self == n) || (self <? n)
+    def (<?) n = internal "generic.<" self n true false
+    def (?>) n = n <= self
+    def (>=) n = n <? self
     def (+)  n = number $ internal "number.+" self n
     def (-)  n = number $ internal "number.-" self n
     def (*)  n = number $ internal "number.*" self n
     def (/)  n = number $ internal "number./" self n
     def (%)  n = number $ internal "number.%" self n
+    def (<<) n = number $ internal "number.<<" self n
     
     def (++) = self + 1
     def (--) = self - 1    
     def negate = self * -1
     
-    def max n = self << n fold n self
+    def max n = self <? n fold n self
     def min n = n max self
     
     def hash = self
@@ -71,5 +73,5 @@ def adapter number2hashable : number -> Hashable[number] =
     s -> Hashable s s.hash
     
 def adapter number2comparable : number -> Comparable[number] = 
-    s -> Comparable s s.(==) s.(!=) s.(>>) s.(<<) (number2hashable s)
+    s -> Comparable s s.(==) s.(!=) s.(?>) s.(<?) (number2hashable s)
  

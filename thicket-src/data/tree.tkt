@@ -36,7 +36,7 @@ class tree[a] this:Tree[a] {
     
     def Empty.(+) a = tree $ Node 1 a Empty Empty
     def Node.(+) a = 
-        when (tree this.left depth << $ tree this.right depth)
+        when (tree this.left depth <? $ tree this.right depth)
         then (tree $ Node (this.depth + 1) this.value (tree this.left + a unbox) this.right)
         else (tree $ Node (this.depth + 1) this.value this.left (tree this.right + a unbox))
     

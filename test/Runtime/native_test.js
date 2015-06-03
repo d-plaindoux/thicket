@@ -84,10 +84,10 @@ exports['native'] = {
     test.done();
   },
    
-  'numbers true <<': function(test) {
+  'numbers true <': function(test) {
     test.expect(1);
     // tests here  
-    var code = runtime.delta["generic.<<"].concat([
+    var code = runtime.delta["generic.<"].concat([
         {CONST:1},{APPLY:1},
         {CONST:2},{APPLY:1},
         {CONST:true},{APPLY:1},
@@ -97,10 +97,10 @@ exports['native'] = {
     test.deepEqual(runtime.execute(code), {CONST:true});
     test.done();  },
 
-  'numbers false <<': function(test) {
+  'numbers false <': function(test) {
       test.expect(1);
     // tests here  
-    var code = runtime.delta["generic.<<"].concat([
+    var code = runtime.delta["generic.<"].concat([
         {CONST:2},{APPLY:1},
         {CONST:1},{APPLY:1},
         {CONST:true},{APPLY:1},
@@ -110,10 +110,10 @@ exports['native'] = {
     test.deepEqual(runtime.execute(code), {CONST:false});
     test.done();  },
     
-  'strings true <<': function(test) {
+  'strings true <': function(test) {
     test.expect(1);
     // tests here  
-    var code = runtime.delta["generic.<<"].concat([
+    var code = runtime.delta["generic.<"].concat([
         {CONST:"1"},{APPLY:1},
         {CONST:"2"},{APPLY:1},
         {CONST:true},{APPLY:1},
@@ -124,10 +124,10 @@ exports['native'] = {
     test.done();  
   },
 
-  'strings false <<': function(test) {
+  'strings false <': function(test) {
     test.expect(1);
     // tests here  
-    var code = runtime.delta["generic.<<"].concat([
+    var code = runtime.delta["generic.<"].concat([
         {CONST:"2"},{APPLY:1},
         {CONST:"1"},{APPLY:1},
         {CONST:true},{APPLY:1},
@@ -246,6 +246,18 @@ exports['native'] = {
     test.deepEqual(runtime.execute(code), {CONST:Infinity});
     test.done();
   },
+    
+  'numbers <<': function(test) {
+    test.expect(1);
+    // tests here  
+    var code = runtime.delta["number.<<"].concat([
+        {CONST:6},{APPLY:1},
+        {CONST:2},{APPLY:1}
+    ]);      
+      
+    test.deepEqual(runtime.execute(code), {CONST:6 << 2});
+    test.done();
+  },   
 
   'number toString': function(test) {
     test.expect(1);

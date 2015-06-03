@@ -19,7 +19,7 @@ from Core.Lang.When import when
 
 def fastfib : array[number] -> number -> (array[number],number) =
     a n -> 
-        when (n << 2) 
+        when (n <? 2) 
         then (a,n)
         else {
             when (a get n present)
@@ -34,6 +34,6 @@ def fib : number -> number = n -> fastfib (emptyArray n) n _2
 
 def fib2 : number -> number = 
     n -> 
-        when (n << 2)
+        when (n <? 2)
         then n
         else { (fib2 $ n - 1) + (fib2 $ n - 2 ) }

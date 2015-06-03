@@ -17,4 +17,4 @@ class consoleClass this:unit {
     def log s = internal "console.log" s self
 }
 
-def console = consoleClass ()
+def console : consoleClass = consoleClass ()
