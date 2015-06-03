@@ -6,7 +6,7 @@
 
 comment ::= "//" line | "/*" line* "*/"
          
-entity  ::= typeDef | sortDef | objectDef | typeDef | classDef
+entity  ::= typeDef | sortDef | objectDef | methodDef | classDef
 
 --------------------------------------------------------------------------
 
@@ -37,6 +37,10 @@ types     ::= type "," types
 --------------------------------------------------------------------------
 
 classDef  ::= "class" ID generics param "{" tparam* "}" "{" method* "}"
+
+--------------------------------------------------------------------------
+
+methodDef ::= "def" "adapter"? (ID|"("OP")") (":" generics type)? "=" expr
 
 --------------------------------------------------------------------------
 

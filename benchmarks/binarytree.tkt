@@ -1,0 +1,83 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Benchmarks.BinaryTree
+
+from Data.Pair import Pair
+from Data.Number import number
+from OS.Console import console
+from Data.Option import some none
+from Data.Range import foreach
+from Core.Lang.Do import do
+from Core.Lang.When import when
+
+/** 
+ * Definition
+ */
+ 
+model TreeNode {
+    item  : number
+    nodes : option[(TreeNode,TreeNode)]
+}
+
+/** 
+ * Factory
+ */
+ 
+def bottomUpTree : number -> number -> TreeNode =
+    item depth ->
+        depth >> 0 fold
+            { TreeNode item 
+                        (some ((bottomUpTree (2 * item - 1) (depth - 1))
+                              ,(bottomUpTree (2 * item) (depth - 1)))) 
+            }
+            { TreeNode item none }
+
+/**
+ * Class for TreeNode
+ */
+
+class treeNode this:TreeNode {
+    itemCheck : number
+} {
+    def itemCheck =
+        this.nodes fold 
+            this.item 
+            (n -> this.item + (treeNode n._1 itemCheck) + (treeNode n._2 itemCheck))
+}
+
+/** 
+ * Main program
+ */
+ 
+ def bench = n -> 
+    let minDepth = 4 in
+    let maxDepth = when ((minDepth + 2) >> n) then (minDepth + 2) else n in
+    let stretchDepth = maxDepth + 1 in
+    let check = treeNode (bottomUpTree 0 stretchDepth) itemCheck in
+        do
+        { console.log ("stretch tree of depth " + (number2string stretchDepth) + " check: " + (number2string check)) };
+        { foreach (minDepth,(maxDepth + 1)) 2 fold
+            ()
+            (depth _ -> 
+                let iterations = (maxDepth - depth + minDepth) in
+                let check = 
+                    foreach (1,(iterations + 1)) 1 fold
+                        0 
+                        (i r -> r + 
+                                (treeNode (bottomUpTree i depth) itemCheck) +
+                                (treeNode (bottomUpTree (0 - i) depth) itemCheck)) in
+                    do 
+                    { console.log ((number2string $ iterations * 2) + " trees of depth " + (number2string depth) + " check: " + (number2string check)) }
+                    return ())
+        };
+        {
+            let check = treeNode (bottomUpTree 0 maxDepth) itemCheck in
+                console.log ("stretch tree of depth " + (number2string stretchDepth) + " check: " + (number2string check))
+        }
+        return ()

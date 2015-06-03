@@ -31,3 +31,6 @@ class range this:number {
     def to n     = rangeIterator $ abstractRangeIterator (this, n) fold number::(>>) number::(++)
     def downto n = rangeIterator $ abstractRangeIterator (n, this) fold number::(<<) number::(--)
 }
+
+def foreach : (number,number) -> number -> rangeIterator = 
+    r i -> rangeIterator $ abstractRangeIterator r  fold number::(>>) (i +)
