@@ -139,4 +139,8 @@ exports['language'] = {
     wrongSampleTest("model_16.tkt", test);    
   },
 
+  'entity 17': function(test) {
+    correctSampleTest("model_17.tkt", test);    
+  },
+
 };

@@ -1,0 +1,15 @@
+/* Variable dependency in a comprehension */
+
+model bool { /* empty */ }
+
+model list[a] {
+    map     : [b] (a -> b) -> list[b]
+    flatmap : [b] (a -> list[b]) -> list[b]
+    filter  : (a -> bool) -> list[a]
+}
+
+def flatMap : [a b] list[list[a]] -> (a -> b) -> list[b] =
+    l f -> 
+        for sl <- l 
+            a  <- sl 
+        yield f a
