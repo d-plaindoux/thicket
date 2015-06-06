@@ -8,6 +8,7 @@
 
 module Data.Range
 
+from Core.Lang.When import when
 from Data.Pair import *
 from Data.Number import number
 
@@ -21,7 +22,12 @@ class abstractRangeIterator this:(number,number) {
     def fold pred dep r f =
         let isFinished = pred this._1 this._2 in
         let nextRange = (dep this._1), this._2 in
-            isFinished fold r $ abstractRangeIterator nextRange fold pred dep (f this._1 r) f
+            when isFinished 
+            then r
+            else { 
+                let nr = f this._1 r in
+                    abstractRangeIterator nextRange fold pred dep nr f
+            }
 }
 
 class range this:number {
