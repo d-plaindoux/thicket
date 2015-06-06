@@ -9,7 +9,7 @@
 module Data.Range
 
 from Core.Lang.When import when
-from Data.Pair import *
+from Data.Pair import Pair
 from Data.Number import number
 
 model rangeIterator {
@@ -20,14 +20,13 @@ class abstractRangeIterator this:(number,number) {
     fold : [b] (number -> number -> bool) -> (number -> number) -> b -> (number -> b -> b) -> b
 } {
     def fold pred dep r f =
-        let isFinished = pred this._1 this._2 in
-        let nextRange = (dep this._1), this._2 in
-            when isFinished 
-            then r
-            else { 
-                let nr = f this._1 r in
-                    abstractRangeIterator nextRange fold pred dep nr f
-            }
+        when (pred this._1 this._2) 
+        then r
+        else { 
+            let nextRange = (dep this._1), this._2 in        
+            let nr = f this._1 r in
+                abstractRangeIterator nextRange fold pred dep nr f
+        }
 }
 
 class range this:number {
