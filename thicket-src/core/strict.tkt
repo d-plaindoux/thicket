@@ -1,0 +1,18 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Core.Lang.Strict
+ 
+/* 
+ * Language syntactic extension
+ * 
+ *     f x --> strict f x
+ */
+
+def strict : [a b] (a -> b) -> a -> b = f a -> internal "strict" f a
+    

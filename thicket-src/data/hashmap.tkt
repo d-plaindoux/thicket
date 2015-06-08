@@ -51,10 +51,10 @@ class hashmap[k v] this:Hashmap[k v] {
  * Factory
  */
 
-def emptyHashmap : hashmap = hashmap $ emptyArray 256
+def newHashmap : hashmap = hashmap $ emptyArray 256
 
 def Hashmap : [a b] mapBuilder[a b hashmap[a b]] =
-    mapBuilder (map2builder emptyHashmap)
+    mapBuilder (map2builder newHashmap)
 
 /**
  * Adapters

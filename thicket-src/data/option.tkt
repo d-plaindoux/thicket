@@ -8,6 +8,7 @@
  
 module Data.Option
 
+from Core.Lang.Strict import strict
 from Data.Boolean import bool
 from Logic.Combinators import I
 from Data.Try import try
@@ -33,7 +34,7 @@ class option[a] this:Option[a] {
 
     def present = self fold false (_ -> true)
     
-    def map f = self fold none (s -> let r = f s in some r)
+    def map f = self fold none (s -> some $ f s)
     def flatmap f = self fold none f
 
     def None.filter _ = self

@@ -74,4 +74,4 @@ def lIdent = Abstraction "x" $ Variable "x"
 def lTrue  = Abstraction "x" $ Abstraction "y" $ Variable "x"
 def lFalse = Abstraction "x" $ Abstraction "y" $ Variable "y"
 
-// Example : interpreter (Application lIdent (Constant "A Value")) eval new$map.mapper
+// Example : interpreter (Application lIdent (Constant "A Value")) eval $ hashmap2map newHashmap
