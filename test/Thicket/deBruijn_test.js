@@ -180,7 +180,7 @@ exports['compile'] = {
       test.deepEqual(objcode.deBruijnIndex(compiler.expression(list('a'), list(), ast.expr.let("b",ast.expr.ident("a"),ast.expr.ident("b"))).success()),
                      compiler.abstractSyntax("Apply", 
                                       compiler.abstractSyntax("Function",compiler.abstractSyntax("Variable",1)),
-                                      compiler.abstractSyntax("Ident","a")));
+                                      compiler.abstractSyntax('Lazy', compiler.abstractSyntax("Ident","a"))));
       test.done();
   },
  

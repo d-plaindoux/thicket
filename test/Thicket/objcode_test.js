@@ -174,7 +174,7 @@ exports['compile'] = {
       test.expect(1);
       
       test.deepEqual(objcode.generateObjCode(objcode.deBruijnIndex(compiler.expression(list('a'), list(), ast.expr.let("b",ast.expr.ident("a"),ast.expr.ident("b"))).success())),
-                     [ { CLOSURE: [ { ACCESS: 1 }, { RETURN: 1 } ] }, { IDENT: 'a' }, { APPLY: 1 } ]);
+                     [ { CLOSURE: [ { ACCESS: 1 }, { RETURN: 1 } ] }, { LAZY: [ { IDENT: 'a' } ] }, { APPLY: 1 } ]);
       test.done();
   },
 
