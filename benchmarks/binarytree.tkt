@@ -44,7 +44,7 @@ def bottomUpTree : number -> number -> TreeNode = item depth ->
 def itemCheck : TreeNode -> number = this -> 
     this.nodes fold 
         this.item 
-        (n -> this.item + $ itemCheck n._1 + $ itemCheck n._2)
+        (n -> this.item + $ itemCheck n._1 - $ itemCheck n._2)
 
 /** 
  * Main program
