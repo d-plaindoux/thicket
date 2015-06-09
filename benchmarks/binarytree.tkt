@@ -26,7 +26,7 @@ model TreeNode {
 }
 
 /** 
- * Factory
+ * TreeNode Factory
  */
  
 def bottomUpTree : number -> number -> TreeNode = item depth ->
@@ -38,7 +38,7 @@ def bottomUpTree : number -> number -> TreeNode = item depth ->
         { TreeNode item none }
 
 /**
- * Class for TreeNode
+ * itemcheck for TreeNode
  */
 
 def itemCheck : TreeNode -> number = this -> 
