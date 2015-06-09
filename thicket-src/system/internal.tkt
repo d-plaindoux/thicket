@@ -6,7 +6,7 @@
  * Licensed under the LGPL2 license.
  */
  
-module Data.Internal
+module System.Internal
  
 /**
  * An internal instance provide an entry point to a given 

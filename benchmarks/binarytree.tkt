@@ -10,7 +10,7 @@ module Benchmarks.BinaryTree
 
 from Data.Pair import Pair
 from Data.Number import number
-from OS.Console import console
+from System.Console import console
 from Data.Option import some none
 from Data.Range import foreach
 from Core.Lang.Do import do

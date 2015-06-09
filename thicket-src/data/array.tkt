@@ -12,7 +12,7 @@ from Core.Lang.When import when
 
 from Logic.Combinators import C
 
-from Data.Internal import internal
+from System.Internal import internal
 from Data.Boolean import bool
 from Data.Native import native
 from Data.Number import number

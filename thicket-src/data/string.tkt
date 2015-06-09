@@ -9,7 +9,7 @@
 module Data.String
 
 from Data.Boolean   import bool
-from Data.Internal  import internal
+from System.Internal  import internal
 from Data.Native    import native
 from Data.Number    import number
 from Data.Option    import option None Some

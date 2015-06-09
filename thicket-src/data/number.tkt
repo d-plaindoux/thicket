@@ -8,7 +8,7 @@
 
 module Data.Number
 
-from Data.Internal import internal
+from System.Internal import internal
 from Data.Native import native
 from Data.Boolean import bool
 from Data.Comparable import Comparable

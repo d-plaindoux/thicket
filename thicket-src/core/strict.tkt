@@ -7,12 +7,15 @@
  */
  
 module Core.Lang.Strict
+
+from System.Internal import internal
  
 /* 
  * Language syntactic extension
  * 
- *     f x --> strict f x
+ *     strict f x forces the evaluation of x
  */
 
-def strict : [a b] (a -> b) -> a -> b = f a -> internal "strict" f a
+def strict : [a b] (a -> b) -> a -> b = f a -> 
+    internal "strict" f a
     

@@ -7,9 +7,9 @@
  */
  
  
-module OS.Console
+module System.Console
 
-from Data.Internal import internal
+from System.Internal import internal
 
 class consoleClass this:unit {
     log : string -> consoleClass
