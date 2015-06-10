@@ -17,12 +17,30 @@ from System.Internal import internal
 from Data.String import string
 from Data.Option import option Some None
 
+type Event {
+    model OnMouseOver
+    model OnMouseOut
+    model OnMouseDown
+    model OnMouseUp
+    model OnMouseClick
+}
+
+class event this:Event {
+    toString : string
+} {
+    def OnMouseOver.toString  = "onmouseover"
+    def OnMouseOut.toString   = "onmouseout"
+    def OnMouseDown.toString  = "onmousedown"
+    def OnMouseUp.toString    = "onmoussup"
+    def OnMouseClick.toString = "click"
+}
+
 class dom this:native {
     addAttribute : string -> string -> dom
     addChild : dom -> dom
     removeChilds : dom
     
-    onEvent : [a] string -> (dom -> a) -> dom    
+    onEvent : [a] Event -> (dom -> a) -> dom    
     
     clone : dom
     replace : dom -> dom
@@ -34,7 +52,7 @@ class dom this:native {
     def addChild d = internal "dom.appendChild" self d
     def removeChilds = internal "dom.removeChilds" self
     
-    def onEvent n f = internal "dom.setFunction" self n (n -> f $ dom n)
+    def onEvent n f = internal "dom.setFunction" self (event n toString) (n -> f $ dom n)
     
     def clone = dom $ internal "dom.clone" self
     def replace d = internal "dom.replace" self d
@@ -42,11 +60,11 @@ class dom this:native {
     
     def addEventTrigger m =
         do
-        { m onmouseover  map $ self onEvent "onmouseover" } ;
-        { m onmouseout   map $ self onEvent "onmouseout"  } ;
-        { m onmousedown  map $ self onEvent "onmousedown" } ;
-        { m onmouseup    map $ self onEvent "onmouseup"   } ;
-        { m onmouseclick map $ self onEvent "click"       } 
+        { m onmouseover  map $ self onEvent OnMouseOver  } ;
+        { m onmouseout   map $ self onEvent OnMouseOut   } ;
+        { m onmousedown  map $ self onEvent OnMouseDown  } ;
+        { m onmouseup    map $ self onEvent OnMouseUp    } ;
+        { m onmouseclick map $ self onEvent OnMouseClick } 
         return self
 }
 

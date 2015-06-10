@@ -11,12 +11,15 @@ module Example.Factorial
 from Data.Number import number
 from Data.Array import emptyarray
 from Core.Lang.When import when
+from Data.Trampoline import trampoline Done More
+
+/**
+ * Factorial computation based on trampoline
+ */ 
  
-def fact_tail : number -> number -> number = 
-    acc n ->
-        when (n == 0) 
-        then acc
-        else { fact_tail (n * acc) (n - 1) }
-    
-def fact : number -> number = 
-    n -> fact_tail 1 n
+def trampolineFact : number -> number -> Trampoline[number] = acc n ->
+    when (n == 0) 
+    then {Done acc}
+    else {More $ _ -> trampolineFact (n * acc) (n - 1)}
+
+def fact = n -> trampoline (trampolineFact 1 n) run
