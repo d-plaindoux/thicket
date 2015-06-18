@@ -9,36 +9,34 @@
 module Unit.Test
 
 from Core.Lang.When import when
-from Data.Try import try success failure
 from Data.Boolean import bool
 from Data.Comparable import Comparable 
 from Data.Hashable import Hashable
 
-// TODO
-model Logger {
-    log : string -> Logger
+model UnitLog {
+    ok : string -> unit
+    ko : string -> unit
 }
 
-class unitTest this:Try[Logger] { 
+model UnitTest {
+    result : bool
+    logger : UnitLog
+}
+
+class unitTest this:UnitTest { 
+    unbox       : UnitTest
     assertTrue  : string -> bool -> unitTest    
     assertFalse : string -> bool -> unitTest    
     assertEqual : [a] string -> Comparable[a] -> a -> unitTest
 }{    
-    def Failure.assertTrue  _ _   = self
+    def unbox = this
     
-    def Success.assertTrue n b = 
-        unitTest $ 
-            when b
-            then { Success $ this._ log n }
-            else { Failure n }
+    def assertTrue n b = 
+        when b
+        then { let _ = this logger ok n in self }
+        else { let _ = this logger ko n in unitTest $ new this with result = false }
 
     def assertFalse n b = self assertTrue n b.not
-
-    def Failure.assertEqual _ _ _ = self
     
-    def Success.assertEqual n c1 c2 = 
-        unitTest $
-            when (c1 == c2)
-            then { Success $ this._ log n }
-            else { Failure n }
+    def assertEqual n c1 c2 = self assertTrue n (c1 == c2)
 }
