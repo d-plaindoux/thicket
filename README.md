@@ -31,7 +31,11 @@ Hello World
 A simple [Hello world](http://d.plaindoux.free.fr/thicket/examples/helloWorld.html) 
 is available in order to demontrate the language. This current version 
 if not yet optimized and  irectly manipulates the DOM. This does not yet 
-provide a simple and convenient library for reactive UI support.
+provide a simple and convenient library for reactive UI support. 
+
+As mentionned The Thicket source code is compiled and the resulting objcode is executed 
+by an abstract machine derived from Krivines' machine. For instance the previous example 
+uses data structure like [Option](http://d.plaindoux.free.fr/thicket/site/Data.Option.tkt.obj). 
 
 A simple example
 -----------------
