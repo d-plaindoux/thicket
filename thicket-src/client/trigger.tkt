@@ -35,12 +35,12 @@ class eventTrigger this:EventTrigger {
 } {    
     def unbox = this
     
-    def onmouseover  f = eventTrigger $ new this with onmouseover = (some f)
-    def onmouseout   f = eventTrigger $ new this with onmouseout = (some f)
-    def onmousedown  f = eventTrigger $ new this with onmousedown = (some f)
-    def onmouseup    f = eventTrigger $ new this with onmouseup = (some f)
-    def onmouseclick f = eventTrigger $ new this with onmouseclick = (some f)
-    def onload       f = eventTrigger $ new this with onload = (some f)
+    def onmouseover  f = eventTrigger $ new this with onmouseover = some f
+    def onmouseout   f = eventTrigger $ new this with onmouseout = some f
+    def onmousedown  f = eventTrigger $ new this with onmousedown = some f
+    def onmouseup    f = eventTrigger $ new this with onmouseup = some f
+    def onmouseclick f = eventTrigger $ new this with onmouseclick = some f
+    def onload       f = eventTrigger $ new this with onload = some f
 }
 
 def newEventTrigger : eventTrigger = 

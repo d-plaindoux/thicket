@@ -1,0 +1,40 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Data.Math.Monad
+
+//
+// Existantial type required ... work in progress
+//
+
+model Monad[a c] {
+    unbox   : c
+    map     : [b d] (a -> b) -> Monad[b d]
+    flatmap : [b d] (a -> Monad[b]) -> Monad[b d]
+}
+
+// 
+// adapters examples
+//
+
+/*
+def adapter option2monad : [a] option[a] -> Monad[a option[a]] =
+    o -> Monad o 
+                (f -> option2monad $ o map f)
+                (f -> option2monad $ o flatmap $ e -> f e unbox)
+               
+def adapter try2monad : [a] try[a] -> Monad[a try[a]] =
+    o -> Monad o 
+                (f -> try2monad $ o map f)
+                (f -> try2monad $ o flatmap $ e -> f e unbox)
+               
+def adapter list2monad : [a] list[a] -> Monad[a list[a]] =
+    o -> Monad o 
+                (f -> list2monad $ o map f)
+                (f -> list2monad $ o flatmap $ e -> f e unbox)
+*/                          

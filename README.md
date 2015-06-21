@@ -174,6 +174,12 @@ case Cons as l => ... // l can be used for extraction
 
 The `match` function  can be seen as a standard construction of the language.
 
+Existential type
+----------------
+
+Existential type provides the ability to separate the model implementation
+from the model specification. 
+
 
 More informations and References
 ================================
