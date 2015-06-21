@@ -3,7 +3,7 @@ Thicket
 
 [![Build Status](https://travis-ci.org/d-plaindoux/thicket.svg)](https://travis-ci.org/d-plaindoux/thicket) 
 [![Coverage Status](https://coveralls.io/repos/d-plaindoux/thicket/badge.png?branch=master)](https://coveralls.io/r/d-plaindoux/thicket?branch=master) 
-[![experimental](http://badges.github.io/stability-badges/dist/experimental.svg)](http://github.com/badges/stability-badges)
+[![unstable](http://badges.github.io/stability-badges/dist/unstable.svg)](http://github.com/badges/stability-badges)
 
 Thicket is a language based on Model, Controller and View approach.  In
 this  approach  a model  denotes  a set  of  data  (atomic or  object)
@@ -28,11 +28,15 @@ define  view   facet  in   addition  to   object  (model)   and  class
 Hello World
 -----------
 
-A simple [Hello world](http://d.plaindoux.free.fr/thicket/examples/helloWorld.html) 
-is available in order to demontrate the language. This current version 
-if not yet optimized and  irectly manipulates the DOM. This does not yet 
-provide a simple and convenient library for reactive UI support.
+A simple [Hello world](https://github.com/d-plaindoux/thicket/blob/master/examples/helloWorld.html) 
+is available for execution [here](http://d.plaindoux.free.fr/thicket/examples/helloWorld.html) in 
+order to demontrate the language. This current version if not yet optimized and directly manipulates 
+the DOM. This does not yet provide a simple and convenient library for reactive UI support. 
 
+As mentionned The Thicket source code is compiled and the resulting objcode is executed 
+by an abstract machine derived from Krivines' machine. For instance the previous example 
+uses data structure like [Option](https://github.com/d-plaindoux/thicket/blob/master/thicket-src/data/option.tkt)
+which is compiled to the [objcode](http://d.plaindoux.free.fr/thicket/site/Data.Option.tkt.obj). 
 A simple example
 -----------------
 
