@@ -6,7 +6,7 @@
  * Licensed under the LGPL2 license.
  */
 
-module Data.Range
+module Core.Lang.Foreach
 
 from Core.Lang.Strict import strict
 from Core.Lang.When import when
@@ -30,13 +30,14 @@ class abstractRangeIterator this:(number,number) {
         }
 }
 
-class range this:number {
-    to     : number -> rangeIterator
-    downto : number -> rangeIterator
+class stepByRangeIterator this:(number,number) {
+    step : number -> rangeIterator
 } {
-    def to n     = rangeIterator $ abstractRangeIterator (this, n) fold number::(?>) number::(++)
-    def downto n = rangeIterator $ abstractRangeIterator (n, this) fold number::(<?) number::(--)
+    def step i =
+        rangeIterator $
+            when (i <? 0) 
+            then { abstractRangeIterator this fold number::(<?) (i +) }
+            else { abstractRangeIterator this fold number::(?>) (i +) }
 }
 
-def foreach : (number,number) -> number -> rangeIterator = 
-    r i -> rangeIterator $ abstractRangeIterator r fold number::(?>) (i +)
+def foreach : (number,number) -> stepByRangeIterator = stepByRangeIterator
