@@ -9,7 +9,7 @@
   <script type="text/thicket">
     from Client.Document import Event document
     
-    def hs : string -> dom = this ->
+    def highlightString : string -> dom = this ->
         <span class="actionable">
             <b> {string2dom this} </b>
         </span>
@@ -17,7 +17,7 @@
     def manageNode : dom -> dom = node -> 
         let onclick = n -> n removeChilds addChild $ string2dom "Hello World!" in        
             node addChild { string2dom "Say Hello? " }
-                 addChild { hs "<Click>" onEvent OnMouseClick onclick }
+                 addChild { highlightString "<Click>" onEvent OnMouseClick onclick }
   </script>
     
   <script type="text/thicket">
