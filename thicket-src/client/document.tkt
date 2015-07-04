@@ -5,7 +5,7 @@
  * Copyright (c) 2015 Didier Plaindoux
  * Licensed under the LGPL2 license.
  */
- 
+
 module Client.Document
 
 from Core.Lang.Do import do
@@ -31,7 +31,7 @@ class event this:Event {
     def OnMouseOver.toString  = "onmouseover"
     def OnMouseOut.toString   = "onmouseout"
     def OnMouseDown.toString  = "onmousedown"
-    def OnMouseUp.toString    = "onmoussup"
+    def OnMouseUp.toString    = "onmousesup"
     def OnMouseClick.toString = "click"
 }
 
@@ -39,9 +39,9 @@ class dom this:native {
     addAttribute : string -> string -> dom
     addChild : dom -> dom
     removeChilds : dom
-    
-    onEvent : [a] Event -> (dom -> a) -> dom    
-    
+
+    onEvent : [a] Event -> (dom -> a) -> dom
+
     clone : dom
     replace : dom -> dom
     remove : dom
@@ -51,20 +51,20 @@ class dom this:native {
     def addAttribute n d = internal "dom.setAttribute" self n d
     def addChild d = internal "dom.appendChild" self d
     def removeChilds = internal "dom.removeChilds" self
-    
+
     def onEvent n f = internal "dom.setFunction" self (event n toString) (n -> f $ dom n)
-    
+
     def clone = dom $ internal "dom.clone" self
     def replace d = internal "dom.replace" self d
     def remove = internal "dom.remove" self
-    
+
     def addEventTrigger m =
         do
         { m onmouseover  map $ self onEvent OnMouseOver  } ;
         { m onmouseout   map $ self onEvent OnMouseOut   } ;
         { m onmousedown  map $ self onEvent OnMouseDown  } ;
         { m onmouseup    map $ self onEvent OnMouseUp    } ;
-        { m onmouseclick map $ self onEvent OnMouseClick } 
+        { m onmouseclick map $ self onEvent OnMouseClick }
         return self
 }
 

@@ -30,7 +30,8 @@ module.exports = function(grunt) {
     },
     uglify: {
         options: {
-            mangle: false
+            mangle: false,            
+            beautify: true
         },
         my_target: {
             files: {
@@ -48,7 +49,7 @@ module.exports = function(grunt) {
     
   // Tasks
   grunt.registerTask('site',    ['exec:thicket_site_prepare', 'exec:thicket_site']);
-  grunt.registerTask('package', ['jshint', 'exec:thicket_prepare', 'exec:thicket_lg', 'exec:thicket_rt']);
+  grunt.registerTask('package', ['jshint', 'exec:thicket_prepare', 'exec:thicket_lg', 'exec:thicket_rt', 'uglify']);
   grunt.registerTask('default', ['jshint', 'nodeunit']);
 };
 

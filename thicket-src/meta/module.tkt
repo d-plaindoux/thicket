@@ -1,0 +1,20 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+
+module Meta.Module
+
+model Module {
+    name : string
+    defs : list[Entities]
+}
+
+type Entities {
+    model Model { name : string }
+    model Class { name : string }
+    model Function { name : string }
+}

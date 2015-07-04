@@ -5,7 +5,7 @@
     }
   </style>
 <head>
-  <script src="../build/thicket-lang.js"></script>
+  <script src="../build/thicket-lang.min.js"></script>
   <script type="text/thicket">
     from Client.Document import Event document
     
@@ -15,7 +15,8 @@
         </span>
 
     def manageNode : dom -> dom = node -> 
-        let onclick = n -> n removeChilds addChild $ string2dom "Hello World!" in        
+        let onclick = node -> node removeChilds 
+                                   addChild { string2dom "Hello World!" } in        
             node addChild { string2dom "Say Hello? " }
                  addChild { highlightString "<Click>" onEvent OnMouseClick onclick }
   </script>

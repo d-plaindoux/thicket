@@ -10,6 +10,7 @@ module Boot
 
 from Core.Lang.When import *
 from Core.Lang.Do import *
+from Core.Lang.Foreach import *
 
 from System.Internal import *
 

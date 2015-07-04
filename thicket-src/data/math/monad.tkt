@@ -15,7 +15,7 @@ module Data.Math.Monad
 model Monad[a c] {
     unbox   : c
     map     : [b d] (a -> b) -> Monad[b d]
-    flatmap : [b d] (a -> Monad[b]) -> Monad[b d]
+    flatmap : [b d] (a -> Monad[b d]) -> Monad[b d]
 }
 
 // 

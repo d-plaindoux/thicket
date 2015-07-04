@@ -35,6 +35,7 @@ class list[a] this:List[a] {
     reverse : list[a]
     
     (++)    : list[a] -> list[a]
+    
     (+:)    : a -> list[a]
     (:+)    : a -> list[a]
 
@@ -62,7 +63,7 @@ class list[a] this:List[a] {
 
     def (++) l = self foldR (e r -> list $ Cons e r.unbox) l
     def (+:) a = list $ Cons a this
-    def (:+) a = self ++ $ list Nil +: a
+    def (:+) a = self ++ $ list $ Cons a Nil
 
     def map f = self foldR (e r -> let ne = f e in list $ Cons ne r.unbox) $ emptyList
     def flatmap f = self foldR (e r -> (f e) ++ r) $ list Nil
@@ -74,13 +75,13 @@ class list[a] this:List[a] {
     def Cons.foldL f b = f (list this.tail foldL f b) this.head
 
     def Nil.foldR _ b = b
-    def Cons.foldR f b = let r = f this.head b in list this.tail foldR f r
+    def Cons.foldR f b = list this.tail foldR f $ f this.head b
 
     def Nil.zip l = ziplist Nil
     def Cons.zip l =
-        let ifNil = ziplist Nil in
-        let ifCons = head tail -> ziplist $ Cons (this.head,head) (list this.tail zip tail unbox) in
-            l fold ifNil ifCons
+        let whenNil = ziplist Nil in
+        let whenCons = head tail -> ziplist $ Cons (this.head,head) (list this.tail zip tail unbox) in
+            l fold whenNil whenCons
 }
 
 class ziplist[a b] this:List[(a,b)] {
