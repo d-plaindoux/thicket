@@ -9,17 +9,17 @@
 module Example.Factorial
  
 from Data.Number import number
-from Data.Array import emptyarray
 from Core.Lang.When import when
-from Data.Trampoline import trampoline Done More
+import Data.Trampoline
 
 /**
  * Factorial computation based on trampoline
  */ 
  
-def trampolineFact : number -> number -> Trampoline[number] = acc n ->
-    when (n == 0) 
-    then {Done acc}
-    else {More $ _ -> trampolineFact (n * acc) (n - 1)}
+def trampolineFact : number -> number -> Trampoline[number] = 
+    acc n ->
+        when (n == 0) 
+        then {Done acc}
+        else {More $ _ -> trampolineFact (n * acc) (n - 1)}
 
 def fact = n -> trampoline (trampolineFact 1 n) run
