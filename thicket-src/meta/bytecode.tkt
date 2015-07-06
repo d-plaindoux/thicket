@@ -8,6 +8,9 @@
 
 module Meta.Bytecode
 
+from Data.Number import number
+from Data.String import string
+
 type Bytecode {
     model NUMBER { _ : number }
     model STRING { _ : string }

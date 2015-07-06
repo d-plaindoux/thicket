@@ -9,6 +9,8 @@
  
 module System.Console
 
+from Data.Unit import unit
+from Data.String import string
 from System.Internal import internal
 
 class consoleClass this:unit {

@@ -1,3 +1,6 @@
+model Pair 
+model string
+
 type Bool {
     model True
     model False
@@ -31,6 +34,6 @@ class pretty this:IO[string] {
     string : string -> pretty
     bool   : bool -> pretty
 } {
-    def bool b   = self string (b ? "true" "false")
+    def bool b   = self.string (b ? "true" "false")
     def string s = pretty $ this put s
 }

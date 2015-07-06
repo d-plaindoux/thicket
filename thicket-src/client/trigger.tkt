@@ -8,8 +8,9 @@
  
 module Client.Trigger
 
+from Data.Unit import unit
 from Client.Document import dom
-from Data.Option import option
+from Data.Option import option some none
 
 // Trigger model
 

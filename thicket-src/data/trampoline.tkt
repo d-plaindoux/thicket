@@ -8,6 +8,8 @@
  
 module Data.Trampoline
  
+from Data.Unit import unit
+
 type Trampoline[A] {
     model Done { _ : A }
     model More { _ : unit -> Trampoline[A] }

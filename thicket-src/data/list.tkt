@@ -10,9 +10,9 @@ module Data.List
 
 from Core.Builder.Collection import *
 from Data.Pair import Pair
-from Data.Boolean import bool
+from Data.Boolean import bool true false
 from Data.Number import number
-from Data.Option import option
+from Data.Option import option none some
 from Data.Comparable import Comparable
 from Data.Hashable import Hashable
 from Data.Collection import Collection

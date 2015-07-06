@@ -8,8 +8,11 @@
  
 module Unit.Test
 
+import Data.Unit
+import Data.String 
+
 from Core.Lang.When import when
-from Data.Boolean import bool
+from Data.Boolean import bool false
 from Data.Comparable import Comparable 
 from Data.Hashable import Hashable
 

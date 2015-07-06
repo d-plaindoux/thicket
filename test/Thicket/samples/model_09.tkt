@@ -1,3 +1,6 @@
+model unit
+model string
+
 class Function[a b] this:(a -> b) {
     (<<) : a -> b
     (@) : [c] Function[b c] -> Function[a c]

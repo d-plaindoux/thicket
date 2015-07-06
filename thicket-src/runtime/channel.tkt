@@ -8,6 +8,8 @@
  
 module Runtime.Channel
  
+from Data.Pair import Pair
+ 
 model Channel[a] {
     read  : (a,Channel[a])
     write : a -> Channel[a]    

@@ -1,5 +1,9 @@
 model Bool
 
+model string
+model unit
+model dom
+
 model bool {
     return : Bool
     string : string    

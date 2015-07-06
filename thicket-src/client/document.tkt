@@ -10,12 +10,12 @@ module Client.Document
 
 from Core.Lang.Do import do
 
-from Client.Trigger import MouseTrigger
+from Client.Trigger import EventTrigger
 
 from Data.Native import native
 from System.Internal import internal
 from Data.String import string
-from Data.Option import option Some None
+from Data.Option import option some none
 
 type Event {
     model OnMouseOver

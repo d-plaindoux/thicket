@@ -8,6 +8,7 @@
 
 module Data.Boolean
 
+from Data.String import string
 from Data.Comparable import Comparable
 from Data.Hashable import Hashable
 

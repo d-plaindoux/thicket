@@ -1,5 +1,8 @@
 // Simple example with a model and a view 
 
+model unit
+model dom
+
 model Element
 
 model string {

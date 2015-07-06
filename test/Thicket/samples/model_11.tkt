@@ -1,5 +1,7 @@
 // Reference http://blog.podsnap.com/ducers2.html
 
+model unit 
+
 typedef ReducingFn[a r] = r -> a -> r
 typedef Transducer[a b] = [r] ReducingFn[a r] -> ReducingFn[b r] 
 

@@ -1,4 +1,6 @@
 model native
+model string
+model unit 
 
 class number this:native {
     unbox : native 
@@ -18,13 +20,13 @@ type Bool {
 }
 
 class bool this:Bool {
-    unbox : Bool
-    (&&)   : bool -> bool
-    (||)   : bool -> bool
-    (=>)   : bool -> bool
-    not    : bool
-    (?)    : [a] a -> a -> a
-    string : string
+    unbox    : Bool
+    (&&)     : bool -> bool
+    (||)     : bool -> bool
+    (=>)     : bool -> bool
+    not      : bool
+    (?)      : [a] a -> a -> a
+    toString : string
 } {
     def unbox = this
 
@@ -129,14 +131,13 @@ class list2[a b] this:List[(a,b)] {
         let tail = list2 this.tail unzip in
             (list $ Cons this.head._1 tail._1.unbox),(list $ Cons this.head._2 tail._2.unbox)
 }
-
+ 
 class example this:unit {
     ite : List[bool] -> List[string]
     zip : List[string] -> List[bool] -> List[(string,bool)]
     all : List[string] -> List[bool] -> List[(string,bool)]
 } {
-    def ite l     = (for a <- (list l) if a yield a string) unbox
+    def ite l     = (for a <- (list l) if a yield a toString) unbox
     def zip l1 l2 = (list l1) zip (list l2) unbox
     def all l1 l2 = (for a <- (list l1) b <- (list l2) yield a,b) unbox
 }
-

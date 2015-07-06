@@ -9,9 +9,9 @@
 module Data.Option
 
 from Core.Lang.Strict import strict
-from Data.Boolean import bool
+from Data.Boolean import bool true false
 from Logic.Combinators import I
-from Data.Try import try
+from Data.Try import try failure success
  
 type Option [a] {
     model Some { _ : a }

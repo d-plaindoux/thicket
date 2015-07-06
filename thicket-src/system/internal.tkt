@@ -7,6 +7,8 @@
  */
  
 module System.Internal
+
+from Data.String import string
  
 /**
  * An internal instance provide an entry point to a given 

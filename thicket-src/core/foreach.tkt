@@ -12,6 +12,7 @@ from Core.Lang.Strict import strict
 from Core.Lang.When import when
 from Data.Pair import Pair
 from Data.Number import number
+from Data.Boolean import bool
 
 model rangeIterator {
     fold : [b] b -> (number -> b -> b) -> b

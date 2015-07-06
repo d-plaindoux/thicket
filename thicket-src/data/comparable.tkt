@@ -8,7 +8,7 @@
  
 module Data.Comparable
  
-from Data.Hashable import hashable
+from Data.Hashable import Hashable
 from Data.Boolean import bool
 
 model Comparable[k] {

@@ -17,7 +17,7 @@ from System.Internal import internal
 from Data.Boolean import bool
 from Data.Native import native
 from Data.Number import number
-from Data.Option import options some none
+from Data.Option import option some none
 
 /*
  * Immutable array version
