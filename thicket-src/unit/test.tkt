@@ -8,8 +8,8 @@
  
 module Unit.Test
 
-import Data.Unit
-import Data.String 
+from Data.Unit import unit
+from Data.String import string
 
 from Core.Lang.When import when
 from Data.Boolean import bool false

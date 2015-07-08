@@ -10,7 +10,7 @@ module Example.Factorial
  
 from Data.Number import number
 from Core.Lang.When import when
-import Data.Trampoline
+from Data.Trampoline import *
 
 /**
  * Factorial computation based on trampoline
