@@ -33,7 +33,7 @@ exports['language_definition '] = {
     // tests here  
     var aStream = stream("def un : number = 1");
         
-    test.deepEqual(language.parser.group('expressionDef').parse(aStream).get(),
+    test.deepEqual(language.parser.group('expressionDef').parse(aStream).get().definition,
                    { '$type': 'Expression',
                       name: 'un',
                       type: 
@@ -54,7 +54,7 @@ exports['language_definition '] = {
     // tests here  
     var aStream = stream("def idNumber : number -> number = s -> s");
         
-    test.deepEqual(language.parser.group('expressionDef').parse(aStream).get(),
+    test.deepEqual(language.parser.group('expressionDef').parse(aStream).get().definition,
                    { '$type': 'Expression',
                       name: 'idNumber',
                       type: 
@@ -76,7 +76,7 @@ exports['language_definition '] = {
                           { '$type': 'IdentExpr',
                             value: 's',
                             '$location': { offset: 40, line: 1, character: 41 } },
-                         '$location': { offset: 34, line: 1, character: 35 } },
+                         '$location': { offset: 40, line: 1, character: 41 } },
                       '$location': { offset: 0, line: 1, character: 1 } }, 
                    "accept a definition");
     test.done();

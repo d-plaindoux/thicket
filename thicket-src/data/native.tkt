@@ -8,6 +8,4 @@
 
 module Data.Native
 
-model native {
-    // Defined for all embedded native type
-}
+model native

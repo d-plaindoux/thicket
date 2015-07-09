@@ -34,7 +34,7 @@ exports['language_definition '] = {
     // tests here  
     var aStream = stream("def un : number = 1");
         
-    test.deepEqual(language.parser.group('expressionDef').parse(aStream).get(),
+    test.deepEqual(language.parser.group('expressionDef').parse(aStream).get().definition,
                    ast.expression("un",ast.type.variable("number"), ast.expr.number(1)), "accept a definition");
     test.done();
   },
@@ -44,7 +44,7 @@ exports['language_definition '] = {
     // tests here  
     var aStream = stream("def idNumber : number -> number = s -> s");
         
-    test.deepEqual(language.parser.group('expressionDef').parse(aStream).get(),
+    test.deepEqual(language.parser.group('expressionDef').parse(aStream).get().definition,
                    ast.expression("idNumber", 
                                   ast.type.abstraction(ast.type.variable("number"), ast.type.variable("number")), 
                                   ast.expr.abstraction("s", ast.expr.ident("s"))), 

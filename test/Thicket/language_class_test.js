@@ -54,7 +54,7 @@ exports['language_class'] = {
     // tests here  
     var aStream = stream("class Address this:Address {} {}");
         
-    test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
+    test.deepEqual(language.parser.group('controllerDef').parse(aStream).get().definition, 
                    ast.controller('Address', [], ast.param('this',ast.type.variable('Address')), [], []) , 
                    "accept a controller");
     test.done();
@@ -65,7 +65,7 @@ exports['language_class'] = {
     // tests here  
     var aStream = stream("class Address [a b] this:Address {}{}");
         
-    test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
+    test.deepEqual(language.parser.group('controllerDef').parse(aStream).get().definition, 
                    ast.type.forall(["a", "b"], ast.controller('Address', [ast.type.variable('a'),ast.type.variable('b')], ast.param('this',ast.type.variable('Address')), [], [])) , 
                    "accept a controller");
     test.done();
@@ -75,7 +75,7 @@ exports['language_class'] = {
     test.expect(1);
     // tests here  
     var aStream = stream("class Address this:Address { number : number } { def number = 123 }");        
-    test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
+    test.deepEqual(language.parser.group('controllerDef').parse(aStream).get().definition, 
                    ast.controller('Address',
                                   [],
                                   ast.param('this',ast.type.variable('Address')), 
@@ -89,7 +89,7 @@ exports['language_class'] = {
     test.expect(1);
     // tests here  
     var aStream = stream("class Address this: Address { number : unit -> number } { def number _ = 123 }");        
-    test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
+    test.deepEqual(language.parser.group('controllerDef').parse(aStream).get().definition, 
                    ast.controller('Address', 
                                   [],
                                   ast.param('this', ast.type.variable('Address')), 
@@ -103,7 +103,7 @@ exports['language_class'] = {
     test.expect(1);
     // tests here  
     var aStream = stream("class Address this: Address { number : unit -> number } { def number _:unit = 123 }");        
-    test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
+    test.deepEqual(language.parser.group('controllerDef').parse(aStream).get().definition, 
                    ast.controller('Address', 
                                   [],
                                   ast.param('this', ast.type.variable('Address')), 
@@ -117,7 +117,7 @@ exports['language_class'] = {
     test.expect(1);
     // tests here  
     var aStream = stream("class Address this: Address { number : [a] a -> a } { def number x = x }");        
-    test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
+    test.deepEqual(language.parser.group('controllerDef').parse(aStream).get().definition, 
                    ast.controller('Address',
                                   [],
                                   ast.param('this', ast.type.variable('Address')), 
@@ -131,7 +131,7 @@ exports['language_class'] = {
     test.expect(1);
     // tests here  
     var aStream = stream("class Address this: Address { number : [a] a -> a } { def a.number x = x }");        
-    test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
+    test.deepEqual(language.parser.group('controllerDef').parse(aStream).get().definition, 
                    ast.controller('Address',
                                   [],
                                   ast.param('this', ast.type.variable('Address')), 
@@ -145,7 +145,7 @@ exports['language_class'] = {
     test.expect(1);
     // tests here  
     var aStream = stream("class Address this: Address { (+) : [a] a -> a } { def (+) x = x }");        
-    test.deepEqual(language.parser.group('controllerDef').parse(aStream).get(), 
+    test.deepEqual(language.parser.group('controllerDef').parse(aStream).get().definition, 
                    ast.controller('Address',
                                   [],
                                   ast.param('this', ast.type.variable('Address')), 

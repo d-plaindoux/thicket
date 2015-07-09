@@ -35,7 +35,9 @@ function sampleTest(sample, test, checker) {
         }
                 
         var aStream = stream(data.toString()),
-            allEntities = language.parser.group('entities').parse(aStream),
+            allEntities = language.parser.group('entities').parse(aStream).map(function(entities) {
+                return entities.map(function(e) { return e.definition; });
+            }),
             nongenerics = entities.nongenerics(allEntities),            
             nongenericModels = entities.nongenericModels(allEntities),            
             specifications = entities.specifications(allEntities),
