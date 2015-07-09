@@ -13,7 +13,7 @@ from Data.Comparable import Comparable
 from Data.Boolean import bool
  
 /* 
- * Language syntactic extension for collection builder
+ * Language syntactic extension for collection entity
  * Example with list: List[1;2;3]
  */
 

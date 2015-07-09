@@ -33,7 +33,8 @@ exports['entities_analyse'] = {
   "Analyse empty controller": function (test) {
       test.expect(1);
       // Test
-      var aController = ast.controller("A",[],ast.param("this",ast.type.variable("number")),[],[]);
+      var aController = ast.entity("A",
+                                   ast.controller("A",[],ast.param("this",ast.type.variable("number")),[],[]));
       test.ok(entities.analyse(list(), list(), list(), list(), [aController]).isSuccess(),
               "Empty controller");
       test.done();
@@ -42,10 +43,11 @@ exports['entities_analyse'] = {
   "Analyse simple controller": function (test) {
       test.expect(1);
       // Test
-      var aController = ast.controller("A",[],
+      var aController = ast.entity("A",
+                                   ast.controller("A",[],
                                        ast.param("this",ast.type.variable("number")),
                                        [ ast.param("m", ast.type.variable("number")) ],
-                                       [ ast.method("m", ast.expr.number(1)) ]);
+                                       [ ast.method("m", ast.expr.number(1)) ]));
       test.ok(entities.analyse(list(), list(), list(), list(), [aController]).isSuccess(),
               "Simple controller");
       test.done();
@@ -54,10 +56,11 @@ exports['entities_analyse'] = {
   "Analyse simple wrong controller": function (test) {
       test.expect(1);
       // Test
-      var aController = ast.controller("A",[],
+      var aController = ast.entity("A",
+                                   ast.controller("A",[],
                                        ast.param("this",ast.type.variable("number")),
                                        [ ast.param("m", ast.type.variable("string")) ],
-                                       [ ast.method("m", ast.expr.number(1)) ]);
+                                       [ ast.method("m", ast.expr.number(1)) ]));
       test.ok(entities.analyse(list(), 
                                list(), 
                                list(), 
@@ -71,10 +74,11 @@ exports['entities_analyse'] = {
   "Analyse simple partial controller": function (test) {
       test.expect(1);
       // Test
-      var aController = ast.controller("A",[],
+      var aController = ast.entity("A",
+                                   ast.controller("A",[],
                                        ast.param("this",ast.type.variable("number")),
                                        [ ],
-                                       [ ast.method("m", ast.expr.number(1)) ]);
+                                       [ ast.method("m", ast.expr.number(1)) ]));
       test.ok(entities.analyse(list(), list(), list(), list(), [aController]).isFailure(),
               "Simple partial controller");
       test.done();
@@ -83,10 +87,11 @@ exports['entities_analyse'] = {
   "Analyse simple controller using this": function (test) {
       test.expect(1);
       // Test
-      var aController = ast.controller("A",[],
+      var aController = ast.entity("A",
+                                   ast.controller("A",[],
                                        ast.param("this",ast.type.variable("number")),
                                        [ ast.param("m", ast.type.variable("number")) ],
-                                       [ ast.method("m", ast.expr.ident("this")) ]);
+                                       [ ast.method("m", ast.expr.ident("this")) ]));
       test.ok(entities.analyse(list(), list(), list(), list(), [aController]).isSuccess(),
               "This referencing controller");
       test.done();
@@ -95,10 +100,11 @@ exports['entities_analyse'] = {
   "Analyse simple controller using self": function (test) {
       test.expect(1);
       // Test
-      var aController = ast.controller("A",[],
+      var aController = ast.entity("A",
+                                   ast.controller("A",[],
                                        ast.param("this",ast.type.variable("number")),
                                        [ ast.param("m", ast.type.variable("number")) ],
-                                       [ ast.method("m", ast.expr.invoke(ast.expr.ident("self"), "m")) ]);
+                                       [ ast.method("m", ast.expr.invoke(ast.expr.ident("self"), "m")) ]));
       test.ok(entities.analyse(list(), list(pair("A", aController)), list(), list(), [aController]).isSuccess(),
               "Self referencing controller");
       test.done();
@@ -107,10 +113,11 @@ exports['entities_analyse'] = {
   "Analyse simple controller returning self": function (test) {
       test.expect(1);
       // Test
-      var aController = ast.controller("A",[],
+      var aController = ast.entity("A",
+                                   ast.controller("A",[],
                                        ast.param("this",ast.type.variable("number")),
                                        [ ast.param("m", ast.type.variable("A")) ],
-                                       [ ast.method("m", ast.expr.ident("self")) ]);
+                                       [ ast.method("m", ast.expr.ident("self")) ]));
       test.ok(entities.analyse(list(), list(pair("A", aController)), list(), list(), [aController]).isSuccess(),
               "Self referencing controller");
       test.done();

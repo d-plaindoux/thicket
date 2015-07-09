@@ -13,7 +13,7 @@ from Data.Comparable import Comparable
 from Data.Pair import Pair
 
 /* 
- * Language syntactic extension for map builder
+ * Language syntactic extension for map entity
  * Example with hashmap: Hashmap[1=>"2";2="3";3=>"3"]
  */
 

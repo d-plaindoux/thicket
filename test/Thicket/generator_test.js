@@ -40,7 +40,7 @@ exports['compile'] = {
   'Model with one attribute': function (test) {
       test.expect(1);
       
-      test.deepEqual(compiler.entity([], ast.model("A",[],[ast.param("a",ast.type.native("a"))])).success(),
+      test.deepEqual(compiler.entity(list(), ast.model("A",[],[ast.param("a",ast.type.native("a"))])).success(),
                      compiler.abstractSyntax("Model","A",["a"]));
       test.done();
   },
@@ -77,7 +77,7 @@ exports['compile'] = {
     'Controller with filtered unbox': function (test) {
       test.expect(1);
       
-      test.deepEqual(compiler.entity(list(ast.model('number',[],[])),
+      test.deepEqual(compiler.entity(list(ast.entity('number', ast.model('number',[],[]))),
                                      ast.controller("A",[],
                                                     ast.param("this",ast.type.native("a")),
                                                     [],
