@@ -80,8 +80,8 @@ class population this:Population {
   addNew  : string -> string -> population
 } {
   def unbox = this
-  def (<=) age = self for p in this if p <= 100 yield p
-  def addNew f n = self $ this +: (APerson f n)
+  def (<=) age = population for p in this if p <= 100 yield p
+  def addNew f n = population $ this +: (APerson f n)
 }
 ```
 
@@ -119,8 +119,8 @@ def personAdder : population -> dom = this ->
 
 def populationView : population -> dom = this ->
   <div>
-      (for p <- (this <= 100 unbox) yield personView $ person p)
-      (personAdder this)
+      { for p <- (this <= 100 unbox) yield personView $ person p }
+      { personAdder this }
    </div>
 ```
 
