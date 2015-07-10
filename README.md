@@ -47,9 +47,9 @@ definition in the illustrated MVC design pattern.
 
 ```
 model Person {
-   firstname: String
-   name: String
-   age: Int
+   firstname: string
+   name: string
+   age: number
 }
 ```
 
@@ -61,27 +61,27 @@ a given model.
 
 ```
 class person this:Person {  
-  firstname: String
-  name: String
-  age: Int
+  firstname: string
+  name: string
+  age: number
   tick: person
 } {
   def firstname = this.firstname
   def name = this.name
   def age = this.age
-  def tick = self $ new this with age=(this.age + 1)
+  def tick = person new this with age=(this.age + 1)
 }
 
 typedef Population = list[Person]
 
 class population this:Population {
   unbox   : Population
-  (<=)    : int -> population
+  (<=)    : number -> population
   addNew  : string -> string -> population
 } {
   def unbox = this
   def (<=) age = population for p in this if p <= 100 yield p
-  def addNew f n = population $ this +: (APerson f n)
+  def addNew f n = population $ this +: (Person f n 0)
 }
 ```
 
