@@ -33,7 +33,7 @@ exports['language_module'] = {
     test.expect(1);
     // tests here  
     var aStream = stream("module Core.Bool model A"),
-        aModule = ast.module(["Core","Bool"],[],[ast.entity("A",ast.model("A",[],[]))]);
+        aModule = ast.module("Core.Bool",[],[ast.entity("A",ast.model("A",[],[]))]);
         
     test.deepEqual(language.parser.group('module').parse(aStream).get(), 
                    aModule,
@@ -45,7 +45,7 @@ exports['language_module'] = {
     test.expect(1);
     // tests here  
     var aStream = stream("module Core.Bool from Core.Test import a model A"),
-        aModule = ast.module(["Core","Bool"],[ast.imports(["Core","Test"],["a"])],[ast.entity("A",ast.model("A",[],[]))]);
+        aModule = ast.module("Core.Bool",[ast.imports("Core.Test",["a"])],[ast.entity("A",ast.model("A",[],[]))]);
         
     test.deepEqual(language.parser.group('module').parse(aStream).get(), 
                    aModule,

@@ -59,7 +59,7 @@ exports['packages'] = {
     var aReader = reader(fsdriver('./test/Thicket/samples')),
         aPackages = packages(option.none());
 
-    aPackages.define("Data.Unit", aReader.specifications("Data.Unit"));      
+    aPackages.define(aReader.specifications("Data.Unit"));      
     test.equal(aPackages.list().size(), 1);
       
     test.done();
@@ -71,7 +71,7 @@ exports['packages'] = {
     var aReader = reader(fsdriver('./test/Thicket/samples')),
         aPackages = packages(option.none());
 
-    aPackages.define("Data.Unit", aReader.specifications("Data.Unit"));      
+    aPackages.define(aReader.specifications("Data.Unit"));      
       
     test.ok(aPackages.retrieve("Data.Unit").isPresent());
       
@@ -84,7 +84,7 @@ exports['packages'] = {
     var aReader = reader(fsdriver('./test/Thicket/samples')),
         aPackages = packages(option.none());
 
-    aPackages.define("Data.Unit", aReader.specifications("Data.Unit"));      
+    aPackages.define(aReader.specifications("Data.Unit"));      
       
     test.ok(aPackages.retrieve("Data.Unit").get().findType("unit").isSuccess());
       
@@ -97,7 +97,7 @@ exports['packages'] = {
     var aReader = reader(fsdriver('./test/Thicket/samples')),
         aPackages = packages(option.none());
 
-    aPackages.define("Data.Unit", aReader.specifications("Data.Unit"));      
+    aPackages.define(aReader.specifications("Data.Unit"));      
       
     test.ok(aPackages.retrieve("Data.Unit").get().findType("wrongName").isFailure());
       
@@ -110,7 +110,7 @@ exports['packages'] = {
     var aReader = reader(fsdriver('./test/Thicket/samples')),
         aPackages = packages(option.none());
 
-    aPackages.define("Data.Unit", aReader.specifications("Data.Unit"));      
+    aPackages.define(aReader.specifications("Data.Unit"));      
       
     test.ok(aPackages.retrieve("Data.Unit").get().findExpression("unit").isSuccess());
       
@@ -123,9 +123,29 @@ exports['packages'] = {
     var aReader = reader(fsdriver('./test/Thicket/samples')),
         aPackages = packages(option.none());
 
-    aPackages.define("Data.Unit", aReader.specifications("Data.Unit"));      
+    aPackages.define(aReader.specifications("Data.Unit"));      
       
     test.ok(aPackages.retrieve("Data.Unit").get().findExpression("wrongName").isFailure());
+      
+    test.done();
+  },
+    
+  'Retrieve a given model expression from package': function(test) {
+    test.expect(1);
+    // tests here  
+    var aReader = reader(fsdriver('./test/Thicket/samples')),
+        aPackages = packages(option.none());
+
+    aPackages.define(aReader.specifications("Data.Unit"));      
+      
+    test.deepEqual(aPackages.retrieve("Data.Unit").get().findExpression("unit").success(), 
+                  { 
+                    '$type': 'Model',
+                    name: 'unit',
+                    variables: [],
+                    params: [],
+                    '$location': { offset: 169, line: 12, character: 1 }
+                  });
       
     test.done();
   },
