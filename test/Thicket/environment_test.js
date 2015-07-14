@@ -44,6 +44,17 @@ exports['environment'] = {
     test.done();
   },
 
+  'Empty environment has no type (find)': function(test) {
+    test.expect(1);
+    // tests here  
+    var aPackages = packages(option.none()),
+        anEnvironement = environment(aPackages);
+
+    test.ok(anEnvironement.findType("unit").isFailure());
+      
+    test.done();
+  },
+
   'Empty environment has no expression': function(test) {
     test.expect(1);
     // tests here  
@@ -55,6 +66,17 @@ exports['environment'] = {
     test.done();
   },
 
+  'Empty environment has no expression (find)': function(test) {
+    test.expect(1);
+    // tests here  
+    var aPackages = packages(option.none()),
+        anEnvironement = environment(aPackages);
+
+    test.ok(anEnvironement.findExpression("unit").isFailure());
+      
+    test.done();
+  },
+    
   'Non empty environment has one type in a given package': function(test) {
     test.expect(1);
     // tests here  
@@ -65,6 +87,20 @@ exports['environment'] = {
     aPackages.define(aReader.specifications("Data.Unit"));      
       
     test.ok(anEnvironement.getType("Data.Unit","unit").isSuccess());
+      
+    test.done();
+  },
+    
+  'Non empty environment has one type in a given package (find)': function(test) {
+    test.expect(1);
+    // tests here  
+    var aReader = reader(fsdriver('./test/Thicket/samples')),
+        aPackages = packages(option.none()),
+        anEnvironement = environment(aPackages);
+
+    aPackages.define(aReader.specifications("Data.Unit"));      
+      
+    test.ok(anEnvironement.findType("unit").isSuccess());
       
     test.done();
   },
