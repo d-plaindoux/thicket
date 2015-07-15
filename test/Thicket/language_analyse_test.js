@@ -1,7 +1,6 @@
 'use strict';
 
 var stream = require('../../lib' + (process.env.THICKET_COV || '') + '/Parser/stream.js'),
-    list = require('../../lib' + (process.env.THICKET_COV || '') + '/Data/list.js'),
     language = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/syntax/language.js')(),
     entities = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/checker/entities.js'),
     fs = require('fs');
@@ -27,7 +26,7 @@ var stream = require('../../lib' + (process.env.THICKET_COV || '') + '/Parser/st
 */
 
 function sampleTest(sample, test, checker) {
-    test.expect(4);
+    test.expect(3);
     // tests here  
     fs.readFile('./test/Thicket/samples/' + sample, function (err,data) {
         if (err) {
@@ -37,7 +36,6 @@ function sampleTest(sample, test, checker) {
         var aStream = stream(data.toString()),
             allEntities = language.parser.group('entities').parse(aStream),
             nongenerics = entities.nongenerics(allEntities),            
-            nongenericModels = entities.nongenericModels(allEntities),            
             specifications = entities.specifications(allEntities),
             models = entities.models(allEntities),
             environment = entities.environment(allEntities);
@@ -48,10 +46,6 @@ function sampleTest(sample, test, checker) {
                         
         test.ok(allEntities.isPresent(), "accept a full example");
         test.ok(aStream.isEmpty(), "accept a full example");        
-        test.ok(list(allEntities.orElse([])).foldL(list(), function (result, entity) {
-                    return result.append(entities.freeVariables(nongenericModels, entity));
-                }).minus(nongenerics).isEmpty(),
-                "No free variables");
 
         var analyse = entities.analyse(nongenerics, environment, models,  specifications, allEntities.orElse([]));
         
