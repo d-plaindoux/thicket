@@ -9,13 +9,17 @@
           "$type": "Model",
           "name": "unit",
           "variables": [],
-          "params": [],
-          "$location": 
-            {
-              "offset": 169,
-              "line": 12,
-              "character": 1
-            }
+          "params": []
+        }
+    },
+    {
+      "name":"unit2",
+      "definition": 
+        {
+          "$type": "Model",
+          "name": "unit2",
+          "variables": [],
+          "params": []
         }
     }
   ]

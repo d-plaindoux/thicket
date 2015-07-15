@@ -77,6 +77,32 @@ exports['packages'] = {
       
     test.done();
   },
+ 
+  'Retrieve a given package 2': function(test) {
+    test.expect(1);
+    // tests here  
+    var aReader = reader(fsdriver('./test/Thicket/samples')),
+        aPackages = packages(option.none());
+
+    aPackages.define(aReader.specifications("Data.Implicit"));      
+      
+    test.ok(aPackages.retrieve("Data.Implicit").isPresent());
+      
+    test.done();
+  },
+ 
+  'Retrieve a given package 3': function(test) {
+    test.expect(1);
+    // tests here  
+    var aReader = reader(fsdriver('./test/Thicket/samples')),
+        aPackages = packages(option.none());
+
+    aPackages.define(aReader.specifications("Data.Explicit"));      
+      
+    test.ok(aPackages.retrieve("Data.Explicit").isPresent());
+      
+    test.done();
+  },
     
   'Retrieve a given type from package': function(test) {
     test.expect(1);
@@ -143,9 +169,34 @@ exports['packages'] = {
                     '$type': 'Model',
                     name: 'unit',
                     variables: [],
-                    params: [],
-                    '$location': { offset: 169, line: 12, character: 1 }
+                    params: []
                   });
+      
+    test.done();
+  },
+    
+  'Validate the namespace for a given model expression in a package': function(test) {
+    test.expect(1);
+    // tests here  
+    var aReader = reader(fsdriver('./test/Thicket/samples')),
+        aPackages = packages(option.none());
+
+    aPackages.define(aReader.specifications("Data.Unit"));      
+      
+    test.ok(aPackages.retrieve("Data.Unit").get().inNamespace("unit"));
+      
+    test.done();
+  },
+    
+  'Do not validate the namespace for a given model expression not in a package': function(test) {
+    test.expect(1);
+    // tests here  
+    var aReader = reader(fsdriver('./test/Thicket/samples')),
+        aPackages = packages(option.none());
+
+    aPackages.define(aReader.specifications("Data.Unit"));      
+      
+    test.ok(!aPackages.retrieve("Data.Unit").get().inNamespace("wrongUnit"));
       
     test.done();
   },

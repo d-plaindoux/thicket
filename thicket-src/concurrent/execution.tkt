@@ -6,15 +6,15 @@
  * Licensed under the LGPL2 license.
  */
  
-module Runtime.Execute
+module Runtime.Execution
  
 from Data.Boolean import bool
 from Runtime.Channel import Channel
  
-model Execution {
+model Task {
     alive : bool    
 }
  
-model Execute {
-    run : [a] (Channel[a] -> Execution) -> Channel[a]
+model Runner {
+    run : [a] Channel[a] -> Task
 }

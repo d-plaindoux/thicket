@@ -44,17 +44,6 @@ exports['environment'] = {
     test.done();
   },
 
-  'Empty environment has no type (find)': function(test) {
-    test.expect(1);
-    // tests here  
-    var aPackages = packages(option.none()),
-        anEnvironement = environment(aPackages);
-
-    test.ok(anEnvironement.findType("unit").isFailure());
-      
-    test.done();
-  },
-
   'Empty environment has no expression': function(test) {
     test.expect(1);
     // tests here  
@@ -65,18 +54,7 @@ exports['environment'] = {
       
     test.done();
   },
-
-  'Empty environment has no expression (find)': function(test) {
-    test.expect(1);
-    // tests here  
-    var aPackages = packages(option.none()),
-        anEnvironement = environment(aPackages);
-
-    test.ok(anEnvironement.findExpression("unit").isFailure());
-      
-    test.done();
-  },
-    
+   
   'Non empty environment has one type in a given package': function(test) {
     test.expect(1);
     // tests here  
@@ -90,8 +68,8 @@ exports['environment'] = {
       
     test.done();
   },
-    
-  'Non empty environment has one type in a given package (find)': function(test) {
+
+  'Check namespace for local definition': function(test) {
     test.expect(1);
     // tests here  
     var aReader = reader(fsdriver('./test/Thicket/samples')),
@@ -100,21 +78,52 @@ exports['environment'] = {
 
     aPackages.define(aReader.specifications("Data.Unit"));      
       
-    test.ok(anEnvironement.findType("unit").isSuccess());
+    test.equal(anEnvironement.findNamespace("Data.Unit","unit").success(),"Data.Unit");
       
     test.done();
   },
 
-  'Non empty environment has one expression in a given package': function(test) {
+  'Check namespace for explicit import': function(test) {
     test.expect(1);
     // tests here  
     var aReader = reader(fsdriver('./test/Thicket/samples')),
         aPackages = packages(option.none()),
         anEnvironement = environment(aPackages);
 
+    aPackages.define(aReader.specifications("Data.Explicit"));      
     aPackages.define(aReader.specifications("Data.Unit"));      
       
-    test.ok(anEnvironement.getExpression("Data.Unit","unit").isSuccess());
+    test.equal(anEnvironement.findNamespace("Data.Explicit","unit").success(),"Data.Unit");
+      
+    test.done();
+  },
+
+  'Check namespace for implicit import': function(test) {
+    test.expect(1);
+    // tests here  
+    var aReader = reader(fsdriver('./test/Thicket/samples')),
+        aPackages = packages(option.none()),
+        anEnvironement = environment(aPackages);
+
+    aPackages.define(aReader.specifications("Data.Implicit"));      
+    aPackages.define(aReader.specifications("Data.Unit"));      
+      
+    test.equal(anEnvironement.findNamespace("Data.Implicit","unit").success(),"Data.Unit");
+      
+    test.done();
+  },
+
+  'Check namespace for non explicit import': function(test) {
+    test.expect(1);
+    // tests here  
+    var aReader = reader(fsdriver('./test/Thicket/samples')),
+        aPackages = packages(option.none()),
+        anEnvironement = environment(aPackages);
+
+    aPackages.define(aReader.specifications("Data.Explicit"));      
+    aPackages.define(aReader.specifications("Data.Unit"));      
+      
+    test.ok(anEnvironement.findNamespace("Data.Explicit","unit2").isFailure());
       
     test.done();
   },

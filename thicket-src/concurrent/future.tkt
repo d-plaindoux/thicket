@@ -1,0 +1,28 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Runtime.Execution
+ 
+from Data.Boolean import bool
+from Runtime.Channel import Channel
+ 
+model Future[a] {
+    _ : a
+}
+ 
+class future[a] this:Future[a] {
+    map     : [b] (a -> b) -> Future[b]
+    flapmap : [b] (a -> Future[b]) -> Future[b]
+} {
+}
+
+/**
+ * Constructors
+ */
+
+def future : [a] try[a] -> Future[a] = Future 

@@ -44,7 +44,7 @@ class array[a] this:native {
 
     def map f = 
         let update = i r -> self get i fold r { a -> r set i $ f a } in
-            foreach (self.length --),0 step -1 fold (emptyArray self.length) update
+            foreach 0,(self.length --) step 1 fold (emptyArray self.length) update
             
     def find p = 
         let filter = a -> p a fold (some a) none in
@@ -57,5 +57,9 @@ class array[a] this:native {
     def foldR f r = 
         foreach (self.length --),0 step -1 fold r (i r -> self get i fold r $ C f r)
 }
+
+/**
+ * Empty array constructor
+ */
 
 def emptyArray : [a] number -> array[a] = n -> array $ internal "array.new" n
