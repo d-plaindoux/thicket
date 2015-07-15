@@ -26,7 +26,7 @@ var option = require('../../lib' + (process.env.THICKET_COV || '') + '/Data/opti
     test.ifError(value)
 */
 
-exports['linker'] = {
+exports['linker_namespace'] = {
   setUp: function(done) {
     done();
   },
