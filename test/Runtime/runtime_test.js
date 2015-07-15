@@ -4,6 +4,7 @@ var stream = require('../../lib' + (process.env.THICKET_COV || '') + '/Parser/st
     list = require('../../lib' + (process.env.THICKET_COV || '') + '/Data/list.js'),    
     language = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/syntax/language.js')(),
     compiler = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/generator/code.js'),
+    deBruijn = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/generator/deBruijn.js'),
     objcode = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/generator/objcode.js'),
     runtime = require('../../lib' + (process.env.THICKET_COV || '') + '/Runtime/runtime.js');  
 
@@ -41,7 +42,7 @@ exports['runtime'] = {
     
     runtime.register({ MODEL : [ "number", [[ "_" , [{ ACCESS : 1 }]]] ] }); 
       
-    test.deepEqual(runtime.execute(objcode.generateObjCode(objcode.deBruijnIndex(source))),
+    test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
                    {OBJ: [{"MODEL":["number",[[{"ACCESS":1}]],['_']]},[{"CONST":123}]]});
     test.done();
   },
@@ -55,7 +56,7 @@ exports['runtime'] = {
     
     runtime.register({ MODEL : [ "string", [[ "_" , [{ ACCESS : 1 }]]] ] }); 
       
-    test.deepEqual(runtime.execute(objcode.generateObjCode(objcode.deBruijnIndex(source))),
+    test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
                    {OBJ: [{"MODEL":["string",[[{"ACCESS":1}]],["_"]]},[{"CONST":"123"}]]});
     test.done();
   },
@@ -69,7 +70,7 @@ exports['runtime'] = {
     
     runtime.register({ MODEL : [ "unit", [] ] }); 
       
-    test.deepEqual(runtime.execute(objcode.generateObjCode(objcode.deBruijnIndex(source))),
+    test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
                    {OBJ: [{"MODEL":["unit",[],[]]},[]]});
     test.done();
   },
@@ -81,7 +82,7 @@ exports['runtime'] = {
         expression = language.parser.group('exprs').parse(aStream).get(),
         source = compiler.sentence(list(),expression).success();
     
-    test.deepEqual(runtime.execute(objcode.generateObjCode(objcode.deBruijnIndex(source))),
+    test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
                    {ENV: [ [ { ACCESS: 1 }, { RETURN: 1 } ], [] ]});
     test.done();
   }, 
@@ -95,7 +96,7 @@ exports['runtime'] = {
     
     runtime.register({ MODEL : [ "unit", [] ] }); 
     
-    test.deepEqual(runtime.execute(objcode.generateObjCode(objcode.deBruijnIndex(source))),
+    test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
                    {OBJ: [{"MODEL":["unit",[],[]]},[]]});
     test.done();
   }, 
@@ -109,7 +110,7 @@ exports['runtime'] = {
     
     runtime.register({ MODEL : ["unit",[]] }); 
     
-    test.deepEqual(runtime.execute(objcode.generateObjCode(objcode.deBruijnIndex(source))),
+    test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
                    {OBJ: [{"MODEL":["unit",[],[]]},[]]});
     test.done();
   }, 
@@ -121,7 +122,7 @@ exports['runtime'] = {
         expression = language.parser.group('exprs').parse(aStream).get(),
         source = compiler.sentence(list(),expression).success();
     
-    test.deepEqual(runtime.execute(objcode.generateObjCode(objcode.deBruijnIndex(source))),
+    test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
                    {ENV: [[{ CLOSURE: [{ ACCESS: 1 }, { RETURN: 1 }]}, { RETURN: 1 }], [] ]});
     test.done();
   }, 
@@ -133,7 +134,7 @@ exports['runtime'] = {
         expression = language.parser.group('exprs').parse(aStream).get(),
         source = compiler.sentence(list(),expression).success();
     
-    test.deepEqual(runtime.execute(objcode.generateObjCode(objcode.deBruijnIndex(source))),
+    test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
                    {ENV: [[{ CLOSURE: [{ ACCESS: 2 }, { RETURN: 1 }]}, { RETURN: 1 }], [] ]});
     test.done();
   }, 
@@ -147,7 +148,7 @@ exports['runtime'] = {
     
     runtime.register({ MODEL : [ "number", [[ "_" , [{ ACCESS : 1 }]]] ] }); 
 
-    test.deepEqual(runtime.execute(objcode.generateObjCode(objcode.deBruijnIndex(source))),
+    test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
                    {OBJ: [{ MODEL: [ 'number', [[{ ACCESS: 1 }]],['_']]},  [{ CONST: 1 }] ]});
     test.done();
   }, 
@@ -161,7 +162,7 @@ exports['runtime'] = {
     
     runtime.register({ MODEL : [ "number", [[ "_" , [{ ACCESS:1 }]]] ] }); 
 
-    test.deepEqual(runtime.execute(objcode.generateObjCode(objcode.deBruijnIndex(source))),
+    test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
                    {OBJ: [{ MODEL: [ 'number', [[{ ACCESS:1 }]],['_']]}, [{ CONST:2 }] ]});
     test.done();
   }, 
@@ -176,7 +177,7 @@ exports['runtime'] = {
     runtime.register({ MODEL : [ "number", [[ "_" , [{ ACCESS:1 }]]] ] }); 
     runtime.register({ DEFINITION : ["f" , [{CLOSURE : [{ACCESS:1},{RETURN:1}]}]] });
 
-    test.deepEqual(runtime.execute(objcode.generateObjCode(objcode.deBruijnIndex(source))),
+    test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
                    {OBJ: [{ MODEL: [ 'number', [[{ ACCESS:1 }]],['_']]}, [{ CONST:1 }] ]});
     test.done();
   }, 
@@ -190,7 +191,7 @@ exports['runtime'] = {
     
     runtime.register({ MODEL : [ "number", [[ "value" , [{ ACCESS:1 },{RETURN:1}]]] ] }); 
 
-    test.deepEqual(runtime.execute(objcode.generateObjCode(objcode.deBruijnIndex(source))),
+    test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
                    { CONST:1 });
     test.done();
   }, 
@@ -205,7 +206,7 @@ exports['runtime'] = {
     runtime.register({ MODEL : [ "number", [[ "value" , [{ ACCESS:1 },{RETURN:1}]]] ] }); 
     runtime.register({ MODEL : [ "A", [[ "att" , [{ ACCESS:1 },{RETURN:1}]]] ] }); 
 
-    test.deepEqual(runtime.execute(objcode.generateObjCode(objcode.deBruijnIndex(source))),
+    test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
                    { CONST:2 });
     test.done();
   }, 
@@ -220,7 +221,7 @@ exports['runtime'] = {
     runtime.register({ MODEL : [ "number", [[ "value" , [{ ACCESS:1 },{RETURN:1}]]] ] }); 
     runtime.register({ MODEL : [ "A", [[ "_1" , [{ ACCESS:1 },{RETURN:1}]],[ "_2" , [{ ACCESS:2 },{RETURN:1}]]] ] }); 
 
-    test.deepEqual(runtime.execute(objcode.generateObjCode(objcode.deBruijnIndex(source))),
+    test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
                    { CONST:3 });
     test.done();
   }, 
@@ -235,7 +236,7 @@ exports['runtime'] = {
     runtime.register({ MODEL : [ "number", [[ "value" , [{ ACCESS:1 },{RETURN:1}]]] ] }); 
     runtime.register({ MODEL : [ "A", [[ "_1" , [{ ACCESS:1 },{RETURN:1}]],[ "_2" , [{ ACCESS:2 },{RETURN:1}]]] ] }); 
 
-    test.deepEqual(runtime.execute(objcode.generateObjCode(objcode.deBruijnIndex(source))),
+    test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
                    { CONST:2 });
     test.done();
   }, 
@@ -250,7 +251,7 @@ exports['runtime'] = {
     runtime.register({ MODEL : [ "number", [[ "value" , [{ ACCESS:1 },{RETURN:1}]]] ] }); 
     runtime.register({ MODEL : [ "A", [[ "_1" , [{ ACCESS:1 },{RETURN:1}]],[ "_2" , [{ ACCESS:2 },{RETURN:1}]]] ] }); 
 
-    test.deepEqual(runtime.execute(objcode.generateObjCode(objcode.deBruijnIndex(source))),
+    test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
                    { CONST:1 });
     test.done();
   }, 
@@ -265,7 +266,7 @@ exports['runtime'] = {
     runtime.register({ MODEL : [ "number", [[ "value" , [{ ACCESS:1 },{RETURN:1}]]] ] }); 
     runtime.register({ MODEL : [ "A", [[ "_1" , [{ ACCESS:1 },{RETURN:1}]],[ "_2" , [{ ACCESS:2 },{RETURN:1}]]] ] }); 
 
-    test.deepEqual(runtime.execute(objcode.generateObjCode(objcode.deBruijnIndex(source))),
+    test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
                    { CONST:3 });
     test.done();
   }, 
@@ -279,7 +280,7 @@ exports['runtime'] = {
     
     runtime.register({ CLASS : [ "number", [[ "id" , [{ ACCESS:2 },{RETURN:1}]],[ "value" , [{ ACCESS:1 },{RETURN:1}]]] ] }); 
 
-    test.deepEqual(runtime.execute(objcode.generateObjCode(objcode.deBruijnIndex(source))),
+    test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
                    { CONST:1 });
     test.done();
   }, 
