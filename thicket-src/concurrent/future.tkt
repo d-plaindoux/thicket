@@ -19,6 +19,7 @@ class future[a] this:Future[a] {
     map     : [b] (a -> b) -> Future[b]
     flapmap : [b] (a -> Future[b]) -> Future[b]
 } {
+    // TODO
 }
 
 /**

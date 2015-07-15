@@ -12,7 +12,7 @@ from Data.Boolean import bool
 from Runtime.Channel import Channel
  
 model Task {
-    alive : bool    
+    // TODO
 }
  
 model Runner {

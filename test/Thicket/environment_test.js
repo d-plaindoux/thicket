@@ -1,5 +1,3 @@
-/*jshint -W061 */
-
 'use strict';
 
 var option = require('../../lib' + (process.env.THICKET_COV || '') + '/Data/option.js'),
@@ -37,9 +35,9 @@ exports['environment'] = {
     test.expect(1);
     // tests here  
     var aPackages = packages(option.none()),
-        anEnvironement = environment(aPackages);
+        anEnvironment = environment(aPackages);
 
-    test.ok(anEnvironement.getType("Data.Unit","unit").isFailure());
+    test.ok(anEnvironment.getType("Data.Unit","unit").isFailure());
       
     test.done();
   },
@@ -48,9 +46,9 @@ exports['environment'] = {
     test.expect(1);
     // tests here  
     var aPackages = packages(option.none()),
-        anEnvironement = environment(aPackages);
+        anEnvironment = environment(aPackages);
 
-    test.ok(anEnvironement.getExpression("Data.Unit","unit").isFailure());
+    test.ok(anEnvironment.getExpression("Data.Unit","unit").isFailure());
       
     test.done();
   },
@@ -60,70 +58,11 @@ exports['environment'] = {
     // tests here  
     var aReader = reader(fsdriver('./test/Thicket/samples')),
         aPackages = packages(option.none()),
-        anEnvironement = environment(aPackages);
+        anEnvironment = environment(aPackages);
 
     aPackages.define(aReader.specifications("Data.Unit"));      
       
-    test.ok(anEnvironement.getType("Data.Unit","unit").isSuccess());
-      
-    test.done();
-  },
-
-  'Check namespace for local definition': function(test) {
-    test.expect(1);
-    // tests here  
-    var aReader = reader(fsdriver('./test/Thicket/samples')),
-        aPackages = packages(option.none()),
-        anEnvironement = environment(aPackages);
-
-    aPackages.define(aReader.specifications("Data.Unit"));      
-      
-    test.equal(anEnvironement.findNamespace("Data.Unit","unit").success(),"Data.Unit");
-      
-    test.done();
-  },
-
-  'Check namespace for explicit import': function(test) {
-    test.expect(1);
-    // tests here  
-    var aReader = reader(fsdriver('./test/Thicket/samples')),
-        aPackages = packages(option.none()),
-        anEnvironement = environment(aPackages);
-
-    aPackages.define(aReader.specifications("Data.Explicit"));      
-    aPackages.define(aReader.specifications("Data.Unit"));      
-      
-    test.equal(anEnvironement.findNamespace("Data.Explicit","unit").success(),"Data.Unit");
-      
-    test.done();
-  },
-
-  'Check namespace for implicit import': function(test) {
-    test.expect(1);
-    // tests here  
-    var aReader = reader(fsdriver('./test/Thicket/samples')),
-        aPackages = packages(option.none()),
-        anEnvironement = environment(aPackages);
-
-    aPackages.define(aReader.specifications("Data.Implicit"));      
-    aPackages.define(aReader.specifications("Data.Unit"));      
-      
-    test.equal(anEnvironement.findNamespace("Data.Implicit","unit").success(),"Data.Unit");
-      
-    test.done();
-  },
-
-  'Check namespace for non explicit import': function(test) {
-    test.expect(1);
-    // tests here  
-    var aReader = reader(fsdriver('./test/Thicket/samples')),
-        aPackages = packages(option.none()),
-        anEnvironement = environment(aPackages);
-
-    aPackages.define(aReader.specifications("Data.Explicit"));      
-    aPackages.define(aReader.specifications("Data.Unit"));      
-      
-    test.ok(anEnvironement.findNamespace("Data.Explicit","unit2").isFailure());
+    test.ok(anEnvironment.getType("Data.Unit","unit").isSuccess());
       
     test.done();
   },
