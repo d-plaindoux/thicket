@@ -179,4 +179,49 @@ exports['linker_entities'] = {
       
     test.done();
   },
+   
+  'Cannot Link abstract type': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream('type A { model B } def apply : B = B'),
+        entities = language.parser.group('entities').parse(aStream).get(),
+        aPackages = packages(option.none()),
+        aLinker = linker(aPackages);
+      
+    aPackages.defineInRoot(entities);
+      
+    test.ok(aLinker.linkEntities("_", list(entities)).isFailure());
+      
+    test.done();
+  },
+
+  'Link concrete model': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream('type A { model B } def apply = B'),
+        entities = language.parser.group('entities').parse(aStream).get(),
+        aPackages = packages(option.none()),
+        aLinker = linker(aPackages);
+
+    aPackages.defineInRoot(entities);  
+ 
+    test.ok(aLinker.linkEntities("_", list(entities)).isSuccess());
+      
+    test.done();
+  },
+    
+  'Cannot Link abstract model': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream('type A { model B } def apply = A'),
+        entities = language.parser.group('entities').parse(aStream).get(),
+        aPackages = packages(option.none()),
+        aLinker = linker(aPackages);
+
+    aPackages.defineInRoot(entities);  
+      
+    test.ok(aLinker.linkEntities("_", list(entities)).isFailure());
+      
+    test.done();
+  },
 };
