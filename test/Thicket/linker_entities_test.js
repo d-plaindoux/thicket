@@ -239,4 +239,79 @@ exports['linker_entities'] = {
       
     test.done();
   },
+
+  'Link simple controller': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream('model number class a this:number { f : number -> a } { def f n = a n }'),
+        entities = language.parser.group('entities').parse(aStream).get(),
+        aPackages = packages(option.none()),
+        aLinker = linker(aPackages);
+
+    aPackages.defineInRoot(entities);  
+ 
+    test.ok(aLinker.linkEntities("_", list(entities)).isSuccess());
+      
+    test.done();
+  },
+
+  'Link simple controller using self': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream('model number class a this:number { f : number -> a } { def f n = self }'),
+        entities = language.parser.group('entities').parse(aStream).get(),
+        aPackages = packages(option.none()),
+        aLinker = linker(aPackages);
+
+    aPackages.defineInRoot(entities);  
+ 
+    test.ok(aLinker.linkEntities("_", list(entities)).isSuccess());
+      
+    test.done();
+  },
+
+  'Link simple controller using this': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream('model number class a this:number { f : number -> a } { def f n = a this }'),
+        entities = language.parser.group('entities').parse(aStream).get(),
+        aPackages = packages(option.none()),
+        aLinker = linker(aPackages);
+
+    aPackages.defineInRoot(entities);  
+ 
+    test.ok(aLinker.linkEntities("_", list(entities)).isSuccess());
+      
+    test.done();
+  },
+
+  'Cannot Link controller with wrong type': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream('class a this:number { f : number -> a } { def f n = a n }'),
+        entities = language.parser.group('entities').parse(aStream).get(),
+        aPackages = packages(option.none()),
+        aLinker = linker(aPackages);
+
+    aPackages.defineInRoot(entities);  
+ 
+    test.ok(aLinker.linkEntities("_", list(entities)).isFailure());
+      
+    test.done();
+  },
+
+  'Cannot Link controller with wrong expression': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream('class a this:number { f : number -> a } { def f n = a b }'),
+        entities = language.parser.group('entities').parse(aStream).get(),
+        aPackages = packages(option.none()),
+        aLinker = linker(aPackages);
+
+    aPackages.defineInRoot(entities);  
+ 
+    test.ok(aLinker.linkEntities("_", list(entities)).isFailure());
+      
+    test.done();
+  },
 };
