@@ -19,4 +19,4 @@ THICKET_HOME="`cd \"$RELATIVE\" 2>/dev/null && pwd || echo \"$RELATIVE\"`"
 # Execute the command - Node access must be improved
 #
 
-node $THICKET_HOME/lib/Frontend/tktc.js $@
+node $THICKET_HOME/lib/Thicket/frontend/tktc.js $@

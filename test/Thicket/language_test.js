@@ -1,7 +1,7 @@
 'use strict';
 
 var stream = require('../../lib' + (process.env.THICKET_COV || '') + '/Parser/stream.js'),
-    language = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/syntax/language.js')(),
+    language = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/syntax/language.js')(),
     fs = require('fs');
 
 /*

@@ -1,8 +1,8 @@
 'use strict';
 
-var expression = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/checker/expressions.js'),
-    types = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/checker/types.js'),
-    ast = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/syntax/ast.js'),
+var expression = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/checker/expressions.js'),
+    types = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/checker/types.js'),
+    ast = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/syntax/ast.js'),
     pair = require('../../lib' + (process.env.THICKET_COV || '') + '/Data/pair.js'),
     list = require('../../lib' + (process.env.THICKET_COV || '') + '/Data/list.js');
 

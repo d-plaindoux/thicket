@@ -1,7 +1,7 @@
 'use strict';
 
-var types = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/checker/types.js'),
-    ast = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/syntax/ast.js');
+var types = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/checker/types.js'),
+    ast = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/syntax/ast.js');
     // list = require('../../lib' + (process.env.THICKET_COV || '') + '/Data/list.js');     
 
 /*

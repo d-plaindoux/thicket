@@ -1,9 +1,9 @@
 'use strict';
 
-var ast = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/syntax/ast.js'),
+var ast = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/syntax/ast.js'),
     list = require('../../lib' + (process.env.THICKET_COV || '') + '/Data/list.js'),
-    compiler = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/generator/code.js'),
-    deBruijn = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/generator/deBruijn.js');
+    compiler = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/generator/code.js'),
+    deBruijn = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/generator/deBruijn.js');
 
 /*
   ======== A Handy Little Nodeunit Reference ========

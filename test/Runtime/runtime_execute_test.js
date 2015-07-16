@@ -2,11 +2,11 @@
 
 var stream = require('../../lib' + (process.env.THICKET_COV || '') + '/Parser/stream.js'),
     list = require('../../lib' + (process.env.THICKET_COV || '') + '/Data/list.js'),    
-    language = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/syntax/language.js')(),
-    compiler = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/generator/code.js'),
-    deBruijn = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/generator/deBruijn.js'),
-    objcode = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/generator/objcode.js'),
-    runtime = require('../../lib' + (process.env.THICKET_COV || '') + '/Runtime/runtime.js');  
+    language = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/syntax/language.js')(),
+    compiler = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/generator/code.js'),
+    deBruijn = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/generator/deBruijn.js'),
+    objcode = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/generator/objcode.js'),
+    runtime = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/runtime/runtime.js');  
 
 /*
   ======== A Handy Little Nodeunit Reference ========

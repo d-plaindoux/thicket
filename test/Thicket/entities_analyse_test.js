@@ -1,7 +1,7 @@
 'use strict';
 
-var entities = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/checker/entities.js'),
-    ast = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/syntax/ast.js'),
+var entities = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/checker/entities.js'),
+    ast = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/syntax/ast.js'),
     pair = require('../../lib' + (process.env.THICKET_COV || '') + '/Data/pair.js'),
     list = require('../../lib' + (process.env.THICKET_COV || '') + '/Data/list.js');
 

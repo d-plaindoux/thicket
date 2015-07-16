@@ -1,8 +1,8 @@
 'use strict';
 
 var stream = require('../../lib' + (process.env.THICKET_COV || '') + '/Parser/stream.js'),
-    language = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/syntax/language.js')(),
-    ast = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/syntax/ast.js');
+    language = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/syntax/language.js')(),
+    ast = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/syntax/ast.js');
 
 /*
   ======== A Handy Little Nodeunit Reference ========

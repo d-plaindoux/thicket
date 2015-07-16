@@ -1,8 +1,8 @@
 'use strict';
 
 var stream = require('../../lib' + (process.env.THICKET_COV || '') + '/Parser/stream.js'),
-    language = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/syntax/language.js')(),
-    entities = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/checker/entities.js'),
+    language = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/syntax/language.js')(),
+    entities = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/checker/entities.js'),
     fs = require('fs');
 
 /*

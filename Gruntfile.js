@@ -23,8 +23,8 @@ module.exports = function(grunt) {
     },
     exec: {
         thicket_prepare: 'mkdir build; true',
-        thicket_lg: './node_modules/browserify/bin/cmd.js -r ./lib/Frontend/wrt.js:thicket -o ./build/thicket-lang.js',
-        thicket_rt: './node_modules/browserify/bin/cmd.js -r ./lib/Runtime/runtime.js:runtime -o ./build/thicket-rt.js',
+        thicket_lg: './node_modules/browserify/bin/cmd.js -r ./lib/Thicket/frontend/wrt.js:thicket -o ./build/thicket-lang.js',
+        thicket_rt: './node_modules/browserify/bin/cmd.js -r ./lib/Thicket/runtime/runtime.js:runtime -o ./build/thicket-rt.js',
         thicket_site_prepare: 'mkdir site; true',
         thicket_site: './bin/thicketc -i site/ -o site/ mvc-lib/*.mvc mvc-lib/*/*.mvc'
     },
