@@ -314,4 +314,45 @@ exports['linker_entities'] = {
       
     test.done();
   },
+
+  'Link simple by name': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream('model number class a this:number { f : number -> a } { def f n = a this }'),
+        entities = language.parser.group('entities').parse(aStream).get(),
+        aPackages = packages(option.none()),
+        aLinker = linker(aPackages);
+
+    aPackages.defineInRoot(entities);  
+ 
+    test.ok(aLinker.linkPackageByName("_").isSuccess());
+      
+    test.done();
+  },
+    
+  'Cannot Link unknown name': function(test) {
+    test.expect(1);
+    // tests here  
+    var aPackages = packages(option.none()),
+        aLinker = linker(aPackages);
+
+    test.ok(aLinker.linkPackageByName("_").isFailure());
+      
+    test.done();
+  },
+
+  'Cannot Link simple by name': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream('class a this:number { f : number -> a } { def f n = a this }'),
+        entities = language.parser.group('entities').parse(aStream).get(),
+        aPackages = packages(option.none()),
+        aLinker = linker(aPackages);
+
+    aPackages.defineInRoot(entities);  
+ 
+    test.ok(aLinker.linkPackageByName("_").isFailure());
+      
+    test.done();
+  },
 };
