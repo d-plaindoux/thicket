@@ -339,7 +339,7 @@ exports['language_exprs'] = {
     var aStream = stream("number::(+)");
         
     test.deepEqual(language.parser.group('expr').parse(aStream).get(), 
-                   ast.expr.abstraction("_",ast.expr.invoke(ast.expr.ident("_"),"+"),ast.type.variable('number')),
+                   ast.expr.abstraction("main",ast.expr.invoke(ast.expr.ident("main"),"+"),ast.type.variable('number')),
                    "Operator reference");
     test.done();      
   },
@@ -350,7 +350,7 @@ exports['language_exprs'] = {
     var aStream = stream("number::add");
         
     test.deepEqual(language.parser.group('expr').parse(aStream).get(), 
-                   ast.expr.abstraction("_",ast.expr.invoke(ast.expr.ident("_"),"add"),ast.type.variable('number')),
+                   ast.expr.abstraction("main",ast.expr.invoke(ast.expr.ident("main"),"add"),ast.type.variable('number')),
                    "Operator reference");
     test.done();      
   },

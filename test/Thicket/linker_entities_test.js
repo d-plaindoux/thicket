@@ -7,7 +7,7 @@ var stream = require('../../lib' + (process.env.THICKET_COV || '') + '/Parser/st
     fsdriver = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/resource/drivers/fsdriver.js'),
     reader = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/resource/reader.js'),
     packages = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/data/packages.js'),
-    linker = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/checker/linker.js');
+    linker = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/data/linker.js');
     
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -38,11 +38,11 @@ exports['linker_entities'] = {
     test.expect(1);
     // tests here  
     var aStream = stream('model number'),
-        entities = language.parser.group('entities').parse(aStream).get(),
+        entities = language.parser.group('entities').parse(aStream).get()[0],
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
-
-    test.ok(aLinker.linkEntities("_", list(entities)).isSuccess());
+      
+    test.ok(aLinker.linkEntities("main", list(entities)).isSuccess());
       
     test.done();
   },
@@ -51,11 +51,11 @@ exports['linker_entities'] = {
     test.expect(1);
     // tests here  
     var aStream = stream('model Future[a] { _ : a }'),
-        entities = language.parser.group('entities').parse(aStream).get(),
+        entities = language.parser.group('entities').parse(aStream).get()[0],
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkEntities("_", list(entities)).isSuccess());
+    test.ok(aLinker.linkEntities("main", list(entities)).isSuccess());
       
     test.done();
   },
@@ -64,11 +64,11 @@ exports['linker_entities'] = {
     test.expect(1);
     // tests here  
     var aStream = stream('model number { _ : string }'),
-        entities = language.parser.group('entities').parse(aStream).get(),
+        entities = language.parser.group('entities').parse(aStream).get()[0],
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkEntities("_", list(entities)).isFailure());
+    test.ok(aLinker.linkEntities("main", list(entities)).isFailure());
       
     test.done();
   },
@@ -77,7 +77,7 @@ exports['linker_entities'] = {
     test.expect(1);
     // tests here  
     var aStream = stream('typedef MyUnit = unit'),
-        entities = language.parser.group('entities').parse(aStream).get(),
+        entities = language.parser.group('entities').parse(aStream).get()[0],
         aReader = reader(fsdriver('./test/Thicket/samples')),
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
@@ -93,7 +93,7 @@ exports['linker_entities'] = {
     test.expect(1);
     // tests here  
     var aStream = stream('typedef MyUnit = unit'),
-        entities = language.parser.group('entities').parse(aStream).get(),
+        entities = language.parser.group('entities').parse(aStream).get()[0],
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
@@ -106,11 +106,11 @@ exports['linker_entities'] = {
     test.expect(1);
     // tests here  
     var aStream = stream('typedef Function[a b] = a -> b'),
-        entities = language.parser.group('entities').parse(aStream).get(),
+        entities = language.parser.group('entities').parse(aStream).get()[0],
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkEntities("_", list(entities)).isSuccess());
+    test.ok(aLinker.linkEntities("main", list(entities)).isSuccess());
       
     test.done();
   },
@@ -119,11 +119,11 @@ exports['linker_entities'] = {
     test.expect(1);
     // tests here  
     var aStream = stream('typedef Function[a] = a -> b'),
-        entities = language.parser.group('entities').parse(aStream).get(),
+        entities = language.parser.group('entities').parse(aStream).get()[0],
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkEntities("_", list(entities)).isFailure());
+    test.ok(aLinker.linkEntities("main", list(entities)).isFailure());
       
     test.done();
   },
@@ -132,11 +132,11 @@ exports['linker_entities'] = {
     test.expect(1);
     // tests here  
     var aStream = stream('def apply = f a -> f a'),
-        entities = language.parser.group('entities').parse(aStream).get(),
+        entities = language.parser.group('entities').parse(aStream).get()[0],
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkEntities("_", list(entities)).isSuccess());
+    test.ok(aLinker.linkEntities("main", list(entities)).isSuccess());
       
     test.done();
   },
@@ -145,11 +145,11 @@ exports['linker_entities'] = {
     test.expect(1);
     // tests here  
     var aStream = stream('def apply = f -> f a'),
-        entities = language.parser.group('entities').parse(aStream).get(),
+        entities = language.parser.group('entities').parse(aStream).get()[0],
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);  
       
-    test.ok(aLinker.linkEntities("_", list(entities)).isSuccess()); // May be 'a' is a method
+    test.ok(aLinker.linkEntities("main", list(entities)).isSuccess()); // May be 'a' is a method
       
     test.done();
   },
@@ -158,11 +158,11 @@ exports['linker_entities'] = {
     test.expect(1);
     // tests here  
     var aStream = stream('def apply : [a b] (a -> b) -> a = f a -> f a'),
-        entities = language.parser.group('entities').parse(aStream).get(),
+        entities = language.parser.group('entities').parse(aStream).get()[0],
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkEntities("_", list(entities)).isSuccess());
+    test.ok(aLinker.linkEntities("main", list(entities)).isSuccess());
       
     test.done();
   },
@@ -171,11 +171,11 @@ exports['linker_entities'] = {
     test.expect(1);
     // tests here  
     var aStream = stream('def apply : [a] (a -> b) -> a = f a -> f a'),
-        entities = language.parser.group('entities').parse(aStream).get(),
+        entities = language.parser.group('entities').parse(aStream).get()[0],
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkEntities("_", list(entities)).isFailure());
+    test.ok(aLinker.linkEntities("main", list(entities)).isFailure());
       
     test.done();
   },
@@ -184,13 +184,13 @@ exports['linker_entities'] = {
     test.expect(1);
     // tests here  
     var aStream = stream('type A { model B } def apply : B = B'),
-        entities = language.parser.group('entities').parse(aStream).get(),
+        entities = language.parser.group('entities').parse(aStream).get()[0],
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
-      
+    
     aPackages.defineInRoot(entities);
       
-    test.ok(aLinker.linkEntities("_", list(entities)).isFailure());
+    test.ok(aLinker.linkEntities("main", list(entities)).isFailure());
       
     test.done();
   },
@@ -199,13 +199,13 @@ exports['linker_entities'] = {
     test.expect(1);
     // tests here  
     var aStream = stream('type A { model B } def apply = B'),
-        entities = language.parser.group('entities').parse(aStream).get(),
+        entities = language.parser.group('entities').parse(aStream).get()[0],
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
     aPackages.defineInRoot(entities);  
  
-    test.ok(aLinker.linkEntities("_", list(entities)).isSuccess());
+    test.ok(aLinker.linkEntities("main", list(entities)).isSuccess());
       
     test.done();
   },
@@ -214,13 +214,13 @@ exports['linker_entities'] = {
     test.expect(1);
     // tests here  
     var aStream = stream('type A { model B } def apply = A'),
-        entities = language.parser.group('entities').parse(aStream).get(),
+        entities = language.parser.group('entities').parse(aStream).get()[0],
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
     aPackages.defineInRoot(entities);  
       
-    test.ok(aLinker.linkEntities("_", list(entities)).isFailure());
+    test.ok(aLinker.linkEntities("main", list(entities)).isFailure());
       
     test.done();
   },
@@ -229,13 +229,13 @@ exports['linker_entities'] = {
     test.expect(1);
     // tests here  
     var aStream = stream('type A[a] { model B { _ : a } } def apply : [a] a -> A = B a'),
-        entities = language.parser.group('entities').parse(aStream).get(),
+        entities = language.parser.group('entities').parse(aStream).get()[0],
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
     aPackages.defineInRoot(entities);  
  
-    test.ok(aLinker.linkEntities("_", list(entities)).isSuccess());
+    test.ok(aLinker.linkEntities("main", list(entities)).isSuccess());
       
     test.done();
   },
@@ -244,13 +244,13 @@ exports['linker_entities'] = {
     test.expect(1);
     // tests here  
     var aStream = stream('model number class a this:number { f : number -> a } { def f n = a n }'),
-        entities = language.parser.group('entities').parse(aStream).get(),
+        entities = language.parser.group('entities').parse(aStream).get()[0],
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
     aPackages.defineInRoot(entities);  
  
-    test.ok(aLinker.linkEntities("_", list(entities)).isSuccess());
+    test.ok(aLinker.linkEntities("main", list(entities)).isSuccess());
       
     test.done();
   },
@@ -259,13 +259,13 @@ exports['linker_entities'] = {
     test.expect(1);
     // tests here  
     var aStream = stream('model number class a this:number { f : number -> a } { def f n = self }'),
-        entities = language.parser.group('entities').parse(aStream).get(),
+        entities = language.parser.group('entities').parse(aStream).get()[0],
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
     aPackages.defineInRoot(entities);  
  
-    test.ok(aLinker.linkEntities("_", list(entities)).isSuccess());
+    test.ok(aLinker.linkEntities("main", list(entities)).isSuccess());
       
     test.done();
   },
@@ -274,13 +274,43 @@ exports['linker_entities'] = {
     test.expect(1);
     // tests here  
     var aStream = stream('model number class a this:number { f : number -> a } { def f n = a this }'),
-        entities = language.parser.group('entities').parse(aStream).get(),
+        entities = language.parser.group('entities').parse(aStream).get()[0],
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
     aPackages.defineInRoot(entities);  
  
-    test.ok(aLinker.linkEntities("_", list(entities)).isSuccess());
+    test.ok(aLinker.linkEntities("main", list(entities)).isSuccess());
+      
+    test.done();
+  },
+
+  'Link simple controller using model selector': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream('model A class a this:A { f : A -> a } { def A.f n = a this }'),
+        entities = language.parser.group('entities').parse(aStream).get()[0],
+        aPackages = packages(option.none()),
+        aLinker = linker(aPackages);
+
+    aPackages.defineInRoot(entities);  
+ 
+    test.ok(aLinker.linkEntities("main", list(entities)).isSuccess());
+      
+    test.done();
+  },
+
+  'Cannot Link simple controller using wrong model selector': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream('model A class a this:A { f : A -> a } { def B.f n = a this }'),
+        entities = language.parser.group('entities').parse(aStream).get()[0],
+        aPackages = packages(option.none()),
+        aLinker = linker(aPackages);
+
+    aPackages.defineInRoot(entities);  
+ 
+    test.ok(aLinker.linkEntities("main", list(entities)).isFailure());
       
     test.done();
   },
@@ -289,13 +319,13 @@ exports['linker_entities'] = {
     test.expect(1);
     // tests here  
     var aStream = stream('class a this:number { f : number -> a } { def f n = a n }'),
-        entities = language.parser.group('entities').parse(aStream).get(),
+        entities = language.parser.group('entities').parse(aStream).get()[0],
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
     aPackages.defineInRoot(entities);  
  
-    test.ok(aLinker.linkEntities("_", list(entities)).isFailure());
+    test.ok(aLinker.linkEntities("main", list(entities)).isFailure());
       
     test.done();
   },
@@ -304,13 +334,13 @@ exports['linker_entities'] = {
     test.expect(1);
     // tests here  
     var aStream = stream('class a this:number { f : number -> a } { def f n = a b }'),
-        entities = language.parser.group('entities').parse(aStream).get(),
+        entities = language.parser.group('entities').parse(aStream).get()[0],
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
     aPackages.defineInRoot(entities);  
  
-    test.ok(aLinker.linkEntities("_", list(entities)).isFailure());
+    test.ok(aLinker.linkEntities("main", list(entities)).isFailure());
       
     test.done();
   },
@@ -319,13 +349,13 @@ exports['linker_entities'] = {
     test.expect(1);
     // tests here  
     var aStream = stream('model number class a this:number { f : number -> a } { def f n = a this }'),
-        entities = language.parser.group('entities').parse(aStream).get(),
+        entities = language.parser.group('entities').parse(aStream).get()[0],
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
     aPackages.defineInRoot(entities);  
  
-    test.ok(aLinker.linkPackageByName("_").isSuccess());
+    test.ok(aLinker.linkPackageByName("main").isSuccess());
       
     test.done();
   },
@@ -336,7 +366,7 @@ exports['linker_entities'] = {
     var aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkPackageByName("_").isFailure());
+    test.ok(aLinker.linkPackageByName("main").isFailure());
       
     test.done();
   },
@@ -345,13 +375,13 @@ exports['linker_entities'] = {
     test.expect(1);
     // tests here  
     var aStream = stream('class a this:number { f : number -> a } { def f n = a this }'),
-        entities = language.parser.group('entities').parse(aStream).get(),
+        entities = language.parser.group('entities').parse(aStream).get()[0],
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
     aPackages.defineInRoot(entities);  
  
-    test.ok(aLinker.linkPackageByName("_").isFailure());
+    test.ok(aLinker.linkPackageByName("main").isFailure());
       
     test.done();
   },

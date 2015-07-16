@@ -45,3 +45,11 @@ class tree[a] this:Tree[a] {
         let toRight = tree $ Node this.left (tree this.right add a return) in
             selector ? toLeft toRight
 }
+
+model Tree[a]
+
+class tree[a] this:Tree[a] {
+    return : Tree[a]
+} {
+    def return = this
+}

@@ -119,17 +119,17 @@ class list[a] this:List[a] {
     def Nil.zip l = list Nil
     def Cons.zip l =
         let ifNil = list Nil in
-        let ifCons = head tail -> list $ Cons (this.head,head) $ list this.tail zip tail unbox in
+        let ifCons = head tail -> list $ Cons (Pair this.head head) $ list this.tail zip tail unbox in
             l fold ifNil ifCons
 }
 
 class list2[a b] this:List[(a,b)] {
     unzip : (list[a],list[b])
 } {
-    def Nil.unzip = (list Nil),(list Nil)
+    def Nil.unzip = Pair (list Nil) (list Nil)
     def Cons.unzip =
         let tail = list2 this.tail unzip in
-            (list $ Cons this.head._1 tail._1.unbox),(list $ Cons this.head._2 tail._2.unbox)
+            Pair (list $ Cons this.head._1 tail._1.unbox) (list $ Cons this.head._2 tail._2.unbox)
 }
  
 class example this:unit {
@@ -139,5 +139,5 @@ class example this:unit {
 } {
     def ite l     = (for a <- (list l) if a yield a toString) unbox
     def zip l1 l2 = (list l1) zip (list l2) unbox
-    def all l1 l2 = (for a <- (list l1) b <- (list l2) yield a,b) unbox
+    def all l1 l2 = (for a <- (list l1) b <- (list l2) yield Pair a b) unbox
 }

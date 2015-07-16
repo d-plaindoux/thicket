@@ -1,10 +1,13 @@
 'use strict';
 
 var ast = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/syntax/ast.js'),
+    option = require('../../lib' + (process.env.THICKET_COV || '') + '/Data/option.js'),
     list = require('../../lib' + (process.env.THICKET_COV || '') + '/Data/list.js'),
     compiler = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/generator/code.js'),
-    deBruijn = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/generator/deBruijn.js'),    
-    objcode = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/generator/objcode.js');
+    deBruijn = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/generator/deBruijn.js'),
+    objcode = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/generator/objcode.js'),
+    packages = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/data/packages.js'),
+    environment = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/data/environment.js');
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -34,14 +37,18 @@ exports['objcode'] = {
   'Simple model': function (test) {
       test.expect(1);
       
-      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.entity(list(),ast.model("A",[],[])).success())),
+      var aPackages = packages(option.none());
+      
+      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.entity(environment(aPackages),ast.model("A",[],[])).success())),
                      [ {MODEL: ['A', []]} ]);
       test.done();
   },
   'Model with one attribute': function (test) {
       test.expect(1);
       
-      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.entity(list(), ast.model("A",[],[ast.param("a",ast.type.native("a"))])).success())),
+      var aPackages = packages(option.none());
+
+      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.entity(environment(aPackages), ast.model("A",[],[ast.param("a",ast.type.native("a"))])).success())),
                      [ {MODEL: ['A', [["a", [ {ACCESS: 1},{RETURN:1} ]]]]} ] );                     
       test.done();
   },
@@ -49,7 +56,9 @@ exports['objcode'] = {
   'Model with two attributes': function (test) {
       test.expect(1);
       
-      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.entity(list(), ast.model("A",list(),[ast.param("a1",ast.type.native("a")),
+      var aPackages = packages(option.none());
+
+      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.entity(environment(aPackages), ast.model("A",list(),[ast.param("a1",ast.type.native("a")),
                                                                                                          ast.param("a2",ast.type.native("b"))])).success())), 
                      [ {MODEL: ['A', [ ["a1", [ {ACCESS: 1},{RETURN:1} ]], ["a2", [ {ACCESS: 2},{RETURN:1} ]] ]]} ]);
       test.done();
@@ -58,7 +67,9 @@ exports['objcode'] = {
   'Simple controller': function (test) {
       test.expect(1);
       
-      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.entity(list(), ast.controller("A",[],ast.param("this",ast.type.native("a")),[],[])).success())),
+      var aPackages = packages(option.none());
+
+      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.entity(environment(aPackages), ast.controller("A",[],ast.param("this",ast.type.native("a")),[],[])).success())),
                      [ {'CLASS': ['A', []]} ]);
       test.done();
   },
@@ -66,7 +77,9 @@ exports['objcode'] = {
   'Controller with unbox': function (test) {
       test.expect(1);
       
-      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.entity(list(), 
+      var aPackages = packages(option.none());
+
+      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.entity(environment(aPackages), 
                                         ast.controller("A",[],
                                                     ast.param("this",ast.type.native("a")),
                                                     [],
@@ -78,11 +91,15 @@ exports['objcode'] = {
   'Controller with filtered unbox': function (test) {
       test.expect(1);
       
-      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.entity(list(ast.entity('number',ast.model('number',[],[]))),
+      var aPackages = packages(option.none());
+
+      aPackages.defineInRoot([ast.entity('number', ast.model('number',[],[]))]);
+      
+      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.entity(environment(aPackages),
                                      ast.controller("A",[],
                                                     ast.param("this",ast.type.native("a")),
                                                     [],
-                                                    [ast.method("unbox", ast.expr.ident("this"), ast.type.variable('number'))])).success())),
+                                                    [ast.method("unbox", ast.expr.ident("this"), ast.namespace(ast.type.variable('number'),"main"))])).success())),
                      [ {'CLASS': ['A', [ ["number.unbox", [ {ACCESS: 1}, {RETURN: 1} ]] ]] } ]);
       test.done();
   },
@@ -90,7 +107,9 @@ exports['objcode'] = {
   'Simple Definition': function (test) {
       test.expect(1);
       
-      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.entity(list(), ast.expression("A",ast.type.native("number"),ast.expr.number(1))).success())),
+      var aPackages = packages(option.none());
+
+      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.entity(environment(aPackages), ast.expression("A",ast.type.native("number"),ast.expr.number(1))).success())),
                      [ {'DEFINITION': ['A', [ {'IDENT':'number'}, {'CONST':1} , {'APPLY':1} ]] } ]);
       test.done();
   },
@@ -98,7 +117,7 @@ exports['objcode'] = {
   'Number': function (test) {
       test.expect(1);
       
-      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(), list(), ast.expr.number(1)).success())),
+      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(), ast.expr.number(1)).success())),
                      [ {'IDENT':'number'}, {'CONST':1} , {'APPLY':1} ]);
       test.done();
   },
@@ -106,7 +125,7 @@ exports['objcode'] = {
   'String': function (test) {
       test.expect(1);
       
-      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(), list(), ast.expr.string("1")).success())),
+      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(), ast.expr.string("1")).success())),
                      [ {'IDENT':'string'}, {'CONST':1} , {'APPLY':"1"} ]);
       test.done();
   },
@@ -114,7 +133,7 @@ exports['objcode'] = {
   'Unit': function (test) {
       test.expect(1);
       
-      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(), list(), ast.expr.unit()).success())),
+      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(), ast.expr.unit()).success())),
                     [ {'IDENT':'unit'} ]);
       test.done();
   },
@@ -122,7 +141,7 @@ exports['objcode'] = {
   'Pair': function (test) {
       test.expect(1);
       
-      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(ast.model("Pair",[],[])), list(), ast.expr.pair(ast.expr.number(1),ast.expr.string("1"))).success())),
+      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(), ast.expr.pair(ast.expr.number(1),ast.expr.string("1"))).success())),
                      [{ IDENT : 'Pair' },
                       { PUSH : [ {'IDENT':'number'}, {'CONST':1} , {'APPLY':1} ] },
                       { APPLY : 1 },
@@ -134,7 +153,7 @@ exports['objcode'] = {
   'Global ident': function (test) {
       test.expect(1);
       
-      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(), list(), ast.expr.ident("a")).success())),
+      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(), ast.expr.ident("a")).success())),
                      [{ IDENT : "a" }]);
       test.done();
   },
@@ -142,7 +161,7 @@ exports['objcode'] = {
   'Lambda expression': function (test) {
       test.expect(1);
       
-      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(), list(), ast.expr.abstraction("a", ast.expr.ident("a"))).success())),
+      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(), ast.expr.abstraction("a", ast.expr.ident("a"))).success())),
                      [{ CLOSURE : [{ ACCESS : 1 },{ RETURN : 1 }]}]);
       test.done();
   },
@@ -150,7 +169,7 @@ exports['objcode'] = {
   'Apply expression': function (test) {
       test.expect(1);
       
-      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(), list('b'), ast.expr.abstraction("b", ast.expr.application(ast.expr.ident("a"), ast.expr.ident("b")))).success())),
+      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list('b'), ast.expr.abstraction("b", ast.expr.application(ast.expr.ident("a"), ast.expr.ident("b")))).success())),
                      [ { CLOSURE: [ { IDENT: 'a' }, { ACCESS: 1 }, { TAILAPPLY: 1 } ] } ]);
       test.done();
   },
@@ -158,7 +177,7 @@ exports['objcode'] = {
     'Invoke expression': function (test) {
       test.expect(1);
       
-      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(), list(), ast.expr.invoke(ast.expr.ident("a"), "b")).success())),
+      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(), ast.expr.invoke(ast.expr.ident("a"), "b")).success())),
                      [ { IDENT: 'a' }, { INVOKE: 'b' } ]);
       test.done();
   },
@@ -166,7 +185,7 @@ exports['objcode'] = {
   'Apply/Invoke expression': function (test) {
       test.expect(1);
       
-      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(), list(), ast.expr.application(ast.expr.ident("a"), ast.expr.ident("b"))).success())),
+      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(), ast.expr.application(ast.expr.ident("a"), ast.expr.ident("b"))).success())),
                      [ { IDENT: 'a' }, { INVOKE: 'b' } ]);
       test.done();
   },
@@ -174,15 +193,15 @@ exports['objcode'] = {
   'Let expression': function (test) {
       test.expect(1);
       
-      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list('a'), list(), ast.expr.let("b",ast.expr.ident("a"),ast.expr.ident("b"))).success())),
-                     [ { CLOSURE: [ { ACCESS: 1 }, { RETURN: 1 } ] }, { PUSH: [ { IDENT: 'a' } ] }, { APPLY: 1 } ]);
+      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(), ast.expr.let("b",ast.namespace(ast.expr.ident("a"),'Main'),ast.expr.ident("b"))).success())),
+                     [ { CLOSURE: [ { ACCESS: 1 }, { RETURN: 1 } ] }, { PUSH: [ { IDENT: 'Main.a' } ] }, { APPLY: 1 } ]);
       test.done();
   },
 
   'Simple Empty Tag': function (test) {
       test.expect(1);
       
-      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(), list(), ast.expr.tag("A",[],[])).success())),
+      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(), ast.expr.tag("A",[],[])).success())),
                      [ { IDENT: 'document' }, { IDENT: 'string' }, { CONST: 'A' }, { APPLY: 1 }, { APPLY: 1 }, { INVOKE: 'create' } ]);
       test.done();
   },
@@ -190,7 +209,7 @@ exports['objcode'] = {
   'Empty Tag with one attribute': function (test) {
       test.expect(1);
       
-      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(), list('l'), ast.expr.tag("A",[['a',ast.expr.string('b')]],[])).success())),
+      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list('l'), ast.expr.tag("A",[['a',ast.expr.string('b')]],[])).success())),
                      [{ IDENT: 'document' }, { IDENT: 'string' }, { CONST: 'A' }, { APPLY: 1 }, { APPLY: 1 }, { INVOKE: 'create' },
                       { INVOKE: 'addAttribute' }, { IDENT: 'string' }, { CONST: 'a' }, { APPLY: 1 }, { APPLY: 1 },
                       { IDENT: 'string' }, { CONST: 'b' }, { APPLY: 1 }, { APPLY: 1 } ]);
@@ -200,7 +219,7 @@ exports['objcode'] = {
   'Empty Tag with two attributes': function (test) {
       test.expect(1);
       
-      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(), list('l'), ast.expr.tag("A",[['a',ast.expr.string('b')],['b',ast.expr.number(1)]],[])).success())),
+      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list('l'), ast.expr.tag("A",[['a',ast.expr.string('b')],['b',ast.expr.number(1)]],[])).success())),
                      [{ IDENT: 'document' }, { IDENT: 'string' }, { CONST: 'A' }, { APPLY: 1 }, { APPLY: 1 }, { INVOKE: 'create' },
                       { INVOKE: 'addAttribute' }, { IDENT: 'string' }, { CONST: 'a' }, { APPLY: 1 }, { APPLY: 1 }, 
                       { IDENT: 'string' }, { CONST: 'b' }, { APPLY: 1 }, { APPLY: 1 },
@@ -213,7 +232,7 @@ exports['objcode'] = {
   'Tag with a simple content': function (test) {
       test.expect(1);
       
-      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(), list('l'), ast.expr.tag("A",[],[ast.expr.tag("B",[],[]),ast.expr.number(1)])).success())),
+      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list('l'), ast.expr.tag("A",[],[ast.expr.tag("B",[],[]),ast.expr.number(1)])).success())),
                      [{ IDENT: 'document' }, { IDENT: 'string' }, { CONST: 'A' }, { APPLY: 1 }, { APPLY: 1 }, { INVOKE: 'create' },
                       { INVOKE: 'addChild' }, { IDENT: 'document' }, { IDENT: 'string' }, { CONST: 'B' }, { APPLY: 1 }, { APPLY: 1 }, { INVOKE: 'create' }, { APPLY: 1 },
                       { INVOKE: 'addChild' }, { IDENT: 'number' }, { CONST: 1 }, { APPLY: 1 }, { APPLY: 1 } ]);
@@ -223,7 +242,7 @@ exports['objcode'] = {
   'New model alteration': function (test) {
       test.expect(1);
       
-      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(), list(),  ast.expr.newModel(ast.expr.ident("a"),[["b",ast.expr.ident("b")]])).success())),
+      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(),  ast.expr.newModel(ast.expr.ident("a"),[["b",ast.expr.ident("b")]])).success())),
                      [{ IDENT: 'a' }, { IDENT: 'b' }, { ALTER: 'b' } ]);
       test.done();
   },

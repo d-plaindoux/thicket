@@ -7,7 +7,7 @@ var stream = require('../../lib' + (process.env.THICKET_COV || '') + '/Parser/st
     fsdriver = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/resource/drivers/fsdriver.js'),
     reader = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/resource/reader.js'),
     packages = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/data/packages.js'),
-    linker = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/checker/linker.js');
+    linker = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/data/linker.js');
     
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -79,7 +79,7 @@ exports['linker_type'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkType("_", aType, list()).isFailure());
+    test.ok(aLinker.linkType("main", aType, list()).isFailure());
       
     test.done();
   },      
@@ -92,7 +92,7 @@ exports['linker_type'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkType("_", aType, list("a", "b")).isSuccess());
+    test.ok(aLinker.linkType("main", aType, list("a", "b")).isSuccess());
       
     test.done();
   },
@@ -105,7 +105,7 @@ exports['linker_type'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkType("_", aType, list("a", "b")).isFailure());
+    test.ok(aLinker.linkType("main", aType, list("a", "b")).isFailure());
       
     test.done();
   },
@@ -118,7 +118,7 @@ exports['linker_type'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkType("_", aType, list("b")).isFailure());
+    test.ok(aLinker.linkType("main", aType, list("b")).isFailure());
       
     test.done();
   },
@@ -131,7 +131,7 @@ exports['linker_type'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkType("_", aType, list("a", "b")).isSuccess());
+    test.ok(aLinker.linkType("main", aType, list("a", "b")).isSuccess());
       
     test.done();
   },
@@ -144,7 +144,7 @@ exports['linker_type'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkType("_", aType, list("b")).isFailure());
+    test.ok(aLinker.linkType("main", aType, list("b")).isFailure());
       
     test.done();
   },
@@ -157,7 +157,7 @@ exports['linker_type'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkType("_", aType, list("a")).isFailure());
+    test.ok(aLinker.linkType("main", aType, list("a")).isFailure());
       
     test.done();
   },

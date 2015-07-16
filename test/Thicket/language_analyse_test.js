@@ -1,9 +1,14 @@
 'use strict';
 
-var stream = require('../../lib' + (process.env.THICKET_COV || '') + '/Parser/stream.js'),
+var fs = require('fs'),
+    stream = require('../../lib' + (process.env.THICKET_COV || '') + '/Parser/stream.js'),
     language = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/syntax/language.js')(),
     entities = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/checker/entities.js'),
-    fs = require('fs');
+    option = require('../../lib' + (process.env.THICKET_COV || '') + '/Data/option.js'),
+    packages = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/data/packages.js'),
+    linker = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/data/linker.js'),
+    environment = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/data/environment.js');
+
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -26,7 +31,7 @@ var stream = require('../../lib' + (process.env.THICKET_COV || '') + '/Parser/st
 */
 
 function sampleTest(sample, test, checker) {
-    test.expect(3);
+    test.expect(4);
     // tests here  
     fs.readFile('./test/Thicket/samples/' + sample, function (err,data) {
         if (err) {
@@ -34,22 +39,22 @@ function sampleTest(sample, test, checker) {
         }
                 
         var aStream = stream(data.toString()),
-            allEntities = language.parser.group('entities').parse(aStream),
-            nongenerics = entities.nongenerics(allEntities),            
-            specifications = entities.specifications(allEntities),
-            models = entities.models(allEntities),
-            environment = entities.environment(allEntities);
+            entitiesAndSentencies = language.parser.group('entities').parse(aStream),
+            aPackages = packages(option.none());                    
 
         if (!aStream.isEmpty()) {
             console.log("\n<ERROR LOCATION> " + aStream.location());
         }
                         
-        test.ok(allEntities.isPresent(), "accept a full example");
+        test.ok(entitiesAndSentencies.isPresent(), "accept a full example");
         test.ok(aStream.isEmpty(), "accept a full example");        
-
-        var analyse = entities.analyse(nongenerics, environment, models,  specifications, allEntities.orElse([]));
+    
+        var allEntities = entitiesAndSentencies.orElse([[]])[0];
         
-        test.ok(checker(analyse), "Type");
+        aPackages.defineInRoot(allEntities);
+        
+        test.ok(linker(aPackages).linkPackageByName('main').isSuccess(), "Linker");             
+        test.ok(checker(entities.analyse(environment(aPackages), allEntities)), "Type");
 
         test.done();                
     });    
@@ -57,7 +62,12 @@ function sampleTest(sample, test, checker) {
 
 
 function correctSampleTest(sample, test) {
-    return sampleTest(sample, test, function (r) { return r.isSuccess(); });
+    return sampleTest(sample, test, function (r) { 
+        if (r.isFailure()) {
+            console.log(r.failure().stack);
+        }
+        return r.isSuccess(); 
+    });
 }
 
 function wrongSampleTest(sample, test) {

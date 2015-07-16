@@ -1,8 +1,11 @@
 'use strict';
 
 var ast = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/syntax/ast.js'),
+    option = require('../../lib' + (process.env.THICKET_COV || '') + '/Data/option.js'),
     list = require('../../lib' + (process.env.THICKET_COV || '') + '/Data/list.js'),
-    compiler = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/generator/code.js');
+    compiler = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/generator/code.js'),
+    packages = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/data/packages.js'),
+    environment = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/data/environment.js');
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -32,15 +35,19 @@ exports['compiler'] = {
   'Simple model': function (test) {
       test.expect(1);
       
-      test.deepEqual(compiler.entity(list(),ast.model("A",[],[])).success(),
-                    compiler.abstractSyntax("Model","A",[]));
+      var aPackages = packages(option.none());
+
+      test.deepEqual(compiler.entity(environment(aPackages), ast.model("A",[],[])).success(),
+                     compiler.abstractSyntax("Model","A",[]));
       test.done();
   },
 
   'Model with one attribute': function (test) {
       test.expect(1);
       
-      test.deepEqual(compiler.entity(list(), ast.model("A",[],[ast.param("a",ast.type.native("a"))])).success(),
+      var aPackages = packages(option.none());
+
+      test.deepEqual(compiler.entity(environment(aPackages), ast.model("A",[],[ast.param("a",ast.type.native("a"))])).success(),
                      compiler.abstractSyntax("Model","A",["a"]));
       test.done();
   },
@@ -48,7 +55,9 @@ exports['compiler'] = {
   'Model with two attributes': function (test) {
       test.expect(1);
       
-      test.deepEqual(compiler.entity(list(), ast.model("A",list(),[ast.param("a1",ast.type.native("a")),
+      var aPackages = packages(option.none());
+      
+      test.deepEqual(compiler.entity(environment(aPackages), ast.model("A",list(),[ast.param("a1",ast.type.native("a")),
                                                                    ast.param("a2",ast.type.native("b"))])).success(), 
                     compiler.abstractSyntax("Model","A",["a1", "a2"]));
       test.done();
@@ -56,8 +65,10 @@ exports['compiler'] = {
 
   'Simple controller': function (test) {
       test.expect(1);
-      
-      test.deepEqual(compiler.entity(list(), ast.controller("A",[],ast.param("this",ast.type.native("a")),[],[])).success(),
+            
+      var aPackages = packages(option.none());
+
+      test.deepEqual(compiler.entity(environment(aPackages), ast.controller("A",[],ast.param("this",ast.type.native("a")),[],[])).success(),
                      compiler.abstractSyntax("Controller","A","this",[]));
       test.done();
   },
@@ -65,7 +76,9 @@ exports['compiler'] = {
   'Controller with unbox': function (test) {
       test.expect(1);
       
-      test.deepEqual(compiler.entity(list(), 
+      var aPackages = packages(option.none());
+
+      test.deepEqual(compiler.entity(environment(aPackages),
                                      ast.controller("A",[],
                                                     ast.param("this",ast.type.native("a")),
                                                     [],
@@ -76,12 +89,19 @@ exports['compiler'] = {
 
     'Controller with filtered unbox': function (test) {
       test.expect(1);
-      
-      test.deepEqual(compiler.entity(list(ast.entity('number', ast.model('number',[],[]))),
+        
+      var aPackages = packages(option.none());
+        
+      aPackages.defineInRoot([ast.entity('number', ast.model('number',[],[]))]);
+        
+      test.deepEqual(compiler.entity(environment(aPackages),
                                      ast.controller("A",[],
                                                     ast.param("this",ast.type.native("a")),
                                                     [],
-                                                    [ast.method("unbox", ast.expr.ident("this"), ast.type.variable('number'))])).success(),
+                                                    [ast.method("unbox", 
+                                                                ast.expr.ident("this"), 
+                                                                ast.namespace(ast.type.variable('number'),'main'))])
+                                    ).success(),
                     compiler.abstractSyntax("Controller","A","this",[["number.unbox",compiler.abstractSyntax("Variable","this")]]));
       test.done();
   },
@@ -89,7 +109,9 @@ exports['compiler'] = {
   'Simple Definition': function (test) {
       test.expect(1);
       
-      test.deepEqual(compiler.entity(list(), ast.expression("A",ast.type.native("number"),ast.expr.number(1))).success(),
+      var aPackages = packages(option.none());
+
+      test.deepEqual(compiler.entity(environment(aPackages), ast.expression("A",ast.type.native("number"),ast.expr.number(1))).success(),
                      compiler.abstractSyntax("Definition","A",compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","number"), compiler.abstractSyntax("Native",1))));
       test.done();
   },
@@ -97,7 +119,7 @@ exports['compiler'] = {
   'Number': function (test) {
       test.expect(1);
       
-      test.deepEqual(compiler.expression(list(), list(), ast.expr.number(1)).success(),
+      test.deepEqual(compiler.expression(list(), ast.expr.number(1)).success(),
                      compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","number"), compiler.abstractSyntax("Native",1)));
       test.done();
   },
@@ -105,7 +127,7 @@ exports['compiler'] = {
   'String': function (test) {
       test.expect(1);
       
-      test.deepEqual(compiler.expression(list(), list(), ast.expr.string("1")).success(),
+      test.deepEqual(compiler.expression(list(), ast.expr.string("1")).success(),
                      compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), compiler.abstractSyntax("Native","1")));
       test.done();
   },
@@ -113,7 +135,7 @@ exports['compiler'] = {
   'Unit': function (test) {
       test.expect(1);
       
-      test.deepEqual(compiler.expression(list(), list(), ast.expr.unit()).success(),
+      test.deepEqual(compiler.expression(list(), ast.expr.unit()).success(),
                      compiler.abstractSyntax("Ident","unit"));
       test.done();
   },
@@ -121,7 +143,7 @@ exports['compiler'] = {
   'Pair': function (test) {
       test.expect(1);
       
-      test.deepEqual(compiler.expression(list(ast.model("Pair",[],[])), list(), ast.expr.pair(ast.expr.number(1),ast.expr.string("1"))).success(),
+      test.deepEqual(compiler.expression(list(), ast.expr.pair(ast.expr.number(1),ast.expr.string("1"))).success(),
                      compiler.abstractSyntax("Apply",
                                              compiler.abstractSyntax("Apply", 
                                                                      compiler.abstractSyntax("Ident", "Pair"),
@@ -132,32 +154,32 @@ exports['compiler'] = {
   
   'Local ident': function (test) {
       test.expect(1);
-      
-      test.deepEqual(compiler.expression(list(), list('a'), ast.expr.ident("a")).success(),
+
+      test.deepEqual(compiler.expression(list('a'), ast.expr.ident("a")).success(),
                      compiler.abstractSyntax("Variable","a"));
       test.done();
   },
 
   'Global ident': function (test) {
       test.expect(1);
-      
-      test.deepEqual(compiler.expression(list(), list(), ast.expr.ident("a")).success(),
+
+      test.deepEqual(compiler.expression(list(), ast.expr.ident("a")).success(),
                      compiler.abstractSyntax("Ident","a"));
       test.done();
   },
 
   'Lambda expression': function (test) {
       test.expect(1);
-      
-      test.deepEqual(compiler.expression(list(), list(), ast.expr.abstraction("a", ast.expr.ident("a"))).success(),
+
+      test.deepEqual(compiler.expression(list(), ast.expr.abstraction("a", ast.expr.ident("a"))).success(),
                      compiler.abstractSyntax("Function", "a", compiler.abstractSyntax("Variable","a")));
       test.done();
   },
 
   'Apply expression': function (test) {
       test.expect(1);
-      
-      test.deepEqual(compiler.expression(list(), list('a', 'b'), ast.expr.application(ast.expr.ident("a"), ast.expr.ident("b"))).success(),
+
+      test.deepEqual(compiler.expression(list('a', 'b'), ast.expr.application(ast.expr.ident("a"), ast.expr.ident("b"))).success(),
                      compiler.abstractSyntax("Apply", 
                                       compiler.abstractSyntax("Variable","a"),
                                       compiler.abstractSyntax("Variable","b")));
@@ -167,7 +189,7 @@ exports['compiler'] = {
     'Invoke expression': function (test) {
       test.expect(1);
       
-      test.deepEqual(compiler.expression(list(), list('a', 'b'), ast.expr.invoke(ast.expr.ident("a"), "b")).success(),
+      test.deepEqual(compiler.expression(list('a', 'b'), ast.expr.invoke(ast.expr.ident("a"), "b")).success(),
                      compiler.abstractSyntax("Invoke",compiler.abstractSyntax("Variable","a"),"b"));
       test.done();
   },
@@ -175,7 +197,7 @@ exports['compiler'] = {
   'Apply/Invoke expression': function (test) {
       test.expect(1);
       
-      test.deepEqual(compiler.expression(list(), list('a'), ast.expr.application(ast.expr.ident("a"), ast.expr.ident("b"))).success(),
+      test.deepEqual(compiler.expression(list('a'), ast.expr.application(ast.expr.ident("a"), ast.expr.ident("b"))).success(),
                      compiler.abstractSyntax("Invoke",compiler.abstractSyntax("Variable","a"),"b"));
       test.done();
   },
@@ -183,7 +205,7 @@ exports['compiler'] = {
   'Let expression': function (test) {
       test.expect(1);
       
-      test.deepEqual(compiler.expression(list(), list('a'), ast.expr.let("b",ast.expr.ident("a"),ast.expr.ident("b"))).success(),
+      test.deepEqual(compiler.expression(list('a'), ast.expr.let("b",ast.expr.ident("a"),ast.expr.ident("b"))).success(),
                      compiler.abstractSyntax("Apply", 
                                       compiler.abstractSyntax("Function","b",compiler.abstractSyntax("Variable","b")),
                                       compiler.abstractSyntax("Variable","a")));
@@ -193,7 +215,7 @@ exports['compiler'] = {
   'Comprehension expression': function (test) {
       test.expect(1);
       
-      test.deepEqual(compiler.expression(list(), list('l'), ast.expr.comprehension(ast.expr.ident('x'),[['x',ast.expr.ident('l')]],[])).success(),
+      test.deepEqual(compiler.expression(list('l'), ast.expr.comprehension(ast.expr.ident('x'),[['x',ast.expr.ident('l')]],[])).success(),
                      compiler.abstractSyntax("Apply", 
                                       compiler.abstractSyntax("Invoke", compiler.abstractSyntax("Variable","l"), "map"),
                                       compiler.abstractSyntax("Function","x",compiler.abstractSyntax("Variable","x"))));
@@ -203,7 +225,7 @@ exports['compiler'] = {
   'Comprehension expression with two map': function (test) {
       test.expect(1);
       
-      test.deepEqual(compiler.expression(list(), list('l'), ast.expr.comprehension(ast.expr.ident('x'),[['x',ast.expr.ident('l')],['y',ast.expr.ident('m')]],[])).success(),
+      test.deepEqual(compiler.expression(list('l'), ast.expr.comprehension(ast.expr.ident('x'),[['x',ast.expr.ident('l')],['y',ast.expr.ident('m')]],[])).success(),
                      compiler.abstractSyntax("Apply", 
                                       compiler.abstractSyntax("Invoke", compiler.abstractSyntax("Ident","m"), "flatmap"),
                                       compiler.abstractSyntax("Function", "y",
@@ -216,11 +238,10 @@ exports['compiler'] = {
   'Comprehension expression with condition': function (test) {
       test.expect(1);
       
-      test.deepEqual(compiler.expression(list(), 
-                                     list('l'), 
-                                     ast.expr.comprehension(ast.expr.ident('x'),
-                                                            [['x',ast.expr.ident('l')]],
-                                                            [ast.expr.ident("b")])).success(),
+      test.deepEqual(compiler.expression(list('l'), 
+                                         ast.expr.comprehension(ast.expr.ident('x'),
+                                                                [['x',ast.expr.ident('l')]],
+                                                                [ast.expr.ident("b")])).success(),
                     compiler.abstractSyntax("Apply", 
                                      compiler.abstractSyntax("Invoke", 
                                                       compiler.abstractSyntax("Apply", 
@@ -237,7 +258,7 @@ exports['compiler'] = {
   'Simple Empty Tag': function (test) {
       test.expect(1);
       
-      test.deepEqual(compiler.expression(list(), list(), ast.expr.tag("A",[],[])).success(),
+      test.deepEqual(compiler.expression(list(), ast.expr.tag("A",[],[])).success(),
                      compiler.abstractSyntax("Tag",
                                              compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), compiler.abstractSyntax("Native","A")), 
                                              [], 
@@ -248,7 +269,7 @@ exports['compiler'] = {
   'Empty Tag with one attribute': function (test) {
       test.expect(1);
       
-      test.deepEqual(compiler.expression(list(), list('l'), ast.expr.tag("A",[['a',ast.expr.string('b')]],[])).success(),
+      test.deepEqual(compiler.expression(list('l'), ast.expr.tag("A",[['a',ast.expr.string('b')]],[])).success(),
                      compiler.abstractSyntax("Tag", 
                                              compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), compiler.abstractSyntax("Native","A")),
                                              [[compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), compiler.abstractSyntax("Native","a")),
@@ -260,7 +281,7 @@ exports['compiler'] = {
   'Empty Tag with two attributes': function (test) {
       test.expect(1);
       
-      test.deepEqual(compiler.expression(list(), list('l'), ast.expr.tag("A",[['a',ast.expr.string('b')],['b',ast.expr.number(1)]],[])).success(),
+      test.deepEqual(compiler.expression(list('l'), ast.expr.tag("A",[['a',ast.expr.string('b')],['b',ast.expr.number(1)]],[])).success(),
                      compiler.abstractSyntax("Tag", 
                                              compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), compiler.abstractSyntax("Native","A")), 
                                              [[compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), compiler.abstractSyntax("Native","a")),
@@ -274,7 +295,7 @@ exports['compiler'] = {
   'Tag with a simple content': function (test) {
       test.expect(1);
       
-      test.deepEqual(compiler.expression(list(), list('l'), ast.expr.tag("A",[],[ast.expr.tag("B",[],[]),ast.expr.number(1)])).success(),
+      test.deepEqual(compiler.expression(list('l'), ast.expr.tag("A",[],[ast.expr.tag("B",[],[]),ast.expr.number(1)])).success(),
                      compiler.abstractSyntax("Tag", 
                                              compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), compiler.abstractSyntax("Native","A")), 
                                              [], 

@@ -2,8 +2,9 @@
 
 var entities = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/checker/entities.js'),
     ast = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/syntax/ast.js'),
-    pair = require('../../lib' + (process.env.THICKET_COV || '') + '/Data/pair.js'),
-    list = require('../../lib' + (process.env.THICKET_COV || '') + '/Data/list.js');
+    option = require('../../lib' + (process.env.THICKET_COV || '') + '/Data/option.js'),
+    packages = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/data/packages.js'),
+    environment = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/data/environment.js');    
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -34,8 +35,12 @@ exports['entities_analyse'] = {
       test.expect(1);
       // Test
       var aController = ast.entity("A",
-                                   ast.controller("A",[],ast.param("this",ast.type.variable("number")),[],[]));
-      test.ok(entities.analyse(list(), list(), list(), list(), [aController]).isSuccess(),
+                                   ast.controller("A",[],ast.param("this",ast.namespace(ast.type.variable("number"),"Data.Number")),[],[])),
+          aPackages = packages(option.none());      
+      
+      aPackages.define(ast.module("Data.Number",[],[ast.entity("number",ast.model("number",[],[]))]));      
+      
+      test.ok(entities.analyse(environment(aPackages), [aController]).isSuccess(),
               "Empty controller");
       test.done();
   },
@@ -45,10 +50,14 @@ exports['entities_analyse'] = {
       // Test
       var aController = ast.entity("A",
                                    ast.controller("A",[],
-                                       ast.param("this",ast.type.variable("number")),
-                                       [ ast.param("m", ast.type.variable("number")) ],
-                                       [ ast.method("m", ast.expr.number(1)) ]));
-      test.ok(entities.analyse(list(), list(), list(), list(), [aController]).isSuccess(),
+                                       ast.param("this",ast.namespace(ast.type.variable("number"),"Data.Number")),
+                                       [ ast.param("m", ast.namespace(ast.type.variable("number"),"Data.Number")) ],
+                                       [ ast.method("m", ast.expr.number(1)) ])),
+          aPackages = packages(option.none());      
+      
+      aPackages.define(ast.module("Data.Number",[],[ast.entity("number",ast.model("number",[],[]))]));
+      
+      test.ok(entities.analyse(environment(aPackages), [aController]).isSuccess(),
               "Simple controller");
       test.done();
   },
@@ -58,14 +67,15 @@ exports['entities_analyse'] = {
       // Test
       var aController = ast.entity("A",
                                    ast.controller("A",[],
-                                       ast.param("this",ast.type.variable("number")),
-                                       [ ast.param("m", ast.type.variable("string")) ],
-                                       [ ast.method("m", ast.expr.number(1)) ]));
-      test.ok(entities.analyse(list(), 
-                               list(), 
-                               list(), 
-                               list(pair("string",ast.type.native("string")),
-                                    pair("number",ast.type.native("number"))), 
+                                       ast.param("this",ast.namespace(ast.type.variable("number"),"Data.Number")),
+                                       [ ast.param("m", ast.namespace(ast.type.variable("string"),"Data.String")) ],
+                                       [ ast.method("m", ast.expr.number(1)) ])),
+          aPackages = packages(option.none());      
+      
+      aPackages.define(ast.module("Data.Number",[],[ast.entity("number",ast.model("number",[],[]))]));
+      aPackages.define(ast.module("Data.String",[],[ast.entity("string",ast.model("string",[],[]))]));
+
+      test.ok(entities.analyse(environment(aPackages),
                                [aController]).isFailure(),
               "Simple wrong controller");
       test.done();
@@ -76,10 +86,14 @@ exports['entities_analyse'] = {
       // Test
       var aController = ast.entity("A",
                                    ast.controller("A",[],
-                                       ast.param("this",ast.type.variable("number")),
+                                       ast.param("this",ast.namespace(ast.type.variable("number"),"Data.Number")),
                                        [ ],
-                                       [ ast.method("m", ast.expr.number(1)) ]));
-      test.ok(entities.analyse(list(), list(), list(), list(), [aController]).isFailure(),
+                                       [ ast.method("m", ast.expr.number(1)) ])),
+          aPackages = packages(option.none());      
+      
+      aPackages.define(ast.module("Data.Number",[],[ast.entity("number", ast.model("number",[],[]))]));
+      
+      test.ok(entities.analyse(environment(aPackages), [aController]).isFailure(),
               "Simple partial controller");
       test.done();
   },
@@ -89,10 +103,31 @@ exports['entities_analyse'] = {
       // Test
       var aController = ast.entity("A",
                                    ast.controller("A",[],
-                                       ast.param("this",ast.type.variable("number")),
-                                       [ ast.param("m", ast.type.variable("number")) ],
-                                       [ ast.method("m", ast.expr.ident("this")) ]));
-      test.ok(entities.analyse(list(), list(), list(), list(), [aController]).isSuccess(),
+                                       ast.param("this", ast.namespace(ast.type.variable("number"),"Data.Number")),
+                                       [ ast.param("m", ast.namespace(ast.type.variable("number"),"Data.Number")) ],
+                                       [ ast.method("m", ast.expr.ident("this")) ])),
+          aPackages = packages(option.none());        
+      
+      aPackages.define(ast.module("Data.Number",[],[ast.entity("number", ast.model("number",[],[]))]));
+
+      test.ok(entities.analyse(environment(aPackages), [aController]).isSuccess(),
+              "This referencing controller");
+      test.done();
+  },
+    
+  "Cannot Analyse simple controller using this": function (test) {
+      test.expect(1);
+      // Test
+      var aController = ast.entity("A",
+                                   ast.controller("A",[],
+                                       ast.param("this", ast.namespace(ast.type.variable("number"),"Data.Number")),
+                                       [ ast.param("m", ast.namespace(ast.type.variable("string"),"Data.String")) ],
+                                       [ ast.method("m", ast.expr.ident("this")) ])),
+          aPackages = packages(option.none());        
+      
+      aPackages.define(ast.module("Data.Number",[],[ast.entity("number", ast.model("number",[],[]))]));
+
+      test.ok(entities.analyse(environment(aPackages), [aController]).isFailure(),
               "This referencing controller");
       test.done();
   },
@@ -102,10 +137,14 @@ exports['entities_analyse'] = {
       // Test
       var aController = ast.entity("A",
                                    ast.controller("A",[],
-                                       ast.param("this",ast.type.variable("number")),
-                                       [ ast.param("m", ast.type.variable("number")) ],
-                                       [ ast.method("m", ast.expr.invoke(ast.expr.ident("self"), "m")) ]));
-      test.ok(entities.analyse(list(), list(pair("A", aController)), list(), list(), [aController]).isSuccess(),
+                                       ast.param("this", ast.namespace(ast.type.variable("number"),"Data.Number")),
+                                       [ ast.param("m", ast.namespace(ast.type.variable("number"),"Data.Number")) ],
+                                       [ ast.method("m", ast.expr.invoke(ast.expr.ident("self"), "m")) ])),
+                    aPackages = packages(option.none());        
+      
+      aPackages.define(ast.module("Data.Number",[],[ast.entity("number", ast.model("number",[],[]))]));
+
+      test.ok(entities.analyse(environment(aPackages), [aController]).isSuccess(),
               "Self referencing controller");
       test.done();
   },
@@ -115,10 +154,33 @@ exports['entities_analyse'] = {
       // Test
       var aController = ast.entity("A",
                                    ast.controller("A",[],
-                                       ast.param("this",ast.type.variable("number")),
-                                       [ ast.param("m", ast.type.variable("A")) ],
-                                       [ ast.method("m", ast.expr.ident("self")) ]));
-      test.ok(entities.analyse(list(), list(pair("A", aController)), list(), list(), [aController]).isSuccess(),
+                                       ast.param("this", ast.namespace(ast.type.variable("number"),"Data.Number")),
+                                       [ ast.param("m", ast.namespace(ast.type.variable("A"),"Test")) ],
+                                       [ ast.method("m", ast.expr.ident("self")) ])),
+                    aPackages = packages(option.none());        
+      
+      aPackages.define(ast.module("Data.Number",[],[ast.entity("number", ast.model("number",[],[]))]));
+      aPackages.define(ast.module("Test",[],[aController]));
+
+      test.ok(entities.analyse(environment(aPackages), [aController]).isSuccess(),
+              "Self referencing controller");
+      test.done();
+  },
+    
+  "Cannot Analyse simple controller returning self": function (test) {
+      test.expect(1);
+      // Test
+      var aController = ast.entity("A",
+                                   ast.controller("A",[],
+                                       ast.param("this", ast.namespace(ast.type.variable("number"),"Data.Number")),
+                                       [ ast.param("m", ast.namespace(ast.type.variable("number"),"Data.Number")) ],
+                                       [ ast.method("m", ast.expr.ident("self")) ])),
+                    aPackages = packages(option.none());        
+      
+      aPackages.define(ast.module("Data.Number",[],[ast.entity("number", ast.model("number",[],[]))]));
+      aPackages.define(ast.module("Test",[],[aController]));
+
+      test.ok(entities.analyse(environment(aPackages), [aController]).isFailure(),
               "Self referencing controller");
       test.done();
   },

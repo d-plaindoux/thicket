@@ -1,12 +1,11 @@
 'use strict';
 
 var stream = require('../../lib' + (process.env.THICKET_COV || '') + '/Parser/stream.js'),
-    list = require('../../lib' + (process.env.THICKET_COV || '') + '/Data/list.js'),    
     language = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/syntax/language.js')(),
     compiler = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/generator/code.js'),
     deBruijn = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/generator/deBruijn.js'),
     objcode = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/generator/objcode.js'),
-    runtime = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/runtime/runtime.js');  
+    runtime = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/runtime/runtime.js');
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -38,12 +37,12 @@ exports['runtime_execute'] = {
     // tests here  
     var aStream = stream("123"),
         expression = language.parser.group('exprs').parse(aStream).get(),
-        source = compiler.sentence(list(),expression).success();
+        source = compiler.sentence(expression).success();
     
-    runtime.register({ MODEL : [ "number", [[ "_" , [{ ACCESS : 1 }]]] ] }); 
+    runtime.register({ MODEL : [ "number", [[ "main" , [{ ACCESS : 1 }]]] ] }); 
       
     test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
-                   {OBJ: [{"MODEL":["number",[[{"ACCESS":1}]],['_']]},[{"CONST":123}]]});
+                   {OBJ: [{"MODEL":["number",[[{"ACCESS":1}]],['main']]},[{"CONST":123}]]});
     test.done();
   },
     
@@ -52,12 +51,12 @@ exports['runtime_execute'] = {
     // tests here  
     var aStream = stream("'123'"),
         expression = language.parser.group('exprs').parse(aStream).get(),
-        source = compiler.sentence(list(),expression).success();
+        source = compiler.sentence(expression).success();
     
-    runtime.register({ MODEL : [ "string", [[ "_" , [{ ACCESS : 1 }]]] ] }); 
+    runtime.register({ MODEL : [ "string", [[ "main" , [{ ACCESS : 1 }]]] ] }); 
       
     test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
-                   {OBJ: [{"MODEL":["string",[[{"ACCESS":1}]],["_"]]},[{"CONST":"123"}]]});
+                   {OBJ: [{"MODEL":["string",[[{"ACCESS":1}]],["main"]]},[{"CONST":"123"}]]});
     test.done();
   },
     
@@ -66,7 +65,7 @@ exports['runtime_execute'] = {
     // tests here  
     var aStream = stream("()"),
         expression = language.parser.group('exprs').parse(aStream).get(),
-        source = compiler.sentence(list(),expression).success();
+        source = compiler.sentence(expression).success();
     
     runtime.register({ MODEL : [ "unit", [] ] }); 
       
@@ -80,7 +79,7 @@ exports['runtime_execute'] = {
     // tests here  
     var aStream = stream("x -> x"),
         expression = language.parser.group('exprs').parse(aStream).get(),
-        source = compiler.sentence(list(),expression).success();
+        source = compiler.sentence(expression).success();
     
     test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
                    {ENV: [ [ { ACCESS: 1 }, { RETURN: 1 } ], [] ]});
@@ -92,7 +91,7 @@ exports['runtime_execute'] = {
     // tests here  
     var aStream = stream("(x -> x) ()"),
         expression = language.parser.group('exprs').parse(aStream).get(),
-        source = compiler.sentence(list(),expression).success();
+        source = compiler.sentence(expression).success();
     
     runtime.register({ MODEL : [ "unit", [] ] }); 
     
@@ -106,7 +105,7 @@ exports['runtime_execute'] = {
     // tests here  
     var aStream = stream("(x y -> x y) (x -> x) ()"),
         expression = language.parser.group('exprs').parse(aStream).get(),
-        source = compiler.sentence(list(),expression).success();
+        source = compiler.sentence(expression).success();
     
     runtime.register({ MODEL : ["unit",[]] }); 
     
@@ -120,7 +119,7 @@ exports['runtime_execute'] = {
     // tests here  
     var aStream = stream("x y -> x"),
         expression = language.parser.group('exprs').parse(aStream).get(),
-        source = compiler.sentence(list(),expression).success();
+        source = compiler.sentence(expression).success();
     
     test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
                    {ENV: [[{ CLOSURE: [{ ACCESS: 1 }, { RETURN: 1 }]}, { RETURN: 1 }], [] ]});
@@ -132,7 +131,7 @@ exports['runtime_execute'] = {
     // tests here  
     var aStream = stream("x y -> y"),
         expression = language.parser.group('exprs').parse(aStream).get(),
-        source = compiler.sentence(list(),expression).success();
+        source = compiler.sentence(expression).success();
     
     test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
                    {ENV: [[{ CLOSURE: [{ ACCESS: 2 }, { RETURN: 1 }]}, { RETURN: 1 }], [] ]});
@@ -144,12 +143,12 @@ exports['runtime_execute'] = {
     // tests here  
     var aStream = stream("(x y -> x) 1 2"),
         expression = language.parser.group('exprs').parse(aStream).get(),
-        source = compiler.sentence(list(),expression).success();
+        source = compiler.sentence(expression).success();
     
-    runtime.register({ MODEL : [ "number", [[ "_" , [{ ACCESS : 1 }]]] ] }); 
+    runtime.register({ MODEL : [ "number", [[ "main" , [{ ACCESS : 1 }]]] ] }); 
 
     test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
-                   {OBJ: [{ MODEL: [ 'number', [[{ ACCESS: 1 }]],['_']]},  [{ CONST: 1 }] ]});
+                   {OBJ: [{ MODEL: [ 'number', [[{ ACCESS: 1 }]],['main']]},  [{ CONST: 1 }] ]});
     test.done();
   }, 
   
@@ -158,12 +157,12 @@ exports['runtime_execute'] = {
     // tests here  
     var aStream = stream("(x y -> y) 1 2"),
         expression = language.parser.group('exprs').parse(aStream).get(),
-        source = compiler.sentence(list(),expression).success();
+        source = compiler.sentence(expression).success();
     
-    runtime.register({ MODEL : [ "number", [[ "_" , [{ ACCESS:1 }]]] ] }); 
+    runtime.register({ MODEL : [ "number", [[ "main" , [{ ACCESS:1 }]]] ] }); 
 
     test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
-                   {OBJ: [{ MODEL: [ 'number', [[{ ACCESS:1 }]],['_']]}, [{ CONST:2 }] ]});
+                   {OBJ: [{ MODEL: [ 'number', [[{ ACCESS:1 }]],['main']]}, [{ CONST:2 }] ]});
     test.done();
   }, 
     
@@ -172,13 +171,13 @@ exports['runtime_execute'] = {
     // tests here  
     var aStream = stream("f 1"),
         expression = language.parser.group('exprs').parse(aStream).get(),
-        source = compiler.sentence(list(),expression).success();
+        source = compiler.sentence(expression).success();
     
-    runtime.register({ MODEL : [ "number", [[ "_" , [{ ACCESS:1 }]]] ] }); 
+    runtime.register({ MODEL : [ "number", [[ "main" , [{ ACCESS:1 }]]] ] }); 
     runtime.register({ DEFINITION : ["f" , [{CLOSURE : [{ACCESS:1},{RETURN:1}]}]] });
 
     test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
-                   {OBJ: [{ MODEL: [ 'number', [[{ ACCESS:1 }]],['_']]}, [{ CONST:1 }] ]});
+                   {OBJ: [{ MODEL: [ 'number', [[{ ACCESS:1 }]],['main']]}, [{ CONST:1 }] ]});
     test.done();
   }, 
      
@@ -187,7 +186,7 @@ exports['runtime_execute'] = {
     // tests here  
     var aStream = stream("1 value"),
         expression = language.parser.group('exprs').parse(aStream).get(),
-        source = compiler.sentence(list(),expression).success();
+        source = compiler.sentence(expression).success();
     
     runtime.register({ MODEL : [ "number", [[ "value" , [{ ACCESS:1 },{RETURN:1}]]] ] }); 
 
@@ -201,7 +200,7 @@ exports['runtime_execute'] = {
     // tests here  
     var aStream = stream("new A 1 with att=2 att value"),
         expression = language.parser.group('exprs').parse(aStream).get(),
-        source = compiler.sentence(list(),expression).success();
+        source = compiler.sentence(expression).success();
     
     runtime.register({ MODEL : [ "number", [[ "value" , [{ ACCESS:1 },{RETURN:1}]]] ] }); 
     runtime.register({ MODEL : [ "A", [[ "att" , [{ ACCESS:1 },{RETURN:1}]]] ] }); 
@@ -216,7 +215,7 @@ exports['runtime_execute'] = {
     // tests here  
     var aStream = stream("new A 1 2 with _1=3 _1 value"),
         expression = language.parser.group('exprs').parse(aStream).get(),
-        source = compiler.sentence(list(),expression).success();
+        source = compiler.sentence(expression).success();
     
     runtime.register({ MODEL : [ "number", [[ "value" , [{ ACCESS:1 },{RETURN:1}]]] ] }); 
     runtime.register({ MODEL : [ "A", [[ "_1" , [{ ACCESS:1 },{RETURN:1}]],[ "_2" , [{ ACCESS:2 },{RETURN:1}]]] ] }); 
@@ -231,7 +230,7 @@ exports['runtime_execute'] = {
     // tests here  
     var aStream = stream("new A 1 2 with _1=3 _2 value"),
         expression = language.parser.group('exprs').parse(aStream).get(),
-        source = compiler.sentence(list(),expression).success();
+        source = compiler.sentence(expression).success();
     
     runtime.register({ MODEL : [ "number", [[ "value" , [{ ACCESS:1 },{RETURN:1}]]] ] }); 
     runtime.register({ MODEL : [ "A", [[ "_1" , [{ ACCESS:1 },{RETURN:1}]],[ "_2" , [{ ACCESS:2 },{RETURN:1}]]] ] }); 
@@ -246,7 +245,7 @@ exports['runtime_execute'] = {
     // tests here  
     var aStream = stream("new A 1 2 with _2=3 _1 value"),
         expression = language.parser.group('exprs').parse(aStream).get(),
-        source = compiler.sentence(list(),expression).success();
+        source = compiler.sentence(expression).success();
     
     runtime.register({ MODEL : [ "number", [[ "value" , [{ ACCESS:1 },{RETURN:1}]]] ] }); 
     runtime.register({ MODEL : [ "A", [[ "_1" , [{ ACCESS:1 },{RETURN:1}]],[ "_2" , [{ ACCESS:2 },{RETURN:1}]]] ] }); 
@@ -261,7 +260,7 @@ exports['runtime_execute'] = {
     // tests here  
     var aStream = stream("new A 1 2 with _2=3 _2 value"),
         expression = language.parser.group('exprs').parse(aStream).get(),
-        source = compiler.sentence(list(),expression).success();
+        source = compiler.sentence(expression).success();
     
     runtime.register({ MODEL : [ "number", [[ "value" , [{ ACCESS:1 },{RETURN:1}]]] ] }); 
     runtime.register({ MODEL : [ "A", [[ "_1" , [{ ACCESS:1 },{RETURN:1}]],[ "_2" , [{ ACCESS:2 },{RETURN:1}]]] ] }); 
@@ -276,7 +275,7 @@ exports['runtime_execute'] = {
     // tests here  
     var aStream = stream("1 self this"),
         expression = language.parser.group('exprs').parse(aStream).get(),
-        source = compiler.sentence(list(),expression).success();
+        source = compiler.sentence(expression).success();
     
     runtime.register({ CLASS : [ "number", [[ "self" , [{ ACCESS:2 },{RETURN:1}]],[ "this" , [{ ACCESS:1 },{RETURN:1}]]] ] }); 
 

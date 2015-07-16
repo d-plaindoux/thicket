@@ -6,7 +6,7 @@ var stream = require('../../lib' + (process.env.THICKET_COV || '') + '/Parser/st
     fsdriver = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/resource/drivers/fsdriver.js'),
     reader = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/resource/reader.js'),
     packages = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/data/packages.js'),
-    linker = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/checker/linker.js');
+    linker = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/data/linker.js');
     
 /*
   ======== A Handy Little Nodeunit Reference ========

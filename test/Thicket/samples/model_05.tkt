@@ -36,6 +36,6 @@ class string this:native {
     xml : xml
 } {
     def (+) s = this @ "addString" s
-    def number = this @ "numberString" (i -> Some i),None
+    def number = this @ "numberString" $ Pair(i -> Some i) None
     def xml = this @ "xmlString" ()
 }

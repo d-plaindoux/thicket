@@ -31,5 +31,5 @@ def zero :unit -> dom = this -> {
 }
 
 def succ :peano -> dom = this -> {
-    <div> ("SUCC".toDom) (this fold zero succ) </div>
+    <div> ("SUCC" toDom) (this fold zero succ) </div>
 }
