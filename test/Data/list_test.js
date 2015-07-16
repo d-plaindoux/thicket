@@ -23,7 +23,7 @@ var list = require('../../lib' + (process.env.THICKET_COV || '') + '/Data/list.j
     test.ifError(value)
 */
 
-exports['lists'] = {
+exports['list'] = {
   setUp: function(done) {
     done();
   },

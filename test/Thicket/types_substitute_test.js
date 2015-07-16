@@ -25,7 +25,7 @@ var types = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/ch
     test.ifError(value)
 */
 
-exports['types_subsitute'] = {
+exports['types_substitute'] = {
   setUp: function(done) {
     done();
   },

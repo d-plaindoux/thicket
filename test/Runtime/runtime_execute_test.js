@@ -28,7 +28,7 @@ var stream = require('../../lib' + (process.env.THICKET_COV || '') + '/Parser/st
     test.ifError(value)
 */
 
-exports['runtime'] = {
+exports['runtime_execute'] = {
   setUp: function(done) {
     done();
   },
@@ -274,11 +274,11 @@ exports['runtime'] = {
   'Class attribute': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("1 id value"),
+    var aStream = stream("1 self this"),
         expression = language.parser.group('exprs').parse(aStream).get(),
         source = compiler.sentence(list(),expression).success();
     
-    runtime.register({ CLASS : [ "number", [[ "id" , [{ ACCESS:2 },{RETURN:1}]],[ "value" , [{ ACCESS:1 },{RETURN:1}]]] ] }); 
+    runtime.register({ CLASS : [ "number", [[ "self" , [{ ACCESS:2 },{RETURN:1}]],[ "this" , [{ ACCESS:1 },{RETURN:1}]]] ] }); 
 
     test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
                    { CONST:1 });

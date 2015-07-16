@@ -25,7 +25,7 @@ var types = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/ch
     test.ifError(value)
 */
 
-exports['types_freevar'] = {
+exports['types_unify'] = {
   setUp: function(done) {
     done();
   },

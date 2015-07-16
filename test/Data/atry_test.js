@@ -22,7 +22,7 @@ var atry = require('../../lib' + (process.env.THICKET_COV || '') + '/Data/atry.j
     test.ifError(value)
 */
 
-exports['options'] = {
+exports['atry'] = {
   setUp: function(done) {
     done();
   },

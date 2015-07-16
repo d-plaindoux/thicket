@@ -27,7 +27,18 @@ exports['native'] = {
   setUp: function(done) {
     done();
   },
-   
+       
+  'strict call': function(test) {
+    test.expect(1);
+    // tests here  
+    var code = runtime.delta["strict"].concat([
+        {CLOSURE:[{ACCESS:1},{RETURN:1}]},{CONST:0}
+    ]);      
+      
+    test.deepEqual(runtime.execute(code), {CONST:0});
+    test.done();
+  },
+
   'numbers true comparison': function(test) {
     test.expect(1);
     // tests here  
@@ -246,7 +257,31 @@ exports['native'] = {
     test.deepEqual(runtime.execute(code), {CONST:Infinity});
     test.done();
   },
-    
+   
+  'numbers modulo': function(test) {
+    test.expect(1);
+    // tests here  
+    var code = runtime.delta["number.%"].concat([
+        {CONST:6},{APPLY:1},
+        {CONST:2},{APPLY:1}
+    ]);      
+      
+    test.deepEqual(runtime.execute(code), {CONST:0});
+    test.done();
+  },
+   
+  'numbers modulo by zero': function(test) {
+    test.expect(1);
+    // tests here  
+    var code = runtime.delta["number.%"].concat([
+        {CONST:6},{APPLY:1},
+        {CONST:0},{APPLY:1}
+    ]);      
+      
+    test.ok(isNaN(runtime.execute(code).CONST));
+    test.done();
+  },
+
   'numbers <<': function(test) {
     test.expect(1);
     // tests here  

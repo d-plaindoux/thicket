@@ -27,7 +27,7 @@ var stream = require('../../lib' + (process.env.THICKET_COV || '') + '/Parser/st
     test.ifError(value)
 */
 
-exports['rules'] = {
+exports['rule'] = {
   setUp: function(done) {
     done();
   },

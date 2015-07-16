@@ -25,7 +25,7 @@ var ast = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/synt
     test.ifError(value)
 */
 
-exports['compile'] = {
+exports['deBruijn'] = {
   setUp: function(done) {
       done();
   },

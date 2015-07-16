@@ -22,7 +22,7 @@ var option = require('../../lib' + (process.env.THICKET_COV || '') + '/Data/opti
     test.ifError(value)
 */
 
-exports['options'] = {
+exports['option'] = {
   setUp: function(done) {
     done();
   },

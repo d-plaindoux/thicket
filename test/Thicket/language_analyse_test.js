@@ -64,7 +64,7 @@ function wrongSampleTest(sample, test) {
     return sampleTest(sample, test, function (r) { return r.isFailure(); });
 }
 
-exports['language'] = {
+exports['language_analyse'] = {
   setUp: function(done) {
     done();
   },
