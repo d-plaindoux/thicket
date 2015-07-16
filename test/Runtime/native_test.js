@@ -32,11 +32,35 @@ exports['native'] = {
     test.expect(1);
     // tests here  
     var code = runtime.delta["strict"].concat([
-        {CLOSURE:[{ACCESS:1},{RETURN:1}]},{CONST:0}
+        {CLOSURE:[{ACCESS:1},{RETURN:1}]},{APPLY:1},
+        {CONST:0},{APPLY:1}
     ]);      
       
     test.deepEqual(runtime.execute(code), {CONST:0});
     test.done();
+  },
+       
+  'console call': function(test) {
+    var logger = console.log,
+        result = null;
+      
+    test.expect(2);
+    // tests here 
+      
+    console.log = function(s) {
+        result = s;
+    };
+      
+    var code = runtime.delta["console.log"].concat([
+        {CONST:"Hello, World!"},{APPLY:1},
+        {CONST:0},{APPLY:1}
+    ]);      
+      
+    test.deepEqual(runtime.execute(code), {CONST:0});
+    test.deepEqual(result, "Hello, World!");
+    test.done();
+      
+    console.log = logger;
   },
 
   'numbers true comparison': function(test) {
