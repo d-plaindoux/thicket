@@ -51,4 +51,17 @@ exports['language_definition'] = {
                    "accept a definition");
     test.done();
   },
+    
+  'Function adapter expression definition': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("def adapter idNumber : number -> number = s -> s");
+        
+    test.deepEqual(language.parser.group('adapterDef').parse(aStream).get().definition,
+                   ast.expression("idNumber", 
+                                  ast.type.abstraction(ast.type.variable("number"), ast.type.variable("number")), 
+                                  ast.expr.abstraction("s", ast.expr.ident("s"))), 
+                   "accept a definition");
+    test.done();
+  },
 };

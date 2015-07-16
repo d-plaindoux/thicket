@@ -69,6 +69,26 @@ exports['language_exprs'] = {
     test.done();
   },
     
+  'unit expression is accepted': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream('()');
+        
+    test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
+                   ast.expr.unit(), "accept unit");
+    test.done();
+  },
+    
+  'empty block expression is accepted': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream('()');
+        
+    test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
+                   ast.expr.unit(), "accept unit");
+    test.done();
+  },
+    
 /*
   'string expression with dquote is accepted': function(test) {
     test.expect(1);
@@ -310,6 +330,28 @@ exports['language_exprs'] = {
     test.deepEqual(language.parser.group('expr').parse(aStream).get(), 
                    ast.expr.application(ast.expr.application(ast.expr.ident("x"),ast.expr.ident("+")), ast.expr.ident("y")),
                    "Expression with an operator");
+    test.done();      
+  },
+    
+  'operator reference': function (test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("number::(+)");
+        
+    test.deepEqual(language.parser.group('expr').parse(aStream).get(), 
+                   ast.expr.abstraction("_",ast.expr.invoke(ast.expr.ident("_"),"+"),ast.type.variable('number')),
+                   "Operator reference");
+    test.done();      
+  },
+    
+  'method reference': function (test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("number::add");
+        
+    test.deepEqual(language.parser.group('expr').parse(aStream).get(), 
+                   ast.expr.abstraction("_",ast.expr.invoke(ast.expr.ident("_"),"add"),ast.type.variable('number')),
+                   "Operator reference");
     test.done();      
   },
     

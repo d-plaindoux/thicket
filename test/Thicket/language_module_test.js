@@ -41,11 +41,23 @@ exports['language_module'] = {
     test.done();
   },    
     
-  'simple module with imports is accepted': function(test) {
+  'simple module with explicit imports is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("module Core.Bool from Core.Test import a model A"),
-        aModule = ast.module("Core.Bool",[ast.imports("Core.Test",["a"])],[ast.entity("A",ast.model("A",[],[]))]);
+    var aStream = stream("module Core.Bool from Core.Test import a b model A"),
+        aModule = ast.module("Core.Bool",[ast.imports("Core.Test",["a","b"])],[ast.entity("A",ast.model("A",[],[]))]);
+        
+    test.deepEqual(language.parser.group('module').parse(aStream).get(), 
+                   aModule,
+                   "accept an empty module");
+    test.done();
+  },    
+    
+  'simple module with implicit imports is accepted': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("module Core.Bool from Core.Test import * model A"),
+        aModule = ast.module("Core.Bool",[ast.imports("Core.Test",[])],[ast.entity("A",ast.model("A",[],[]))]);
         
     test.deepEqual(language.parser.group('module').parse(aStream).get(), 
                    aModule,
