@@ -224,4 +224,19 @@ exports['linker_entities'] = {
       
     test.done();
   },
+
+  'Link polymorphic submodel': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream('type A[a] { model B { _ : a } } def apply : [a] a -> A = B a'),
+        entities = language.parser.group('entities').parse(aStream).get(),
+        aPackages = packages(option.none()),
+        aLinker = linker(aPackages);
+
+    aPackages.defineInRoot(entities);  
+ 
+    test.ok(aLinker.linkEntities("_", list(entities)).isSuccess());
+      
+    test.done();
+  },
 };
