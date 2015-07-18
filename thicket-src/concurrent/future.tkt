@@ -6,13 +6,14 @@
  * Licensed under the LGPL2 license.
  */
  
-module Concurrent.Execution
+module Concurrent.Future
  
 from Data.Boolean import bool
 from Concurrent.Channel import Channel
+from Data.Try import try
  
 model Future[a] {
-    _ : a
+    _ : try[a]
 }
  
 class future[a] this:Future[a] {

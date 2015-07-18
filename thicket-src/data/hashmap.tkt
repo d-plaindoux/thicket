@@ -10,14 +10,14 @@ module Data.Hashmap
 
 from Core.Builder.Map import *
 from Data.Map import Map
-from Data.Boolean import bool
+from Data.Boolean import bool true
 from Data.List import list newList
 from Data.Number import number
 from Data.Option import option
 from Data.Pair import Pair
 from Data.Comparable import Comparable
 from Data.Hashable import Hashable
-from Data.Array import array
+from Data.Array import array emptyArray
 from Logic.Combinators import I
 
 typedef Hashmap[k v] = array[list[(k,v)]] 
