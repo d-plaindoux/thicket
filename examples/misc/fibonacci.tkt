@@ -8,8 +8,9 @@
  
 module Example.Fibonacci
  
+from Data.Pair import Pair
 from Data.Number import number
-from Data.Array import array
+from Data.Array import array emptyArray
 from Core.Lang.When import when
  
 //

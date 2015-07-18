@@ -11,7 +11,7 @@ module Data.Hashmap
 from Core.Builder.Map import *
 from Data.Map import Map
 from Data.Boolean import bool true
-from Data.List import list newList
+from Data.List import list emptyList
 from Data.Number import number
 from Data.Option import option
 from Data.Pair import Pair
@@ -43,7 +43,7 @@ class hashmap[k v] this:Hashmap[k v] {
   def add c v = 
       let index = c hashable hash % this.length in
       let cleanup = l -> l filter (e -> c != e._1) in
-      let entries = this get index fold (list Nil) cleanup in
+      let entries = this get index fold emptyList cleanup in
           hashmap $ this set index $ entries +: ((c unbox),v)          
 }
 
