@@ -60,14 +60,8 @@ function sampleTest(sample, test, checker) {
     });    
 }
 
-
 function correctSampleTest(sample, test) {
-    return sampleTest(sample, test, function (r) { 
-        if (r.isFailure()) {
-            console.log(r.failure().stack);
-        }
-        return r.isSuccess(); 
-    });
+    return sampleTest(sample, test, function (r) { return r.isSuccess(); });
 }
 
 function wrongSampleTest(sample, test) {
