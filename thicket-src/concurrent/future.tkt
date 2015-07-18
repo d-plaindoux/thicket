@@ -6,10 +6,10 @@
  * Licensed under the LGPL2 license.
  */
  
-module Runtime.Execution
+module Concurrent.Execution
  
 from Data.Boolean import bool
-from Runtime.Channel import Channel
+from Concurrent.Channel import Channel
  
 model Future[a] {
     _ : a

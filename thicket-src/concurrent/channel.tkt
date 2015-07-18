@@ -6,7 +6,7 @@
  * Licensed under the LGPL2 license.
  */
  
-module Runtime.Channel
+module Concurrent.Channel
  
 from Data.Pair import Pair
  

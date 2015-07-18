@@ -39,12 +39,12 @@ exports['language_locate'] = {
                       type: 
                        { '$type': 'TypeVariable',
                          name: 'number',
-                         '$location': { offset: 16, line: 1, character: 17 } },
+                         '$location': { filename: undefined, offset: 16, line: 1, character: 17 } },
                       expr: 
                        { '$type': 'NumberExpr',
                          value: 1,
-                         '$location': { offset: 18, line: 1, character: 19 } },
-                      '$location': { offset: 0, line: 1, character: 1 } },
+                         '$location': { filename: undefined, offset: 18, line: 1, character: 19 } },
+                      '$location': { filename: undefined, offset: 0, line: 1, character: 1 } },
                    "accept a definition");
     test.done();
   },
@@ -62,12 +62,12 @@ exports['language_locate'] = {
                          argument: 
                           { '$type': 'TypeVariable',
                             name: 'number',
-                            '$location': { offset: 22, line: 1, character: 23 } },
+                            '$location': { filename: undefined, offset: 22, line: 1, character: 23 } },
                          result: 
                           { '$type': 'TypeVariable',
                             name: 'number',
-                            '$location': { offset: 32, line: 1, character: 33 } },
-                         '$location': { offset: 22, line: 1, character: 23 } },
+                            '$location': { filename: undefined, offset: 32, line: 1, character: 33 } },
+                         '$location': { filename: undefined, offset: 22, line: 1, character: 23 } },
                       expr: 
                        { '$type': 'AbstractionExpr',
                          param: 's',
@@ -75,9 +75,9 @@ exports['language_locate'] = {
                          body: 
                           { '$type': 'IdentExpr',
                             value: 's',
-                            '$location': { offset: 40, line: 1, character: 41 } },
-                         '$location': { offset: 40, line: 1, character: 41 } },
-                      '$location': { offset: 0, line: 1, character: 1 } }, 
+                            '$location': { filename: undefined, offset: 40, line: 1, character: 41 } },
+                         '$location': { filename: undefined, offset: 40, line: 1, character: 41 } },
+                      '$location': { filename: undefined, offset: 0, line: 1, character: 1 } }, 
                    "accept a definition");
     test.done();
   },
