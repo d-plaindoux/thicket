@@ -53,7 +53,7 @@ function sampleTest(sample, test, checker) {
         
         aPackages.defineInRoot(allEntities);
         
-        test.ok(linker(aPackages).linkPackageByName('main').isSuccess(), "Linker");             
+        test.ok(linker(aPackages).linkPackageByName(aPackages.main()).isSuccess(), "Linker");             
         test.ok(checker(entities.analyse(environment(aPackages), allEntities)), "Type");
 
         test.done();                

@@ -42,7 +42,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list(), list()).isSuccess());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list(), list()).isSuccess());
       
     test.done();
   },          
@@ -55,7 +55,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list(), list()).isSuccess());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list(), list()).isSuccess());
       
     test.done();
   },          
@@ -68,7 +68,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list(), list()).isSuccess());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list(), list()).isSuccess());
       
     test.done();
   },    
@@ -81,7 +81,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list("a"), list()).isSuccess());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list("a"), list()).isSuccess());
     test.deepEqual(expression, 
                    { '$type': 'IdentExpr', value: 'a' });
       
@@ -133,7 +133,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list("a"), list()).isSuccess());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list("a"), list()).isSuccess());
       
     test.done();
   },    
@@ -146,7 +146,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list(), list()).isFailure());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list(), list()).isFailure());
       
     test.done();
   },    
@@ -159,7 +159,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list(), list()).isSuccess());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list(), list()).isSuccess());
       
     test.done();
   },    
@@ -172,7 +172,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list("a"), list()).isSuccess());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list("a"), list()).isSuccess());
       
     test.done();
   },    
@@ -185,7 +185,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list("a"), list()).isSuccess());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list("a"), list()).isSuccess());
       
     test.done();
   },    
@@ -198,7 +198,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list("print"), list()).isSuccess());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list("print"), list()).isSuccess());
       
     test.done();
   },    
@@ -211,7 +211,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list(), list()).isFailure());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list(), list()).isFailure());
       
     test.done();
   },    
@@ -224,7 +224,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list("print"), list()).isSuccess());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list("print"), list()).isSuccess());
       
     test.done();
   },
@@ -237,7 +237,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list("l"), list()).isSuccess());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list("l"), list()).isSuccess());
       
     test.done();
   },    
@@ -250,7 +250,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list("l"), list()).isFailure());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list("l"), list()).isFailure());
       
     test.done();
   },    
@@ -263,7 +263,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list("l"), list()).isSuccess());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list("l"), list()).isSuccess());
       
     test.done();
   },    
@@ -276,7 +276,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list("l"), list()).isFailure());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list("l"), list()).isFailure());
       
     test.done();
   },    
@@ -289,7 +289,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list("l"), list()).isSuccess());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list("l"), list()).isSuccess());
       
     test.done();
   },    
@@ -302,7 +302,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list("l"), list()).isSuccess());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list("l"), list()).isSuccess());
       
     test.done();
   },    
@@ -315,7 +315,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list("l"), list()).isSuccess());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list("l"), list()).isSuccess());
       
     test.done();
   },    
@@ -328,7 +328,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list("l"), list()).isFailure());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list("l"), list()).isFailure());
       
     test.done();
   },    
@@ -341,7 +341,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list(), list()).isSuccess());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list(), list()).isSuccess());
       
     test.done();
   },    
@@ -354,7 +354,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list("b"), list()).isSuccess());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list("b"), list()).isSuccess());
       
     test.done();
   },  
@@ -367,7 +367,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list(), list()).isFailure());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list(), list()).isFailure());
       
     test.done();
   },  
@@ -380,7 +380,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list("b"), list()).isSuccess());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list("b"), list()).isSuccess());
       
     test.done();
   },  
@@ -393,7 +393,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list(), list()).isFailure());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list(), list()).isFailure());
       
     test.done();
   }, 
@@ -406,7 +406,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list("c"), list()).isSuccess());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list("c"), list()).isSuccess());
       
     test.done();
   },      
@@ -419,7 +419,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list("c"), list()).isSuccess());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list("c"), list()).isSuccess());
       
     test.done();
   },      
@@ -432,7 +432,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list(), list()).isSuccess());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list(), list()).isSuccess());
       
     test.done();
   },      
@@ -445,7 +445,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list(), list()).isFailure());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list(), list()).isFailure());
       
     test.done();
   },      
@@ -458,7 +458,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list(), list()).isFailure());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list(), list()).isFailure());
       
     test.done();
   },      
@@ -471,7 +471,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list(), list()).isSuccess());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list(), list()).isSuccess());
       
     test.done();
   },      
@@ -484,7 +484,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list(), list()).isSuccess());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list(), list()).isSuccess());
       
     test.done();
   },      
@@ -497,7 +497,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list(), list()).isSuccess());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list(), list()).isSuccess());
       
     test.done();
   },      
@@ -510,7 +510,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list("a"), list()).isSuccess());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list("a"), list()).isSuccess());
       
     test.done();
   },      
@@ -523,7 +523,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list("a", "b"), list()).isSuccess());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list("a", "b"), list()).isSuccess());
       
     test.done();
   },      
@@ -536,7 +536,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list(), list()).isFailure());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list(), list()).isFailure());
       
     test.done();
   },      
@@ -549,7 +549,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression("main", expression, list("a"), list()).isFailure());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list("a"), list()).isFailure());
       
     test.done();
   },      
