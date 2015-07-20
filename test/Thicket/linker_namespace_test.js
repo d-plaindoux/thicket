@@ -31,18 +31,7 @@ exports['linker_namespace'] = {
     done();
   },
 
-  'Check namespace without packages': function(test) {
-    test.expect(1);
-    // tests here  
-    var aPackages = packages(option.none()),
-        aLinker = linker(aPackages);
-
-    test.ok(aLinker.findNamespace("Data.Unit","unit").isFailure());
-      
-    test.done();
-  },
-
-  'Check namespace for local definition': function(test) {
+  'Check namespace for local type definition': function(test) {
     test.expect(1);
     // tests here  
     var aReader = reader(fsdriver('./test/Thicket/samples')),
@@ -51,12 +40,26 @@ exports['linker_namespace'] = {
 
     aPackages.define(aReader.specifications("Data.Unit"));      
       
-    test.equal(aLinker.findNamespace("Data.Unit","unit").success(),"Data.Unit");
+    test.equal(aLinker.findTypeNamespace("Data.Unit","unit").success(),"Data.Unit");
       
     test.done();
   },
 
-  'Check namespace for explicit import': function(test) {
+  'Check namespace for local expression definition': function(test) {
+    test.expect(1);
+    // tests here  
+    var aReader = reader(fsdriver('./test/Thicket/samples')),
+        aPackages = packages(option.none()),
+        aLinker = linker(aPackages);
+
+    aPackages.define(aReader.specifications("Data.Unit"));      
+      
+    test.equal(aLinker.findExpressionNamespace("Data.Unit","unit").success(),"Data.Unit");
+      
+    test.done();
+  },
+
+  'Check namespace for type explicit import': function(test) {
     test.expect(1);
     // tests here  
     var aReader = reader(fsdriver('./test/Thicket/samples')),
@@ -66,12 +69,27 @@ exports['linker_namespace'] = {
     aPackages.define(aReader.specifications("Data.Explicit"));      
     aPackages.define(aReader.specifications("Data.Unit"));      
       
-    test.equal(aLinker.findNamespace("Data.Explicit","unit").success(),"Data.Unit");
+    test.equal(aLinker.findTypeNamespace("Data.Explicit","unit").success(),"Data.Unit");
       
     test.done();
   },
+    
+  'Check namespace for expression explicit import': function(test) {
+    test.expect(1);
+    // tests here  
+    var aReader = reader(fsdriver('./test/Thicket/samples')),
+        aPackages = packages(option.none()),
+        aLinker = linker(aPackages);
 
-  'Check namespace for implicit import': function(test) {
+    aPackages.define(aReader.specifications("Data.Explicit"));      
+    aPackages.define(aReader.specifications("Data.Unit"));      
+      
+    test.equal(aLinker.findExpressionNamespace("Data.Explicit","unit").success(),"Data.Unit");
+      
+    test.done();
+  },
+    
+  'Check namespace for type implicit import': function(test) {
     test.expect(1);
     // tests here  
     var aReader = reader(fsdriver('./test/Thicket/samples')),
@@ -81,12 +99,27 @@ exports['linker_namespace'] = {
     aPackages.define(aReader.specifications("Data.Implicit"));      
     aPackages.define(aReader.specifications("Data.Unit"));      
       
-    test.equal(aLinker.findNamespace("Data.Implicit","unit").success(),"Data.Unit");
+    test.equal(aLinker.findTypeNamespace("Data.Implicit","unit").success(),"Data.Unit");
+      
+    test.done();
+  },
+    
+  'Check namespace for expression implicit import': function(test) {
+    test.expect(1);
+    // tests here  
+    var aReader = reader(fsdriver('./test/Thicket/samples')),
+        aPackages = packages(option.none()),
+        aLinker = linker(aPackages);
+
+    aPackages.define(aReader.specifications("Data.Implicit"));      
+    aPackages.define(aReader.specifications("Data.Unit"));      
+      
+    test.equal(aLinker.findExpressionNamespace("Data.Implicit","unit").success(),"Data.Unit");
       
     test.done();
   },
 
-  'Check namespace for non explicit import': function(test) {
+  'Check namespace for type non explicit import': function(test) {
     test.expect(1);
     // tests here  
     var aReader = reader(fsdriver('./test/Thicket/samples')),
@@ -96,7 +129,22 @@ exports['linker_namespace'] = {
     aPackages.define(aReader.specifications("Data.Explicit"));      
     aPackages.define(aReader.specifications("Data.Unit"));      
       
-    test.ok(aLinker.findNamespace("Data.Explicit","unit2").isFailure());
+    test.ok(aLinker.findTypeNamespace("Data.Explicit","unit2").isFailure());
+      
+    test.done();
+  },
+
+  'Check namespace for expression non explicit import': function(test) {
+    test.expect(1);
+    // tests here  
+    var aReader = reader(fsdriver('./test/Thicket/samples')),
+        aPackages = packages(option.none()),
+        aLinker = linker(aPackages);
+
+    aPackages.define(aReader.specifications("Data.Explicit"));      
+    aPackages.define(aReader.specifications("Data.Unit"));      
+      
+    test.ok(aLinker.findExpressionNamespace("Data.Explicit","unit2").isFailure());
       
     test.done();
   },

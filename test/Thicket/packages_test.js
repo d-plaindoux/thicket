@@ -175,6 +175,19 @@ exports['packages'] = {
     test.done();
   },
     
+  'Validate the namespace for a given model type in a package': function(test) {
+    test.expect(1);
+    // tests here  
+    var aReader = reader(fsdriver('./test/Thicket/samples')),
+        aPackages = packages(option.none());
+
+    aPackages.define(aReader.specifications("Data.Unit"));      
+      
+    test.ok(aPackages.retrieve("Data.Unit").get().containsType("unit"));
+      
+    test.done();
+  },
+    
   'Validate the namespace for a given model expression in a package': function(test) {
     test.expect(1);
     // tests here  
@@ -183,7 +196,7 @@ exports['packages'] = {
 
     aPackages.define(aReader.specifications("Data.Unit"));      
       
-    test.ok(aPackages.retrieve("Data.Unit").get().inNamespace("unit"));
+    test.ok(aPackages.retrieve("Data.Unit").get().containsExpression("unit"));
       
     test.done();
   },
@@ -196,7 +209,7 @@ exports['packages'] = {
 
     aPackages.define(aReader.specifications("Data.Unit"));      
       
-    test.ok(!aPackages.retrieve("Data.Unit").get().inNamespace("wrongUnit"));
+    test.ok(!aPackages.retrieve("Data.Unit").get().containsType("wrongUnit"));
       
     test.done();
   },

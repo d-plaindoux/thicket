@@ -51,7 +51,7 @@ function sampleTest(sample, test, checker) {
     
         var allEntities = entitiesAndSentencies.orElse([[]])[0];
         
-        aPackages.defineInRoot(allEntities);
+        aPackages.defineInRoot([],allEntities);
         
         test.ok(linker(aPackages).linkPackageByName(aPackages.main()).isSuccess(), "Linker");             
         test.ok(checker(entities.analyse(environment(aPackages), allEntities)), "Type");

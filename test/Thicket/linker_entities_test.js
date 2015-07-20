@@ -188,7 +188,7 @@ exports['linker_entities'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
     
-    aPackages.defineInRoot(entities);
+    aPackages.defineInRoot([], entities);
       
     test.ok(aLinker.linkEntities(aPackages.main(), list(entities)).isFailure());
       
@@ -203,7 +203,7 @@ exports['linker_entities'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    aPackages.defineInRoot(entities);  
+    aPackages.defineInRoot([], entities);  
  
     test.ok(aLinker.linkEntities(aPackages.main(), list(entities)).isSuccess());
       
@@ -218,7 +218,7 @@ exports['linker_entities'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    aPackages.defineInRoot(entities);  
+    aPackages.defineInRoot([], entities);  
       
     test.ok(aLinker.linkEntities(aPackages.main(), list(entities)).isFailure());
       
@@ -233,7 +233,7 @@ exports['linker_entities'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    aPackages.defineInRoot(entities);  
+    aPackages.defineInRoot([], entities);  
  
     test.ok(aLinker.linkEntities(aPackages.main(), list(entities)).isSuccess());
       
@@ -248,7 +248,7 @@ exports['linker_entities'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    aPackages.defineInRoot(entities);  
+    aPackages.defineInRoot([], entities);  
  
     test.ok(aLinker.linkEntities(aPackages.main(), list(entities)).isSuccess());
       
@@ -263,7 +263,7 @@ exports['linker_entities'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    aPackages.defineInRoot(entities);  
+    aPackages.defineInRoot([], entities);  
  
     test.ok(aLinker.linkEntities(aPackages.main(), list(entities)).isSuccess());
       
@@ -278,7 +278,7 @@ exports['linker_entities'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    aPackages.defineInRoot(entities);  
+    aPackages.defineInRoot([], entities);  
  
     test.ok(aLinker.linkEntities(aPackages.main(), list(entities)).isSuccess());
       
@@ -293,7 +293,7 @@ exports['linker_entities'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    aPackages.defineInRoot(entities);  
+    aPackages.defineInRoot([], entities);  
  
     test.ok(aLinker.linkEntities(aPackages.main(), list(entities)).isSuccess());
       
@@ -308,7 +308,7 @@ exports['linker_entities'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    aPackages.defineInRoot(entities);  
+    aPackages.defineInRoot([], entities);  
  
     test.ok(aLinker.linkEntities(aPackages.main(), list(entities)).isFailure());
       
@@ -323,7 +323,7 @@ exports['linker_entities'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    aPackages.defineInRoot(entities);  
+    aPackages.defineInRoot([], entities);  
  
     test.ok(aLinker.linkEntities(aPackages.main(), list(entities)).isFailure());
       
@@ -338,7 +338,7 @@ exports['linker_entities'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    aPackages.defineInRoot(entities);  
+    aPackages.defineInRoot([], entities);  
  
     test.ok(aLinker.linkEntities(aPackages.main(), list(entities)).isFailure());
       
@@ -353,7 +353,7 @@ exports['linker_entities'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    aPackages.defineInRoot(entities);  
+    aPackages.defineInRoot([], entities);  
  
     test.ok(aLinker.linkPackageByName(aPackages.main()).isSuccess());
       
@@ -379,7 +379,7 @@ exports['linker_entities'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    aPackages.defineInRoot(entities);  
+    aPackages.defineInRoot([], entities);  
  
     test.ok(aLinker.linkPackageByName(aPackages.main()).isFailure());
       

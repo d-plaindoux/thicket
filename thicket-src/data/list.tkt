@@ -110,6 +110,14 @@ def List : [a] collectionBuilder[a list[a]] = {
  * Adapters
  */
 
+def adapter ziplist2list : [a b] ziplist[a b] -> list[(a,b)] = l -> {
+    list $ l unbox
+}
+
+def adapter list2ziplist : [a b] list[(a,b)] -> ziplist[a b] = l -> {
+    ziplist $ l unbox
+}
+
 def adapter list2collection : [a] list[a] -> Collection[a] = l -> {
     Collection l.find 
         (p -> list2collection $ l filter p) 
@@ -118,5 +126,5 @@ def adapter list2collection : [a] list[a] -> Collection[a] = l -> {
 }
                 
 def adapter list2entity : [a] list[a] -> CollectionBuilder[a list[a]] = l -> {
-    CollectionBuilder l (a -> list2entity $ l :+ a)
+    CollectionBuilder l (a -> list2entity $ l +: a)
 }

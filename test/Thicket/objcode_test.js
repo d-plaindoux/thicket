@@ -93,7 +93,7 @@ exports['objcode'] = {
       
       var aPackages = packages(option.none());
 
-      aPackages.defineInRoot([ast.entity('number', ast.model('number',[],[]))]);
+      aPackages.defineInRoot([], [ast.entity('number', ast.model('number',[],[]))]);
       
       test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.entity(environment(aPackages),
                                      ast.controller("A",[],
@@ -202,7 +202,7 @@ exports['objcode'] = {
       test.expect(1);
       
       test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(), ast.expr.tag("A",[],[])).success())),
-                     [ { IDENT: 'document' }, { IDENT: 'string' }, { CONST: 'A' }, { APPLY: 1 }, { APPLY: 1 }, { INVOKE: 'create' } ]);
+                     [ { IDENT: 'Client.Document.document' }, { IDENT: 'Data.String.string' }, { CONST: 'A' }, { APPLY: 1 }, { APPLY: 1 }, { INVOKE: 'create' } ]);
       test.done();
   },
 
@@ -210,8 +210,8 @@ exports['objcode'] = {
       test.expect(1);
       
       test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list('l'), ast.expr.tag("A",[['a',ast.expr.string('b')]],[])).success())),
-                     [{ IDENT: 'document' }, { IDENT: 'string' }, { CONST: 'A' }, { APPLY: 1 }, { APPLY: 1 }, { INVOKE: 'create' },
-                      { INVOKE: 'addAttribute' }, { IDENT: 'string' }, { CONST: 'a' }, { APPLY: 1 }, { APPLY: 1 },
+                     [{ IDENT: 'Client.Document.document' }, { IDENT: 'Data.String.string' }, { CONST: 'A' }, { APPLY: 1 }, { APPLY: 1 }, { INVOKE: 'create' },
+                      { INVOKE: 'addAttribute' }, { IDENT: 'Data.String.string' }, { CONST: 'a' }, { APPLY: 1 }, { APPLY: 1 },
                       { IDENT: 'string' }, { CONST: 'b' }, { APPLY: 1 }, { APPLY: 1 } ]);
       test.done();
   },
@@ -220,10 +220,10 @@ exports['objcode'] = {
       test.expect(1);
       
       test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list('l'), ast.expr.tag("A",[['a',ast.expr.string('b')],['b',ast.expr.number(1)]],[])).success())),
-                     [{ IDENT: 'document' }, { IDENT: 'string' }, { CONST: 'A' }, { APPLY: 1 }, { APPLY: 1 }, { INVOKE: 'create' },
-                      { INVOKE: 'addAttribute' }, { IDENT: 'string' }, { CONST: 'a' }, { APPLY: 1 }, { APPLY: 1 }, 
+                     [{ IDENT: 'Client.Document.document' }, { IDENT: 'Data.String.string' }, { CONST: 'A' }, { APPLY: 1 }, { APPLY: 1 }, { INVOKE: 'create' },
+                      { INVOKE: 'addAttribute' }, { IDENT: 'Data.String.string' }, { CONST: 'a' }, { APPLY: 1 }, { APPLY: 1 }, 
                       { IDENT: 'string' }, { CONST: 'b' }, { APPLY: 1 }, { APPLY: 1 },
-                      { INVOKE: 'addAttribute' }, { IDENT: 'string' }, { CONST: 'b' }, { APPLY: 1 }, { APPLY: 1 }, 
+                      { INVOKE: 'addAttribute' }, { IDENT: 'Data.String.string' }, { CONST: 'b' }, { APPLY: 1 }, { APPLY: 1 }, 
                       { IDENT: 'number' }, { CONST: 1 }, { APPLY: 1 }, { APPLY: 1 } ]);
 
       test.done();
@@ -233,8 +233,8 @@ exports['objcode'] = {
       test.expect(1);
       
       test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list('l'), ast.expr.tag("A",[],[ast.expr.tag("B",[],[]),ast.expr.number(1)])).success())),
-                     [{ IDENT: 'document' }, { IDENT: 'string' }, { CONST: 'A' }, { APPLY: 1 }, { APPLY: 1 }, { INVOKE: 'create' },
-                      { INVOKE: 'addChild' }, { IDENT: 'document' }, { IDENT: 'string' }, { CONST: 'B' }, { APPLY: 1 }, { APPLY: 1 }, { INVOKE: 'create' }, { APPLY: 1 },
+                     [{ IDENT: 'Client.Document.document' }, { IDENT: 'Data.String.string' }, { CONST: 'A' }, { APPLY: 1 }, { APPLY: 1 }, { INVOKE: 'create' },
+                      { INVOKE: 'addChild' }, { IDENT: 'Client.Document.document' }, { IDENT: 'Data.String.string' }, { CONST: 'B' }, { APPLY: 1 }, { APPLY: 1 }, { INVOKE: 'create' }, { APPLY: 1 },
                       { INVOKE: 'addChild' }, { IDENT: 'number' }, { CONST: 1 }, { APPLY: 1 }, { APPLY: 1 } ]);
       test.done();
   },

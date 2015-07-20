@@ -37,6 +37,7 @@ class event this:Event {
 
 class dom this:native {
     addAttribute : string -> string -> dom
+    addEventTrigger : EventTrigger -> dom
     addChild : dom -> dom
     removeChilds : dom
 
@@ -45,8 +46,6 @@ class dom this:native {
     clone : dom
     replace : dom -> dom
     remove : dom
-
-    addEventTrigger : EventTrigger -> dom
 } {
     def addAttribute n d = internal "dom.setAttribute" self n d
     def addChild d = internal "dom.appendChild" self d

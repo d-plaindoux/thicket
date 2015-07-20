@@ -6,7 +6,7 @@
  * Licensed under the LGPL2 license.
  */
 
-module Boot
+module Boot.Core
 
 from Core.Lang.When import *
 from Core.Lang.Do import *

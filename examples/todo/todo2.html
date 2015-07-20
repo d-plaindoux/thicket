@@ -1,28 +1,21 @@
 <html>
 <head>
-  <script src="../../build/thicket-lang.js"></script>
+  <script src="../../build/thicket-lang.min.js"></script>
   <script type="text/thicket">
-    from Client.Document import element toDom
-    from Core.Lang import do
-    from Data.List import list
-     
-    model Todo { _ : string }
-    
-    def todo :Todo -> dom = this -> { 
-        <li><i> {string2dom this._} </i></li>
+    def todo : string -> dom = this -> { 
+        <li><i> {string2dom this} </i></li>
     }
     
-    def manageTodos = n:dom ->
-        for s <- (List["todo #1";"todo #2";"todo #3"]) 
-        yield n addChild $ todo $ Todo s
-  </script>
+    def manageTodos : dom -> dom = n -> {
+        let todos = List["#1";"#2";"#3";"#4";"#5"] in
+            todos foldL (n s -> n addChild $ todo s) n
+    }
 
-  <script type="text/thicket">
     document "todos" find map manageTodos
   </script>
 </head>    
-<body onload="require('thicket')('../..//site').boot()">
-	<b>Things to be done:</b>
-	<ul id="todos"></ul>
+<body onload="require('thicket')('../../site').boot()">
+  <b>Things to be done:</b>
+  <ul id="todos"></ul>
 </body>
 </html>

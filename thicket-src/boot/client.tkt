@@ -1,0 +1,12 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+
+module Boot.Client
+
+from Client.Document import *
+from Client.Event import *

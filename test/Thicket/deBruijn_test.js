@@ -94,7 +94,7 @@ exports['deBruijn'] = {
     
       var aPackages = packages(option.none());
         
-      aPackages.defineInRoot([ast.entity('number',ast.model('number',[],[]))]);
+      aPackages.defineInRoot([], [ast.entity('number',ast.model('number',[],[]))]);
     
       test.deepEqual(deBruijn.indexes(compiler.entity(environment(aPackages),
                                      ast.controller("A",[],
@@ -254,7 +254,8 @@ exports['deBruijn'] = {
       
       test.deepEqual(deBruijn.indexes(compiler.expression(list(), ast.expr.tag("A",[],[])).success()),
                      compiler.abstractSyntax("Tag", 
-                                             compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), compiler.abstractSyntax("Native","A")), 
+                                             compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","Data.String.string"), 
+                                                                      compiler.abstractSyntax("Native","A")), 
                                              [], 
                                              []));
       test.done();
@@ -265,9 +266,15 @@ exports['deBruijn'] = {
       
       test.deepEqual(deBruijn.indexes(compiler.expression(list('l'), ast.expr.tag("A",[['a',ast.expr.string('b')]],[])).success()),
                      compiler.abstractSyntax("Tag", 
-                                             compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), compiler.abstractSyntax("Native","A")), 
-                                             [[compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), compiler.abstractSyntax("Native","a")),
-                                               compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), compiler.abstractSyntax("Native","b"))]], 
+                                             compiler.abstractSyntax("Apply",
+                                                                     compiler.abstractSyntax("Ident","Data.String.string"), 
+                                                                     compiler.abstractSyntax("Native","A")), 
+                                             [[compiler.abstractSyntax("Apply",
+                                                                       compiler.abstractSyntax("Ident","Data.String.string"), 
+                                                                       compiler.abstractSyntax("Native","a")),
+                                               compiler.abstractSyntax("Apply",
+                                                                       compiler.abstractSyntax("Ident","string"), 
+                                                                       compiler.abstractSyntax("Native","b"))]], 
                                              []));
       test.done();
   },
@@ -277,10 +284,10 @@ exports['deBruijn'] = {
       
       test.deepEqual(deBruijn.indexes(compiler.expression(list('l'), ast.expr.tag("A",[['a',ast.expr.string('b')],['b',ast.expr.number(1)]],[])).success()),
                      compiler.abstractSyntax("Tag", 
-                                             compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), compiler.abstractSyntax("Native","A")), 
-                                             [[compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), compiler.abstractSyntax("Native","a")),
+                                             compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","Data.String.string"), compiler.abstractSyntax("Native","A")), 
+                                             [[compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","Data.String.string"), compiler.abstractSyntax("Native","a")),
                                                compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), compiler.abstractSyntax("Native","b"))],
-                                              [compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), compiler.abstractSyntax("Native","b")),
+                                              [compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","Data.String.string"), compiler.abstractSyntax("Native","b")),
                                                compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","number"), compiler.abstractSyntax("Native",1))]], 
                                              []));                 
       test.done();
@@ -291,10 +298,10 @@ exports['deBruijn'] = {
       
       test.deepEqual(deBruijn.indexes(compiler.expression(list('l'), ast.expr.tag("A",[],[ast.expr.tag("B",[],[]),ast.expr.number(1)])).success()),
                      compiler.abstractSyntax("Tag", 
-                                             compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), compiler.abstractSyntax("Native","A")),
+                                             compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","Data.String.string"), compiler.abstractSyntax("Native","A")),
                                              [], 
                                              [compiler.abstractSyntax("Tag", 
-                                                                      compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), compiler.abstractSyntax("Native","B")),
+                                                                      compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","Data.String.string"), compiler.abstractSyntax("Native","B")),
                                                                       [], 
                                                                       []), 
                                               compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","number"), compiler.abstractSyntax("Native",1))]));
