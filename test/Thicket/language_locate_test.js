@@ -76,7 +76,7 @@ exports['language_locate'] = {
                           { '$type': 'IdentExpr',
                             value: 's',
                             '$location': { filename: undefined, offset: 40, line: 1, character: 41 } },
-                         '$location': { filename: undefined, offset: 40, line: 1, character: 41 } },
+                         '$location': { filename: undefined, offset: 34, line: 1, character: 35 } },
                       '$location': { filename: undefined, offset: 0, line: 1, character: 1 } }, 
                    "accept a definition");
     test.done();

@@ -100,7 +100,7 @@ exports['compiler'] = {
                                                     [],
                                                     [ast.method("unbox", 
                                                                 ast.expr.ident("this"), 
-                                                                ast.namespace(ast.type.variable('number'),'main'))])
+                                                                ast.namespace(ast.type.variable('number'),aPackages.main()))])
                                     ).success(),
                     compiler.abstractSyntax("Controller","A","this",[["number.unbox",compiler.abstractSyntax("Variable","this")]]));
       test.done();

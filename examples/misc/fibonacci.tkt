@@ -18,18 +18,19 @@ from Core.Lang.When import when
 // Not tail recursive
 //
 
-def fastfib : array[number] -> number -> (array[number],number) =
-    a n -> 
-        when (n <? 2) 
-        then (a,n)
-        else {
-            when (a get n present)
-            then (a,(a get n fold 0 (a -> a)))
-            else let r1 = fastfib a (n - 2) in
-                 let r2 = fastfib r1._1 (n - 1) in
-                 let r = r1._2 + r2._2 in
-                    (r2._1 set n r),r
-        }
+def fastfib : array[number] -> number -> (array[number],number) = a n -> {
+    when (n <? 2) 
+    then (a,n)
+    else {
+        when (a get n present)
+        then (a,(a get n fold 0 (a -> a)))
+        else let r1 = fastfib a (n - 2) in
+             let r2 = fastfib r1._1 (n - 1) in
+             let r = r1._2 + r2._2 in
+                (r2._1 set n r),r
+    }
+}
     
-def fib : number -> number = n -> 
+def fib : number -> number = n -> {
     fastfib (emptyArray n) n _2
+}

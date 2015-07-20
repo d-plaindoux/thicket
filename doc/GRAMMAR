@@ -1,89 +1,116 @@
 --------------------------------------------------------------------------
  Thicket grammar definition   
 --------------------------------------------------------------------------
- V3                                                              1/2/2015               
+ V4                                                             07/20/2015               
 --------------------------------------------------------------------------
 
-module    ::= "module" IDENT ("." IDENT)* import* entity*
+module ::= 
+  "module" IDENT ("." IDENT)* import* entity*
 
 --------------------------------------------------------------------------
 
-import    ::= "from" IDENT ("." IDENT)* "import" ("*"|IDENT+)
+import ::= 
+  "from" IDENT ("." IDENT)* "import" ("*"|IDENT+)
 
 --------------------------------------------------------------------------
          
-entity    ::= typeDef | sortDef | objectDef | methodDef | classDef
+entity ::= 
+  typeDef | sortDef | objectDef | expressionDef | classDef
 
 --------------------------------------------------------------------------
 
-generics  ::= ("[" ID+ "]")?
+typeDef ::= 
+  "typedef" ID generics "=" generics types
 
 --------------------------------------------------------------------------
 
-typeDef   ::= "typedef" ID generics "=" generics types
+sortDef ::= 
+  "type" ID generics "{" ("model" ID ("{" tparam* "}")?)+ "}"
 
 --------------------------------------------------------------------------
 
-sortDef   ::= "type" ID generics "{" ("model" ID ("{" tparam* "}")?)+ "}"
+objectDef ::= 
+  "model" ID generics ("{" tparam* "}")?
 
 --------------------------------------------------------------------------
 
-objectDef ::= "model" ID generics ("{" tparam* "}")?
+expressionDef ::= 
+  "def" "adapter"? (ID|"("OP")") (":" generics type)? "="
+    ((ID (":" generics type)?)+ ->)? expr
 
 --------------------------------------------------------------------------
 
-tparam    ::= (ID|"("OP")") ":" generics type
-type      ::= ID ("[" type+ "]")?
-            | "(" types ")" 
+tparam ::= 
+  (ID|"("OP")") ":" generics type
+    
+type ::= 
+  ID ("[" type+ "]")?
+| "(" types ")" 
 
-types     ::= type "," types
-            | type "->" types
-            | type
-
---------------------------------------------------------------------------
-
-classDef  ::= "class" ID generics param "{" tparam* "}" "{" method* "}"
-
---------------------------------------------------------------------------
-
-methodDef ::= "def" "adapter"? (ID|"("OP")") (":" generics type)? "=" expr
+types ::= 
+  type "," types
+| type "->" types
+| type
 
 --------------------------------------------------------------------------
 
-method    ::= "def" (ID ".")? (ID|"("OP")") (ID(":" generics type)?)* "=" expr
+classDef ::= 
+  "class" ID generics param "{" tparam* "}" "{" method* "}"
 
 --------------------------------------------------------------------------
 
-exprs     ::= expr expr*
+methodDef ::= 
+  "def" "adapter"? (ID|"("OP")") (":" generics type)? "=" expr
 
-expr      ::= iexpr ("," iexpr)*
+--------------------------------------------------------------------------
 
-iexpr     ::= sexpr ("." ID)*
+method ::= 
+  "def" (ID ".")? (ID|"("OP")") (ID(":" generics type)?)* "=" expr
 
-sexpr     ::= NUMBER
-            | STRING
-            | type "::" (ID|"("OP")")
-            | ID
-            | OP
-            | "$" exprs 
-            | "(" exprs ")"
-            | "{" exprs "}"
-            | "<" ID attr* ">" exprs "</" ID? ">" 
-            | "<" ID attr* "/>"
-            | "for" (ID "<-" sexpr)+ ("if" exprs)* "yield" exprs
-            | "let" ID (":" generics type)? "=" exprs "in" exprs
-            | type "::" ID
-            | (ID (":" generics type)?)+ -> exprs
-            | "new" exprs "with" (ID "=" sexpr)+
+--------------------------------------------------------------------------
+
+generics ::= 
+  ("[" ID+ "]")?
+
+--------------------------------------------------------------------------
+
+exprs ::= 
+  expr expr*
+
+expr ::= 
+  iexpr ("," iexpr)*
+
+iexpr ::= 
+  sexpr ("." ID)*
+
+sexpr ::= 
+  NUMBER
+| STRING
+| type "::" (ID|"("OP")")
+| ID
+| OP
+| "$" exprs 
+| "(" exprs ")"
+| "{" exprs "}"
+| "<" ID attr* ">" exprs "</" ID? ">" 
+| "<" ID attr* "/>"
+| "for" (ID "<-" sexpr)+ ("if" exprs)* "yield" exprs
+| "let" ID (":" generics type)? "=" exprs "in" exprs
+| type "::" ID
+| (ID (":" generics type)?)+ -> exprs
+| "new" exprs "with" (ID "=" sexpr)+
             
-attr      ::= ID "=" expr
+attr ::= 
+  ID "=" expr
 
 --------------------------------------------------------------------------
 
-param     ::= ID ":" type
+param ::= 
+  ID ":" type
 
 --------------------------------------------------------------------------
 
-comment   ::= "//" line | "/*" line* "*/"
+comment ::= 
+  "//" line | "/*" line* "*/"
 
 --------------------------------------------------------------------------

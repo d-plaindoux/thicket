@@ -9,19 +9,19 @@
   <script type="text/thicket">
     from Client.Document import Event document
     
-    def highlightString : string -> dom = this ->
+    def highlightString : string -> dom = this -> {
         <span class="actionable">
             <b> {string2dom this} </b>
         </span>
-
-    def manageNode : dom -> dom = node -> 
+    }
+    
+    def manageNode : dom -> dom = node -> {
         let onclick = node -> node removeChilds 
                                    addChild { string2dom "Hello World!" } in        
             node addChild { string2dom "Say Hello? " }
                  addChild { highlightString "<Click>" onEvent OnMouseClick onclick }
-  </script>
+    }
 
-  <script type="text/thicket">
     document "todo" find map manageNode
   </script>
 </head>    

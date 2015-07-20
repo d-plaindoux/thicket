@@ -16,10 +16,12 @@ from Data.Trampoline import *
  * Factorial computation based on trampoline
  */ 
  
-def trampolineFact : number -> number -> Trampoline[number] = 
-    acc n ->
-        when (n == 0) 
-        then {Done acc}
-        else {More $ _ -> trampolineFact (n * acc) (n - 1)}
+def trampolineFact : number -> number -> Trampoline[number] = acc n -> {
+    when (n == 0) 
+    then {Done acc}
+    else {More $ _ -> trampolineFact (n * acc) (n - 1)}
+}
 
-def fact = n -> trampoline (trampolineFact 1 n) run
+def fact = n -> {
+    trampoline (trampolineFact 1 n) run
+}

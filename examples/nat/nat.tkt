@@ -43,6 +43,14 @@ class natInterp this:nat {
             this fold "Zero" onSucc
 }
 
-def succ : nat -> nat = n -> nat $ Succ n.unbox
-def zero : nat = nat Zero
-def one  : nat = succ zero
+def succ : nat -> nat = n -> {
+    nat $ Succ n.unbox
+}
+
+def zero : nat = { 
+    nat Zero
+}
+
+def one  : nat = { 
+    succ zero
+}
