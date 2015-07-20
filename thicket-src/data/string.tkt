@@ -25,7 +25,6 @@ class string this:native {
     (>=)     : string -> bool
     (+)      : string -> string
     toNumber : option[number]
-    hash     : number
 } {
     def (==) n = internal "generic.==" self n true false
     def (!=) n = (self == n) not
@@ -35,7 +34,6 @@ class string this:native {
     def (>=) n = n <? self
     def (+) s = string $ internal "string.+" self s
     def toNumber = internal "string.toNumber" self (n -> some $ number n) none
-    def hash = number $ internal "string.hash" self
 }
 
 def eol : string = "\n"
@@ -44,8 +42,12 @@ def eol : string = "\n"
  * Adapters
  */
 
-def adapter string2hashable : string -> Hashable[string] = 
-    s -> Hashable s s.hash
+def adapter string2Number : string -> option[number] = string::toNumber
+
+def adapter string2hashable : string -> Hashable[string] = s -> {
+    Hashable s (number $ internal "string.hash" s)
+}
     
-def adapter string2comparable : string -> Comparable[string] = 
-    s -> Comparable s s.(==) s.(!=) s.(?>) s.(<?) (string2hashable s)
+def adapter string2comparable : string -> Comparable[string] = s -> { 
+    Comparable s s.(==) s.(!=) s.(?>) s.(<?) (string2hashable s)
+}

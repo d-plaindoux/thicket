@@ -23,18 +23,9 @@ model Monad[a c] {
 //
 
 /*
-def adapter option2monad : [a] option[a] -> Monad[a option[a]] =
-    o -> Monad o 
-                (f -> option2monad $ o map f)
-                (f -> option2monad $ o flatmap $ e -> f e unbox)
-               
-def adapter try2monad : [a] try[a] -> Monad[a try[a]] =
-    o -> Monad o 
-                (f -> try2monad $ o map f)
-                (f -> try2monad $ o flatmap $ e -> f e unbox)
-               
-def adapter list2monad : [a] list[a] -> Monad[a list[a]] =
-    o -> Monad o 
-                (f -> list2monad $ o map f)
-                (f -> list2monad $ o flatmap $ e -> f e unbox)
+def adapter option2monad : [a] option[a] -> Monad[a option[a]] = o -> {
+    Monad o 
+        (f -> option2monad $ o map f)
+        (f -> option2monad $ o flatmap $ e -> f e unbox)
+}
 */                          

@@ -10,7 +10,7 @@ module Client.Document
 
 from Core.Lang.Do import do
 
-from Client.Trigger import EventTrigger
+from Client.Event import EventTrigger
 
 from Data.Native import native
 from System.Internal import internal
@@ -76,4 +76,6 @@ class document this:string {
     def find = internal "dom.elementById" this (e -> some $ dom e) none
 }
 
-def adapter string2dom : string -> dom = s -> dom $ internal "string.toDom" s
+def adapter string2dom : string -> dom = s -> {
+    dom $ internal "string.toDom" s
+}

@@ -16,6 +16,7 @@ from System.Internal import internal
  *     strict f x forces the evaluation of x
  */
 
-def strict : [a b] (a -> b) -> a -> b = f a -> 
+def strict : [a b] (a -> b) -> a -> b = f a -> {
     internal "strict" f a
+}
     

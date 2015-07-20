@@ -62,4 +62,6 @@ class array[a] this:native {
  * Empty array constructor
  */
 
-def emptyArray : [a] number -> array[a] = n -> array $ internal "array.new" n
+def emptyArray : [a] number -> array[a] = n -> { 
+    array $ internal "array.new" n
+}

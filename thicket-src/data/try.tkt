@@ -44,12 +44,18 @@ class try[a] this:Try[a] {
  * Factories
  */
 
-def success : [a] a -> try[a] = a -> try $ Success a
-def failure : [a] string -> try[a] = a -> try $ Failure a
+def success : [a] a -> try[a] = a -> { 
+    try $ Success a 
+}
+
+def failure : [a] string -> try[a] = a -> { 
+    try $ Failure a 
+}
 
 /**
  * Adapters
  */
 
-def adapter try2option : [a] try[a] -> option[a] = 
-    t -> t fold some (_ -> none)
+def adapter try2option : [a] try[a] -> option[a] = t -> {
+    t fold some (_ -> none)
+}

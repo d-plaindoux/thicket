@@ -22,4 +22,6 @@ class internalClass this:string {
     // apply method is provided by the system
 }
 
-def internal : [a] string -> a = s -> internalClass s apply
+def internal : [a] string -> a = s -> {
+    internalClass s apply
+}

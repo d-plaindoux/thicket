@@ -7,8 +7,6 @@
 <head>
   <script src="../build/thicket-lang.min.js"></script>
   <script type="text/thicket">
-    from Client.Document import Event document
-    
     def highlightString : string -> dom = this -> {
         <span class="actionable">
             <b> {string2dom this} </b>
@@ -27,9 +25,7 @@
 </head>    
 
 <body onload="require('thicket')('../site').boot()">
-    <p>
-        <i id="todo"/>
-    </p>
+    <p id="todo"/>
     <hr>
     Powered by Thicket 0.1
 </body>

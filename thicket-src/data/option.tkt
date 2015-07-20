@@ -47,12 +47,13 @@ class option[a] this:Option[a] {
  * Factories
  */
 
-def some : [a] a -> option[a] = e -> option $ Some e
-def none : [a] option[a] = option None
+def some : [a] a -> option[a] = e -> { option $ Some e }
+def none : [a] option[a] = { option None }
 
 /**
  * Adapters
  */
 
-def adapter option2try : [a] option[a] -> try[a] = 
-    t -> t fold (failure "Undefined value") success
+def adapter option2try : [a] option[a] -> try[a] = t -> {
+    t fold (failure "Undefined value") success
+}

@@ -37,9 +37,6 @@ class bool this:Bool {
     (||)     : bool -> bool
     (=>)     : bool -> bool
     toString : string
-    
-    hashable   : Hashable[bool]
-    comparable : Comparable[bool]
 } {
     def unbox = this
 
@@ -54,32 +51,33 @@ class bool this:Bool {
     def (&&) = self and
     def (||) = self or
     def (=>) = self imply
-    
-    def hashable = 
-        Hashable
-                self 
-                (self fold 7 13)
-                
-    def comparable = 
-        Comparable 
-                self 
-                (b -> self fold b b.not) 
-                (b -> self fold b.not b)
-                (b -> self fold b.not b)
-                (b -> self fold b b.not)
-                self.hashable
 }
 
 /**
  * Factories
  */
 
-def true  : bool = bool True
-def false : bool = bool False
+def true  : bool = { bool True  }
+def false : bool = { bool False }
 
 /**
  * Adapters
  */
 
-def adapter bool2hashable   : bool -> Hashable[bool]   = bool::hashable
-def adapter bool2comparable : bool -> Comparable[bool] = bool::comparable
+def adapter bool2string : bool -> string = this -> {
+    this fold "true" "false"
+}
+
+def adapter bool2hashable : bool -> Hashable[bool] = this -> {
+    Hashable this (this fold 7 13)
+}
+
+def adapter bool2comparable : bool -> Comparable[bool] = this -> {
+    Comparable 
+        this 
+        (b -> this fold b b.not) 
+        (b -> this fold b.not b)
+        (b -> this fold b.not b)
+        (b -> this fold b b.not)
+        (bool2hashable this)
+}

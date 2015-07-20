@@ -31,28 +31,30 @@ model TreeNode {
  * TreeNode Factory
  */
  
-def bottomUpTree : number -> number -> TreeNode = item depth ->
+def bottomUpTree : number -> number -> TreeNode = item depth -> {
     depth ?> 0 fold
         { TreeNode item $ 
                    some ((bottomUpTree (2 * item - 1) (depth - 1))
                         ,(bottomUpTree (2 * item)     (depth - 1))) 
         }
         { TreeNode item none }
+}
 
 /**
  * itemcheck for TreeNode
  */
 
-def itemCheck : TreeNode -> number = this -> 
+def itemCheck : TreeNode -> number = this -> {
     this.nodes fold 
         this.item 
         (n -> this.item + $ itemCheck n._1 - $ itemCheck n._2)
+}
 
 /** 
  * Main program
  */
  
-def bench = n -> 
+def bench = n -> {
     let minDepth = 4 in
     let maxDepth = minDepth + 2 ?> n fold (minDepth + 2) n in
     let stretchDepth = maxDepth + 1 in
@@ -89,3 +91,4 @@ def bench = n ->
                               (number2string check)
         }
         return ()
+}

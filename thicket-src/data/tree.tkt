@@ -47,4 +47,4 @@ class tree[a] this:Tree[a] {
             tree $ Node this.depth (f this.value) left right
 }
     
-def emptyTree : tree = tree Empty
+def emptyTree : tree = { tree Empty }

@@ -6,7 +6,7 @@
  * Licensed under the LGPL2 license.
  */
  
-module Client.Trigger
+module Client.Event
 
 from Data.Unit import unit
 from Client.Document import dom
@@ -44,5 +44,6 @@ class eventTrigger this:EventTrigger {
     def onload       f = eventTrigger $ new this with onload = (some f)
 }
 
-def newEventTrigger : eventTrigger = 
+def newEventTrigger : eventTrigger = {
     eventTrigger $ EventTrigger none none none none none none
+}
