@@ -16,6 +16,14 @@ This example requires the `thicket-lang.js` built calling the command:
 $ grunt package
 ```
 
+Thicket console
+---------------
+
+This second example illustrate an extension of the ecosystem providing
+a embedded code evaluation. This is done using two differents thicket
+engines. One for the application itself and one for the evaluation called
+each time the execute button is clicked.
+
 Lambda Calcul
 -------------
 

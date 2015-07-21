@@ -40,7 +40,7 @@ class dom this:native {
     addEventTrigger : EventTrigger -> dom
     addChild : dom -> dom
     removeChilds : dom
-
+    
     onEvent : [a] Event -> (dom -> a) -> dom
 
     clone : dom

@@ -1,7 +1,7 @@
 'use strict';
 
 var native = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/runtime/native.js'),
-    runtime = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/runtime/runtime.js').extendWith(native);
+    runtime = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/runtime/runtime.js')().extendWith(native);
 
 /*
   ======== A Handy Little Nodeunit Reference ========

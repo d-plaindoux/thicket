@@ -1,0 +1,42 @@
+<html>
+<head>
+  <script src="../../build/thicket-lang.js"></script>
+  <script src="./extension.js"></script>
+
+  <script type="text/thicket">
+    from Example.Console import *
+
+    let output = document "output" find in
+    let logger = logger $ output unbox in
+    let runtime = runtime $ logger.log in
+    let area = document "content" find in
+    let clear = document "clear" find in 
+    let exec = document "execute" find in
+        do
+        {
+            clear map
+            $ clear -> clear onEvent OnMouseClick 
+            $ clear -> logger.clear
+        };
+        {
+            exec map 
+            $ exec  -> exec onEvent OnMouseClick 
+            $ exec  -> area map 
+            $ area  -> domValue area map 
+            $ value -> runtime run value
+        }
+        return ()
+  </script>
+    
+</head>    
+<body onload="require('thicket')('../../site').boot().whenReady(bootstrap)">
+    <h3> Thicket code evaluation </h3>
+    <p><b>Source Code</b></p>
+    <textarea id="content" rows="40" cols="80"></textarea>
+    <br>
+    <input type="button" id="execute"> Execute </ul>  
+    <input type="button" id="clear"> Clear </ul>  
+    <p><b>Results</b></p>
+    <div id="output"></div>
+</body>
+</html>

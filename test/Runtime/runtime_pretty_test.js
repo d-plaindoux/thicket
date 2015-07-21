@@ -1,6 +1,6 @@
 'use strict';
 
-var runtime = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/runtime/runtime.js');  
+var runtime = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/runtime/runtime.js')();  
 
 /*
   ======== A Handy Little Nodeunit Reference ========
