@@ -36,7 +36,8 @@ the DOM. This does not yet provide a simple and convenient library for reactive 
 As mentionned The Thicket source code is compiled and the resulting objcode is executed 
 by an abstract machine derived from Krivines' machine. For instance the previous example 
 uses data structure like [Option](https://github.com/d-plaindoux/thicket/blob/master/thicket-src/data/option.tkt)
-which is compiled to the [objcode](http://d.plaindoux.free.fr/thicket/site/Data.Option.tkt.obj). 
+which is compiled to the [objcode](http://d.plaindoux.free.fr/thicket/site/Data.Option.tkt.o).
+
 A simple example
 -----------------
 
