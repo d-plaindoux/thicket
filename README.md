@@ -28,7 +28,7 @@ define  view   facet  in   addition  to   object  (model)   and  class
 Hello World
 -----------
 
-A simple [Hello world](https://github.com/d-plaindoux/thicket/blob/master/examples/helloWorld.html) 
+A simple [Hello world](https://github.com/d-plaindoux/thicket/blob/master/thicket-examples/helloWorld.html) 
 is available for execution [here](http://d.plaindoux.free.fr/thicket/examples/helloWorld.html) in 
 order to demontrate the language. This current version if not yet optimized and directly manipulates 
 the DOM. This does not yet provide a simple and convenient library for reactive UI support. 
@@ -36,7 +36,7 @@ the DOM. This does not yet provide a simple and convenient library for reactive 
 As mentionned The Thicket source code is compiled and the resulting objcode is executed 
 by an abstract machine derived from Krivines' machine. For instance the previous example 
 uses data structure like [Option](https://github.com/d-plaindoux/thicket/blob/master/thicket-src/data/option.tkt)
-which is compiled to the [objcode](http://d.plaindoux.free.fr/thicket/site/Data.Option.tkt.o.t). 
+which is compiled to the [objcode](http://d.plaindoux.free.fr/thicket/site/Data.Option.tkt.o.txt). 
 
 A simple example
 -----------------

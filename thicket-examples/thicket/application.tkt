@@ -1,0 +1,43 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+
+module Example.Console.Application
+
+from Core.Lang.Do import do
+from Data.Option import *
+from Data.Unit import unit
+from Client.Document import *
+from Client.Event import *
+
+from Example.Console import *
+
+model Components {
+    content : option[dom]
+    output  : option[dom]
+    execute : option[dom]
+    clear   : option[dom]
+}
+
+def startApplication : Components -> unit = component -> {
+    let logger = logger $ component.output unbox in
+    let runtime = runtime $ logger.log in
+        do
+        {
+            component.clear map
+            $ clear -> clear onEvent OnMouseClick 
+            $ clear -> logger.clear
+        };
+        {
+            component.execute map 
+            $ execute -> execute onEvent OnMouseClick 
+            $ execute -> component.content map 
+            $ content -> domValue content map 
+            $ value   -> runtime run value
+        }
+        return ()
+}
