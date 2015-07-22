@@ -14,7 +14,7 @@ from Data.Unit import unit
 from Client.Document import *
 from Client.Event import *
 
-from Example.Console import *
+from Example.Console.Core import *
 
 model Components {
     content : option[dom]
