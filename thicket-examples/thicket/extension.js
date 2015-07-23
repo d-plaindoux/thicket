@@ -12,7 +12,7 @@ function bootstrap(thicket) {
             var self = env.pop(),                
                 sourceCode = runtime.constant(env.pop());
 
-            thicket.manage(sourceCode);
+            thicket.manageSourceCode(sourceCode);
 
             return [ {RESULT:self} ];
         });

@@ -174,7 +174,7 @@ checking stage. Since definitions accessibility is managed using imports
 if such adapters are not imported the related transformations are not
 available.
 
-This can be compared to implicit mechanism available in 
+This can be compared to **implicit conversion** mechanism available in 
 [Scala](http://docs.scala-lang.org/overviews/core/implicit-classes.html) 
 or [C#](https://msdn.microsoft.com/fr-fr/library/xhbhezf4.aspx) .
 
