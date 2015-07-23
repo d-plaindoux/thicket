@@ -160,12 +160,23 @@ Adapters
 
 Implicit adapters must be done in order to reduce boiler plate when
 dealing with objects. For instance when a `Comparable[number]` is
-required this one can be transparently created from a `number`.
+required this one can be transparently created from a `number`. 
 
 ```
 def adapter number2comparable : number -> Comparable[number] = 
     s -> ...
 ```
+
+Since subtyping is not a paradigm available in the language the adapter
+is the solution performing automatic data adaptation. These adaptations
+can be ordered explicitely or inferred by the compiler during the type 
+checking stage. Since definitions accessibility is managed using imports
+if such adapters are not imported the related transformations are not
+available.
+
+This can be compared to implicit mechanism available in 
+[Scala](http://docs.scala-lang.org/overviews/core/implicit-classes.html) 
+or [C#](https://msdn.microsoft.com/fr-fr/library/xhbhezf4.aspx) .
 
 Model type case
 ---------------
@@ -180,7 +191,8 @@ case Cons as l => ... // l can be used for extraction
 }
 ```
 
-The `match` function  can be seen as a standard construction of the language.
+The `match` function  can be seen as a standard construction of the language
+
 
 Existential type
 ----------------
