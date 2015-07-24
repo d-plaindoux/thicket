@@ -126,9 +126,9 @@ def populationView : population -> dom = this ->
 ```
 
 See current 
-[Libraries](https://github.com/d-plaindoux/thicket/tree/master/thicket-core)
+[Libraries](https://github.com/d-plaindoux/thicket/tree/master/thicket/core)
 for more language highlights and 
-[Examples](https://github.com/d-plaindoux/thicket/tree/master/thicket-examples)
+[Examples](https://github.com/d-plaindoux/thicket/tree/master/thicket/examples)
 for small web and backend applications
 
 TODO
