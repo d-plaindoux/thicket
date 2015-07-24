@@ -1,6 +1,6 @@
 <html>
 <head>
-  <script src="../../build/thicket-lang.min.js"></script>
+  <script src="/../build/thicket-lang.min.js"></script>
   <script type="text/thicket">
     def todo : string -> dom = this -> { 
         <li><i> {string2dom this} </i></li>
@@ -14,7 +14,7 @@
     document "todos" find map manageTodos
   </script>
 </head>    
-<body onload="require('thicket')('../../site').boot()">
+<body onload="require('thicket')('/../site').boot()">
   <b>Things to be done:</b>
   <ul id="todos"></ul>
 </body>
