@@ -39,6 +39,16 @@ exports['language_exprs'] = {
     test.done();
   },
     
+  'number hexa expression is accepted': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("0x123");
+        
+    test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
+                   ast.expr.number(0x123), "accept a number");
+    test.done();
+  },
+    
   'number float expression is accepted': function(test) {
     test.expect(1);
     // tests here  
