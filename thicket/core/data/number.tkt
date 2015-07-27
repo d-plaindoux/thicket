@@ -28,7 +28,11 @@ class number this:native {
     (/)      : number -> number
     (%)      : number -> number
     (<<)     : number -> number
-    
+    (>>)     : number -> number
+
+    (&)      : number -> number
+    (|)      : number -> number
+
     (++)     : number
     (--)     : number    
     negate   : number
@@ -50,8 +54,13 @@ class number this:native {
     def (*)  n = number $ internal "number.*" self n
     def (/)  n = number $ internal "number./" self n
     def (%)  n = number $ internal "number.%" self n
-    def (<<) n = number $ internal "number.<<" self n
     
+    def (<<) n = number $ internal "number.<<" self n
+    def (>>) n = number $ internal "number.>>" self n
+
+    def (|) n = number $ internal "number.|" self n
+    def (&) n = number $ internal "number.&" self n
+
     def (++) = self + 1
     def (--) = self - 1    
     def negate = self * -1

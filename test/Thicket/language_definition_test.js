@@ -57,11 +57,13 @@ exports['language_definition'] = {
     // tests here  
     var aStream = stream("def adapter idNumber : number -> number = s -> s");
         
-    test.deepEqual(language.parser.group('adapterDef').parse(aStream).get().definition,
-                   ast.expression("idNumber", 
-                                  ast.type.abstraction(ast.type.variable("number"), ast.type.variable("number")), 
-                                  ast.expr.abstraction("s", ast.expr.ident("s"))), 
-                   "accept a definition");
+    test.deepEqual(language.parser.group('adapterDef').parse(aStream).get(),
+                   ast.adapter(ast.entity("idNumber",
+                                          ast.expression("idNumber", 
+                                                         ast.type.abstraction(ast.type.variable("number"), 
+                                                                              ast.type.variable("number")), 
+                                                         ast.expr.abstraction("s", ast.expr.ident("s"))))), 
+                   "accept a definition adapter");
     test.done();
   },
 };
