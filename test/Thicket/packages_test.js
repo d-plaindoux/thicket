@@ -213,5 +213,18 @@ exports['packages'] = {
       
     test.done();
   },
+    
+  'Find all adapters in a package': function(test) {
+    test.expect(1);
+    // tests here  
+    var aReader = reader(fsdriver('./test/Thicket/samples')),
+        aPackages = packages(option.none());
+
+    aPackages.define(aReader.specifications("Data.Number"));      
+      
+    test.equal(aPackages.retrieve("Data.Number").get().adapters().size(), 3);
+      
+    test.done();
+  },
 
 };

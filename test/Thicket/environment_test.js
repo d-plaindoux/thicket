@@ -66,4 +66,18 @@ exports['environment'] = {
       
     test.done();
   },
+   
+  'Environment with adapters': function(test) {
+    test.expect(1);
+    // tests here  
+    var aReader = reader(fsdriver('./test/Thicket/samples')),
+        aPackages = packages(option.none()),
+        anEnvironment = environment(aPackages);
+
+    aPackages.define(aReader.specifications("Data.Number"));      
+      
+    test.equal(anEnvironment.adapters().size(), 3);
+      
+    test.done();
+  },
 };
