@@ -42,7 +42,7 @@ def eol : string = "\n"
  * Adapters
  */
 
-def adapter string2Number : string -> option[number] = string::toNumber
+def adapter string2number : string -> option[number] = string::toNumber
 
 def adapter string2hashable : string -> Hashable[string] = s -> {
     Hashable s (number $ internal "string.hash" s)
