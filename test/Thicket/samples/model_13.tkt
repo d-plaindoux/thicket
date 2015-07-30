@@ -6,5 +6,8 @@ model list[a] {
     map : [b] (a -> b) -> list[a]
 }
 
-def collection : [a] list[a] -> Collection[a] = 
-    l -> Collection (f -> collection $ l map f)
+// a != b
+
+def collection : [a] list[a] -> Collection[a] = l -> { 
+    Collection (f -> collection $ l map f)
+}

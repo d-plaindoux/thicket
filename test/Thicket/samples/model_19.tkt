@@ -1,0 +1,6 @@
+model A
+model B
+
+def adapter a2b : A -> B = _ -> B
+
+def t : A -> B = a -> a

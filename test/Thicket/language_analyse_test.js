@@ -141,4 +141,12 @@ exports['language_analyse'] = {
     correctSampleTest("model_17.tkt", test);    
   },
 
+  'entity 18': function(test) {
+    correctSampleTest("model_18.tkt", test);    
+  },
+
+  'entity 19': function(test) {
+    correctSampleTest("model_19.tkt", test);    
+  },
+
 };

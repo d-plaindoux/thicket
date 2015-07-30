@@ -3,5 +3,6 @@ model A[a b] {
     b : b
 }
 
-def change_a : [a b] A[a b] -> b -> A[a b] = 
-    a v -> new a with a = v
+def change_a : [a b] A[a b] -> b -> A[a b] = a v -> { 
+    new a with a = v
+}
