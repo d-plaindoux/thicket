@@ -8,40 +8,19 @@
 
 module Client.Document
 
-from Core.Lang.Do import do
-
-from Client.Event import EventTrigger
+from Client.Event import EventType eventType
 
 from Data.Native import native
 from System.Internal import internal
 from Data.String import string
 from Data.Option import option some none
 
-type Event {
-    model OnMouseOver
-    model OnMouseOut
-    model OnMouseDown
-    model OnMouseUp
-    model OnMouseClick
-}
-
-class event this:Event {
-    toString : string
-} {
-    def OnMouseOver.toString  = "onmouseover"
-    def OnMouseOut.toString   = "onmouseout"
-    def OnMouseDown.toString  = "onmousedown"
-    def OnMouseUp.toString    = "onmousesup"
-    def OnMouseClick.toString = "click"
-}
-
 class dom this:native {
     addAttribute : string -> string -> dom
-    addEventTrigger : EventTrigger -> dom
     addChild : dom -> dom
     removeChilds : dom
     
-    onEvent : [a] Event -> (dom -> a) -> dom
+    onEvent : [a] EventType -> (dom -> a) -> dom
 
     clone : dom
     replace : dom -> dom
@@ -51,20 +30,11 @@ class dom this:native {
     def addChild d = internal "dom.appendChild" self d
     def removeChilds = internal "dom.removeChilds" self
 
-    def onEvent n f = internal "dom.setFunction" self (event n toString) (n -> f $ dom n)
+    def onEvent e f = internal "dom.setFunction" self (eventType e toString) (n -> f $ dom n)
 
     def clone = dom $ internal "dom.clone" self
     def replace d = internal "dom.replace" self d
     def remove = internal "dom.remove" self
-
-    def addEventTrigger m =
-        do
-        { m onmouseover  map $ self onEvent OnMouseOver  } ;
-        { m onmouseout   map $ self onEvent OnMouseOut   } ;
-        { m onmousedown  map $ self onEvent OnMouseDown  } ;
-        { m onmouseup    map $ self onEvent OnMouseUp    } ;
-        { m onmouseclick map $ self onEvent OnMouseClick }
-        return self
 }
 
 class document this:string {

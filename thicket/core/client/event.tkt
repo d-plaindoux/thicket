@@ -8,42 +8,22 @@
  
 module Client.Event
 
-from Data.Unit import unit
-from Client.Document import dom
-from Data.Option import option some none
+from Data.String import string
 
-// Trigger model
-
-model EventTrigger {
-    onmouseover  : option[(dom -> unit)]
-    onmouseout   : option[(dom -> unit)]
-    onmousedown  : option[(dom -> unit)]
-    onmouseup    : option[(dom -> unit)]
-    onmouseclick : option[(dom -> unit)]
-    onload       : option[(dom -> unit)]
+type EventType {
+    model OnMouseOver
+    model OnMouseOut
+    model OnMouseDown
+    model OnMouseUp
+    model OnMouseClick
 }
 
-// Mouse trigger Factory
-
-class eventTrigger this:EventTrigger {
-    unbox        : EventTrigger
-    onmouseover  : (dom -> unit) -> eventTrigger
-    onmouseout   : (dom -> unit) -> eventTrigger
-    onmousedown  : (dom -> unit) -> eventTrigger
-    onmouseup    : (dom -> unit) -> eventTrigger
-    onmouseclick : (dom -> unit) -> eventTrigger
-    onload       : (dom -> unit) -> eventTrigger
-} {    
-    def unbox = this
-    
-    def onmouseover  f = eventTrigger $ new this with onmouseover = (some f)
-    def onmouseout   f = eventTrigger $ new this with onmouseout = (some f)
-    def onmousedown  f = eventTrigger $ new this with onmousedown = (some f)
-    def onmouseup    f = eventTrigger $ new this with onmouseup = (some f)
-    def onmouseclick f = eventTrigger $ new this with onmouseclick = (some f)
-    def onload       f = eventTrigger $ new this with onload = (some f)
-}
-
-def newEventTrigger : eventTrigger = {
-    eventTrigger $ EventTrigger none none none none none none
+class eventType this:EventType {
+    toString : string
+} {
+    def OnMouseOver.toString  = "onmouseover"
+    def OnMouseOut.toString   = "onmouseout"
+    def OnMouseDown.toString  = "onmousedown"
+    def OnMouseUp.toString    = "onmousesup"
+    def OnMouseClick.toString = "click"
 }

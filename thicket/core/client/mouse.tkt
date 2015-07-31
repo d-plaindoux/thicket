@@ -1,0 +1,62 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Client.Event.Mouse
+
+from Core.Lang.Do import do
+
+from Data.Unit import unit
+from Data.Option import option some none
+
+from Client.Document import dom
+
+from Client.Event import *
+
+// Trigger model
+
+model MouseEventTrigger {
+    onmouseover  : option[(dom -> unit)]
+    onmouseout   : option[(dom -> unit)]
+    onmousedown  : option[(dom -> unit)]
+    onmouseup    : option[(dom -> unit)]
+    onmouseclick : option[(dom -> unit)]
+}
+
+// Mouse trigger Factory
+
+class mouseEventTrigger this:MouseEventTrigger {
+    onmouseover  : (dom -> unit) -> mouseEventTrigger
+    onmouseout   : (dom -> unit) -> mouseEventTrigger
+    onmousedown  : (dom -> unit) -> mouseEventTrigger
+    onmouseup    : (dom -> unit) -> mouseEventTrigger
+    onmouseclick : (dom -> unit) -> mouseEventTrigger
+    
+    install      : dom -> dom
+} {    
+    def onmouseover  f = mouseEventTrigger $ new this with onmouseover = (some f)
+    def onmouseout   f = mouseEventTrigger $ new this with onmouseout = (some f)
+    def onmousedown  f = mouseEventTrigger $ new this with onmousedown = (some f)
+    def onmouseup    f = mouseEventTrigger $ new this with onmouseup = (some f)
+    def onmouseclick f = mouseEventTrigger $ new this with onmouseclick = (some f)
+    
+    def install d =
+        do
+        { this onmouseover  map $ d onEvent OnMouseOver  } ;
+        { this onmouseout   map $ d onEvent OnMouseOut   } ;
+        { this onmousedown  map $ d onEvent OnMouseDown  } ;
+        { this onmouseup    map $ d onEvent OnMouseUp    } ;
+        { this onmouseclick map $ d onEvent OnMouseClick }
+        return d      
+}
+
+def adapter event2Event : MouseEventTrigger -> mouseEventTrigger = 
+    mouseEventTrigger
+
+def newMouseEventTrigger : mouseEventTrigger = {
+    mouseEventTrigger $ MouseEventTrigger none none none none none
+}
