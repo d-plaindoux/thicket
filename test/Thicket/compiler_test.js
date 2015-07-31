@@ -307,6 +307,18 @@ exports['compiler'] = {
                                              ]));
       test.done();
   },
+    
+  'Adapted expression': function (test) {
+      test.expect(1);
+      
+      test.deepEqual(compiler.expression(list(), ast.adapted(ast.expr.number(1),ast.namespace(ast.expr.ident("number2string"),"Data.Number"))).success(),
+                     compiler.abstractSyntax("Apply",
+                                             compiler.abstractSyntax("Ident","Data.Number.number2string"),
+                                             compiler.abstractSyntax("Lazy",compiler.abstractSyntax("Apply",
+                                                                                                    compiler.abstractSyntax("Ident","number"), 
+                                                                                                    compiler.abstractSyntax("Native",1)))));
+      test.done();
+  },
   
 };
     
