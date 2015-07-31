@@ -74,79 +74,79 @@ exports['language_analyse'] = {
   },
 
   'entity 01': function(test) {
-    correctSampleTest("model_01.tkt", test);    
+    correctSampleTest("01.tkt", test);    
   },
 
   'entity 02': function(test) {
-    correctSampleTest("model_02.tkt", test);    
+    correctSampleTest("02.tkt", test);    
   },
 
   'entity 03': function(test) {
-    correctSampleTest("model_03.tkt", test);    
+    correctSampleTest("03.tkt", test);    
   },
 
   'entity 04': function(test) {
-    correctSampleTest("model_04.tkt", test);    
+    correctSampleTest("04.tkt", test);    
   },
 
   'entity 05': function(test) {
-    correctSampleTest("model_05.tkt", test);    
+    correctSampleTest("05.tkt", test);    
   },
     
   'entity 06': function(test) {
-    correctSampleTest("model_06.tkt", test);    
+    correctSampleTest("06.tkt", test);    
   },
    
   'entity 07': function(test) {
-    correctSampleTest("model_07.tkt", test);    
+    correctSampleTest("07.tkt", test);    
   },
    
   'entity 08': function(test) {
-    correctSampleTest("model_08.tkt", test);    
+    correctSampleTest("08.tkt", test);    
   },
    
   'entity 09': function(test) {
-    correctSampleTest("model_09.tkt", test);    
+    correctSampleTest("09.tkt", test);    
   },
    
   'entity 10': function(test) {
-    correctSampleTest("model_10.tkt", test);    
+    correctSampleTest("10.tkt", test);    
   },
    
   'entity 11': function(test) {
-    correctSampleTest("model_11.tkt", test);    
+    correctSampleTest("11.tkt", test);    
   },
    
   'entity 12': function(test) {
-    correctSampleTest("model_12.tkt", test);    
+    correctSampleTest("12.tkt", test);    
   },
 
   'entity 13': function(test) {
-    wrongSampleTest("model_13.tkt", test);    
+    wrongSampleTest("13.tkt", test);    
   },
  
   'entity 14': function(test) {
-    wrongSampleTest("model_14.tkt", test);    
+    wrongSampleTest("14.tkt", test);    
   },
 
   'entity 15': function(test) {
-    correctSampleTest("model_15.tkt", test);    
+    correctSampleTest("15.tkt", test);    
   },
 
   'entity 16': function(test) {
-    wrongSampleTest("model_16.tkt", test);    
+    wrongSampleTest("16.tkt", test);    
   },
 
   'entity 17': function(test) {
-    correctSampleTest("model_17.tkt", test);    
+    correctSampleTest("17.tkt", test);    
   },
 
   'entity 18': function(test) {
-    correctSampleTest("model_18.tkt", test);    
+    correctSampleTest("18.tkt", test);    
   },
 
   'entity 19': function(test) {
-    correctSampleTest("model_19.tkt", test);    
+    correctSampleTest("19.tkt", test);    
   },
 
 };

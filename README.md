@@ -129,7 +129,7 @@ required this one can be transparently created from a `number`.
 
 ```    
 def adapter number2comparable : number -> Comparable[number] = s -> {
-    Comparable s s.(==) s.(!=) s.(?>) s.(<?) s
+    Comparable s s.(==) s.(!=) s.(?>) s.(<?) (number2hashable s)
 }
 
 // newHashmap add 1 "a" === newHashmap add (number2comparable 1) "a"
@@ -149,10 +149,12 @@ This can be compared to **implicit conversion** mechanism available in
 [Scala](http://docs.scala-lang.org/overviews/core/implicit-classes.html) 
 or [C#](https://msdn.microsoft.com/fr-fr/library/xhbhezf4.aspx). 
 
-# Simple Example: Hello World
+# Simple Examples
+
+## Hello World
 
 A simple [Hello world](https://github.com/d-plaindoux/thicket/blob/master/thicket/examples/helloWorld.html) 
-is available for execution [here](http://d.plaindoux.free.fr/thicket/examples/helloWorld.html) in 
+is available for execution [here](http://d.plaindoux.free.fr/thicket/thicket/examples/helloWorld.html) in 
 order to demontrate the language. This current version if not yet optimized and directly manipulates 
 the DOM. This does not yet provide a simple and convenient library for reactive UI support. 
 
@@ -161,9 +163,17 @@ by an abstract machine derived from Krivines' machine. For instance the previous
 uses data structure like [Option](https://github.com/d-plaindoux/thicket/blob/master/thicket/core/data/option.tkt)
 which is compiled to the [objcode](http://d.plaindoux.free.fr/thicket/site/Data.Option.tkt.o.txt). 
 
+## Thicket Console
+
+The [Console](https://github.com/d-plaindoux/thicket/tree/master/thicket/examples/thicket) example available 
+for execution [here](http://d.plaindoux.free.fr/thicket/thicket/examples/thicket/console.html) shows how the 
+runtime can be easily extended in order to provide a naive embedded interpret in the web browser.
+
+
+
 # Works in progress
 
-In this section concept in progress or to be done are presented.
+In this section concept in progress or to be do
 
 ## Derivation
 
