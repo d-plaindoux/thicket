@@ -24,3 +24,6 @@ from Data.String import *
 from Data.Array import *
 from Data.List import *
 from Data.Hashmap import *
+
+from Data.Comparable import *
+from Data.Hashable import *

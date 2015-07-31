@@ -19,20 +19,26 @@ from Data.Hashable import Hashable
 class string this:native {
     (==)     : string -> bool
     (!=)     : string -> bool
+    
     (<=)     : string -> bool
     (<?)     : string -> bool
     (?>)     : string -> bool
     (>=)     : string -> bool
+    
     (+)      : string -> string
+    
     toNumber : option[number]
 } {
     def (==) n = internal "generic.==" self n true false
     def (!=) n = (self == n) not
+    
     def (<=) n = (self == n) || (self <? n)
     def (<?) n = internal "generic.<" self n true false
     def (?>) n = n <= self
     def (>=) n = n <? self
+    
     def (+) s = string $ internal "string.+" self s
+    
     def toNumber = internal "string.toNumber" self (n -> some $ number n) none
 }
 

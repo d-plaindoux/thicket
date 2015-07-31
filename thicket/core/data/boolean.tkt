@@ -36,7 +36,12 @@ class bool this:Bool {
     (&&)     : bool -> bool
     (||)     : bool -> bool
     (=>)     : bool -> bool
+    
     toString : string
+    
+    (==)     : bool -> bool
+    (!=)     : bool -> bool
+
 } {
     def unbox = this
 
@@ -51,6 +56,11 @@ class bool this:Bool {
     def (&&) = self and
     def (||) = self or
     def (=>) = self imply
+    
+    def toString = self fold "true" "false"
+    
+    def (==) b = self fold b (b not)    
+    def (!=) b = (self == b) not
 }
 
 /**
@@ -64,9 +74,7 @@ def false : bool = { bool False }
  * Adapters
  */
 
-def adapter bool2string : bool -> string = this -> {
-    this fold "true" "false"
-}
+def adapter bool2string : bool -> string = bool::toString
 
 def adapter bool2hashable : bool -> Hashable[bool] = this -> {
     Hashable this (this fold 7 13)

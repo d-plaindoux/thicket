@@ -123,15 +123,15 @@ for small web and backend applications
 Adapters
 --------
 
-Implicit data adaptetion can be done in order to reduce boiler plate 
+Implicit data adaptation can be done in order to reduce boiler plate 
 when dealing with objects. For instance when a `Comparable[number]` is
 required this one can be transparently created from a `number`. 
 
 ```    
 def adapter number2comparable : number -> Comparable[number] = s -> {
-    Comparable s s.(==) s.(!=) s.(?>) s.(<?) (number2hashable s)
+    Comparable s s.(==) s.(!=) s.(?>) s.(<?) s
 }
-    
+
 // newHashmap add 1 "a" === newHashmap add (number2comparable 1) "a"
 ```
 
@@ -162,6 +162,8 @@ uses data structure like [Option](https://github.com/d-plaindoux/thicket/blob/ma
 which is compiled to the [objcode](http://d.plaindoux.free.fr/thicket/site/Data.Option.tkt.o.txt). 
 
 # Works in progress
+
+In this section concept in progress or to be done are presented.
 
 ## Derivation
 
