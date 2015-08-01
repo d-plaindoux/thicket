@@ -1,0 +1,4 @@
+model A
+model B
+
+def wrongArgumentType : B = A
