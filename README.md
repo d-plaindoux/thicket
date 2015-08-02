@@ -1,5 +1,4 @@
-Thicket
-======
+# Thicket
 
 [![Build Status](https://travis-ci.org/d-plaindoux/thicket.svg)](https://travis-ci.org/d-plaindoux/thicket) 
 [![Coverage Status](https://coveralls.io/repos/d-plaindoux/thicket/badge.png?branch=master)](https://coveralls.io/r/d-plaindoux/thicket?branch=master) 
@@ -16,7 +15,7 @@ type system and type inference paradigm. The runtime is based on an
 Krivines' abstract machine. Such machine can therefore be implemented 
 in various languages like Java, Python etc.
 
-# Language Overview
+## Language Overview
 
 The Thicket language  came from research done about  strong [object and
 class   separation](http://d.plaindoux.free.fr/clump/index.html).   In
@@ -24,7 +23,7 @@ addition UI management done using DOM fragment is provided in order to
 define  view   facet  in   addition  to   object  (model)   and  class
 (controller).
 
-## Model
+### Model
 
 First information and data are stored in an object. In our approach an
 object is not  meant to have behaviors but only  provides a common and
@@ -39,7 +38,7 @@ model Person {
 }
 ```
 
-## Class
+### Class
 
 A  class provides  a  set of  behaviors where  the  internal state  is
 represented by  a model.  For instance  in the  next code  two classes
@@ -73,7 +72,7 @@ class population this:Population {
 }
 ```
 
-## View using DOM fragment
+### View using DOM fragment
 
 Finally  views can  be  designed  and linked  to  controllers. In  the
 example  we   propose  views  dedicated   to  a  `person`  and   to  a
@@ -120,8 +119,7 @@ for more language highlights and
 [Examples](https://github.com/d-plaindoux/thicket/tree/master/thicket/examples)
 for small web and backend applications
 
-Adapters
---------
+### Adapters
 
 Implicit data adaptation can be done in order to reduce boiler plate 
 when dealing with objects. For instance when a `Comparable[number]` is
@@ -149,9 +147,9 @@ This can be compared to **implicit conversion** mechanism available in
 [Scala](http://docs.scala-lang.org/overviews/core/implicit-classes.html) 
 or [C#](https://msdn.microsoft.com/fr-fr/library/xhbhezf4.aspx). 
 
-# Simple Examples
+## Simple Examples
 
-## Hello World
+### Hello World
 
 A simple [Hello world](https://github.com/d-plaindoux/thicket/blob/master/thicket/examples/helloWorld.html) 
 is available for execution [here](http://d.plaindoux.free.fr/thicket/thicket/examples/helloWorld.html) in 
@@ -163,24 +161,19 @@ by an abstract machine derived from Krivines' machine. For instance the previous
 uses data structure like [Option](https://github.com/d-plaindoux/thicket/blob/master/thicket/core/data/option.tkt)
 which is compiled to the [objcode](http://d.plaindoux.free.fr/thicket/site/Data.Option.tkt.o.txt). 
 
-## Thicket Console
+### Thicket Console
 
 The [Console](https://github.com/d-plaindoux/thicket/tree/master/thicket/examples/thicket) example available 
 for execution [here](http://d.plaindoux.free.fr/thicket/thicket/examples/thicket/console.html) shows how the 
 runtime can be easily extended in order to provide a naive embedded interpret in the web browser.
 
+## Works in progress
 
+### Derivation
 
-# Works in progress
-
-In this section concept in progress or to be do
-
-## Derivation
-
-Class derivation can help reducing specification by copy. But this 
-derivation is not meant to be used for subtyping since subtyping
-does not exist in the language. For this purpose the adapter is 
-the preferred solution.
+Class derivation can help reducing specification by copy. But this derivation is not meant to be used for 
+subtyping since subtyping does not exist in the language. For this purpose the adapter is the preferred 
+solution.
 
 ````
 model Equal[a] { 
@@ -194,7 +187,7 @@ class number this:native {
 }
 ```
 
-## Model type case
+### Model type case
 
 Since model type exists for methods this does not exist yet for model
 type based.
@@ -209,13 +202,13 @@ case Cons as l => ... // l can be used for extraction
 The `match` function  can be seen as a standard construction of the language
 
 
-## Existential type
+### Existential type
 
 Existential type provides the ability to separate the model implementation
 from the model specification. 
 
 
-# More informations and References
+## More informations and References
 
 This language has been inspired  by major projects and frameworks like
 [Purescript](https://github.com/purescript/purescript),
@@ -224,7 +217,7 @@ This language has been inspired  by major projects and frameworks like
 DOM  approach is  also  studied in  order to  provide  a reactive  and
 efficient DOM management process.
 
-# License
+## License
 
 Copyright (C)2015 D. Plaindoux.
 
