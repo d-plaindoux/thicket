@@ -27,3 +27,5 @@ from Data.Hashmap import *
 
 from Data.Comparable import *
 from Data.Hashable import *
+
+from Logic.Combinators import *

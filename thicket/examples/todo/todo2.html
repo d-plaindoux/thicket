@@ -2,8 +2,8 @@
 <head>
   <script src="/../build/thicket-lang.min.js"></script>
   <script type="text/thicket">
-    def todo : string -> dom = this -> { 
-        <li><i> {string2dom this} </i></li>
+    def todo : string -> dom = text -> { 
+        <li><i> text </i></li>
     }
     
     def manageTodos : dom -> dom = n -> {

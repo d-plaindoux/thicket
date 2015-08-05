@@ -7,16 +7,15 @@
 <head>
   <script src="/../build/thicket-lang.min.js"></script>
   <script type="text/thicket">
-    def highlightString : string -> dom = this -> {
+    def highlightString : string -> dom = text -> {
         <span class="actionable">
-            <b> {string2dom this} </b>
+            <b> text </b>
         </span>
     }
     
     def manageNode : dom -> dom = node -> {
-        let onclick = node -> node removeChilds 
-                                   addChild { string2dom "Hello World!" } in        
-            node addChild { string2dom "Say Hello? " }
+        let onclick = node -> node removeChilds addChild "Hello World!" in        
+            node addChild "Say Hello? " 
                  addChild { highlightString "<Click>" onEvent OnMouseClick onclick }
     }
 

@@ -34,7 +34,7 @@ class logger this:Option[dom] {
         return ()
 
     def Some.log s = 
-        do { this._ addChild <div>{string2dom s}</div> }
+        do { this._ addChild <div> s </div> }
         return ()
 
     def None.clear = ()
