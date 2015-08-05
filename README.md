@@ -187,6 +187,9 @@ class number this:native {
 }
 ```
 
+Derivation can be used for adapters synthesis. In fact each time a derivation is specified the corresponding 
+adapter can be easily generated and therefore used to "simulate" subtyping based on implicit object transformation.
+
 ### Model type case
 
 Since model type exists for methods this does not exist yet for model
