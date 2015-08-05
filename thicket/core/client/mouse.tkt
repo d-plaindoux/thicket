@@ -54,9 +54,6 @@ class mouseEventTrigger this:MouseEventTrigger {
         return d      
 }
 
-def adapter event2Event : MouseEventTrigger -> mouseEventTrigger = 
-    mouseEventTrigger
-
 def newMouseEventTrigger : mouseEventTrigger = {
     mouseEventTrigger $ MouseEventTrigger none none none none none
 }
