@@ -1,0 +1,5 @@
+model A 
+model B
+
+let id = x -> x in (id A),(id B)
+    

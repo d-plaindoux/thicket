@@ -134,9 +134,7 @@ exports['expressions'] = {
       var anExpression = ast.expr.let("a", ast.expr.string("b"), ast.expr.ident("a"));
       types.reset();
       test.deepEqual(expression.analyse(list(), environment(packages(option.none())), anExpression).success(), 
-                     pair(list(pair("'c", ast.type.native("string")),
-                               pair("'d", ast.type.native("string")),
-                               pair("'b", ast.type.native("string")),
+                     pair(list(pair("'b", ast.type.native("string")),
                                pair("'a", ast.type.native("string"))), ast.type.native("string")),
                      "Must be (string)");
       test.done();
@@ -148,9 +146,7 @@ exports['expressions'] = {
       var anExpression = ast.expr.let("a",ast.expr.ident("b"),ast.expr.ident("a"));
       types.reset();      
       test.deepEqual(expression.analyse(list(pair("b",ast.type.native("c"))), environment(packages(option.none())), anExpression).success(), 
-                     pair(list(pair("'c", ast.type.native("c")),
-                               pair("'d", ast.type.native("c")),
-                               pair("'b", ast.type.native("c")),
+                     pair(list(pair("'b", ast.type.native("c")),
                                pair("'a", ast.type.native("c"))), ast.type.native("c")),
                      "Must be (c)");
       test.done();
