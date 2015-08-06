@@ -1,6 +1,6 @@
 {
   "name": "thicket",
-  "description": "Language dedicated to Model/View/Control web application design",
+  "description": "Strong typed language dedicated to backend and web application design",
   "version": "0.1.0",
   "homepage": "https://github.com/d-plaindoux/thicket",
   "author": {
@@ -26,7 +26,7 @@
     "node": ">= 0.8.0"    
   },
   "scripts": {
-    "test": "grunt && grunt --gruntfile Gruntfile_Coverage.js && cat lib-cov/report | coveralls"
+    "test": "grunt default && grunt --gruntfile Gruntfile_Coverage.js && cat lib-cov/report | coveralls"      
   },
   "devDependencies": {
     "grunt": "~0.4.5",
