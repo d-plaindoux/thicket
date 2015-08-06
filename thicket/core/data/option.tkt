@@ -10,7 +10,7 @@ module Data.Option
 
 from Core.Lang.Strict import strict
 from Data.Boolean import bool true false
-from Logic.Combinators import I
+from Logic.Combinators import combinators
 from Data.Try import try failure success
  
 type Option [a] {
@@ -40,7 +40,7 @@ class option[a] this:Option[a] {
     def None.filter _ = self
     def Some.filter p = p this._ fold self $ option None
 
-    def orElse a = self fold a I
+    def orElse a = self fold a combinators.I
 } 
 
 /**

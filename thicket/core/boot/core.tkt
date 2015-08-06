@@ -29,3 +29,4 @@ from Data.Comparable import *
 from Data.Hashable import *
 
 from Logic.Combinators import *
+from Standard.Math import *

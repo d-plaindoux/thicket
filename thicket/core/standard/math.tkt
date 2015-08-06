@@ -1,0 +1,23 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+ 
+module Standard.Math
+
+from Data.Number import number
+
+model Math {
+    max : number -> number -> number
+    min : number -> number -> number
+}
+
+def math : Math = {
+    Math 
+        /*max*/ (n m -> n ?> m fold n m)
+        /*min*/ (n m -> n ?> m fold m n)
+}

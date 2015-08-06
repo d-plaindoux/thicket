@@ -6,7 +6,7 @@
  * Licensed under the LGPL2 license.
  */
  
-module Examples.Nat
+module Example.Nat
  
 from Data.Number import number
 from Data.String import string

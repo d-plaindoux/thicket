@@ -11,7 +11,7 @@ module Data.Try
 from Data.Boolean import bool
 from Data.String import string
 from Data.Option import option some none
-from Logic.Combinators import I
+from Logic.Combinators import combinators
  
 type Try[a] {
     model Success { _ : a }
@@ -31,13 +31,13 @@ class try[a] this:Try[a] {
     def Failure.fold _ f = f this._
     def Success.fold s _ = s this._
 
-    def map f = self fold (s -> let r = f s in success r) failure
+    def map f = self fold (s -> success $ f s) failure
     def flatmap f = self fold f failure
 
     def Failure.filter _ = self
     def Success.filter p = p this._ fold self $ failure "Filter fails"
 
-    def recoverWith = self fold I
+    def recoverWith = self fold combinators.I
 }
 
 /**

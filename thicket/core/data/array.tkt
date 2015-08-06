@@ -11,7 +11,7 @@ module Data.Array
 from Core.Lang.When import when
 from Core.Lang.Foreach import foreach
 
-from Logic.Combinators import C
+from Logic.Combinators import combinators
 
 from System.Internal import internal
 from Data.Boolean import bool
@@ -55,7 +55,8 @@ class array[a] this:native {
         foreach 0,(self.length --) step 1 fold r (i r -> self get i fold r $ f r)
 
     def foldR f r = 
-        foreach (self.length --),0 step -1 fold r (i r -> self get i fold r $ C f r)
+        foreach (self.length --),0 step -1 fold r (i r -> self get i fold r $ combinators.C f r)
+        
 }
 
 /**

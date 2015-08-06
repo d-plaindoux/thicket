@@ -13,8 +13,10 @@ from Core.Lang.Do import do
 from Core.Lang.When import when
 
 from Data.Pair import Pair
-from Data.Number import number number2string
+from Data.Number import *
 from Data.Option import some none option
+
+from Standard.Math import math
 
 from System.Console import console
 
@@ -56,14 +58,14 @@ def itemCheck : TreeNode -> number = this -> {
  
 def bench = n -> {
     let minDepth = 4 in
-    let maxDepth = minDepth + 2 ?> n fold (minDepth + 2) n in
+    let maxDepth = math.max (minDepth + 2) n in
     let stretchDepth = maxDepth + 1 in
     let check = itemCheck $ bottomUpTree 0 stretchDepth in
         do
         { console.log $ "stretch tree of depth " + 
-                        (number2string stretchDepth) + 
+                        stretchDepth + 
                         " check: " + 
-                        (number2string check) 
+                        check
         };
         { foreach minDepth,(maxDepth + 1) step 2 fold
             ()
@@ -77,18 +79,18 @@ def bench = n -> {
                     do 
                     { console.log $ (number2string $ iterations * 2) + 
                                     " trees of depth " + 
-                                    (number2string depth) + 
+                                    depth + 
                                     " check: " + 
-                                    (number2string check) 
+                                    check
                     }
                     return ())
         };
         {
             let check = itemCheck $ bottomUpTree 0 maxDepth in
-                console.log $ "stretch tree of depth " + 
-                              (number2string stretchDepth) + 
+                console.log $ "long lived tree of depth " + 
+                              stretchDepth + 
                               " check: " + 
-                              (number2string check)
+                              check
         }
         return ()
 }
