@@ -6,7 +6,6 @@
  * Licensed under the LGPL2 license.
  */
  
- 
 module Standard.Math
 
 from Data.Number import number

@@ -17,8 +17,8 @@ model Future[a] {
 }
  
 class future[a] this:Future[a] {
-    map     : [b] (a -> b) -> Future[b]
-    flapmap : [b] (a -> Future[b]) -> Future[b]
+    map     : [b] (a -> b) -> future[b]
+    flapmap : [b] (a -> future[b]) -> future[b]
 } {
     // TODO
 }
@@ -27,4 +27,6 @@ class future[a] this:Future[a] {
  * Constructors
  */
 
-def future : [a] try[a] -> Future[a] = Future 
+def future : [a] try[a] -> future[a] = t -> { 
+    future $ Future t
+}

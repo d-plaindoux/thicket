@@ -6,7 +6,7 @@
  * Licensed under the LGPL2 license.
  */
 
-module Meta.Bytecode
+module Thicket.Bytecode
 
 from Data.Number import number
 from Data.String import string

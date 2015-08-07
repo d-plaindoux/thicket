@@ -34,12 +34,10 @@ model TreeNode {
  */
  
 def bottomUpTree : number -> number -> TreeNode = item depth -> {
-    depth ?> 0 fold
-        { TreeNode item $ 
-                   some ((bottomUpTree (2 * item - 1) (depth - 1))
-                        ,(bottomUpTree (2 * item)     (depth - 1))) 
-        }
-        { TreeNode item none }
+    let mkBottomUpTree = n -> bottomUpTree (2 * item - n) (depth - 1) in
+    TreeNode item  $ depth ?> 0 fold
+        { some ((mkBottomUpTree 1),(mkBottomUpTree 0)) }
+        { none }
 }
 
 /**
@@ -77,7 +75,7 @@ def bench = n -> {
                                         (itemCheck $ bottomUpTree i depth) +
                                         (itemCheck $ bottomUpTree (0 - i) depth)) in
                     do 
-                    { console.log $ (number2string $ iterations * 2) + 
+                    { console.log $ "do " + (number2string $ iterations * 2) + 
                                     " trees of depth " + 
                                     depth + 
                                     " check: " + 

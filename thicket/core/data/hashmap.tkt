@@ -9,16 +9,16 @@
 module Data.Hashmap
 
 from Core.Builder.Map import *
-from Data.Map import Map
-from Data.Boolean import bool true
-from Data.List import list emptyList
+
 from Data.Number import number
+from Data.Boolean import bool true
 from Data.Option import option
 from Data.Pair import Pair
+from Data.List import list emptyList
 from Data.Comparable import Comparable
 from Data.Hashable import Hashable
 from Data.Array import array emptyArray
-from Logic.Combinators import I
+from Data.Map import Map
 
 typedef Hashmap[k v] = array[list[(k,v)]] 
 
@@ -29,11 +29,12 @@ class hashmap[k v] this:Hashmap[k v] {
  
   find   : Comparable[k] -> option[v]
   add    : Comparable[k] -> v -> hashmap[k v]
+  remove : Comparable[k] -> hashmap[k v]
 } {
   def unbox = this
 
   def empty = 
-       this foldR (e _ -> e empty) true
+       this foldR (e r -> r and $ e empty) true
 
   def find c = 
       let index = c hashable hash % this.length in
@@ -45,6 +46,14 @@ class hashmap[k v] this:Hashmap[k v] {
       let cleanup = l -> l filter (e -> c != e._1) in
       let entries = this get index fold emptyList cleanup in
           hashmap $ this set index $ entries +: ((c unbox),v)          
+          
+  def remove c = 
+      let index = c hashable hash % this.length in
+      let cleanup = l -> l filter (e -> c != e._1) in
+      let entries = this get index fold emptyList cleanup in
+          entries empty fold
+                { hashmap $ this reset index }
+                { hashmap $ this set index entries }
 }
 
 /**
@@ -59,6 +68,10 @@ def Hashmap : [a b] mapBuilder[a b hashmap[a b]] = {
     mapBuilder (map2entity newHashmap)
 }
 
+def map2entity : [a b] hashmap[a b] -> MapBuilder[a b hashmap[a b]] = l -> {
+    MapBuilder l (a b -> map2entity $ l add a b)
+}
+
 /**
  * Adapters
  */
@@ -67,6 +80,3 @@ def adapter hashmap2map : [k v] hashmap[k v] -> Map[k v] = h -> {
     Map h.find (c v -> hashmap2map $ h.add c v)
 }
 
-def adapter map2entity : [a b] hashmap[a b] -> MapBuilder[a b hashmap[a b]] = l -> {
-    MapBuilder l (a b -> map2entity $ l add a b)
-}
