@@ -165,7 +165,7 @@ exports['expressions'] = {
                      "Must be (number)");
       test.done();
   },
-    
+/*    
   "Analyse simple tag": function (test) {
       test.expect(1);
       // Test
@@ -260,7 +260,7 @@ exports['expressions'] = {
                      "Tag containing ident");
       test.done();
   },
-     
+*/     
   "Analyse invoke a controller": function (test) {
       test.expect(1);
       // Test

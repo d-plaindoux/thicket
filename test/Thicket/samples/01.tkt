@@ -25,7 +25,7 @@ class peano this:Peano {
     def Zero.fold z _ = z ()
     def Succ.fold _ s = s $ peano this._
 }
-
+/*
 def zero :unit -> dom = this -> {
     "Zero" toDom
 }
@@ -33,3 +33,4 @@ def zero :unit -> dom = this -> {
 def succ :peano -> dom = this -> {
     <div> ("SUCC" toDom) (this fold zero succ) </div>
 }
+*/
