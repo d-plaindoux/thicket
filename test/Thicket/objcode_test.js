@@ -202,8 +202,8 @@ exports['objcode'] = {
       test.expect(1);
       
       test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(), ast.expr.tag("A",[],[])).success())),
-                     [ { IDENT: 'Client.Document.document' }, 
-                       { PUSH : [ { IDENT: 'Data.String.string' }, { CONST: 'A' }, { APPLY: 1 } ] },
+                     [ { IDENT: 'document' }, 
+                       { PUSH : [ { IDENT: 'string' }, { CONST: 'A' }, { APPLY: 1 } ] },
                        { APPLY: 1 }, { INVOKE: 'create' } ]);
       test.done();
   },
@@ -212,12 +212,12 @@ exports['objcode'] = {
       test.expect(1);
       
       test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list('l'), ast.expr.tag("A",[['a',ast.expr.string('b')]],[])).success())),
-                     [{ IDENT: 'Client.Document.document' }, 
-                      { PUSH : [ { IDENT: 'Data.String.string' }, { CONST: 'A' }, { APPLY: 1 } ] }, 
+                     [{ IDENT: 'document' }, 
+                      { PUSH : [ { IDENT: 'string' }, { CONST: 'A' }, { APPLY: 1 } ] }, 
                       { APPLY: 1 }, 
                       { INVOKE: 'create' },
                       { INVOKE: 'addAttribute' }, 
-                      { PUSH : [ { IDENT: 'Data.String.string' }, { CONST: 'a' }, { APPLY: 1 } ] },
+                      { PUSH : [ { IDENT: 'string' }, { CONST: 'a' }, { APPLY: 1 } ] },
                       { APPLY: 1 },
                       { PUSH : [ { IDENT: 'string' }, { CONST: 'b' }, { APPLY: 1 } ] }, 
                       { APPLY: 1 } ]);
@@ -228,17 +228,17 @@ exports['objcode'] = {
       test.expect(1);
       
       test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list('l'), ast.expr.tag("A",[['a',ast.expr.string('b')],['b',ast.expr.number(1)]],[])).success())),
-                     [{ IDENT: 'Client.Document.document' }, 
-                      { PUSH : [ { IDENT: 'Data.String.string' }, { CONST: 'A' }, { APPLY: 1 } ] },
+                     [{ IDENT: 'document' }, 
+                      { PUSH : [ { IDENT: 'string' }, { CONST: 'A' }, { APPLY: 1 } ] },
                       { APPLY: 1 }, 
                       { INVOKE: 'create' },
                       { INVOKE: 'addAttribute' }, 
-                      { PUSH : [ { IDENT: 'Data.String.string' }, { CONST: 'a' }, { APPLY: 1 } ] }, 
+                      { PUSH : [ { IDENT: 'string' }, { CONST: 'a' }, { APPLY: 1 } ] }, 
                       { APPLY: 1 }, 
                       { PUSH : [ { IDENT: 'string' }, { CONST: 'b' }, { APPLY: 1 } ] }, 
                       { APPLY: 1 },
                       { INVOKE: 'addAttribute' }, 
-                      { PUSH : [ { IDENT: 'Data.String.string' }, { CONST: 'b' }, { APPLY: 1 } ] },
+                      { PUSH : [ { IDENT: 'string' }, { CONST: 'b' }, { APPLY: 1 } ] },
                       { APPLY: 1 }, 
                       { PUSH : [ { IDENT: 'number' }, { CONST: 1 }, { APPLY: 1 } ] }, 
                       { APPLY: 1 } ]);
@@ -250,13 +250,13 @@ exports['objcode'] = {
       test.expect(1);
       
       test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list('l'), ast.expr.tag("A",[],[ast.expr.tag("B",[],[]),ast.expr.number(1)])).success())),
-                     [{ IDENT: 'Client.Document.document' }, 
-                      { PUSH : [ { IDENT: 'Data.String.string' }, { CONST: 'A' }, { APPLY: 1 } ] }, 
+                     [{ IDENT: 'document' }, 
+                      { PUSH : [ { IDENT: 'string' }, { CONST: 'A' }, { APPLY: 1 } ] }, 
                       { APPLY: 1 }, 
                       { INVOKE: 'create' },
                       { INVOKE: 'addChild' }, 
-                      { IDENT: 'Client.Document.document' }, 
-                      { PUSH : [ { IDENT: 'Data.String.string' }, { CONST: 'B' }, { APPLY: 1 } ] }, 
+                      { IDENT: 'document' }, 
+                      { PUSH : [ { IDENT: 'string' }, { CONST: 'B' }, { APPLY: 1 } ] }, 
                       { APPLY: 1 }, 
                       { INVOKE: 'create' }, 
                       { APPLY: 1 },

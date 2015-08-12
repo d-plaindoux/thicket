@@ -18,6 +18,7 @@ from Data.Boolean import bool
 from Data.Native import native
 from Data.Number import number
 from Data.Option import option some none
+from Data.Pair import Pair
 
 /*
  * Immutable array version

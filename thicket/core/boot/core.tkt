@@ -15,6 +15,7 @@ from Core.Lang.Strict import *
 
 from System.Internal import *
 
+from Data.Pair import *
 from Data.Unit import *
 from Data.Native import *
 from Data.Boolean import *
