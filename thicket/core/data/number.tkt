@@ -14,6 +14,9 @@ from Data.Boolean import bool true false
 from Data.Comparable import Comparable
 from Data.Hashable import Hashable
 from Data.String import string
+from Data.Pair import Pair
+
+from Core.Lang.Range import rangeIterator foreach
 
 class number this:native {
     (==)     : number -> bool
@@ -40,6 +43,8 @@ class number this:native {
     max      : number -> number
     min      : number -> number
     hash     : number
+    
+    to       : number -> rangeIterator
     
     toString : string
 } {
@@ -69,6 +74,8 @@ class number this:native {
     def min n = n max self
     
     def toString = string $ internal "number.toString" self
+    
+    def to n = foreach self,(n + 1) step 1
 }
 
 def Infinity = 1 / 0

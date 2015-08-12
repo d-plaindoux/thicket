@@ -8,7 +8,7 @@
  
 module Benchmarks.BinaryTree
 
-from Core.Lang.Foreach import foreach
+from Core.Lang.Range import foreach
 from Core.Lang.Do import do
 from Core.Lang.When import when
 

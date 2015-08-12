@@ -9,7 +9,7 @@
 module Data.Array
 
 from Core.Lang.When import when
-from Core.Lang.Foreach import foreach
+from Core.Lang.Range import foreach
 
 from Logic.Combinators import combinators
 

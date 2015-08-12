@@ -6,7 +6,7 @@
  * Licensed under the LGPL2 license.
  */
 
-module Core.Lang.Foreach
+module Core.Lang.Range
 
 from Core.Lang.Strict import strict
 from Core.Lang.When import when
