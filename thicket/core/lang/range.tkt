@@ -14,11 +14,11 @@ from Data.Pair import Pair
 from Data.Number import number
 from Data.Boolean import bool
 
-model rangeIterator {
+model Range {
     fold : [b] b -> (number -> b -> b) -> b
 }
 
-class abstractRangeIterator this:(number,number) {
+class abstractRange this:(number,number) {
     fold : [b] (number -> number -> bool) -> (number -> number) -> b -> (number -> b -> b) -> b
 } {
     def fold pred dep r f =
@@ -27,18 +27,18 @@ class abstractRangeIterator this:(number,number) {
         else { 
             let nextRange = (dep this._1), this._2 in        
             let nr = strict (strict f this._1) r in
-                abstractRangeIterator nextRange fold pred dep nr f
+                abstractRange nextRange fold pred dep nr f
         }
 }
 
-class stepByRangeIterator this:(number,number) {
-    step : number -> rangeIterator
+class stepByRange this:(number,number) {
+    step : number -> Range
 } {
     def step i =
-        rangeIterator $
-            when (i <? 0) 
-            then { abstractRangeIterator this fold number::(<?) (i +) }
-            else { abstractRangeIterator this fold number::(?>) (i +) }
+        Range $
+            when { i <? 0 }
+            then { abstractRange this fold number::(<?) (i +) }
+            else { abstractRange this fold number::(?>) (i +) }
 }
 
-def foreach : (number,number) -> stepByRangeIterator = stepByRangeIterator
+def foreach : (number,number) -> stepByRange = stepByRange

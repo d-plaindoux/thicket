@@ -16,7 +16,7 @@ from Data.Hashable import Hashable
 from Data.String import string
 from Data.Pair import Pair
 
-from Core.Lang.Range import rangeIterator foreach
+from Core.Lang.Range import Range foreach
 
 class number this:native {
     (==)     : number -> bool
@@ -44,7 +44,7 @@ class number this:native {
     min      : number -> number
     hash     : number
     
-    to       : number -> rangeIterator
+    to       : number -> Range
     
     toString : string
 } {
