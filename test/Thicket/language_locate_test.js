@@ -41,10 +41,17 @@ exports['language_locate'] = {
                          name: 'number',
                          '$location': { filename: undefined, offset: 16, line: 1, character: 17 } },
                       expr: 
-                       { '$type': 'NumberExpr',
-                         value: 1,
-                         '$location': { filename: undefined, offset: 18, line: 1, character: 19 } },
-                      '$location': { filename: undefined, offset: 0, line: 1, character: 1 } },
+                        { '$type': 'ApplicationExpr',
+                                abstraction: 
+                                 { '$type': 'IdentExpr',
+                                   value: 'number',
+                                   '$location': { filename: undefined, offset: 18, line: 1, character: 19 } },
+                                argument: 
+                                 { '$type': 'NativeExpr',
+                                   value: 1,
+                                   '$location': { filename: undefined, offset: 18, line: 1, character: 19 } },
+                                '$location': { filename: undefined, offset: 18, line: 1, character: 19 } },
+                             '$location': { filename: undefined, offset: 0, line: 1, character: 1 } },
                    "accept a definition");
     test.done();
   },

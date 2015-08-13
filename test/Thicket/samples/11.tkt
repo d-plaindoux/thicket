@@ -5,8 +5,11 @@ model unit
 typedef ReducingFn[a r] = r -> a -> r
 typedef Transducer[a b] = [r] ReducingFn[a r] -> ReducingFn[b r] 
 
-model number {
+model native
+class number this:native {
     (*) : number -> number
+}{
+    // Nothing
 }
 
 model Read

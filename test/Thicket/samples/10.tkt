@@ -6,10 +6,13 @@ model bool {
 
 typedef BiFun[a b] = a -> b
 
-model number {
+model native
+class number this:native {
     (+)  : BiFun[number number]
     max  : BiFun[number number]
     (<=) : BiFun[number bool]
+}{
+    // Nothing
 }
 
 type Tree[a] {

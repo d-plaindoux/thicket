@@ -89,28 +89,28 @@ exports['runtime_execute'] = {
   'Applied Identity': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("(x -> x) ()"),
+    var aStream = stream("(x -> x) 1"),
         expression = language.parser.group('exprs').parse(aStream).get(),
         source = compiler.sentence(expression).success();
     
-    runtime.register({ MODEL : [ "unit", [] ] }); 
-    
+    runtime.register({ MODEL : [ "number", [[ "main" , [{ ACCESS : 1 }]]] ] }); 
+      
     test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
-                   {OBJ: [{"MODEL":["unit",[],[]]},[]]});
+                   {OBJ: [{"MODEL":["number",[[{"ACCESS":1}]],['main']]},[{"CONST":1}]]});
     test.done();
   }, 
 
   'Applied Application for TAILAPPLY': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("(x y -> x y) (x -> x) ()"),
+    var aStream = stream("(x y -> x y) (x -> x) 1"),
         expression = language.parser.group('exprs').parse(aStream).get(),
         source = compiler.sentence(expression).success();
     
-    runtime.register({ MODEL : ["unit",[]] }); 
+    runtime.register({ MODEL : [ "number", [[ "main" , [{ ACCESS : 1 }]]] ] }); 
     
     test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
-                   {OBJ: [{"MODEL":["unit",[],[]]},[]]});
+                   {OBJ: [{"MODEL":["number",[[{"ACCESS":1}]],['main']]},[{"CONST":1}]]});
     test.done();
   }, 
     

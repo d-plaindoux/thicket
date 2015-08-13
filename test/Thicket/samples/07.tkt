@@ -1,5 +1,6 @@
-model Pair 
-model string
+model native
+model Pair[a b] { _1 : a _2 : b }
+model string { _ : native }
 
 type Bool {
     model True

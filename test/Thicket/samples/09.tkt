@@ -1,5 +1,6 @@
 model unit
-model string
+model native
+model string { _ : native }
 
 class Function[a b] this:(a -> b) {
     (<<) : a -> b

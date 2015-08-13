@@ -10,11 +10,16 @@ type Option [a] {
 
 // ---------------------------------------------------------
 
-model native {
+model native
+model unit 
+
+class internal this:native {
     (@) : [a b] string -> a -> b
+}{
+    // Nothing
 }
 
-class xml this:native {} {}
+model xml { this:native }
 
 class number this:native {
     (+) : number -> number
@@ -23,11 +28,11 @@ class number this:native {
     (/) : number -> number
     string : string
 } {
-    def (+) i  = this @ "addInt" i
-    def (-) i  = this @ "minusInt" i
-    def (*) i  = this @ "multInt" i
-    def (/) i  = this @ "divInt" i
-    def string = this @ "stringInt" ()
+    def (+) i  = internal this @ "addInt" i
+    def (-) i  = internal this @ "minusInt" i
+    def (*) i  = internal this @ "multInt" i
+    def (/) i  = internal this @ "divInt" i
+    def string = internal this @ "stringInt" ()
 }
 
 class string this:native {
@@ -35,7 +40,7 @@ class string this:native {
     number : Option[number]
     xml : xml
 } {
-    def (+) s = this @ "addString" s
-    def number = this @ "numberString" $ (i -> Some i),None
-    def xml = this @ "xmlString" ()
+    def (+) s = internal this @ "addString" s
+    def number = internal this @ "numberString" $ (i -> Some i),None
+    def xml = internal this @ "xmlString" ()
 }

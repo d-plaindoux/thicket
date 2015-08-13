@@ -1,6 +1,7 @@
 model Bool
 
-model string
+model native
+model string { _ : native }
 
 model bool {
     return : Bool

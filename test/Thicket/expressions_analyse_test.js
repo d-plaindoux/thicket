@@ -33,42 +33,6 @@ exports['expressions'] = {
   setUp: function(done) {
     done();
   },
-
-  "Analyse Unit": function (test) {
-      test.expect(1);
-      // Test
-      var anExpression  = ast.expr.unit();
-      types.reset();
-      
-      
-      
-      test.deepEqual(expression.analyse(list(), environment(packages(option.none())), anExpression).success(), 
-                     pair(list(pair("'a",ast.type.native("unit"))),ast.type.native('unit')), 
-                     "Must be unit");
-      test.done();
-  },
-
-  "Analyse Number": function (test) {
-      test.expect(1);
-      // Test
-      var anExpression  = ast.expr.number(1);
-      types.reset();
-      test.deepEqual(expression.analyse(list(), environment(packages(option.none())),  anExpression).success(), 
-                     pair(list(pair("'a",ast.type.native("number"))),ast.type.native('number')), 
-                     "Must be number");
-      test.done();
-  },
-    
-  "Analyse String": function (test) {
-      test.expect(1);
-      // Test
-      var anExpression  = ast.expr.string("1");
-      types.reset();      
-      test.deepEqual(expression.analyse(list(), environment(packages(option.none())), anExpression).success(), 
-                     pair(list(pair("'a",ast.type.native("string"))),ast.type.native('string')), 
-                     "Must be string");
-      test.done();
-  },
     
   "Analyse free variable": function (test) {
       test.expect(1);
@@ -127,18 +91,6 @@ exports['expressions'] = {
                      "Must be (a -> a)");
       test.done();
   },    
-
-  "Analyse let string expression": function (test) {
-      test.expect(1);
-      // Test
-      var anExpression = ast.expr.let("a", ast.expr.string("b"), ast.expr.ident("a"));
-      types.reset();
-      test.deepEqual(expression.analyse(list(), environment(packages(option.none())), anExpression).success(), 
-                     pair(list(pair("'b", ast.type.native("string")),
-                               pair("'a", ast.type.native("string"))), ast.type.native("string")),
-                     "Must be (string)");
-      test.done();
-  },
     
   "Analyse let variable expression": function (test) {
       test.expect(1);
@@ -155,112 +107,17 @@ exports['expressions'] = {
   "Analyse application variable expression": function (test) {
       test.expect(1);
       // Test
-      var anExpression = ast.expr.application(ast.expr.abstraction("a",ast.expr.ident("a")), ast.expr.number(12));
+      var anExpression = ast.expr.application(ast.expr.abstraction("a",ast.expr.ident("a")), ast.expr.ident("b"));
       types.reset();
-      test.deepEqual(expression.analyse(list(), environment(packages(option.none())), anExpression).success(), 
+      test.deepEqual(expression.analyse(list(pair("b",ast.type.native("number"))), environment(packages(option.none())), anExpression).success(), 
                      pair(list(pair("'b", ast.type.native("number")),
                                pair("'c", ast.type.native("number")),
                                pair("'d", ast.type.native("number")),
                                pair("'a", ast.type.native("number"))), ast.type.native("number")),
-                     "Must be (number)");
+                     "Must be (c)");
       test.done();
   },
-/*    
-  "Analyse simple tag": function (test) {
-      test.expect(1);
-      // Test
-      var anExpression = ast.expr.tag("A",[],[]);
-      types.reset();      
-      test.deepEqual(expression.analyse(list(), environment(packages(option.none())), anExpression).success(),
-                     pair(list(pair("'a", ast.type.native("dom"))), ast.type.native("dom")),
-                     "Simple Tag");
-      test.done();
-  },
-        
-  "Analyse simple tag with one attribute": function (test) {
-      test.expect(1);
-      // Test
-      var anExpression = ast.expr.tag("A",[["a",ast.expr.string("a")]],[]);
-      types.reset();
-      test.deepEqual(expression.analyse(list(), environment(packages(option.none())), anExpression).success(),
-                     pair(list(pair("'a", ast.type.native("dom"))), ast.type.native("dom")),
-                     "Simple Tag with one attribute");
-      test.done();
-  },
-    
-  "Analyse simple tag with one attribute but not a string": function (test) {
-      test.expect(1);
-      // Test
-      var anExpression = ast.expr.tag("A",[["a",ast.expr.number(1)]],[]);
-      types.reset();
-      test.ok(expression.analyse(list(), environment(packages(option.none())), anExpression).isFailure(),
-              "Simple Tag with one attribute but not a string");
-      test.done();
-  },
-        
-  "Analyse simple tag with one attribute fails": function (test) {
-      test.expect(1);
-      // Test
-      var anExpression = ast.expr.tag("A",[["a",ast.expr.ident("a")]],[]);
-      types.reset();
-      test.ok(expression.analyse(list(), environment(packages(option.none())), anExpression).isFailure(),
-              "Simple Tag with failing attribute");
-      test.done();
-  },
-        
-  "Analyse tag with one embedded tag": function (test) {
-      test.expect(1);
-      // Test
-      var anExpression = ast.expr.tag("A",[],[ast.expr.tag("B",[],[])]);
-      types.reset();
-      test.deepEqual(expression.analyse(list(), environment(packages(option.none())), anExpression).success(),
-                     pair(list(pair("'a", ast.type.native("dom"))), ast.type.native("dom")),
-                     "Tag containing Tag");
-      test.done();
-  },
-        
-  "Analyse tag with one embedded string": function (test) {
-      test.expect(1);
-      // Test
-      var anExpression = ast.expr.tag("A",[],[ast.expr.string("a")]);
-      types.reset();
-      test.ok(expression.analyse(list(), environment(packages(option.none())), anExpression).isFailure(),
-              "Tag containing String");
-      test.done();
-  },
-   
-  "Analyse tag with one embedded number": function (test) {
-      test.expect(1);
-      // Test
-      var anExpression = ast.expr.tag("A",[],[ast.expr.number(1)]);
-      types.reset();
-      test.ok(expression.analyse(list(), environment(packages(option.none())), anExpression).isFailure(),
-              "Tag containing number");
-      test.done();
-  },
-   
-  "Analyse tag with one embedded variable": function (test) {
-      test.expect(1);
-      // Test
-      var anExpression = ast.expr.tag("A",[],[ast.expr.ident("a")]);
-      types.reset();
-      test.deepEqual(expression.analyse(list(pair("a",ast.type.variable("a"))), environment(packages(option.none())), anExpression).success(),
-                     pair(list(pair("'a",ast.type.native("dom"))), ast.type.native("dom")),
-                     "Tag containing ident");
-      test.done();
-  },
-    
-  "Analyse tag with one attribute variable": function (test) {
-      test.expect(1);
-      // Test
-      var anExpression = ast.expr.tag("A",[["a",ast.expr.ident("a")]],[]);
-      types.reset();      
-      test.deepEqual(expression.analyse(list(pair("a",ast.type.variable("a"))), environment(packages(option.none())), anExpression).success(),
-                     pair(list(pair("'a",ast.type.native("dom"))), ast.type.native("dom")),
-                     "Tag containing ident");
-      test.done();
-  },
-*/     
+
   "Analyse invoke a controller": function (test) {
       test.expect(1);
       // Test

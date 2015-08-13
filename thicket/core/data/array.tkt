@@ -14,6 +14,7 @@ from Core.Lang.Range import foreach
 from Logic.Combinators import combinators
 
 from System.Internal import internal
+from Data.String import string
 from Data.Boolean import bool
 from Data.Native import native
 from Data.Number import number

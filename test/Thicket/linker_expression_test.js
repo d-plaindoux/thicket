@@ -42,7 +42,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression(aPackages.main(), expression, list(), list()).isSuccess());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list("number"), list()).isSuccess());
       
     test.done();
   },          
@@ -55,7 +55,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression(aPackages.main(), expression, list(), list()).isSuccess());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list("string"), list()).isSuccess());
       
     test.done();
   },          
@@ -68,7 +68,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression(aPackages.main(), expression, list(), list()).isSuccess());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list("unit"), list()).isSuccess());
       
     test.done();
   },    
@@ -434,7 +434,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression(aPackages.main(), expression, list(), list()).isSuccess());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list("number"), list()).isSuccess());
       
     test.done();
   },      
@@ -473,7 +473,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression(aPackages.main(), expression, list(), list()).isSuccess());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list("number"), list()).isSuccess());
       
     test.done();
   },      
@@ -512,7 +512,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkExpression(aPackages.main(), expression, list("a"), list()).isSuccess());
+    test.ok(aLinker.linkExpression(aPackages.main(), expression, list("a","number"), list()).isSuccess());
       
     test.done();
   },      

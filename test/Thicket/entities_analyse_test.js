@@ -38,7 +38,8 @@ exports['entities_analyse'] = {
                                    ast.controller("A",[],ast.param("this",ast.namespace(ast.type.variable("number"),"Data.Number")),[],[])),
           aPackages = packages(option.none());      
       
-      aPackages.define(ast.module("Data.Number",[],[ast.entity("number",ast.model("number",[],[]))]));      
+      aPackages.define(ast.module("Data.Number",[],[ast.entity("number",ast.model("number",[],[ast.param('_',ast.type.variable("native"))]))]));
+      aPackages.define(ast.module("Data.Native",[],[ast.entity("native",ast.model("native",[],[]))]));
       
       test.ok(entities.analyse(environment(aPackages), [aController]).isSuccess(),
               "Empty controller");
@@ -52,10 +53,11 @@ exports['entities_analyse'] = {
                                    ast.controller("A",[],
                                        ast.param("this",ast.namespace(ast.type.variable("number"),"Data.Number")),
                                        [ ast.param("m", ast.namespace(ast.type.variable("number"),"Data.Number")) ],
-                                       [ ast.method("m", ast.expr.number(1)) ])),
+                                       [ ast.method("m", ast.expr.ident("this")) ])),
           aPackages = packages(option.none());      
       
-      aPackages.define(ast.module("Data.Number",[],[ast.entity("number",ast.model("number",[],[]))]));
+      aPackages.define(ast.module("Data.Number",[],[ast.entity("number",ast.model("number",[],[ast.param('_',ast.type.variable("native"))]))]));
+      aPackages.define(ast.module("Data.Native",[],[ast.entity("native",ast.model("native",[],[]))]));
       
       test.ok(entities.analyse(environment(aPackages), [aController]).isSuccess(),
               "Simple controller");
@@ -72,8 +74,9 @@ exports['entities_analyse'] = {
                                        [ ast.method("m", ast.expr.number(1)) ])),
           aPackages = packages(option.none());      
       
-      aPackages.define(ast.module("Data.Number",[],[ast.entity("number",ast.model("number",[],[]))]));
-      aPackages.define(ast.module("Data.String",[],[ast.entity("string",ast.model("string",[],[]))]));
+      aPackages.define(ast.module("Data.Number",[],[ast.entity("number",ast.model("number",[],[ast.param('_',ast.type.variable("native"))]))]));
+      aPackages.define(ast.module("Data.String",[],[ast.entity("string",ast.model("string",[],[ast.param('_',ast.type.variable("native"))]))]));
+      aPackages.define(ast.module("Data.Native",[],[ast.entity("native",ast.model("native",[],[]))]));
 
       test.ok(entities.analyse(environment(aPackages),
                                [aController]).isFailure(),
@@ -91,7 +94,8 @@ exports['entities_analyse'] = {
                                        [ ast.method("m", ast.expr.number(1)) ])),
           aPackages = packages(option.none());      
       
-      aPackages.define(ast.module("Data.Number",[],[ast.entity("number", ast.model("number",[],[]))]));
+      aPackages.define(ast.module("Data.Number",[],[ast.entity("number",ast.model("number",[],[ast.param('_',ast.type.variable("native"))]))]));
+      aPackages.define(ast.module("Data.Native",[],[ast.entity("native",ast.model("native",[],[]))]));
       
       test.ok(entities.analyse(environment(aPackages), [aController]).isFailure(),
               "Simple partial controller");
@@ -108,7 +112,8 @@ exports['entities_analyse'] = {
                                        [ ast.method("m", ast.expr.ident("this")) ])),
           aPackages = packages(option.none());        
       
-      aPackages.define(ast.module("Data.Number",[],[ast.entity("number", ast.model("number",[],[]))]));
+      aPackages.define(ast.module("Data.Number",[],[ast.entity("number",ast.model("number",[],[ast.param('_',ast.type.variable("native"))]))]));
+      aPackages.define(ast.module("Data.Native",[],[ast.entity("native",ast.model("native",[],[]))]));
 
       test.ok(entities.analyse(environment(aPackages), [aController]).isSuccess(),
               "This referencing controller");
@@ -125,7 +130,8 @@ exports['entities_analyse'] = {
                                        [ ast.method("m", ast.expr.ident("this")) ])),
           aPackages = packages(option.none());        
       
-      aPackages.define(ast.module("Data.Number",[],[ast.entity("number", ast.model("number",[],[]))]));
+      aPackages.define(ast.module("Data.Number",[],[ast.entity("number",ast.model("number",[],[ast.param('_',ast.type.variable("native"))]))]));
+      aPackages.define(ast.module("Data.Native",[],[ast.entity("native",ast.model("native",[],[]))]));
 
       test.ok(entities.analyse(environment(aPackages), [aController]).isFailure(),
               "This referencing controller");
@@ -142,7 +148,8 @@ exports['entities_analyse'] = {
                                        [ ast.method("m", ast.expr.invoke(ast.expr.ident("self"), "m")) ])),
                     aPackages = packages(option.none());        
       
-      aPackages.define(ast.module("Data.Number",[],[ast.entity("number", ast.model("number",[],[]))]));
+      aPackages.define(ast.module("Data.Number",[],[ast.entity("number",ast.model("number",[],[ast.param('_',ast.type.variable("native"))]))]));
+      aPackages.define(ast.module("Data.Native",[],[ast.entity("native",ast.model("native",[],[]))]));
 
       test.ok(entities.analyse(environment(aPackages), [aController]).isSuccess(),
               "Self referencing controller");
@@ -159,7 +166,8 @@ exports['entities_analyse'] = {
                                        [ ast.method("m", ast.expr.ident("self")) ])),
                     aPackages = packages(option.none());        
       
-      aPackages.define(ast.module("Data.Number",[],[ast.entity("number", ast.model("number",[],[]))]));
+      aPackages.define(ast.module("Data.Number",[],[ast.entity("number",ast.model("number",[],[ast.param('_',ast.type.variable("native"))]))]));
+      aPackages.define(ast.module("Data.Native",[],[ast.entity("native",ast.model("native",[],[]))]));
       aPackages.define(ast.module("Test",[],[aController]));
 
       test.ok(entities.analyse(environment(aPackages), [aController]).isSuccess(),
@@ -177,7 +185,8 @@ exports['entities_analyse'] = {
                                        [ ast.method("m", ast.expr.ident("self")) ])),
                     aPackages = packages(option.none());        
       
-      aPackages.define(ast.module("Data.Number",[],[ast.entity("number", ast.model("number",[],[]))]));
+      aPackages.define(ast.module("Data.Number",[],[ast.entity("number",ast.model("number",[],[ast.param('_',ast.type.variable("native"))]))]));
+      aPackages.define(ast.module("Data.Native",[],[ast.entity("native",ast.model("native",[],[]))]));
       aPackages.define(ast.module("Test",[],[aController]));
 
       test.ok(entities.analyse(environment(aPackages), [aController]).isFailure(),
