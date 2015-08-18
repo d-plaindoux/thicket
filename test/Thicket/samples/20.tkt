@@ -1,4 +1,4 @@
 model A
 model B
 
-def wrongArgumentType : B = A
+def wrongArgumentType : B -> B = A

@@ -162,6 +162,6 @@ exports['language_analyse'] = {
   },
 
   'test 23': function(test) {
-    wrongSampleTest("23.tkt", test);    
+    correctSampleTest("23.tkt", test);    
   },
 };

@@ -1,5 +1,8 @@
 model A 
 model B
 
-let id = x -> x in (id A),(id B)
+let id = x -> x in 
+let a = id A in
+let b = id B in
+    A
     

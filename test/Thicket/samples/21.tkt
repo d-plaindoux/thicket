@@ -1,4 +1,4 @@
 model A
 model B
 
-def wrongResultType : A -> B = _ -> A
+def wrongResultType : A -> B = a -> A

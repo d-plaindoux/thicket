@@ -15,6 +15,7 @@ from Core.Lang.When import when
 from Data.Pair import Pair
 from Data.Number import number number2string
 from Data.String import string
+from Data.Unit import unit
 from Data.Option import some none option
 
 from Standard.Math import math
@@ -76,7 +77,8 @@ def bench = n -> {
                                         (itemCheck $ bottomUpTree i depth) +
                                         (itemCheck $ bottomUpTree (0 - i) depth)) in
                     do 
-                    { console.log $ "do " + (number2string $ iterations * 2) + 
+                    { console.log $ "do " + 
+                                    (iterations * 2) + 
                                     " trees of depth " + 
                                     depth + 
                                     " check: " + 

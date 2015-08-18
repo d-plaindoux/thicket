@@ -14,4 +14,4 @@ class number this:native {
 
 def adapter number2string : number -> string = _ -> ""
 
-def message : string = { "packet <" + (number + 1) }
+def message : string = { "packet <" + (1 + 1) }
