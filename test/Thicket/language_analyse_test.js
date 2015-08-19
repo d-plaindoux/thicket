@@ -142,11 +142,11 @@ exports['language_analyse'] = {
   },
 
   'test 18': function(test) {
-    correctSampleTest("18.tkt", test);    
+    wrongSampleTest("18.tkt", test);    
   },
 
   'test 19': function(test) {
-    correctSampleTest("19.tkt", test);    
+    wrongSampleTest("19.tkt", test);    
   },
 
   'test 20': function(test) {
@@ -164,4 +164,11 @@ exports['language_analyse'] = {
   'test 23': function(test) {
     correctSampleTest("23.tkt", test);    
   },
-};
+
+  'test 24': function(test) {
+    correctSampleTest("24.tkt", test);    
+  },
+
+  'test 25': function(test) {
+    wrongSampleTest("25.tkt", test);    
+  },};

@@ -3,5 +3,4 @@ model B
 
 def adapter a2b : A -> B = _ -> B
 
-// adapter a2b used
 def e : B = A 

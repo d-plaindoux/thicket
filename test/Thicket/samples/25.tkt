@@ -1,0 +1,17 @@
+model native
+
+class string this:native {
+    (+) : string -> string
+} {
+    def (+) _ = self
+}
+
+class number this:native {
+    (+) : number -> number
+} {
+    def (+) _ = self
+}
+
+def adapter id2string : [a] (a -> a) -> string = _ -> ""
+
+def message : string = { "packet <" + (x y -> x) }
