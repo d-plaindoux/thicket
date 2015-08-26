@@ -13,6 +13,7 @@ from Client.Event import EventType eventType
 from Data.Native import native
 from System.Internal import internal
 from Data.String import string
+from Data.Number import number number2string
 from Data.Option import option some none
 
 class dom this:native {
@@ -47,4 +48,8 @@ class document this:string {
 
 def adapter string2dom : string -> dom = s -> {
     dom $ internal "string.toDom" s
+}
+
+def adapter number2dom : number -> dom = s -> {
+    dom $ internal "string.toDom" (number2string s)
 }

@@ -25,8 +25,8 @@ class abstractRange this:(number,number) {
         when (pred this._1 this._2) 
         then r
         else { 
-            let nextRange = (dep this._1), this._2 in        
             let nr = strict (strict f this._1) r in
+            let nextRange = (dep this._1), this._2 in        
                 abstractRange nextRange fold pred dep nr f
         }
 }

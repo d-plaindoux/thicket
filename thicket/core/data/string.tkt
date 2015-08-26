@@ -28,6 +28,8 @@ class string this:native {
     (+)      : string -> string
     
     toNumber : option[number]
+    
+    length   : number
 } {
     def (==) n = internal "generic.==" self n true false
     def (!=) n = (self == n) not
@@ -40,6 +42,7 @@ class string this:native {
     def (+) s = string $ internal "string.+" self s
     
     def toNumber = internal "string.toNumber" self (n -> some $ number n) none
+    def length = number $ internal "string.length" self
 }
 
 def eol : string = "\n"
