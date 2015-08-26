@@ -198,6 +198,17 @@ exports['native'] = {
     test.done();  
   },
         
+  'string length': function(test) {
+    test.expect(1);
+    // tests here  
+    var code = runtime.delta["string.length"].concat([
+        {CONST:"m4"},{APPLY:1}
+    ]);      
+      
+    test.deepEqual(runtime.execute(code), {CONST:2});
+    test.done();
+  },
+        
   'string wrong toNumber': function(test) {
     test.expect(1);
     // tests here  
