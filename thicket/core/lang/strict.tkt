@@ -8,9 +8,6 @@
  
 module Core.Lang.Strict
 
-from System.Internal import internal
-from Data.String import string
- 
 /* 
  * Language syntactic extension
  * 
@@ -26,4 +23,3 @@ class strictClass[a] this:a {
 def strict : [a b] (a -> b) -> a -> b = f a -> {
     strictClass a fold f
 }
-    
