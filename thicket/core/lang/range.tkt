@@ -23,12 +23,12 @@ class abstractRange this:(number,number) {
 } {
     def fold pred dep r f =
         when (pred this._1 this._2) 
-        then r
-        else { 
+        then { 
             let nr = strict (strict f this._1) r in
             let nextRange = (dep this._1), this._2 in        
                 abstractRange nextRange fold pred dep nr f
         }
+        else r
 }
 
 class stepByRange this:(number,number) {
@@ -37,8 +37,8 @@ class stepByRange this:(number,number) {
     def step i =
         Range $
             when { i <? 0 }
-            then { abstractRange this fold number::(<?) (i +) }
-            else { abstractRange this fold number::(?>) (i +) }
+            then { abstractRange this fold number::(>=) (i +) }
+            else { abstractRange this fold number::(<=) (i +) }
 }
 
 def foreach : (number,number) -> stepByRange = stepByRange

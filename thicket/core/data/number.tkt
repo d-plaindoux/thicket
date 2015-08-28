@@ -52,8 +52,8 @@ class number this:native {
     def (!=) n = (self == n) not
     def (<=) n = (self == n) || (self <? n)
     def (<?) n = internal "generic.<" self n true false
-    def (?>) n = n <= self
-    def (>=) n = n <? self
+    def (?>) n = n <? self
+    def (>=) n = n <= self
     def (+)  n = number $ internal "number.+" self n
     def (-)  n = number $ internal "number.-" self n
     def (*)  n = number $ internal "number.*" self n
@@ -75,7 +75,7 @@ class number this:native {
     
     def toString = string $ internal "number.toString" self
     
-    def to n = foreach self,(n + 1) step 1
+    def to n = foreach (self,n) step $ self <= n fold 1 -1
 }
 
 def Infinity = 1 / 0
