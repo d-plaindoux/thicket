@@ -28,18 +28,6 @@ exports['native'] = {
     done();
   },
        
-  'strict call': function(test) {
-    test.expect(1);
-    // tests here  
-    var code = runtime.delta["strict"].concat([
-        {CLOSURE:[{ACCESS:1},{RETURN:1}]},{APPLY:1},
-        {CONST:0},{APPLY:1}
-    ]);      
-      
-    test.deepEqual(runtime.execute(code), {CONST:0});
-    test.done();
-  },
-       
   'console call': function(test) {
     var logger = console.log,
         result = null;

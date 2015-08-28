@@ -17,7 +17,13 @@ from Data.String import string
  *     strict f x forces the evaluation of x
  */
 
+class strictClass[a] this:a {
+    fold : [b] (a -> b) -> b
+} {
+    def fold f = f this
+}
+
 def strict : [a b] (a -> b) -> a -> b = f a -> {
-    internal "strict" f a
+    strictClass a fold f
 }
     
