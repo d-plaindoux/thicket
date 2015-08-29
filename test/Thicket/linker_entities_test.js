@@ -385,4 +385,34 @@ exports['linker_entities'] = {
       
     test.done();
   },
+
+  'Can Link derivation': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream('model number model B class a this:number { +B } {  }'),
+        entities = language.parser.group('entities').parse(aStream).get()[0],
+        aPackages = packages(option.none()),
+        aLinker = linker(aPackages);
+
+    aPackages.defineInRoot([], entities);  
+ 
+    test.ok(aLinker.linkPackageByName(aPackages.main()).isSuccess());
+      
+    test.done();
+  },
+    
+  'Cannot Link derivation': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream('model number class a this:number { +Foo } {  }'),
+        entities = language.parser.group('entities').parse(aStream).get()[0],
+        aPackages = packages(option.none()),
+        aLinker = linker(aPackages);
+
+    aPackages.defineInRoot([], entities);  
+ 
+    test.ok(aLinker.linkPackageByName(aPackages.main()).isFailure());
+      
+    test.done();
+  },
 };

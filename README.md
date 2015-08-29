@@ -147,6 +147,27 @@ This can be compared to **implicit conversion** mechanism available in
 [Scala](http://docs.scala-lang.org/overviews/core/implicit-classes.html) 
 or [C#](https://msdn.microsoft.com/fr-fr/library/xhbhezf4.aspx). 
 
+### Derivation
+
+Class derivation can help reducing specification by copy. But this derivation is not meant to be used for 
+subtyping since subtyping does not exist in the language. For this purpose the adapter is the preferred 
+solution.
+
+````
+model Equal[a] { 
+    (==) : a -> bool
+)
+
+class number this:native {
+    + Equal[number]
+} {
+    def (==) = ...
+}
+```
+
+Derivation can be used for adapters synthesis. In fact each time a derivation is specified the corresponding 
+adapter can be easily generated and therefore used to "simulate" subtyping based on implicit object transformation.
+
 ## Simple Examples
 
 ### Hello World
@@ -168,27 +189,6 @@ for execution [here](http://d.plaindoux.free.fr/thicket/thicket/examples/thicket
 runtime can be easily extended in order to provide a naive embedded interpret in the web browser.
 
 ## Works in progress
-
-### Derivation
-
-Class derivation can help reducing specification by copy. But this derivation is not meant to be used for 
-subtyping since subtyping does not exist in the language. For this purpose the adapter is the preferred 
-solution.
-
-````
-model Equal[a] { 
-    (==) : a -> bool
-)
-
-class number this:native {
-    derives Equal[number]
-} {
-    def (==) = ...
-}
-```
-
-Derivation can be used for adapters synthesis. In fact each time a derivation is specified the corresponding 
-adapter can be easily generated and therefore used to "simulate" subtyping based on implicit object transformation.
 
 ### Model type case
 

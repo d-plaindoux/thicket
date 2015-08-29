@@ -88,5 +88,7 @@ def adapter bool2comparable : bool -> Comparable[bool] = this -> {
         (b -> this fold b.not b)
         (b -> this fold b.not b)
         (b -> this fold b b.not)
+        (b -> this fold b.not b)
+        (b -> this fold b b.not)
         (bool2hashable this)
 }

@@ -37,7 +37,7 @@ class stepByRange this:(number,number) {
     def step i =
         Range $
             when { i <? 0 }
-            then { abstractRange this fold number::(>=) (i +) }
+            then { abstractRange this fold number::(=>) (i +) }
             else { abstractRange this fold number::(<=) (i +) }
 }
 

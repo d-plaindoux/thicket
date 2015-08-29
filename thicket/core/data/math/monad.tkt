@@ -8,6 +8,8 @@
  
 module Data.Math.Monad
 
+from Data.Option import *
+
 //
 // Existantial type required ... work in progress
 //
@@ -21,11 +23,10 @@ model Monad[a c] {
 // 
 // adapters examples
 //
-
 /*
 def adapter option2monad : [a] option[a] -> Monad[a option[a]] = o -> {
     Monad o 
         (f -> option2monad $ o map f)
         (f -> option2monad $ o flatmap $ e -> f e unbox)
 }
-*/                          
+*/                    

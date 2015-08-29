@@ -171,4 +171,9 @@ exports['language_analyse'] = {
 
   'test 25': function(test) {
     wrongSampleTest("25.tkt", test);    
-  },};
+  },
+
+  'test 26': function(test) {
+    correctSampleTest("26.tkt", test);    
+  },
+};

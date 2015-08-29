@@ -154,5 +154,20 @@ exports['language_class'] = {
                    "accept a controller");
     test.done();
   },
+       
+  'controller with derivation': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("class Address this: Address { + CityLocation } { }");        
+    test.deepEqual(language.parser.group('controllerDef').parse(aStream).get().definition, 
+                   ast.controller('Address',
+                                  [],
+                                  ast.param('this', ast.type.variable('Address')), 
+                                  [ ],
+                                  [ ],
+                                  [ ast.type.variable('CityLocation') ]) , 
+                   "accept a controller");
+    test.done();
+  },
 
 };

@@ -19,17 +19,14 @@ from Data.Pair import Pair
 from Core.Lang.Range import Range foreach
 
 class number this:native {
-    (==)     : number -> bool
-    (!=)     : number -> bool
-    (<=)     : number -> bool
-    (<?)     : number -> bool
-    (?>)     : number -> bool
-    (>=)     : number -> bool
+    + Comparable[number]
+    
     (+)      : number -> number
     (-)      : number -> number
     (*)      : number -> number
     (/)      : number -> number
     (%)      : number -> number
+    
     (<<)     : number -> number
     (>>)     : number -> number
 
@@ -46,14 +43,16 @@ class number this:native {
     
     to       : number -> Range
     
-    toString : string
+    toString : string 
 } {
+    def unbox = self
     def (==) n = internal "generic.==" self n true false
     def (!=) n = (self == n) not
     def (<=) n = (self == n) || (self <? n)
+    def (=>) n = n <= self
     def (<?) n = internal "generic.<" self n true false
     def (?>) n = n <? self
-    def (>=) n = n <= self
+    
     def (+)  n = number $ internal "number.+" self n
     def (-)  n = number $ internal "number.-" self n
     def (*)  n = number $ internal "number.*" self n
@@ -91,5 +90,5 @@ def adapter number2hashable : number -> Hashable[number] = s -> {
 }
     
 def adapter number2comparable : number -> Comparable[number] = s -> {
-    Comparable s s.(==) s.(!=) s.(?>) s.(<?) (number2hashable s)
+    Comparable s s.(==) s.(!=) s.(=>) s.(<=) s.(?>) s.(<?) (number2hashable s)
 }

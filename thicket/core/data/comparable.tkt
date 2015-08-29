@@ -12,11 +12,13 @@ from Data.Hashable import Hashable
 from Data.Boolean import bool
 
 model Comparable[k] {
-    unbox : k
-    (==) : k -> bool 
-    (!=) : k -> bool
-    (>>) : k -> bool
-    (<<) : k -> bool    
+    unbox    : k
+    (==)     : k -> bool 
+    (!=)     : k -> bool
+    (=>)     : k -> bool
+    (<=)     : k -> bool    
+    (?>)     : k -> bool
+    (<?)     : k -> bool    
     hashable : Hashable[k]
 }
 
