@@ -188,7 +188,7 @@ The [Console](https://github.com/d-plaindoux/thicket/tree/master/thicket/example
 for execution [here](http://d.plaindoux.free.fr/thicket/thicket/examples/thicket/console.html) shows how the 
 runtime can be easily extended in order to provide a naive embedded interpret in the web browser.
 
-## Works in progress
+## In consideration
 
 ### Traits
 
@@ -207,8 +207,7 @@ trait comparable[a] {
 
 ### Model type case
 
-Since model type exists for methods this does not exist yet for model
-type based.
+Since model type exists for methods this does not exist yet for model type based.
 
 ```
 expression match {
@@ -217,8 +216,8 @@ case Cons as l => ... // l can be used for extraction
 }
 ```
 
-The `match` function  can be seen as a standard construction of the language
-
+The `match` function  can be seen as a standard construction of the language but functional fold mechanism 
+providing decomposition and projection seems to be enougth for the moment.
 
 ### Existential type
 
