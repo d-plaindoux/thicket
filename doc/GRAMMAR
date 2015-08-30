@@ -10,7 +10,7 @@ module ::=
 --------------------------------------------------------------------------
 
 import ::= 
-  "from" IDENT ("." IDENT)* "import" ("*"|IDENT+)
+  "from" IDENT ("." IDENT)* "import" ("*"|nameDef+)
 
 --------------------------------------------------------------------------
          
@@ -35,13 +35,13 @@ objectDef ::=
 --------------------------------------------------------------------------
 
 expressionDef ::= 
-  "def" "adapter"? (ID|"("OP")") (":" generics type)? "="
+  "def" "adapter"? nameDef (":" generics type)? "="
     ((ID (":" generics type)?)+ ->)? expr
 
 --------------------------------------------------------------------------
 
 tparam ::= 
-  (ID|"("OP")") ":" generics type
+  nameDef ":" generics type
     
 type ::= 
   ID ("[" type+ "]")?
@@ -54,18 +54,26 @@ types ::=
 
 --------------------------------------------------------------------------
 
+traitDef ::= 
+  "trait" ID generics "{" ("+" type|tparam)* "}" "{" method* "}"
+
+--------------------------------------------------------------------------
+
 classDef ::= 
-  "class" ID generics param "{" tparam* "}" "{" method* "}"
+  "class" ID generics param "{" ("+" type|tparam)* "}" "{" method* "}"
 
 --------------------------------------------------------------------------
 
 methodDef ::= 
-  "def" "adapter"? (ID|"("OP")") (":" generics type)? "=" expr
+  "def" "adapter"? nameDef (":" generics type)? "=" expr
 
 --------------------------------------------------------------------------
 
 method ::= 
-  "def" (ID ".")? (ID|"("OP")") (ID(":" generics type)?)* "=" expr
+  "def" (ID ".")? nameDef (ID(":" generics type)?)* "=" expr
+  
+nameDef ::=
+  (ID|"("OP")")
 
 --------------------------------------------------------------------------
 

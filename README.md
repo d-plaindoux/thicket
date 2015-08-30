@@ -190,6 +190,21 @@ runtime can be easily extended in order to provide a naive embedded interpret in
 
 ## Works in progress
 
+### Traits
+
+A trait is an abstract component providing behaviors without any constraint related to the denoted data type.
+
+```
+trait comparable[a] {
+    + Comparable[a]
+} {
+    def (!=) n = (self == n) not    
+    def (<=) n = (self == n) || (self <? n)
+    def (=>) n = n <? self
+    def (?>) n = n <= self    
+}
+```
+
 ### Model type case
 
 Since model type exists for methods this does not exist yet for model
