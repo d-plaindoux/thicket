@@ -219,12 +219,6 @@ case Cons as l => ... // l can be used for extraction
 The `match` function  can be seen as a standard construction of the language but functional fold mechanism 
 providing decomposition and projection seems to be enougth for the moment.
 
-### Existential type
-
-Existential type provides the ability to separate the model implementation
-from the model specification. 
-
-
 ## More informations and References
 
 This language has been inspired  by major projects and frameworks like

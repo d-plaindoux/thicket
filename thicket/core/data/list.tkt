@@ -42,7 +42,6 @@ class list[a] this:List[a] {
     (+:)    : a -> list[a]
     (:+)    : a -> list[a]
 
-    filter  : (a -> bool) -> list[a]
     find    : (a -> bool) -> option[a]
 
     foldL   : [b] (b -> a -> b) -> b -> b

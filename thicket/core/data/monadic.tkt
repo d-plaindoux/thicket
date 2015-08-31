@@ -7,8 +7,11 @@
  */
  
 module Data.Monadic
+
+from Data.Boolean import bool
  
 model Monadic[M a] {
     map     : [b] (a -> b) -> M[b]
     flatmap : [b] (a -> M[b]) -> M[b]
+    filter  : (a -> bool) -> M[a]
 }

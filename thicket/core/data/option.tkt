@@ -26,7 +26,6 @@ class option[a] this:Option[a] {
     unbox   : Option[a]
     fold    : [b] b -> (a -> b) -> b
     present : bool
-    filter  : (a -> bool) -> option[a]
     orElse  : a -> a
 } {
     def unbox = this
