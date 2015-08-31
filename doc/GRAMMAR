@@ -44,7 +44,7 @@ tparam ::=
   (ID|"("OP")") ":" generics type
     
 type ::= 
-  ID ("[" type+ "]")?
+  ID ("[" types+ "]")?
 | "(" types ")" 
 
 types ::= 
