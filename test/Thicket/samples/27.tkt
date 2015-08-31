@@ -1,0 +1,5 @@
+typedef FMap[f] = [a b] f[(a->b)] -> f[a] -> f[b]
+
+model Ident[a] { _ : a }
+
+def identFmap : FMap[Ident] = f a -> { Ident $ f._ a._ }

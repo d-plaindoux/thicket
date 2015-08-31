@@ -1,0 +1,9 @@
+model A
+model B
+model L[a] { _:a }
+
+def adapter B2A : B -> A = _ -> A
+
+def f = { 
+    let e : L[A] =  L B in e
+}

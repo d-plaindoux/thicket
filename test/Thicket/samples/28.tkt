@@ -1,0 +1,7 @@
+model A
+model B
+model L[a] { _:a }
+
+def f = { 
+    let e : L[A] =  L B in e
+}
