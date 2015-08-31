@@ -159,7 +159,7 @@ exports['types_unify'] = {
       test.deepEqual(types.unify(ast.type.abstraction(ast.type.variable("X"),ast.type.specialize(model,ast.type.variable("X"))),
                                  ast.type.abstraction(ast.type.variable("a"),ast.type.specialize(model,ast.type.variable("b")))).success(), 
                      list(pair("X",ast.type.variable("b")),pair("a",ast.type.variable("b"))),
-              "Unify embedded variables");
+                     "Unify embedded variables");
       test.done();
   },  
 };

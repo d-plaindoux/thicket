@@ -16,6 +16,7 @@ from Data.Option import option none some
 from Data.Comparable import Comparable
 from Data.Hashable import Hashable
 from Data.Collection import Collection
+from Data.Monadic import Monadic
 
 type List[a] {
     model Nil
@@ -26,6 +27,8 @@ type List[a] {
 }
 
 class list[a] this:List[a] {
+    + Monadic[list a]
+
     unbox   : List[a]
     fold    : [b] b -> (a -> list[a] -> b) -> b
 
@@ -38,9 +41,6 @@ class list[a] this:List[a] {
     
     (+:)    : a -> list[a]
     (:+)    : a -> list[a]
-
-    map     : [b] (a -> b) -> list[b]
-    flatmap : [b] (a -> list[b]) -> list[b]
 
     filter  : (a -> bool) -> list[a]
     find    : (a -> bool) -> option[a]

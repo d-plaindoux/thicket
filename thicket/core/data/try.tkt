@@ -12,17 +12,18 @@ from Data.Boolean import bool
 from Data.String import string
 from Data.Option import option some none
 from Logic.Combinators import combinators
+from Data.Monadic import Monadic
  
 type Try[a] {
     model Success { _ : a }
     model Failure { _ : string }
 }
 
-class try[a] this:Try[a] {    
+class try[a] this:Try[a] {  
+    + Monadic[try a]
+
     unbox       : Try[a]
     fold        : [b] (a -> b) -> (string -> b) -> b
-    map         : [b] (a -> b) -> try[b]
-    flatmap     : [b] (a -> try[b]) -> try[b]
     filter      : (a -> bool) -> try[a]
     recoverWith : (string -> a) -> a
 } {

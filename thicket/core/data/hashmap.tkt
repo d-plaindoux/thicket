@@ -31,6 +31,7 @@ class hashmap[k v] this:Hashmap[k v] {
   add    : Comparable[k] -> v -> hashmap[k v]
   remove : Comparable[k] -> hashmap[k v]
 } {
+
   def unbox = this
 
   def empty = 
@@ -40,7 +41,7 @@ class hashmap[k v] this:Hashmap[k v] {
       let index = c hashable hash % this.length in
       let retrieve = l -> l find (e -> c == e._1) map (e -> e._2) in
           this get index flatmap retrieve
-      
+/*
   def add c v = 
       let index = c hashable hash % this.length in
       let cleanup = l -> l filter (e -> c != e._1) in
@@ -54,6 +55,7 @@ class hashmap[k v] this:Hashmap[k v] {
           entries empty fold
                 { hashmap $ this reset index }
                 { hashmap $ this set index entries }
+*/                
 }
 
 /**
