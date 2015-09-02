@@ -11,7 +11,6 @@ module Example.Fibonacci
 from Data.Pair import Pair
 from Data.Number import number
 from Data.Array import array emptyArray
-from Core.Lang.When import when
  
 //
 // Fibonacci suite fast implementation based on memoisation
@@ -19,16 +18,16 @@ from Core.Lang.When import when
 //
 
 def fastfib : array[number] -> number -> (array[number],number) = a n -> {
-    when (n <? 2) 
-    then (a,n)
-    else {
-        when (a get n present)
-        then (a,(a get n fold 0 (a -> a)))
-        else let r1 = fastfib a (n - 2) in
-             let r2 = fastfib r1._1 (n - 1) in
-             let r = r1._2 + r2._2 in
-                (r2._1 set n r),r
-    }
+    n <? 2 fold 
+        { a,n }
+        { a get n fold 
+            { let r1 = fastfib a (n - 2) in
+              let r2 = fastfib r1._1 (n - 1) in
+              let r  = r1._2 + r2._2 in 
+                  (r2._1 set n r),r 
+            }
+            { r -> a,r }
+        }
 }
     
 def fib : number -> number = n -> {

@@ -19,12 +19,14 @@ from Data.Hashable import Hashable
 class string this:native {
     + comparable[string]
         
+    getAt    : number -> option[string]
     (+)      : string -> string    
     toNumber : option[number]    
     length   : number
 } {
     def unbox = self
 
+    def getAt n = internal "string.getAt" self n (n -> some $ string n) none
     def (==) n = internal "generic.==" self n true false
     def (<?) n = internal "generic.<" self n true false
     

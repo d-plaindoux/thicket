@@ -24,7 +24,7 @@ module.exports = function(grunt) {
     exec: {
         thicket_prepare: 'mkdir build; true',
         thicket_lang: './node_modules/browserify/bin/cmd.js -r ./lib/Thicket/frontend/wrt.js:thicket -o ./build/thicket-lang.js',
-        thicket_runtime: './node_modules/browserify/bin/cmd.js -r ./lib/Thicket/runtime/runtime.js:runtime -o ./build/thicket-rt.js',
+        thicket_runtime: './node_modules/browserify/bin/cmd.js -r ./lib/Thicket/runtime/runtime.js:runtime -o ./build/thicket-runtime.js',
         thicket_site_prepare: 'mkdir site; true',
         thicket_site: 'find thicket/core -name *.tkt | xargs ./bin/thicketc -i site -o site -v',
         thicket_examples: 'find thicket/examples -name *.tkt | xargs ./bin/thicketc -i site -o site -v',

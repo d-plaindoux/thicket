@@ -186,17 +186,6 @@ exports['native'] = {
     test.done();  
   },
         
-  'string length': function(test) {
-    test.expect(1);
-    // tests here  
-    var code = runtime.delta["string.length"].concat([
-        {CONST:"m4"},{APPLY:1}
-    ]);      
-      
-    test.deepEqual(runtime.execute(code), {CONST:2});
-    test.done();
-  },
-        
   'string wrong toNumber': function(test) {
     test.expect(1);
     // tests here  
@@ -210,6 +199,17 @@ exports['native'] = {
     test.done();
   },
         
+  'string length': function(test) {
+    test.expect(1);
+    // tests here  
+    var code = runtime.delta["string.length"].concat([
+        {CONST:"m4"},{APPLY:1}
+    ]);      
+      
+    test.deepEqual(runtime.execute(code), {CONST:2});
+    test.done();
+  },
+        
   'strings hash': function(test) {
     test.expect(1);
     // tests here  
@@ -219,6 +219,34 @@ exports['native'] = {
       
     test.deepEqual(runtime.execute(code), {CONST:52});
     test.done();
+  },
+    
+  'string getAt': function(test) {
+    test.expect(1);
+    // tests here  
+    var code = runtime.delta["string.getAt"].concat([
+        {CONST:"4"},{APPLY:1},
+        {CONST:"0"},{APPLY:1},
+        {CLOSURE:[{ACCESS:1},{RETURN:1}]},{APPLY:1},
+        {CONST:false},{APPLY:1}
+    ]);      
+      
+    test.deepEqual(runtime.execute(code), {CONST:"4"});
+    test.done();  
+  },
+    
+  'string getAt outofbound': function(test) {
+    test.expect(1);
+    // tests here  
+    var code = runtime.delta["string.getAt"].concat([
+        {CONST:"4"},{APPLY:1},
+        {CONST:"1"},{APPLY:1},
+        {CLOSURE:[{ACCESS:1},{RETURN:1}]},{APPLY:1},
+        {CONST:false},{APPLY:1}
+    ]);      
+      
+    test.deepEqual(runtime.execute(code), {CONST:false});
+    test.done();  
   },
  
   'numbers +': function(test) {
