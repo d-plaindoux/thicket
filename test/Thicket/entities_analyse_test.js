@@ -175,12 +175,13 @@ exports['entities_analyse'] = {
       test.done();
   },
     
-  "Cannot Analyse simple controller returning self": function (test) {
+  "Cannot Analyse trait with self dependency": function (test) {
       test.expect(1);
       // Test
       var aController = ast.entity("A",
-                                   ast.controller("A",[],
-                                       ast.param("this", ast.namespace(ast.type.variable("number"),"Data.Number")),
+                                   ast.trait("A",
+                                             [],
+                                             ast.param("this", ast.namespace(ast.type.variable("number"),"Data.Number")),
                                        [ ast.param("m", ast.namespace(ast.type.variable("number"),"Data.Number")) ],
                                        [ ast.method("m", ast.expr.ident("self")) ])),
                     aPackages = packages(option.none());        

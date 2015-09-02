@@ -59,9 +59,11 @@ exports['deBruijn'] = {
       
       var aPackages = packages(option.none());
       
-      test.deepEqual(deBruijn.indexes(compiler.entity(environment(aPackages), ast.model("A",list(),[ast.param("a1",ast.type.native("a")),
-                                                                   ast.param("a2",ast.type.native("b"))])).success()), 
-                    compiler.abstractSyntax("Model","A",[[ "a1", compiler.abstractSyntax("Variable",1)], ["a2",compiler.abstractSyntax("Variable",2)]]));
+      test.deepEqual(deBruijn.indexes(compiler.entity(environment(aPackages), 
+                                                      ast.model("A",list(),[ast.param("a1",ast.type.native("a")),
+                                                                            ast.param("a2",ast.type.native("b"))])).success()), 
+                    compiler.abstractSyntax("Model","A",[["a1",compiler.abstractSyntax("Variable",1)], 
+                                                         ["a2",compiler.abstractSyntax("Variable",2)]]));
       test.done();
   },
 
@@ -70,8 +72,31 @@ exports['deBruijn'] = {
       
       var aPackages = packages(option.none());
       
-      test.deepEqual(deBruijn.indexes(compiler.entity(environment(aPackages), ast.controller("A",[],ast.param("this",ast.type.native("a")),[],[])).success()),
-                     compiler.abstractSyntax("Controller","A",[]));
+      test.deepEqual(deBruijn.indexes(compiler.entity(environment(aPackages), 
+                                                      ast.controller("A",
+                                                                     [],
+                                                                     ast.param("this",ast.type.native("a")),
+                                                                     [],
+                                                                     [])
+                                                     ).success()),
+                     compiler.abstractSyntax("Controller","A",[],[]));
+      test.done();
+  },
+
+  'Extended controller': function (test) {
+      test.expect(1);
+      
+      var aPackages = packages(option.none());
+      
+      test.deepEqual(deBruijn.indexes(compiler.entity(environment(aPackages), 
+                                                      ast.controller("A",
+                                                                     [],
+                                                                     ast.param("this",ast.type.native("a")),
+                                                                     [],
+                                                                     [],
+                                                                     [ast.type.variable("B")])
+                                                     ).success()),
+                     compiler.abstractSyntax("Controller","A",[],["B"]));
       test.done();
   },
 
@@ -81,11 +106,12 @@ exports['deBruijn'] = {
       var aPackages = packages(option.none());
 
       test.deepEqual(deBruijn.indexes(compiler.entity(environment(aPackages), 
-                                        ast.controller("A",[],
-                                                    ast.param("this",ast.type.native("a")),
-                                                    [],
-                                                    [ast.method("unbox", ast.expr.ident("this"))])).success()),
-                    compiler.abstractSyntax("Controller","A",[["unbox",compiler.abstractSyntax("Variable",1)]]));
+                                        ast.controller("A",
+                                                       [],
+                                                        ast.param("this",ast.type.native("a")),
+                                                        [],
+                                                        [ast.method("unbox", ast.expr.ident("this"))])).success()),
+                    compiler.abstractSyntax("Controller","A",[["unbox",compiler.abstractSyntax("Variable",1)]],[]));
       test.done();
   },
 
@@ -97,21 +123,52 @@ exports['deBruijn'] = {
       aPackages.defineInRoot([], [ast.entity('number',ast.model('number',[],[]))]);
     
       test.deepEqual(deBruijn.indexes(compiler.entity(environment(aPackages),
-                                     ast.controller("A",[],
+                                     ast.controller("A",
+                                                    [],
                                                     ast.param("this",ast.type.native("a")),
                                                     [],
                                                     [ast.method("unbox", ast.expr.ident("this"), ast.type.variable('number'))])).success()),
-                    compiler.abstractSyntax("Controller","A",[["number.unbox",compiler.abstractSyntax("Variable",1)]]));
+                    compiler.abstractSyntax("Controller","A",[["number.unbox",compiler.abstractSyntax("Variable",1)]],[]));
       test.done();
   },
      
+  'Simple trait': function (test) {
+      test.expect(1);
+      
+      var aPackages = packages(option.none());
+      
+      test.deepEqual(deBruijn.indexes(compiler.entity(environment(aPackages), ast.trait("A",[],[],[])).success()),
+                     compiler.abstractSyntax("Trait","A",[],[]));
+      test.done();
+  },
+    
+  'Extended trait': function (test) {
+      test.expect(1);
+      
+      var aPackages = packages(option.none());
+      
+      test.deepEqual(deBruijn.indexes(compiler.entity(environment(aPackages), 
+                                                      ast.trait("A",
+                                                                [],
+                                                                [],
+                                                                [],
+                                                                [ast.type.variable("B")])
+                                                     ).success()),
+                     compiler.abstractSyntax("Trait","A",[],["B"]));
+      test.done();
+  },
+
   'Simple Definition': function (test) {
       test.expect(1);
       
       var aPackages = packages(option.none());
 
-      test.deepEqual(deBruijn.indexes(compiler.entity(environment(aPackages), ast.expression("A",ast.type.native("number"),ast.expr.number(1))).success()),
-                     compiler.abstractSyntax("Definition","A",compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","number"), compiler.abstractSyntax("Native",1))));
+      test.deepEqual(deBruijn.indexes(compiler.entity(environment(aPackages), 
+                                                      ast.expression("A",ast.type.native("number"),ast.expr.number(1))).success()),
+                     compiler.abstractSyntax("Definition","A",
+                                             compiler.abstractSyntax("Apply",
+                                                                     compiler.abstractSyntax("Ident","number"), 
+                                                                     compiler.abstractSyntax("Native",1))));
       test.done();
   },
     
@@ -119,7 +176,8 @@ exports['deBruijn'] = {
       test.expect(1);
       
       test.deepEqual(deBruijn.indexes(compiler.expression(list(), ast.expr.number(1)).success()),
-                     compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","number"), compiler.abstractSyntax("Native",1)));
+                     compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","number"), 
+                                             compiler.abstractSyntax("Native",1)));
       test.done();
   },
     
@@ -127,7 +185,8 @@ exports['deBruijn'] = {
       test.expect(1);
       
       test.deepEqual(deBruijn.indexes(compiler.expression(list(), ast.expr.string("1")).success()),
-                     compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), compiler.abstractSyntax("Native","1")));
+                     compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), 
+                                             compiler.abstractSyntax("Native","1")));
       test.done();
   },
 
@@ -146,8 +205,13 @@ exports['deBruijn'] = {
                      compiler.abstractSyntax("Apply",
                                              compiler.abstractSyntax("Apply", 
                                                                      compiler.abstractSyntax("Ident", "Pair"),
-                                                                     compiler.abstractSyntax("Lazy", compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","number"), compiler.abstractSyntax("Native",1)))),
-                                             compiler.abstractSyntax("Lazy", compiler.abstractSyntax("Apply",compiler.abstractSyntax("Ident","string"), compiler.abstractSyntax("Native","1")))));
+                                                                     compiler.abstractSyntax("Lazy", 
+                                                                                             compiler.abstractSyntax("Apply",
+                                                                                                                     compiler.abstractSyntax("Ident","number"), 
+                                                                                                                     compiler.abstractSyntax("Native",1)))),
+                                             compiler.abstractSyntax("Lazy", compiler.abstractSyntax("Apply",
+                                                                                                     compiler.abstractSyntax("Ident","string"),
+                                                                                                     compiler.abstractSyntax("Native","1")))));
       test.done();
   },
 
@@ -170,7 +234,11 @@ exports['deBruijn'] = {
   'Apply expression': function (test) {
       test.expect(1);
       
-      test.deepEqual(deBruijn.indexes(compiler.expression(list('b'), ast.expr.abstraction("b", ast.expr.application(ast.expr.ident("a"), ast.expr.ident("b")))).success()),
+      test.deepEqual(deBruijn.indexes(compiler.expression(list('b'), 
+                                                          ast.expr.abstraction("b",
+                                                                               ast.expr.application(ast.expr.ident("a"), 
+                                                                                                    ast.expr.ident("b")))
+                                                         ).success()),
                      compiler.abstractSyntax("Function", 
                                              compiler.abstractSyntax("Apply", 
                                                                      compiler.abstractSyntax("Ident","a"),

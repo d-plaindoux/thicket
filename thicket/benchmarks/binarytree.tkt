@@ -28,7 +28,7 @@ from System.Console import console
  
 model TreeNode {
     item  : number
-    nodes : option[(TreeNode,TreeNode)]
+    nodes : option[TreeNode,TreeNode]
 }
 
 /** 
@@ -67,11 +67,11 @@ def bench = n -> {
                         " check: " + 
                         check
         };
-        { foreach minDepth,(maxDepth + 1) step 2 fold
+        { foreach minDepth,maxDepth step 2 fold
             ()
             (depth _ -> 
                 let iterations = 1 << (maxDepth - depth + minDepth) in
-                let check = foreach 1,(iterations + 1) step 1 fold
+                let check = foreach 1,iterations step 1 fold
                                     0 
                                     (i r -> r + 
                                         (itemCheck $ bottomUpTree i depth) +

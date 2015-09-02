@@ -1,0 +1,7 @@
+model A
+
+trait B { 
+    m : A
+} {
+    def m = A
+}

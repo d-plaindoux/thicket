@@ -69,7 +69,22 @@ exports['compiler'] = {
       var aPackages = packages(option.none());
 
       test.deepEqual(compiler.entity(environment(aPackages), ast.controller("A",[],ast.param("this",ast.type.native("a")),[],[])).success(),
-                     compiler.abstractSyntax("Controller","A","this",[]));
+                     compiler.abstractSyntax("Controller","A","this",[],[]));
+      test.done();
+  },
+
+  'Extended controller': function (test) {
+      test.expect(1);
+            
+      var aPackages = packages(option.none());
+
+      test.deepEqual(compiler.entity(environment(aPackages), 
+                                     ast.controller("A",[],
+                                                    ast.param("this",ast.type.native("a")),
+                                                    [],
+                                                    [],
+                                                    [ast.type.variable("B")])).success(),
+                     compiler.abstractSyntax("Controller","A","this",[],["B"]));
       test.done();
   },
 
@@ -79,11 +94,27 @@ exports['compiler'] = {
       var aPackages = packages(option.none());
 
       test.deepEqual(compiler.entity(environment(aPackages),
-                                     ast.controller("A",[],
+                                     ast.controller("A",
+                                                    [],
                                                     ast.param("this",ast.type.native("a")),
                                                     [],
                                                     [ast.method("unbox", ast.expr.ident("this"))])).success(),
-                    compiler.abstractSyntax("Controller","A","this",[["unbox",compiler.abstractSyntax("Variable","this")]]));
+                    compiler.abstractSyntax("Controller","A","this",[["unbox",compiler.abstractSyntax("Variable","this")]],[]));
+      test.done();
+  },
+    
+  'Controller with unbox and external ident': function (test) {
+      test.expect(1);
+      
+      var aPackages = packages(option.none());
+
+      test.deepEqual(compiler.entity(environment(aPackages),
+                                     ast.controller("A",
+                                                    [],
+                                                    ast.param("this",ast.type.native("a")),
+                                                    [],
+                                                    [ast.method("unbox", ast.expr.ident("b"))])).success(),
+                    compiler.abstractSyntax("Controller","A","this",[["unbox",compiler.abstractSyntax("Ident","b")]],[]));
       test.done();
   },
 
@@ -95,17 +126,66 @@ exports['compiler'] = {
       aPackages.defineInRoot([],[ast.entity('number', ast.model('number',[],[]))]);
         
       test.deepEqual(compiler.entity(environment(aPackages),
-                                     ast.controller("A",[],
+                                     ast.controller("A",
+                                                    [],
                                                     ast.param("this",ast.type.native("a")),
                                                     [],
                                                     [ast.method("unbox", 
                                                                 ast.expr.ident("this"), 
                                                                 ast.namespace(ast.type.variable('number'),aPackages.main()))])
                                     ).success(),
-                    compiler.abstractSyntax("Controller","A","this",[["number.unbox",compiler.abstractSyntax("Variable","this")]]));
+                    compiler.abstractSyntax("Controller","A","this",[["number.unbox",compiler.abstractSyntax("Variable","this")]],[]));
       test.done();
   },
-     
+
+  'Simple trait': function (test) {
+      test.expect(1);
+            
+      var aPackages = packages(option.none());
+
+      test.deepEqual(compiler.entity(environment(aPackages), ast.trait("A",[],[],[])).success(),
+                     compiler.abstractSyntax("Trait","A",[],[]));
+      test.done();
+  },
+   
+  'Trait with unbox': function (test) {
+      test.expect(1);
+      
+      var aPackages = packages(option.none());
+
+      test.deepEqual(compiler.entity(environment(aPackages),
+                                     ast.trait("A",
+                                               [],
+                                               [],
+                                               [ast.method("unbox", ast.expr.ident("self"))])).success(),
+                    compiler.abstractSyntax("Trait","A",[["unbox",compiler.abstractSyntax("Variable","self")]],[]));
+      test.done();
+  },
+    
+  'Trait with unbox and external ident': function (test) {
+      test.expect(1);
+      
+      var aPackages = packages(option.none());
+
+      test.deepEqual(compiler.entity(environment(aPackages),
+                                     ast.trait("A",
+                                               [],
+                                               [],
+                                               [ast.method("unbox", ast.expr.ident("b"))])).success(),
+                    compiler.abstractSyntax("Trait","A",[["unbox",compiler.abstractSyntax("Ident","b")]],[]));
+      test.done();
+  },
+
+  'Extended trait': function (test) {
+      test.expect(1);
+            
+      var aPackages = packages(option.none());
+
+      test.deepEqual(compiler.entity(environment(aPackages), ast.trait("A",[],[],[],[ast.type.variable("B")])).success(),
+                     compiler.abstractSyntax("Trait","A",[],["B"]));
+      test.done();
+  },
+
   'Simple Definition': function (test) {
       test.expect(1);
       
@@ -186,7 +266,7 @@ exports['compiler'] = {
       test.done();
   },
 
-    'Invoke expression': function (test) {
+  'Invoke expression': function (test) {
       test.expect(1);
       
       test.deepEqual(compiler.expression(list('a', 'b'), ast.expr.invoke(ast.expr.ident("a"), "b")).success(),

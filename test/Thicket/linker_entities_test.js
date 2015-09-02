@@ -330,17 +330,17 @@ exports['linker_entities'] = {
     test.done();
   },
 
-  'Cannot Link controller with wrong expression': function(test) {
+  'Can Link controller with maybe wrong expression': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream('class a this:number { f : number -> a } { def f n = a b }'),
+    var aStream = stream('model number class a this:number { f : number -> a } { def f n = a b }'), // May be a.b
         entities = language.parser.group('entities').parse(aStream).get()[0],
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
     aPackages.defineInRoot([], entities);  
  
-    test.ok(aLinker.linkEntities(aPackages.main(), list(entities)).isFailure());
+    test.ok(aLinker.linkEntities(aPackages.main(), list(entities)).isSuccess());
       
     test.done();
   },
@@ -386,7 +386,7 @@ exports['linker_entities'] = {
     test.done();
   },
 
-  'Can Link derivation': function(test) {
+  'Can Link controller with model derivation': function(test) {
     test.expect(1);
     // tests here  
     var aStream = stream('model number model B class a this:number { +B } {  }'),
@@ -401,10 +401,131 @@ exports['linker_entities'] = {
     test.done();
   },
     
-  'Cannot Link derivation': function(test) {
+  'Cannot Link controller with model derivation': function(test) {
     test.expect(1);
     // tests here  
     var aStream = stream('model number class a this:number { +Foo } {  }'),
+        entities = language.parser.group('entities').parse(aStream).get()[0],
+        aPackages = packages(option.none()),
+        aLinker = linker(aPackages);
+
+    aPackages.defineInRoot([], entities);  
+ 
+    test.ok(aLinker.linkPackageByName(aPackages.main()).isFailure());
+      
+    test.done();
+  },
+    
+  'Trait definition': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream('trait Foo {}{}'),
+        entities = language.parser.group('entities').parse(aStream).get()[0],
+        aPackages = packages(option.none()),
+        aLinker = linker(aPackages);
+
+    aPackages.defineInRoot([], entities);  
+ 
+    test.ok(aLinker.linkPackageByName(aPackages.main()).isSuccess());
+      
+    test.done();
+  },
+
+
+  'Link simple trait': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream('model number trait a { f : number -> a } { def f n = n }'),
+        entities = language.parser.group('entities').parse(aStream).get()[0],
+        aPackages = packages(option.none()),
+        aLinker = linker(aPackages);
+
+    aPackages.defineInRoot([], entities);  
+ 
+    test.ok(aLinker.linkEntities(aPackages.main(), list(entities)).isSuccess());
+      
+    test.done();
+  },
+
+  'Link simple trait using self': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream('model number trait a { f : number -> a } { def f n = self }'),
+        entities = language.parser.group('entities').parse(aStream).get()[0],
+        aPackages = packages(option.none()),
+        aLinker = linker(aPackages);
+
+    aPackages.defineInRoot([], entities);  
+ 
+    test.ok(aLinker.linkEntities(aPackages.main(), list(entities)).isSuccess());
+      
+    test.done();
+  },
+
+  'Cannot Link trait with wrong type': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream('trait a { f : number -> a } { def f n = n }'),
+        entities = language.parser.group('entities').parse(aStream).get()[0],
+        aPackages = packages(option.none()),
+        aLinker = linker(aPackages);
+
+    aPackages.defineInRoot([], entities);  
+ 
+    test.ok(aLinker.linkEntities(aPackages.main(), list(entities)).isFailure());
+      
+    test.done();
+  },
+    
+  'Cannot Link trait with wrong expression': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream('trait a { f : number -> a } { def f n = a n }'),
+        entities = language.parser.group('entities').parse(aStream).get()[0],
+        aPackages = packages(option.none()),
+        aLinker = linker(aPackages);
+
+    aPackages.defineInRoot([], entities);  
+ 
+    test.ok(aLinker.linkEntities(aPackages.main(), list(entities)).isFailure());
+      
+    test.done();
+  },
+
+  'Can Link trait with maybe wrong expression': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream('model number trait a { f : number -> a } { def f n = n b }'), // May be a.b
+        entities = language.parser.group('entities').parse(aStream).get()[0],
+        aPackages = packages(option.none()),
+        aLinker = linker(aPackages);
+
+    aPackages.defineInRoot([], entities);  
+ 
+    test.ok(aLinker.linkEntities(aPackages.main(), list(entities)).isSuccess());
+      
+    test.done();
+  },
+
+  'Can Link trait derivation': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream('model B trait a { +B } {  }'),
+        entities = language.parser.group('entities').parse(aStream).get()[0],
+        aPackages = packages(option.none()),
+        aLinker = linker(aPackages);
+
+    aPackages.defineInRoot([], entities);  
+ 
+    test.ok(aLinker.linkPackageByName(aPackages.main()).isSuccess());
+      
+    test.done();
+  },
+    
+  'Cannot Link trait derivation': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream('trait a { +Foo } {  }'),
         entities = language.parser.group('entities').parse(aStream).get()[0],
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);

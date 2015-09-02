@@ -69,13 +69,25 @@ exports['objcode'] = {
       
       var aPackages = packages(option.none());
 
-      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.entity(environment(aPackages), ast.controller("A",[],ast.param("this",ast.type.native("a")),[],[])).success())),
-                     [ {'CLASS': ['A', []]} ]);
+      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.entity(environment(aPackages),
+                                                                              ast.controller("A",[],ast.param("this",ast.type.native("a")),[],[])).success())),
+                     [ {'CLASS': ['A', [], []]} ]);
       test.done();
   },
 
-  'Controller with unbox': function (test) {
+  'Extended controller': function (test) {
       test.expect(1);
+      
+      var aPackages = packages(option.none());
+
+      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.entity(environment(aPackages),
+                                                                              ast.controller("A",[],ast.param("this",ast.type.native("a")),[],[])).success())),
+                     [ {'CLASS': ['A', [], []]} ]);
+      test.done();
+  },
+
+  'Controller with unbox accessing self': function (test) {
+      test.expect(1); 
       
       var aPackages = packages(option.none());
 
@@ -83,8 +95,22 @@ exports['objcode'] = {
                                         ast.controller("A",[],
                                                     ast.param("this",ast.type.native("a")),
                                                     [],
-                                                    [ast.method("unbox", ast.expr.ident("this"))])).success())),
-                     [ {'CLASS': ['A', [ ["unbox", [ {ACCESS: 1}, {RETURN: 1} ]] ]]} ]);
+                                                    [ast.method("unbox", ast.expr.ident("self"))])).success())),
+                     [ {'CLASS': ['A', [ ["unbox", [ {ACCESS: 2}, {RETURN: 1} ]] ], []]} ]);
+      test.done();
+  },
+
+  'Controller with unbox accessing this': function (test) {
+      test.expect(1);
+      
+      var aPackages = packages(option.none());
+
+      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.entity(environment(aPackages), 
+                                        ast.controller("A",[],
+                                                       ast.param("this",ast.type.native("a")),
+                                                       [], 
+                                                       [ast.method("unbox", ast.expr.ident("this"))])).success())),
+                     [ {'CLASS': ['A', [ ["unbox", [ {ACCESS: 1}, {RETURN: 1} ]] ], []]} ]);
       test.done();
   },
 
@@ -96,11 +122,47 @@ exports['objcode'] = {
       aPackages.defineInRoot([], [ast.entity('number', ast.model('number',[],[]))]);
       
       test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.entity(environment(aPackages),
-                                     ast.controller("A",[],
+                                     ast.controller("A",
+                                                    [],
                                                     ast.param("this",ast.type.native("a")),
                                                     [],
                                                     [ast.method("unbox", ast.expr.ident("this"), ast.namespace(ast.type.variable('number'),"main"))])).success())),
-                     [ {'CLASS': ['A', [ ["number.unbox", [ {ACCESS: 1}, {RETURN: 1} ]] ]] } ]);
+                     [ {'CLASS': ['A', [ ["number.unbox", [ {ACCESS: 1}, {RETURN: 1} ]] ], []] } ]);
+      test.done();
+  },
+
+  'Simple trait': function (test) {
+      test.expect(1);
+      
+      var aPackages = packages(option.none());
+
+      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.entity(environment(aPackages), ast.trait("A",[],[],[])).success())),
+                     [ {'CLASS': ['A', [], []]} ]);
+      test.done();
+  },
+
+  'Extended trait': function (test) {
+      test.expect(1);
+      
+      var aPackages = packages(option.none());
+
+      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.entity(environment(aPackages), 
+                                                                              ast.trait("A",[],[],[],[ast.type.variable("B")])).success())),
+                     [ {'CLASS': ['A', [], ['B']]} ]);
+      test.done();
+  },
+    
+  'Trait with unbox accessing self': function (test) {
+      test.expect(1);
+      
+      var aPackages = packages(option.none());
+
+      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.entity(environment(aPackages), 
+                                        ast.trait("A",
+                                                  [],
+                                                  [],
+                                                  [ast.method("unbox", ast.expr.ident("self"))])).success())),
+                     [ {'CLASS': ['A', [ ["unbox", [ {ACCESS: 2}, {RETURN: 1} ]] ], []]} ]);
       test.done();
   },
 

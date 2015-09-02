@@ -66,7 +66,10 @@ exports['language_class'] = {
     var aStream = stream("class Address [a b] this:Address {}{}");
         
     test.deepEqual(language.parser.group('controllerDef').parse(aStream).get().definition, 
-                   ast.type.forall(["a", "b"], ast.controller('Address', [ast.type.variable('a'),ast.type.variable('b')], ast.param('this',ast.type.variable('Address')), [], [])) , 
+                   ast.type.forall(["a", "b"], 
+                                   ast.controller('Address', 
+                                                  [ast.type.variable('a'), ast.type.variable('b')], 
+                                                  ast.param('this',ast.type.variable('Address')), [], [])) , 
                    "accept a controller");
     test.done();
   },
@@ -93,22 +96,9 @@ exports['language_class'] = {
                    ast.controller('Address', 
                                   [],
                                   ast.param('this', ast.type.variable('Address')), 
-                                  [ ast.param('number', ast.type.abstraction(ast.type.variable("unit"), ast.type.variable("number"))) ], 
+                                  [ ast.param('number', ast.type.abstraction(ast.type.variable("unit"), 
+                                                                             ast.type.variable("number"))) ], 
                                   [ ast.method('number', ast.expr.abstraction("_", ast.expr.number(123))) ]), 
-                   "accept a controller");
-    test.done();
-  },
-        
-  'controller with a functional typed behavior is accepted and provided': function(test) {
-    test.expect(1);
-    // tests here  
-    var aStream = stream("class Address this: Address { number : unit -> number } { def number _:unit = 123 }");        
-    test.deepEqual(language.parser.group('controllerDef').parse(aStream).get().definition, 
-                   ast.controller('Address', 
-                                  [],
-                                  ast.param('this', ast.type.variable('Address')), 
-                                  [ ast.param('number', ast.type.abstraction(ast.type.variable("unit"), ast.type.variable("number"))) ], 
-                                  [ ast.method('number', ast.expr.abstraction("_", ast.expr.number(123), ast.type.variable('unit'))) ]), 
                    "accept a controller");
     test.done();
   },
@@ -121,8 +111,12 @@ exports['language_class'] = {
                    ast.controller('Address',
                                   [],
                                   ast.param('this', ast.type.variable('Address')), 
-                                  [ ast.param('number', ast.type.forall(["a"],ast.type.abstraction(ast.type.variable("a"),ast.type.variable("a")))) ],
-                                  [ ast.method('number', ast.expr.abstraction("x", ast.expr.ident("x")))]) , 
+                                  [ ast.param('number', 
+                                              ast.type.forall(["a"],
+                                                              ast.type.abstraction(ast.type.variable("a"),
+                                                                                   ast.type.variable("a")))) ],
+                                  [ ast.method('number',
+                                               ast.expr.abstraction("x", ast.expr.ident("x")))]) , 
                    "accept a controller");
     test.done();
   },
@@ -135,8 +129,13 @@ exports['language_class'] = {
                    ast.controller('Address',
                                   [],
                                   ast.param('this', ast.type.variable('Address')), 
-                                  [ ast.param('number', ast.type.forall(["a"],ast.type.abstraction(ast.type.variable("a"),ast.type.variable("a")))) ],
-                                  [ ast.method('number', ast.expr.abstraction("x", ast.expr.ident("x")), ast.type.variable("a")) ]) , 
+                                  [ ast.param('number', 
+                                              ast.type.forall(["a"],
+                                                              ast.type.abstraction(ast.type.variable("a"),
+                                                                                   ast.type.variable("a")))) ],
+                                  [ ast.method('number', 
+                                               ast.expr.abstraction("x", ast.expr.ident("x")), 
+                                               ast.type.variable("a")) ]) , 
                    "accept a controller");
     test.done();
   },
@@ -149,7 +148,10 @@ exports['language_class'] = {
                    ast.controller('Address',
                                   [],
                                   ast.param('this', ast.type.variable('Address')), 
-                                  [ ast.param('+', ast.type.forall(["a"],ast.type.abstraction(ast.type.variable("a"),ast.type.variable("a")))) ],
+                                  [ ast.param('+', 
+                                              ast.type.forall(["a"],
+                                                              ast.type.abstraction(ast.type.variable("a"),
+                                                                                   ast.type.variable("a")))) ],
                                   [ ast.method('+', ast.expr.abstraction("x", ast.expr.ident("x"))) ]) , 
                    "accept a controller");
     test.done();

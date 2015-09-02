@@ -4,11 +4,11 @@
 [![Coverage Status](https://coveralls.io/repos/d-plaindoux/thicket/badge.png?branch=master)](https://coveralls.io/r/d-plaindoux/thicket?branch=master) 
 [![unstable](http://badges.github.io/stability-badges/dist/unstable.svg)](http://github.com/badges/stability-badges)
 
-Thicket is a language based on Model, Controller and View approach.  In
+Thicket is a language based on Model, Controller and View approach. In
 this  approach  a model  denotes  a set  of  data  (atomic or  object)
 federated in  a named  structure. A controller  is a set  of behaviors
-applied to a  given object and finally a view  denotes an extended DOM
-fragment used for UI management.
+applied to a  given model or controller and finally a view  denotes an 
+extended DOM fragment used for UI management.
 
 Thicket is a  strong typed language based on  well known Hindley-Milner
 type system and type inference paradigm. The runtime is based on an
@@ -37,7 +37,6 @@ model Person {
    age: number
 }
 ```
-
 ### Class
 
 A  class provides  a  set of  behaviors where  the  internal state  is
@@ -48,9 +47,8 @@ a given model.
 
 ```
 class person this:Person {  
-  firstname: string
-  name: string
-  age: number
+  + Person
+  
   tick: person
 } {
   def firstname = this.firstname
@@ -168,6 +166,22 @@ class number this:native {
 Derivation can be used for adapters synthesis. In fact each time a derivation is specified the corresponding 
 adapter can be easily generated and therefore used to "simulate" subtyping based on implicit object transformation.
 
+### Traits
+
+A trait is an abstract component providing behaviors without any constraint 
+related to the denoted data type.
+
+```
+trait comparable[a] {
+    + Comparable[a]
+} {
+    def (!=) n = (self == n) not    
+    def (<=) n = (self == n) || (self <? n)
+    def (=>) n = n <? self
+    def (?>) n = n <= self    
+}
+```
+
 ## Simple Examples
 
 ### Hello World
@@ -188,22 +202,7 @@ The [Console](https://github.com/d-plaindoux/thicket/tree/master/thicket/example
 for execution [here](http://d.plaindoux.free.fr/thicket/thicket/examples/thicket/console.html) shows how the 
 runtime can be easily extended in order to provide a naive embedded interpret in the web browser.
 
-## In consideration
-
-### Traits
-
-A trait is an abstract component providing behaviors without any constraint related to the denoted data type.
-
-```
-trait comparable[a] {
-    + Comparable[a]
-} {
-    def (!=) n = (self == n) not    
-    def (<=) n = (self == n) || (self <? n)
-    def (=>) n = n <? self
-    def (?>) n = n <= self    
-}
-```
+## Not yet in the language
 
 ### Model type case
 

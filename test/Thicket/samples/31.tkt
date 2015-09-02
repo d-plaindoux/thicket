@@ -1,0 +1,13 @@
+model C
+
+class unbox[a] this:a {
+    unbox : a
+} { 
+    def unbox = this
+}
+
+class a this:C {
+    + unbox[C]  
+} {
+    def unbox = this
+}

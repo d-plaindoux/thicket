@@ -22,7 +22,7 @@ from Data.Map import Map
 
 typedef Hashmap[k v] = array[list[(k,v)]] 
 
-class hashmap[k v] this:Hashmap[k v] {
+class hashmap[k v] this:array[list[(k,v)]] {
   unbox  : Hashmap[k v]
  
   empty  : bool
@@ -31,7 +31,6 @@ class hashmap[k v] this:Hashmap[k v] {
   add    : Comparable[k] -> v -> hashmap[k v]
   remove : Comparable[k] -> hashmap[k v]
 } {
-
   def unbox = this
 
   def empty = 
@@ -41,21 +40,20 @@ class hashmap[k v] this:Hashmap[k v] {
       let index = c hashable hash % this.length in
       let retrieve = l -> l find (e -> c == e._1) map (e -> e._2) in
           this get index flatmap retrieve
-/*
+
   def add c v = 
       let index = c hashable hash % this.length in
       let cleanup = l -> l filter (e -> c != e._1) in
       let entries = this get index fold emptyList cleanup in
           hashmap $ this set index $ entries +: ((c unbox),v)          
-          
-  def remove c = 
+
+  def remove c =
       let index = c hashable hash % this.length in
       let cleanup = l -> l filter (e -> c != e._1) in
-      let entries = this get index fold emptyList cleanup in
-          entries empty fold
-                { hashmap $ this reset index }
-                { hashmap $ this set index entries }
-*/                
+      let entries = this get index fold emptyList cleanup in            
+          hashmap $ entries empty fold
+                        { this reset index }
+                        { this set index entries }
 }
 
 /**

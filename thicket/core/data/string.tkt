@@ -13,23 +13,20 @@ from System.Internal import internal
 from Data.Native import native
 from Data.Number import number
 from Data.Option import option none some
-from Data.Comparable import Comparable
+from Data.Comparable import Comparable comparable
 from Data.Hashable import Hashable
 
 class string this:native {
-    + Comparable[string]
+    + comparable[string]
         
     (+)      : string -> string    
     toNumber : option[number]    
     length   : number
 } {
     def unbox = self
+
     def (==) n = internal "generic.==" self n true false
-    def (!=) n = (self == n) not    
-    def (<=) n = (self == n) || (self <? n)
-    def (=>) n = n <? self
     def (<?) n = internal "generic.<" self n true false
-    def (?>) n = n <= self
     
     def (+) s = string $ internal "string.+" self s
     
