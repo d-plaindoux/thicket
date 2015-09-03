@@ -9,7 +9,7 @@ model native
 class number this:native {
     (*) : number -> number
 }{
-    // Nothing
+    def (*) n = n // Fake but it's not important
 }
 
 model Read

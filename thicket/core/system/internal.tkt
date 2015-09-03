@@ -17,10 +17,8 @@ from Data.String import string
  */
  
 class internalClass this:string {
-    apply : [b] b // native -> No implementation for the moment
-}{
-    // apply method is provided by the system
-}
+    native apply : [b] b
+}{}
 
 def internal : [a] string -> a = s -> {
     internalClass s apply

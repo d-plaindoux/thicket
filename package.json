@@ -1,6 +1,7 @@
 {
   "name": "thicket",
   "description": "Strong typed language dedicated to backend and web application design",
+  "license": "LGPL-2.1",
   "version": "0.1.0",
   "homepage": "https://github.com/d-plaindoux/thicket",
   "author": {
