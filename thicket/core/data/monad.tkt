@@ -12,3 +12,10 @@ model Monad[M a] {
     return : a -> M[a]
     (>>=)  : [b] M[a] -> (a -> M[b]) -> M[b]
 }
+
+/**
+ * Example
+ *
+ * model Unit[a] { _ : a }
+ * def e : [a]Monad[Unit a] = Monad Unit (m f -> f m._)
+ */
