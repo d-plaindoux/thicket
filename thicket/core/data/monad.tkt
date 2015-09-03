@@ -6,9 +6,7 @@
  * Licensed under the LGPL2 license.
  */
  
-module Data.Funtor
-
-typedef Functor[F a b] = F[a->b] -> F[a] -> F[b]
+module Data.Monad
 
 model Monad[M a] {
     return : a -> M[a]
