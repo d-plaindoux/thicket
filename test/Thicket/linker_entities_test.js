@@ -435,7 +435,7 @@ exports['linker_entities'] = {
   'Link simple trait': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream('model number trait a { f : number -> a } { def f n = n }'),
+    var aStream = stream('model number trait a { f : number -> number } { def f n = n }'),
         entities = language.parser.group('entities').parse(aStream).get()[0],
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
@@ -465,7 +465,7 @@ exports['linker_entities'] = {
   'Cannot Link trait with wrong type': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream('trait a { f : number -> a } { def f n = n }'),
+    var aStream = stream('trait a { f : number -> number } { def f n = n }'),
         entities = language.parser.group('entities').parse(aStream).get()[0],
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
@@ -480,7 +480,7 @@ exports['linker_entities'] = {
   'Cannot Link trait with wrong expression': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream('trait a { f : number -> a } { def f n = a n }'),
+    var aStream = stream('trait a { f : number -> number } { def f n = a n }'),
         entities = language.parser.group('entities').parse(aStream).get()[0],
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
@@ -495,7 +495,7 @@ exports['linker_entities'] = {
   'Can Link trait with maybe wrong expression': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream('model number trait a { f : number -> a } { def f n = n b }'), // May be a.b
+    var aStream = stream('model number trait a { f : number -> number } { def f n = n b }'), // May be a.b
         entities = language.parser.group('entities').parse(aStream).get()[0],
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);

@@ -204,6 +204,29 @@ runtime can be easily extended in order to provide a naive embedded interpret in
 
 ## Not yet in the language
 
+### Type of self in traits
+
+Since traits defines partial definitions allowing self usage the related type is only
+known when such trait is used in a class.
+
+```
+trait Set[M a] {
+    empty  : bool
+    size   : number
+    // Etc.    
+} {
+    def empty = self size == 0
+}
+```
+
+In this example `self` has the behavior `size` because *it's an implementation* 
+of a `Set`. But what does *implementation* means in the type system. In fact the 
+self type is a type containing `Set` specification i.e. a class with a derivation
+to this trait. 
+
+For the moment the type of self is the trait type itself but this approach is not 
+fulfiling. 
+
 ### Model type case
 
 Since model type exists for methods this does not exist yet for model type based.
@@ -215,8 +238,9 @@ case Cons as l => ... // l can be used for extraction
 }
 ```
 
-The `match` function  can be seen as a standard construction of the language but functional fold mechanism 
-providing decomposition and projection seems to be enougth for the moment.
+The `match` function  can be seen as a standard construction of the language 
+but functional fold mechanism providing decomposition and projection seems to 
+be enougth for the moment.
 
 ## More informations and References
 

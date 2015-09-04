@@ -112,7 +112,7 @@ exports['packages'] = {
 
     aPackages.define(aReader.specifications("Data.Unit"));      
       
-    test.ok(aPackages.retrieve("Data.Unit").get().findType("unit").isSuccess());
+    test.ok(aPackages.retrieve("Data.Unit").get().findType("unit",{}).isSuccess());
       
     test.done();
   },
@@ -125,7 +125,7 @@ exports['packages'] = {
 
     aPackages.define(aReader.specifications("Data.Unit"));      
       
-    test.ok(aPackages.retrieve("Data.Unit").get().findType("wrongName").isFailure());
+    test.ok(aPackages.retrieve("Data.Unit").get().findType("wrongName",{}).isFailure());
       
     test.done();
   },
