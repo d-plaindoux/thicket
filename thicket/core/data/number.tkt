@@ -26,6 +26,8 @@ class number this:native {
     (*)      : number -> number
     (/)      : number -> number
     (%)      : number -> number
+    (^)      : number -> number
+    (^^)     : number -> number
     
     (<<)     : number -> number
     (>>)     : number -> number
@@ -42,6 +44,7 @@ class number this:native {
     hash     : number
     
     to       : number -> Range
+    downto   : number -> Range
     
     toString : string 
 } {
@@ -54,6 +57,8 @@ class number this:native {
     def (*)  n = number $ internal "number.*" self n
     def (/)  n = number $ internal "number./" self n
     def (%)  n = number $ internal "number.%" self n
+    def (^)  n = 1 to n fold 1 (_ m -> self * m)
+    def (^^) n = 1 to n fold 1 (_ m -> self ^ m)
     
     def (<<) n = number $ internal "number.<<" self n
     def (>>) n = number $ internal "number.>>" self n
@@ -62,7 +67,7 @@ class number this:native {
     def (&) n = number $ internal "number.&" self n
 
     def (++) = self + 1
-    def (--) = self - 1    
+    def (--) = self - 1
     def negate = self * -1
     
     def max n = self <? n fold n self
@@ -70,7 +75,8 @@ class number this:native {
     
     def toString = string $ internal "number.toString" self
     
-    def to n = foreach (self,n) step $ self <= n fold 1 -1
+    def to n = foreach (self,n) step 1
+    def downto n = foreach (self,n) step -1
 }
 
 def Infinity = 1 / 0
