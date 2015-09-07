@@ -20,6 +20,8 @@ from Data.Hashable import Hashable
 from Data.Array import array emptyArray
 from Data.Map import Map
 
+from Standard.Math import math
+
 typedef Hashmap[k v] = array[list[(k,v)]] 
 
 class hashmap[k v] this:array[list[(k,v)]] {
@@ -32,7 +34,7 @@ class hashmap[k v] this:array[list[(k,v)]] {
   remove : Comparable[k] -> hashmap[k v]
 } {
   def unbox = this
-
+  
   def empty = 
        this foldR (e r -> r and $ e empty) true
 
@@ -53,16 +55,18 @@ class hashmap[k v] this:array[list[(k,v)]] {
       let entries = this get index fold emptyList cleanup in            
           hashmap $ entries empty fold
                         { this reset index }
-                        { this set index entries }
+                        { this set index entries }                      
 }
 
 /**
  * Factory
  */
 
-def newHashmap : hashmap = {
-    hashmap $ emptyArray 256
+def newSizedHashmap : number -> hashmap = n -> {
+    hashmap $ emptyArray $ math.max 128 n
 }
+
+def newHashmap : hashmap = { newSizedHashmap 256 }
 
 def Hashmap : [a b] mapBuilder[a b hashmap[a b]] = {
     mapBuilder (map2entity newHashmap)
@@ -72,11 +76,10 @@ def map2entity : [a b] hashmap[a b] -> MapBuilder[a b hashmap[a b]] = l -> {
     MapBuilder l (a b -> map2entity $ l add a b)
 }
 
-/**
- * Adapters
- */
+//
+// Adapters
+//
 
 def adapter hashmap2map : [k v] hashmap[k v] -> Map[k v] = h -> {
     Map h.find (c v -> hashmap2map $ h.add c v)
 }
-

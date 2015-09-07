@@ -200,4 +200,12 @@ exports['language_analyse'] = {
   'test 32': function(test) {
     wrongSampleTest("32.tkt", test);    
   },
+
+  'test 33': function(test) {
+    correctSampleTest("33.tkt", test);    
+  },
+    
+  'test 34': function(test) {
+    wrongSampleTest("34.tkt", test);    
+  },
 };
