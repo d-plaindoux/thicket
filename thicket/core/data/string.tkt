@@ -51,3 +51,4 @@ def adapter string2hashable : string -> Hashable[string] = s -> {
 def adapter string2comparable : string -> Comparable[string] = s -> { 
     Comparable s s.(==) s.(!=) s.(=>) s.(<=) s.(?>) s.(<?) (string2hashable s)
 }
+

@@ -8,5 +8,4 @@
  
 module Data.Functor
 
-
 typedef Functor[F a b] = F[a->b] -> F[a] -> F[b]

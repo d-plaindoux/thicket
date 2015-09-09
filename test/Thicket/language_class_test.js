@@ -67,9 +67,11 @@ exports['language_class'] = {
         
     test.deepEqual(language.parser.group('controllerDef').parse(aStream).get().definition, 
                    ast.type.forall(["a", "b"], 
-                                   ast.controller('Address', 
+                                   ast.specialization(
+                                        ast.controller('Address', 
                                                   [ast.type.variable('a'), ast.type.variable('b')], 
-                                                  ast.param('this',ast.type.variable('Address')), [], [])) , 
+                                                   ast.param('this',ast.type.variable('Address')), [], []),
+                                        [ast.type.variable('a'), ast.type.variable('b')])) , 
                    "accept a controller");
     test.done();
   },

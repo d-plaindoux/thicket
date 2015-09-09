@@ -56,7 +56,9 @@ exports['language_trait'] = {
     var aStream = stream("trait Address [a b] {}{}");
         
     test.deepEqual(language.parser.group('traitDef').parse(aStream).get().definition, 
-                   ast.type.forall(["a", "b"], ast.trait('Address', [ast.type.variable('a'),ast.type.variable('b')], [], [])) , 
+                   ast.type.forall(["a", "b"], 
+                                   ast.specialization(ast.trait('Address', [ast.type.variable('a'),ast.type.variable('b')], [], []),
+                                                     [ast.type.variable('a'),ast.type.variable('b')])) , 
                    "accept a trait");
     test.done();
   },

@@ -10,10 +10,12 @@ module Data.Collection
 
 from Data.Boolean import bool
 from Data.Option import option
- 
+
+// Must be monadic [TODO]
+
 model Collection[a] {
-    find : (a -> bool) -> option[a]
+    find   : (a -> bool) -> option[a]
     filter : (a -> bool) -> Collection[a]
-    add : a -> Collection[a]
-    map : [b] (a -> b) -> Collection[b]
+    add    : a -> Collection[a]
+    map    : [b] (a -> b) -> Collection[b]
 }

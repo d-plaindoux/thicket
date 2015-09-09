@@ -155,7 +155,7 @@ exports['types_unify'] = {
   "Unify embedded variable": function (test) {
       test.expect(1);
       // Test
-      var model = ast.type.forall(["z"],ast.model("A",[ast.type.variable("z")],[]));
+      var model = ast.type.forall(["z"],ast.specialization(ast.model("A",[ast.type.variable("z")],[]),[ast.type.variable("z")]));
       test.deepEqual(types.unify(ast.type.abstraction(ast.type.variable("X"),ast.type.specialize(model,ast.type.variable("X"))),
                                  ast.type.abstraction(ast.type.variable("a"),ast.type.specialize(model,ast.type.variable("b")))).success(), 
                      list(pair("X",ast.type.variable("b")),pair("a",ast.type.variable("b"))),

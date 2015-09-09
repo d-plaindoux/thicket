@@ -67,7 +67,10 @@ exports['language_model'] = {
     var aStream = stream("model Address [a b] {}");
         
     test.deepEqual(language.parser.group('modelDef').parse(aStream).get().definition, 
-                   ast.type.forall(["a","b"], ast.model('Address', [ast.type.variable('a'),ast.type.variable('b')], [])) , 
+                   ast.type.forall(["a","b"], 
+                                   ast.specialization(ast.model('Address', 
+                                                                [ast.type.variable('a'),ast.type.variable('b')], []),
+                                                     [ast.type.variable('a'),ast.type.variable('b')])) , 
                    "accept a model");
     test.done();
   },
