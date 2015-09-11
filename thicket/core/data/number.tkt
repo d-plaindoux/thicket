@@ -9,6 +9,7 @@
 module Data.Number
 
 from System.Internal import internal
+
 from Data.Native import native
 from Data.Boolean import bool true false
 from Data.Comparable import Comparable comparable

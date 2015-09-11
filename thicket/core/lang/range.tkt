@@ -13,9 +13,10 @@ from Core.Lang.When import when
 from Data.Pair import Pair
 from Data.Number import number
 from Data.Boolean import bool
+from Data.Unit import unit
 
 model Range {
-    fold : [b] b -> (number -> b -> b) -> b
+    fold   : [b] b -> (number -> b -> b) -> b
 }
 
 class abstractRange this:(number,number) {
@@ -36,9 +37,10 @@ class stepByRange this:(number,number) {
 } {
     def step i =
         Range $
-            when { i <? 0 }
-            then { abstractRange this fold number::(=>) (i +) }
-            else { abstractRange this fold number::(<=) (i +) }
+            (when { i <? 0 }
+             then { abstractRange this fold number::(=>) (i +) }
+             else { abstractRange this fold number::(<=) (i +) })
+           (when { i <? 0 }
 }
 
 def foreach : (number,number) -> stepByRange = stepByRange

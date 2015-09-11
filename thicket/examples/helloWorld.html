@@ -54,7 +54,7 @@
         let doClick = node -> node removeChilds 
                                    addChild $ highlightString "Hello World!" in        
             node addChild "Say Hello? " 
-                 addChild { highlightString "<Click>" onEvent OnMouseClick doClick }
+                 addChild { highlightString "<Click>" onEvent MouseClick doClick }
     }
 
     document "todo" find map manageNode
@@ -89,7 +89,7 @@
         let doClick = node -> node removeChilds 
                                    addChild $ highlightString "Hello World!" in        
             node addChild "Say Hello? " 
-                 addChild { highlightString "<Click>" onEvent OnMouseClick doClick }
+                 addChild { highlightString "<Click>" onEvent MouseClick doClick }
     }
 
     document "todo" find map manageNode

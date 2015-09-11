@@ -1,6 +1,14 @@
 <html>
 <head>
   <style>
+    .noselect {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
     @keyframes displayTodo {
         from {
           margin-left: 100%;
@@ -46,7 +54,9 @@
         border: 5px;
         padding: 5px;        
         background: #456789;
-        color: #FFFFFF;        
+        color: #FFFFFF;      
+        border-radius:2px;
+        Box-shadow: 10px 10px 10px 0px rgba(0,0,0,0.4); 
         -webkit-animation-name: displayTodo;
         -webkit-animation-duration: 1s;
         animation-name: displayTodo;
@@ -67,14 +77,13 @@
   </style>    
   <script src="/../build/thicket-lang.min.js"></script>
   <script type="text/thicket">
-    def todoView : string -> dom = text -> { 
-        <div class="actionable todo"><i> text </i></div>
+    def todo : string -> dom = text -> { 
+        <div class="actionable todo"><i> text </i></div> 
+        onEvent MouseClick dom::remove
     }
     
-    def manageTodos : dom -> dom = n -> {
-        let todo  = s -> todoView s onEvent OnMouseClick dom::remove in
-        let todos = List["#1";"#2";"#3";"#4";"#5"] in
-            todos foldL (n s -> n addChild $ todo s) n
+    def manageTodos : dom -> dom = node -> {
+        1 to 10 fold node (i node -> node addChild $ todo $ "#" + i)
     }
 
     document "todos" find map manageTodos
@@ -90,7 +99,7 @@
     }
   </script>
 </head>    
-<body onload="onLoad()">
+<body class="noselect" onload="onLoad()">
   <div class="runtime">
   <b>Things to be done:</b>
   <div id="todos"></div>
@@ -101,12 +110,11 @@
     <pre><code>
     def todo : string -> dom = text -> { 
         &lt;div class="todo"> text &lt;/div>
+        onEvent MouseClick dom::remove
     }
     
     def manageTodos : dom -> dom = n -> {
-        let todo  = s -> todoView s onEvent OnMouseClick dom::remove in
-        let todos = List["#1";"#2";"#3";"#4";"#5"] in
-            todos foldL (n s -> n addChild $ todo s) n
+        1 to 10 fold node (i node -> node addChild $ todo $ "#" + i)
     }
 
     document "todos" find map manageTodos

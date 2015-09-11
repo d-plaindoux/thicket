@@ -29,12 +29,12 @@ def startApplication : Components -> unit = component -> {
         do
         {
             component.clear map
-            $ clear -> clear onEvent OnMouseClick 
+            $ clear -> clear onEvent MouseClick 
             $ clear -> logger.clear
         };
         {
             component.execute map 
-            $ execute -> execute onEvent OnMouseClick 
+            $ execute -> execute onEvent MouseClick 
             $ execute -> component.content map 
             $ content -> domValue content map 
             $ value   -> runtime run value
