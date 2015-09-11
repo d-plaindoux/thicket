@@ -1,31 +1,100 @@
 <html>
+  
+<head>
   <style>
+    @keyframes displayHW {
+        from {
+          color: #123456;
+        }    
+        to {
+          color: #FFFFFF;
+        }
+    }      
+    @-webkit-keyframes displayHW {
+        from {
+          color: #123456;
+        }    
+        to {
+          color: #FFFFFF;
+        }
+    }      
     .actionable {
         cursor: pointer;
     }
+    .runtime {
+        padding: 10px;        
+        background: #123456;
+        color: #FFFFFF;
+        
+    }
+    .fadeIn {
+        padding: 10px;        
+        background: #123456;
+        color: #FFFFFF;
+        -webkit-animation-name: displayHW;
+        -webkit-animation-duration: 1s;
+        animation-name: displayHW;
+        animation-duration: 2s;        
+    }
+    .sourcecode {
+        padding: 10px;
+        color: #123456;
+        background: #FFFFFF;
+    }
   </style>
-<head>
   <script src="/../build/thicket-lang.min.js"></script>
   <script type="text/thicket">
     def highlightString : string -> dom = text -> {
-        <span class="actionable">
-            <b> text </b>
+        <span class="actionable fadeIn">
+            <span> text </span>
         </span>
     }
     
     def manageNode : dom -> dom = node -> {
-        let onclick = node -> node removeChilds addChild "Hello World!" in        
+        let doClick = node -> node removeChilds 
+                                   addChild $ highlightString "Hello World!" in        
             node addChild "Say Hello? " 
-                 addChild { highlightString "<Click>" onEvent OnMouseClick onclick }
+                 addChild { highlightString "<Click>" onEvent OnMouseClick doClick }
     }
 
     document "todo" find map manageNode
   </script>
+  <script>
+    function onLoad() {
+        var t0 = new Date();
+        console.log("-----------------------------");    
+        console.log("Boot Thicket " + t0.toDateString());
+        require('thicket')('/../site').boot();
+        console.log("Boot done in " + (new Date().getTime() - t0.getTime()) + " ms");
+    }
+  </script>
 </head>    
+<body onload="onLoad()">
+    
+<body onload="onLoad()">
+    <div class="runtime">
+        <p id="todo"/>
+    </div>
+    
+    <div class="sourcecode">
+    <b>Source Code</b>
+    <pre><code>
+    def highlightString : string -> dom = text -> {
+        &lt;span class="actionable fadeIn">
+            &lt;b> text &lt;/b>
+        &lt;/span>
+    }
 
-<body onload="require('thicket')('/../site').boot()">
-    <p id="todo"/>
-    <hr>
-    Powered by Thicket 0.1
+    def manageNode : dom -> dom = node -> {
+        let doClick = node -> node removeChilds 
+                                   addChild $ highlightString "Hello World!" in        
+            node addChild "Say Hello? " 
+                 addChild { highlightString "<Click>" onEvent OnMouseClick doClick }
+    }
+
+    document "todo" find map manageNode
+    </code></pre>
+    </div>  
+    
 </body>
 </html>

@@ -38,7 +38,7 @@ module.exports = function(grunt) {
         my_target: {
             files: {
                 './build/thicket-lang.min.js': ['./build/thicket-lang.js'],
-                './build/thicket-rt.min.js': ['./build/thicket-rt.js']
+                './build/thicket-runtime.min.js': ['./build/thicket-runtime.js']
             }
         }
     }      

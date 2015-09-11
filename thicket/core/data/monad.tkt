@@ -16,6 +16,6 @@ model Monad[M a] {
 /* Example
  
  model Unit[a] { _ : a }
- def e : [a]Monad[Unit a] = Monad Unit (m f -> f m._)
+ def unitMonad : [a]Monad[Unit a] = { Monad Unit (m f -> f m._) }
 
 */

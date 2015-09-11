@@ -1,21 +1,116 @@
 <html>
 <head>
+  <style>
+    @keyframes displayTodo {
+        from {
+          margin-left: 100%;
+        }    
+        to {
+          margin-left: 0%;
+        }
+    }      
+    @-webkit-keyframes displayTodo {
+        from {
+          margin-left: 100%;
+        }    
+        to {
+          margin-left: 0%;
+        }
+    }      
+    @keyframes removeTodo {
+        from {
+          margin-left: 0%;
+        }    
+        to {
+          margin-left: 100%;
+        }
+    }      
+    @-webkit-keyframes removeTodo {
+        from {
+          margin-left: 0%;
+        }    
+        to {
+          margin-left: 100%;
+        }
+    }      
+    .actionable {
+        cursor: pointer;
+    }
+    .runtime {        
+        padding: 10px;        
+        background: #123456;
+        color: #FFFFFF;
+    }
+    .todo {
+        margin: 5px;
+        border: 5px;
+        padding: 5px;        
+        background: #456789;
+        color: #FFFFFF;        
+        -webkit-animation-name: displayTodo;
+        -webkit-animation-duration: 1s;
+        animation-name: displayTodo;
+        animation-duration: 1s;
+        
+    }
+    .todo:active {
+        -webkit-animation-name: removeTodo;
+        -webkit-animation-duration: 1s;
+        animation-name: removeTodo;
+        animation-duration: 1s;
+    }
+    .sourcecode {
+        padding: 10px;
+        color: #123456;
+        background: #FFFFFF;
+    }
+  </style>    
   <script src="/../build/thicket-lang.min.js"></script>
   <script type="text/thicket">
-    def todo : string -> dom = text -> { 
-        <li><i> text </i></li>
+    def todoView : string -> dom = text -> { 
+        <div class="actionable todo"><i> text </i></div>
     }
     
     def manageTodos : dom -> dom = n -> {
+        let todo  = s -> todoView s onEvent OnMouseClick dom::remove in
         let todos = List["#1";"#2";"#3";"#4";"#5"] in
             todos foldL (n s -> n addChild $ todo s) n
     }
 
     document "todos" find map manageTodos
   </script>
+    
+  <script>
+    function onLoad() {
+        var t0 = new Date();
+        console.log("-----------------------------");    
+        console.log("Boot Thicket " + t0.toDateString());
+        require('thicket')('/../site').boot();
+        console.log("Boot done in " + (new Date().getTime() - t0.getTime()) + " ms");
+    }
+  </script>
 </head>    
-<body onload="require('thicket')('/../site').boot()">
+<body onload="onLoad()">
+  <div class="runtime">
   <b>Things to be done:</b>
-  <ul id="todos"></ul>
+  <div id="todos"></div>
+  </div>
+    
+  <div class="sourcecode">
+  <b>Current Sample</b>
+    <pre><code>
+    def todo : string -> dom = text -> { 
+        &lt;div class="todo"> text &lt;/div>
+    }
+    
+    def manageTodos : dom -> dom = n -> {
+        let todo  = s -> todoView s onEvent OnMouseClick dom::remove in
+        let todos = List["#1";"#2";"#3";"#4";"#5"] in
+            todos foldL (n s -> n addChild $ todo s) n
+    }
+
+    document "todos" find map manageTodos
+    </code></pre>
+  </div>
 </body>
 </html>

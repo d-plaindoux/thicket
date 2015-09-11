@@ -9,9 +9,9 @@
 module Example.Lambda
 
 from Data.String import *
-from Data.Try import try success failure
+from Data.Try import *
 from Data.Pair import *
-from Data.Map import Map
+from Data.Map import *
 
 type LambdaTerm {
     model Constant { value : string }
@@ -61,7 +61,7 @@ class interpreter this:LambdaTerm {
                 parameter flatmap (p ->
                     valueClass a fold 
                            (_   -> failure "Type Error")
-                           (a e -> interpreter a._2 eval $ e add (string2comparable a._1) p)
+                           (a e -> interpreter a._2 eval $ e add a._1 p)
                 )
             )            
 

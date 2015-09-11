@@ -84,10 +84,13 @@ class list[a] this:List[a] {
 }
 
 class ziplist[a b] this:List[(a,b)] {
-    unbox : List[(a,b)] 
-    unzip : list[a],list[b]     
+    unbox  : List[(a,b)] 
+    toList : list[(a,b)] 
+    unzip  : list[a],list[b]     
 } {
     def unbox = this
+    
+    def toList = list this
     
     def Nil.unzip = emptyList,emptyList
     def Cons.unzip = 
