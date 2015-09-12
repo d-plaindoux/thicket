@@ -3,6 +3,7 @@
 var stream = require('../../lib' + (process.env.THICKET_COV || '') + '/Parser/stream.js'),
     language = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/syntax/language.js')(),
     list = require('../../lib' + (process.env.THICKET_COV || '') + '/Data/list.js'),
+    pair = require('../../lib' + (process.env.THICKET_COV || '') + '/Data/pair.js'),
     option = require('../../lib' + (process.env.THICKET_COV || '') + '/Data/option.js'),
     fsdriver = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/resource/drivers/fsdriver.js'),
     reader = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/resource/reader.js'),
@@ -55,7 +56,8 @@ exports['linker_entities'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkEntities(aPackages.main(), list(entities)).isSuccess());
+    test.deepEqual(aLinker.linkEntities(aPackages.main(), list(entities)).success(),
+                   list());
       
     test.done();
   },
@@ -84,7 +86,8 @@ exports['linker_entities'] = {
 
     aPackages.define(aReader.specifications("Data.Unit"));      
 
-    test.ok(aLinker.linkEntities("Data.Unit", list(entities)).isSuccess());
+    test.deepEqual(aLinker.linkEntities("Data.Unit", list(entities)).success(),
+                   list([ pair('Data.Unit', 'unit') ]));
       
     test.done();
   },
@@ -110,7 +113,8 @@ exports['linker_entities'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkEntities(aPackages.main(), list(entities)).isSuccess());
+    test.deepEqual(aLinker.linkEntities(aPackages.main(), list(entities)).success(),
+                   list());
       
     test.done();
   },
@@ -136,7 +140,8 @@ exports['linker_entities'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkEntities(aPackages.main(), list(entities)).isSuccess());
+    test.deepEqual(aLinker.linkEntities(aPackages.main(), list(entities)).success(),
+                   list());
       
     test.done();
   },
@@ -149,7 +154,8 @@ exports['linker_entities'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);  
       
-    test.ok(aLinker.linkEntities(aPackages.main(), list(entities)).isSuccess()); // May be 'a' is a method
+    test.deepEqual(aLinker.linkEntities(aPackages.main(), list(entities)).success(),
+                   list()); // May be 'a' is a method
       
     test.done();
   },
@@ -162,7 +168,8 @@ exports['linker_entities'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    test.ok(aLinker.linkEntities(aPackages.main(), list(entities)).isSuccess());
+    test.deepEqual(aLinker.linkEntities(aPackages.main(), list(entities)).success(),
+                   list());
       
     test.done();
   },
@@ -205,7 +212,8 @@ exports['linker_entities'] = {
 
     aPackages.defineInRoot([], entities);  
  
-    test.ok(aLinker.linkEntities(aPackages.main(), list(entities)).isSuccess());
+    test.deepEqual(aLinker.linkEntities(aPackages.main(), list(entities)).success(),
+                   list([pair("$","B")]));
       
     test.done();
   },
@@ -235,7 +243,8 @@ exports['linker_entities'] = {
 
     aPackages.defineInRoot([], entities);  
  
-    test.ok(aLinker.linkEntities(aPackages.main(), list(entities)).isSuccess());
+    test.deepEqual(aLinker.linkEntities(aPackages.main(), list(entities)).success(),
+                   list([pair("$","A"),pair("$","B")]));
       
     test.done();
   },
@@ -250,7 +259,8 @@ exports['linker_entities'] = {
 
     aPackages.defineInRoot([], entities);  
  
-    test.ok(aLinker.linkEntities(aPackages.main(), list(entities)).isSuccess());
+    test.deepEqual(aLinker.linkEntities(aPackages.main(), list(entities)).success(),
+                   list([pair("$","number"),pair("$","a")]));
       
     test.done();
   },
@@ -265,7 +275,8 @@ exports['linker_entities'] = {
 
     aPackages.defineInRoot([], entities);  
  
-    test.ok(aLinker.linkEntities(aPackages.main(), list(entities)).isSuccess());
+    test.deepEqual(aLinker.linkEntities(aPackages.main(), list(entities)).success(),
+                   list([pair("$","number"),pair("$","a")]));
       
     test.done();
   },
@@ -280,7 +291,8 @@ exports['linker_entities'] = {
 
     aPackages.defineInRoot([], entities);  
  
-    test.ok(aLinker.linkEntities(aPackages.main(), list(entities)).isSuccess());
+    test.deepEqual(aLinker.linkEntities(aPackages.main(), list(entities)).success(),
+                   list([pair("$","number"),pair("$","a")]));
       
     test.done();
   },
@@ -295,7 +307,8 @@ exports['linker_entities'] = {
 
     aPackages.defineInRoot([], entities);  
  
-    test.ok(aLinker.linkEntities(aPackages.main(), list(entities)).isSuccess());
+    test.deepEqual(aLinker.linkEntities(aPackages.main(), list(entities)).success(),
+                   list([pair("$","A"),pair("$","a")]));
       
     test.done();
   },
@@ -340,7 +353,8 @@ exports['linker_entities'] = {
 
     aPackages.defineInRoot([], entities);  
  
-    test.ok(aLinker.linkEntities(aPackages.main(), list(entities)).isSuccess());
+    test.deepEqual(aLinker.linkEntities(aPackages.main(), list(entities)).success(),
+                   list([pair("$","number"),pair("$","a")]));
       
     test.done();
   },
@@ -355,7 +369,8 @@ exports['linker_entities'] = {
 
     aPackages.defineInRoot([], entities);  
  
-    test.ok(aLinker.linkPackageByName(aPackages.main()).isSuccess());
+    test.deepEqual(aLinker.linkEntities(aPackages.main(), list(entities)).success(),
+                   list([pair("$","number"),pair("$","a")]));
       
     test.done();
   },
@@ -396,7 +411,8 @@ exports['linker_entities'] = {
 
     aPackages.defineInRoot([], entities);  
  
-    test.ok(aLinker.linkPackageByName(aPackages.main()).isSuccess());
+    test.deepEqual(aLinker.linkEntities(aPackages.main(), list(entities)).success(),
+                   list([pair("$","number"),pair("$","B")]));
       
     test.done();
   },
@@ -426,8 +442,9 @@ exports['linker_entities'] = {
 
     aPackages.defineInRoot([], entities);  
  
-    test.ok(aLinker.linkPackageByName(aPackages.main()).isSuccess());
-      
+     test.deepEqual(aLinker.linkEntities(aPackages.main(), list(entities)).success(),
+                   list());
+     
     test.done();
   },
 
@@ -442,7 +459,8 @@ exports['linker_entities'] = {
 
     aPackages.defineInRoot([], entities);  
  
-    test.ok(aLinker.linkEntities(aPackages.main(), list(entities)).isSuccess());
+    test.deepEqual(aLinker.linkEntities(aPackages.main(), list(entities)).success(),
+                   list([pair("$","number")]));
       
     test.done();
   },
@@ -502,7 +520,8 @@ exports['linker_entities'] = {
 
     aPackages.defineInRoot([], entities);  
  
-    test.ok(aLinker.linkEntities(aPackages.main(), list(entities)).isSuccess());
+    test.deepEqual(aLinker.linkEntities(aPackages.main(), list(entities)).success(),
+                   list([pair("$","number")]));
       
     test.done();
   },
@@ -517,7 +536,8 @@ exports['linker_entities'] = {
 
     aPackages.defineInRoot([], entities);  
  
-    test.ok(aLinker.linkPackageByName(aPackages.main()).isSuccess());
+    test.deepEqual(aLinker.linkEntities(aPackages.main(), list(entities)).success(),
+                   list([pair("$","B")]));
       
     test.done();
   },
