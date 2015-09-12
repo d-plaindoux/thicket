@@ -40,7 +40,6 @@ class stepByRange this:(number,number) {
             (when { i <? 0 }
              then { abstractRange this fold number::(=>) (i +) }
              else { abstractRange this fold number::(<=) (i +) })
-           (when { i <? 0 }
 }
 
 def foreach : (number,number) -> stepByRange = stepByRange

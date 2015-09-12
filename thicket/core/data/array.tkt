@@ -8,7 +8,6 @@
  
 module Data.Array
 
-from Core.Lang.When import when
 from Core.Lang.Range import foreach
 
 from Logic.Combinators import combinators
