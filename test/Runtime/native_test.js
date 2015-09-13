@@ -469,5 +469,39 @@ exports['native'] = {
     test.deepEqual(runtime.execute(code), {CONST:1});    
     test.done();
   },
+    
+  'mutable new': function(test) {
+    test.expect(1);
+    // tests here  
+    var code = runtime.delta["mutable.new"].concat([
+        {CONST:1},{APPLY:1}
+    ]);      
+      
+    test.deepEqual(runtime.execute(code), {CONST:{value:{CONST:1}}});
+    test.done();
+  },
+    
+  'mutable get': function(test) {
+    test.expect(1);
+    // tests here  
+    var code = runtime.delta["mutable.get"].concat([
+        {CONST:{value:{CONST:1}}},{APPLY:1}
+    ]);      
+      
+    test.deepEqual(runtime.execute(code), {CONST:1});
+    test.done();
+  },
+    
+  'mutable set': function(test) {
+    test.expect(1);
+    // tests here  
+    var code = runtime.delta["mutable.set"].concat([
+        {CONST:{value:{CONST:1}}},{APPLY:1},
+        {CONST:2},{APPLY:1}
+    ]);      
+      
+    test.deepEqual(runtime.execute(code), {CONST:{value:{CONST:2}}});
+    test.done();
+  },
  
 };
