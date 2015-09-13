@@ -27,18 +27,18 @@
     }      
     @keyframes removeTodo {
         from {
-          margin-left: 0%;
+          margin-right: 100%;
         }    
         to {
-          margin-left: 100%;
+          margin-right: 0%;
         }
     }      
     @-webkit-keyframes removeTodo {
         from {
-          margin-left: 0%;
+          margin-right: 100%;
         }    
         to {
-          margin-left: 100%;
+          margin-right: 0%;
         }
     }      
     .actionable {
@@ -46,24 +46,29 @@
     }
     .runtime {        
         padding: 10px;        
-        background: #123456;
+        background: #789ABC;
         color: #FFFFFF;
     }
     .todo {
-        margin: 5px;
+        margin: 10px;
         border: 5px;
         padding: 5px;        
         background: #456789;
         color: #FFFFFF;      
         border-radius:2px;
-        Box-shadow: 10px 10px 10px 0px rgba(0,0,0,0.4); 
+        Box-shadow: 10px 10px 10px 0px rgba(0,0,0,0.2); 
         -webkit-animation-name: displayTodo;
         -webkit-animation-duration: 1s;
         animation-name: displayTodo;
         animation-duration: 1s;
-        
     }
-    .todo:active {
+    .done {
+        margin: 10px;
+        border: 5px;
+        padding: 5px;        
+        background: #458967;
+        color: #FFFFFF;      
+        border-radius:2px;
         -webkit-animation-name: removeTodo;
         -webkit-animation-duration: 1s;
         animation-name: removeTodo;
@@ -77,16 +82,22 @@
   </style>    
   <script src="/../build/thicket-lang.min.js"></script>
   <script type="text/thicket">
+    def view : string -> string -> dom = text clazz ->
+        <div class=clazz><i> text </i></div> 
+    
     def todo : string -> dom = text -> { 
-        <div class="actionable todo"><i> text </i></div> 
-        onEvent MouseClick dom::remove
+        (view text "actionable todo")
+        onEvent MouseClick { node -> 
+            node replace (view text "actionable done")
+            onEvent MouseClick dom::remove
+        }
     }
     
     def manageTodos : dom -> dom = node -> {
         1 to 10 fold node (i node -> node addChild $ todo $ "#" + i)
     }
 
-    document "todos" find map manageTodos
+    document "todo" find map manageTodos
   </script>
     
   <script>
@@ -101,16 +112,24 @@
 </head>    
 <body class="noselect" onload="onLoad()">
   <div class="runtime">
-  <b>Things to be done:</b>
-  <div id="todos"></div>
+  <b>Things to do:</b>
+  <div id="todo"></div>
   </div>
-    
+  
+  <br>
+
   <div class="sourcecode">
   <b>Current Sample</b>
     <pre><code>
+    def view : string -> string -> dom = text clazz ->
+        &lt;div class=clazz>&lt;i> text &lt;/i>&lt;/div> 
+    
     def todo : string -> dom = text -> { 
-        &lt;div class="todo"> text &lt;/div>
-        onEvent MouseClick dom::remove
+        (view text "actionable todo")
+        onEvent MouseClick { node -> 
+            node replace (view text "actionable done")
+            onEvent MouseClick dom::remove
+        }
     }
     
     def manageTodos : dom -> dom = n -> {

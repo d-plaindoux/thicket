@@ -18,6 +18,8 @@ from Data.Option import option some none
 
 class dom this:native {
     addAttribute : string -> string -> dom
+    removeAttribute : string -> dom
+    
     addChild : dom -> dom
     removeChilds : dom
     
@@ -27,14 +29,15 @@ class dom this:native {
     replace : dom -> dom
     remove : dom
 } {
-    def addAttribute n d = internal "dom.setAttribute" self n d
-    def addChild d = internal "dom.appendChild" self d
+    def addAttribute = internal "dom.setAttribute" self
+    def removeAttribute = internal "dom.resetAttribute" self
+    def addChild = internal "dom.appendChild" self
     def removeChilds = internal "dom.removeChilds" self
 
     def onEvent e f = internal "dom.setFunction" self (eventType e toString) (n -> f $ dom n)
 
     def clone = dom $ internal "dom.clone" self
-    def replace d = internal "dom.replace" self d
+    def replace = internal "dom.replace" self
     def remove = internal "dom.remove" self
 }
 

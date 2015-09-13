@@ -19,6 +19,8 @@ type Tree[a] {
  
 class tree[a] this:Tree[a] {
     unbox : Tree[a]
+    
+    fold : [b] b -> (number -> tree[a] -> tree[a] -> b) -> b
 
     depth : number
     isEmpty : bool
@@ -28,11 +30,11 @@ class tree[a] this:Tree[a] {
 } {
     def unbox = this
     
-    def Empty.depth = 0
-    def Node.depth = this.depth
+    def Empty.fold e _ = e
+    def Node.fold _ f = f this.depth (tree this.left) (tree this.right)
     
-    def Empty.isEmpty = true
-    def Node.isEmpty = false
+    def depth = self fold 0 (l _ _ -> l)    
+    def isEmpty = self fold true (_ _ _ -> false)
     
     def Empty.(+) a = tree $ Node 1 a Empty Empty
     def Node.(+) a = 
