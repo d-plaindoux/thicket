@@ -196,6 +196,12 @@ by an abstract machine derived from Krivines' machine. For instance the previous
 uses data structure like [Option](https://github.com/d-plaindoux/thicket/blob/master/thicket/core/data/option.tkt)
 which is compiled to the [objcode](http://d.plaindoux.free.fr/thicket/site/Data.Option.tkt.o.txt). 
 
+### Simple TODO
+
+The [TODO](https://github.com/d-plaindoux/thicket/tree/master/thicket/examples/todo/todo2.html) example available 
+for execution [here](http://d.plaindoux.free.fr/thicket/thicket/examples/todo/todo2.html) shows a simple example 
+based on dom manipulation.
+
 ### Thicket Console
 
 The [Console](https://github.com/d-plaindoux/thicket/tree/master/thicket/examples/thicket) example available 
