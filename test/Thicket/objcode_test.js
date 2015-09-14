@@ -331,8 +331,18 @@ exports['objcode'] = {
   'New model alteration': function (test) {
       test.expect(1);
       
-      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(),  ast.expr.newModel(ast.expr.ident("a"),[["b",ast.expr.ident("b")]])).success())),
+      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(),  
+                                                                                  ast.expr.newModel(ast.expr.ident("a"),[["b",ast.expr.ident("b")]])).success())),
                      [{ IDENT: 'a' }, { IDENT: 'b' }, { ALTER: 'b' } ]);
+      test.done();
+  },
+  
+  'New model with two alterations': function (test) {
+      test.expect(1);
+      
+      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(),  
+                                                                                  ast.expr.newModel(ast.expr.ident("a"),[["b",ast.expr.ident("b")],["c",ast.expr.ident("c")]])).success())),
+                     [{ IDENT: 'a' }, { IDENT: 'b' }, { ALTER: 'b' }, { IDENT: 'c' }, { ALTER: 'c' } ]);
       test.done();
   },
 };

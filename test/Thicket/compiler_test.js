@@ -460,6 +460,33 @@ exports['compiler'] = {
                                                                                                     compiler.abstractSyntax("Native",1)))));
       test.done();
   },
+        
+  'New model alteration': function (test) {
+      test.expect(1);
+      
+      test.deepEqual(compiler.expression(list(),  
+                                         ast.expr.newModel(ast.expr.ident("a"),[["b",ast.expr.ident("b")]])).success(),
+                     compiler.abstractSyntax("Alter",
+                                             compiler.abstractSyntax("Ident", "a"),
+                                             "b",
+                                             compiler.abstractSyntax("Ident", "b")));
+      test.done();
+  },
   
+  'New model with two alterations': function (test) {
+      test.expect(1);
+      
+      test.deepEqual(compiler.expression(list(),  
+                                         ast.expr.newModel(ast.expr.ident("a"),[["b",ast.expr.ident("b")],["c",ast.expr.ident("c")]])).success(),
+                     compiler.abstractSyntax("Alter",
+                                             compiler.abstractSyntax("Alter",
+                                                                     compiler.abstractSyntax("Ident", "a"),
+                                                                     "b",
+                                                                     compiler.abstractSyntax("Ident", "b")),
+                                             "c",
+                                             compiler.abstractSyntax("Ident", "c")));
+      test.done();
+  },
+
 };
     
