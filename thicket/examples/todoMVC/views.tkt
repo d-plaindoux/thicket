@@ -6,15 +6,6 @@
  * Licensed under the LGPL2 license.
  */
 
-// ------------------------------------------------------------------
-// NOTE
-// ------------------------------------------------------------------
-// A better approach can be proposed based on id intrinsic management
-// For instance instead of searching node to be modified we can 
-// simply propose a new version and then submit it to the system
-// replacing the old one by the new one seamlessly.
-// ------------------------------------------------------------------
-
 module Example.TodoMVC.Views
 
 from Client.Document.Renderer import *
