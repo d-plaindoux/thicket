@@ -27,9 +27,6 @@
           color: #FFFFFF;
         }
     }      
-    .actionable {
-        cursor: pointer;
-    }
     .runtime {
         padding: 10px;        
         background: #123456;
@@ -51,58 +48,31 @@
         background: #FFFFFF;
     }
   </style>
+  
   <script src="/thicket/build/thicket-lang.min.js"></script>
-  <script type="text/thicket">
-    def highlightString : string -> dom = text -> {
-        <span class="actionable fadeIn">
-            <span> text </span>
-        </span>
-    }
-    
-    def manageNode : dom -> dom = node -> {
-        let doClick = node -> node removeChilds 
-                                   addChild $ highlightString "Hello World!" in        
-            node addChild "Say Hello? " 
-                 addChild { highlightString "<Click>" onMouseEvent $ MouseClick doClick }
-    }
 
-    document "todo" find map manageNode
+  <script type="text/thicket">
+    documentRenderer <~ <p id="hw" class="fadeIn"> "Hello World!" </p>
   </script>
+
   <script>
     function onLoad() {
-        var t0 = new Date();
-        console.log("-----------------------------");    
-        console.log("Boot Thicket " + t0.toDateString());
         require('thicket')('/thicket/site').boot();
-        console.log("Boot done in " + (new Date().getTime() - t0.getTime()) + " ms");
     }
   </script>
 </head>    
-<body onload="onLoad()">
     
 <body onload="onLoad()">
+
     <div class="runtime">
-        <p id="todo"/>
+        <p id="hw"></p>
     </div>
     
     <div class="sourcecode">
-    <b>Source Code</b>
-    <pre><code>
-    def highlightString : string -> dom = text -> {
-        &lt;span class="actionable fadeIn">
-            &lt;b> text &lt;/b>
-        &lt;/span>
-    }
-
-    def manageNode : dom -> dom = node -> {
-        let doClick = node -> node removeChilds 
-                                   addChild $ highlightString "Hello World!" in        
-            node addChild "Say Hello? " 
-                 addChild { highlightString "<Click>" onEvent MouseClick doClick }
-    }
-
-    document "todo" find map manageNode
-    </code></pre>
+        <b>Source Code</b>
+        <pre><code>
+    documentRenderer &lt;~ &lt;p id="hw" class="fadeIn"> "Hello World!" &lt;/p>
+        </code></pre>
     </div>  
     
 </body>

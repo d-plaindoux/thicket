@@ -15,17 +15,20 @@ from Data.Option import option
 from Client.Document import dom document
 
 model Renderer {
-    (<<) : option[dom] -> Renderer
+    (<?) : option[dom] -> Renderer
+    (<~) : dom -> Renderer
 }
 
 def documentRenderer : Renderer = {
-    Renderer $ newOptionalDom ->
-        do {
-        for newDom <- newOptionalDom
-            idDom  <- { newDom findAttribute "id" }
-            oldDom <- { document idDom find }
-        yield 
-            oldDom replace newDom
+    Renderer 
+        { newDom -> newDom fold documentRenderer $ documentRenderer <~ }
+        { newDom -> 
+            do {
+                for idDom  <- { newDom findAttribute "id" }
+                    oldDom <- { document idDom find }
+                yield 
+                    oldDom replace newDom
+            }
+            return documentRenderer 
         }
-        return documentRenderer
 }

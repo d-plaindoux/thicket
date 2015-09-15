@@ -30,6 +30,7 @@ class dom this:native {
 
     clone : dom
     replace : dom -> dom
+    (<~) : dom -> dom
     remove : dom
     
     value : option[string]
@@ -48,6 +49,7 @@ class dom this:native {
 
     def clone = dom $ internal "dom.clone" self
     def replace = internal "dom.replace" self
+    def (<~) = self replace
     def remove = internal "dom.remove" self    
     def value = internal "dom.getValue" self (s -> some $ string s) none
     

@@ -132,10 +132,10 @@ class todoViews this:Application {
 def renderAll : Application -> Renderer = a -> {
     let todoViews = todoViews a in
         documentRenderer 
-            << { some $ todoViews viewCreate    }
-            << { some $ todoViews viewTodoList  }
-            << { some $ todoViews viewFooter    }
-            << { some $ todoViews viewToggleAll }
+            <~ { todoViews viewCreate    }
+            <~ { todoViews viewTodoList  }
+            <~ { todoViews viewFooter    }
+            <~ { todoViews viewToggleAll }
 }
 
 def render : Application -> Application = application -> {

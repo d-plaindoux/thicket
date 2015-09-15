@@ -10,10 +10,36 @@ federated in  a named  structure. A controller  is a set  of behaviors
 applied to a  given model or controller and finally a view  denotes an 
 extended DOM fragment used for UI management.
 
-Thicket is a  strong typed language based on  well known Hindley-Milner
+Thicket is a  strong typed language based on well known Hindley-Milner
 type system and type inference paradigm. The runtime is based on an
 Krivines' abstract machine. Such machine can therefore be implemented 
-in various languages like Java, Python etc.
+in various languages like Java, Python etc. The Thicket source code 
+is compiled and the resulting objcode is executed by an abstract machine 
+derived from Krivines' machine. For instance the previous example uses 
+data structure like [Option](https://github.com/d-plaindoux/thicket/blob/master/thicket/core/data/option.tkt)
+which is compiled to the [objcode](http://d.plaindoux.free.fr/thicket/site/Data.Option.tkt.o.txt). 
+
+## Online examples
+
+### Hello World
+
+A simple [Hello world](https://github.com/d-plaindoux/thicket/blob/master/thicket/examples/helloWorld.html) 
+is available for execution [here](http://d.plaindoux.free.fr/thicket/thicket/examples/helloWorld.html) in 
+order to demontrate the language. This current version if not yet optimized and directly manipulates 
+the DOM. This does not yet provide a simple and convenient library for reactive UI support. 
+
+### Todo MVC
+
+The [TODO](https://github.com/d-plaindoux/thicket/tree/master/thicket/examples/todoMVC/) example available 
+for execution [here](http://d.plaindoux.free.fr/thicket/thicket/examples/todoMVC/index.html) shows a complete
+example based on dom manipulation.
+
+### Thicket Console
+
+The [Console](https://github.com/d-plaindoux/thicket/tree/master/thicket/examples/thicket) example available 
+for execution [here](http://d.plaindoux.free.fr/thicket/thicket/examples/thicket/console.html) shows how the 
+runtime can be easily extended in order to provide a naive embedded interpret in the web browser.
+
 
 ## Language Overview
 
@@ -181,32 +207,6 @@ trait comparable[a] {
     def (?>) n = n <= self    
 }
 ```
-
-## Simple Examples
-
-### Hello World
-
-A simple [Hello world](https://github.com/d-plaindoux/thicket/blob/master/thicket/examples/helloWorld.html) 
-is available for execution [here](http://d.plaindoux.free.fr/thicket/thicket/examples/helloWorld.html) in 
-order to demontrate the language. This current version if not yet optimized and directly manipulates 
-the DOM. This does not yet provide a simple and convenient library for reactive UI support. 
-
-As mentionned The Thicket source code is compiled and the resulting objcode is executed 
-by an abstract machine derived from Krivines' machine. For instance the previous example 
-uses data structure like [Option](https://github.com/d-plaindoux/thicket/blob/master/thicket/core/data/option.tkt)
-which is compiled to the [objcode](http://d.plaindoux.free.fr/thicket/site/Data.Option.tkt.o.txt). 
-
-### Simple TODO
-
-The [TODO](https://github.com/d-plaindoux/thicket/tree/master/thicket/examples/todo/todo2.html) example available 
-for execution [here](http://d.plaindoux.free.fr/thicket/thicket/examples/todo/todo2.html) shows a simple example 
-based on dom manipulation.
-
-### Thicket Console
-
-The [Console](https://github.com/d-plaindoux/thicket/tree/master/thicket/examples/thicket) example available 
-for execution [here](http://d.plaindoux.free.fr/thicket/thicket/examples/thicket/console.html) shows how the 
-runtime can be easily extended in order to provide a naive embedded interpret in the web browser.
 
 ## Not yet in the language
 
