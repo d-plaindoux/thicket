@@ -24,9 +24,7 @@ which is compiled to the [objcode](http://d.plaindoux.free.fr/thicket/site/Data.
 ### Hello World
 
 A simple [Hello world](https://github.com/d-plaindoux/thicket/blob/master/thicket/examples/helloWorld.html) 
-is available for execution [here](http://d.plaindoux.free.fr/thicket/thicket/examples/helloWorld.html) in 
-order to demontrate the language. This current version if not yet optimized and directly manipulates 
-the DOM. This does not yet provide a simple and convenient library for reactive UI support. 
+is available for execution [here](http://d.plaindoux.free.fr/thicket/thicket/examples/helloWorld.html).
 
 ### Todo MVC
 
