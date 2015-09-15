@@ -1,0 +1,145 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+
+// ------------------------------------------------------------------
+// NOTE
+// ------------------------------------------------------------------
+// A better approach can be proposed based on id intrinsic management
+// For instance instead of searching node to be modified we can 
+// simply propose a new version and then submit it to the system
+// replacing the old one by the new one seamlessly.
+// ------------------------------------------------------------------
+
+module Example.TodoMVC.Views
+
+from Client.Document.Renderer import *
+from Client.Document import *
+from Client.Event.Mouse import *
+from Client.Event.Key import *
+
+from Core.Lang.Do import do
+from Core.Lang.When import when
+
+from Logic.Combinators import combinators
+
+from Data.Unit import unit
+from Data.String import string
+from Data.Number import number
+from Data.Option import *
+
+from Example.TodoMVC.Models import Todo
+from Example.TodoMVC.Application import Application
+
+// ------------------------------------------------------------------
+
+class todoViews this:Application {
+    statusTodo          : Todo -> dom
+    editTodo            : Todo -> dom
+    viewTodo            : Todo -> dom
+    
+    viewItems           : dom 
+    viewCreate          : dom
+    viewFilters         : dom
+    viewClearCompleted  : dom
+    viewToggleAll       : dom
+    viewFooter          : dom
+    viewTodoList        : dom
+} {
+    def statusTodo t = 
+        <input type="checkbox" class="toggle"/> map
+        { d -> when t.completed then { d addAttribute "checked" "" } else d }
+        onMouseEvent MouseClick $ _ -> this toggle t.id
+        
+    def editTodo t =
+        <li id=("todo_" + t.id) class=(when t.completed then "completed" else "")>
+          { <input class="edit" value=t.title autofocus=""/>             
+            onKeyEvent KeyPress $ d n -> 
+                when (n == RETURN) 
+                then { d value fold this $ this change t.id } 
+                else this
+          }
+        </li>
+        
+    def viewTodo t =
+        <li id=("todo_" + t.id) class=(when t.completed then "completed" else "")>
+            <div class="view">  
+                (self statusTodo t)
+                <label> t.title </label>
+                {<button id=("todo_destroy_" + t.id) class="destroy"/>
+                 onMouseEvent MouseClick $ _ -> this remove t.id}
+            </div>
+        </li>
+        onMouseEvent MouseDblClick $ _ -> this edit t.id
+
+    def viewItems = 
+        let r = this.unbox.todos.length in
+            <span id="todo-count">
+                <strong> r " " </strong> 
+                (when (r <? 2) then "item left" else "items left")
+            </span>
+
+    def viewFilters =
+        <ul id="filters">
+            <li> <a> "All" </a> </li>
+            <li> <a> "Active" </a> </li>
+            <li> <a> "Completed" </a> </li>
+        </ul>
+
+    def viewCreate = 
+        <input id="new-todo" placeholder="What needs to be done?" autofocus=""/>
+        onKeyEvent KeyPress $ d n -> 
+            when (n == RETURN) 
+            then { d value fold this $ this add } 
+            else this
+
+    def viewClearCompleted =
+        <button id="clear-completed"> "Clear completed" </button>            
+        onMouseEvent MouseClick $ _ -> this clearCompleted ()
+        
+    def viewToggleAll = 
+        <input id="toggle-all" type="checkbox"/>
+        onMouseEvent MouseClick $ _ -> this completeAll ()
+    
+    def viewFooter = 
+        when this.unbox.todos.empty
+        then <footer id="footer" class="hidden"/>
+        else <footer id="footer">
+                (self viewItems)
+                (self viewFilters)
+                (self viewClearCompleted)
+             </footer>
+             
+    def viewTodoList =
+        let todolist = <ul id="todo-list"/> in
+            do 
+            { this.unbox.todos map $ combinators.B (todolist addChild) $ t -> 
+                    when (t.id == this.unbox.edit) 
+                    then {self editTodo t}
+                    else {self viewTodo t} 
+            }
+            return todolist
+}
+
+// ------------------------------------------------------------------
+// Rendering function
+// ------------------------------------------------------------------
+
+def renderAll : Application -> Renderer = a -> {
+    let todoViews = todoViews a in
+        documentRenderer 
+            << { some $ todoViews viewCreate    }
+            << { some $ todoViews viewTodoList  }
+            << { some $ todoViews viewFooter    }
+            << { some $ todoViews viewToggleAll }
+}
+
+def render : Application -> Application = application -> {
+    do
+    { renderAll application }
+    return application
+}

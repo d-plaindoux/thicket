@@ -1,0 +1,34 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Client.Event.Mouse
+
+from Data.String import string
+from Client.Document import dom
+
+type MouseEventType {
+    model MouseOver
+    model MouseOut 
+    model MouseDown
+    model MouseUp  
+    model MouseClick
+    model MouseDblClick 
+    model ContextMenu
+}
+
+class mouseEventType this:MouseEventType {
+    toString : string
+} {
+    def MouseOver.toString     = "mouseover"
+    def MouseOut.toString      = "mouseout"
+    def MouseDown.toString     = "mousedown"
+    def MouseUp.toString       = "mousesup"
+    def MouseClick.toString    = "click"
+    def MouseDblClick.toString = "dblclick"
+    def ContextMenu.toString   = "contextmenu"
+}

@@ -1,0 +1,83 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+
+module Example.TodoMVC.Controller
+
+from Core.Lang.When import when
+from Core.Lang.Do import do
+
+from Data.Unit import unit
+from Data.Pair import Pair
+from Data.String import string
+from Data.Number import number
+from Data.List import emptyList list
+
+from Example.TodoMVC.Models import Todo createTodo
+
+model ControllerContext {
+    edit     : number
+    index    : number
+    todos    : list[Todo]
+}
+
+class controller this:ControllerContext {
+    unbox          : ControllerContext
+
+    add            : string -> controller
+    change         : number -> string -> controller
+    
+    toggle         : number -> controller
+    edit           : number -> controller
+    remove         : number -> controller
+    
+    completeAll    : controller
+    clearCompleted : controller
+} {
+    def unbox = this
+    
+    def add s = 
+        let todos = this.todos +: $ createTodo this.index s in
+        let index = this.index++ in
+            controller new this with index=index todos=todos edit=-1
+
+    def change n s =
+        let todos = this.todos map $ t -> 
+                    when (t.id == n)
+                    then new t with title=s
+                    else t in                    
+            controller new this with todos=todos edit=-1                        
+        
+    def toggle n =
+        let todos = this.todos map $ t -> 
+                    when (t.id == n)
+                    then new t with completed=t.completed.not
+                    else t in                    
+            controller new this with todos=todos edit=-1                        
+
+    def edit n =
+        let edited = this.todos find $ t -> t.id == n && t.completed.not in
+            when (edited present) 
+            then {controller new this with edit=n}
+            else self
+            
+    def remove n =
+        let todos = this.todos filter $ t -> t.id != n in
+            controller new this with todos=todos edit=-1
+
+    def completeAll =
+        let todos = this.todos map $ t -> new t with completed=t.completed.not in
+            controller new this with todos=todos edit=-1
+            
+    def clearCompleted = 
+        let todos = this.todos filter $ t -> t.completed.not in
+            controller new this with todos=todos edit=-1
+}
+
+def createController : controller = { 
+    controller $ ControllerContext -1 0 emptyList        
+}

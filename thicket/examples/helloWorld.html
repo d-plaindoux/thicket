@@ -1,5 +1,14 @@
-<html>
-  
+<!DOCTYPE html>
+<html lang="en">
+<!--
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+-->  
 <head>
   <style>
     @keyframes displayHW {
@@ -42,7 +51,7 @@
         background: #FFFFFF;
     }
   </style>
-  <script src="/../build/thicket-lang.min.js"></script>
+  <script src="/thicket/build/thicket-lang.min.js"></script>
   <script type="text/thicket">
     def highlightString : string -> dom = text -> {
         <span class="actionable fadeIn">
@@ -54,7 +63,7 @@
         let doClick = node -> node removeChilds 
                                    addChild $ highlightString "Hello World!" in        
             node addChild "Say Hello? " 
-                 addChild { highlightString "<Click>" onEvent MouseClick doClick }
+                 addChild { highlightString "<Click>" onMouseEvent $ MouseClick doClick }
     }
 
     document "todo" find map manageNode
@@ -64,7 +73,7 @@
         var t0 = new Date();
         console.log("-----------------------------");    
         console.log("Boot Thicket " + t0.toDateString());
-        require('thicket')('/../site').boot();
+        require('thicket')('/thicket/site').boot();
         console.log("Boot done in " + (new Date().getTime() - t0.getTime()) + " ms");
     }
   </script>

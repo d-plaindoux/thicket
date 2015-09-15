@@ -12,7 +12,7 @@ from Core.Lang.Do import do
 from Data.Option import *
 from Data.Unit import unit
 from Client.Document import *
-from Client.Event import *
+from Client.Event.Mouse import *
 
 from Example.Console.Core import *
 
@@ -29,12 +29,12 @@ def startApplication : Components -> unit = component -> {
         do
         {
             component.clear map
-            $ clear -> clear onEvent MouseClick 
+            $ clear -> clear onMouseEvent MouseClick 
             $ clear -> logger.clear
         };
         {
             component.execute map 
-            $ execute -> execute onEvent MouseClick 
+            $ execute -> execute onMouseEvent MouseClick 
             $ execute -> component.content map 
             $ content -> domValue content map 
             $ value   -> runtime run value

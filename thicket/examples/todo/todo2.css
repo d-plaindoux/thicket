@@ -1,0 +1,86 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+@keyframes displayTodo {
+    from {
+      margin-left: 100%;
+    }    
+    to {
+      margin-left: 0%;
+    }
+}      
+@-webkit-keyframes displayTodo {
+    from {
+      margin-left: 100%;
+    }    
+    to {
+      margin-left: 0%;
+    }
+}      
+@keyframes removeTodo {
+    from {
+      margin-right: 100%;
+    }    
+    to {
+      margin-right: 0%;
+    }
+}      
+@-webkit-keyframes removeTodo {
+    from {
+      margin-right: 100%;
+    }    
+    to {
+      margin-right: 0%;
+    }
+}      
+.actionable {
+    cursor: pointer;
+}
+.runtime {        
+    padding: 10px;        
+    background: #789ABC;
+    color: #FFFFFF;
+}
+.todo {
+    margin: 10px;
+    border: 5px;
+    padding: 5px;        
+    background: #456789;
+    color: #FFFFFF;      
+    border-radius:2px;
+    Box-shadow: 10px 10px 10px 0px rgba(0,0,0,0.2); 
+    -webkit-animation-name: displayTodo;
+    -webkit-animation-duration: 1s;
+    animation-name: displayTodo;
+    animation-duration: 1s;
+}
+.done {
+    margin: 10px;
+    border: 5px;
+    padding: 5px;        
+    background: #458967;
+    color: #FFFFFF;      
+    border-radius:2px;
+    -webkit-animation-name: removeTodo;
+    -webkit-animation-duration: 1s;
+    animation-name: removeTodo;
+    animation-duration: 1s;
+}
+.sourcecode {
+    padding: 10px;
+    color: #123456;
+    background: #FFFFFF;
+}

@@ -1,0 +1,66 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+
+module Example.TodoMVC.Application
+
+from Core.Lang.Do import do
+
+from Data.Unit import unit
+from Data.Pair import Pair
+from Data.String import string
+from Data.Number import number
+from Data.List import emptyList list
+
+from Example.TodoMVC.Controller import *
+from Example.TodoMVC.Views import render
+
+from System.Console import console
+
+model Application {
+    unbox          : ControllerContext
+
+    add            : string -> Application
+    change         : number -> string -> Application
+    toggle         : number -> Application
+    edit           : number -> Application
+    remove         : number -> Application
+
+    completeAll    : unit   -> Application
+    clearCompleted : unit   -> Application
+}
+
+def createApplication : Application = {
+    manageApplication createController
+}
+
+def manageApplication : controller -> Application = a -> { 
+    Application 
+        { a unbox }
+        { s   -> manageApplication $ a add s          }
+        { i s -> manageApplication $ a change i s     }
+        { s   -> manageApplication $ a toggle s       }
+        { s   -> manageApplication $ a edit s         }
+        { s   -> manageApplication $ a remove s       }
+        { _   -> manageApplication $ a completeAll    }
+        { _   -> manageApplication $ a clearCompleted }
+}
+
+def renderApplication : Application -> Application = a -> { 
+    let rendered : Application -> Application = 
+        a -> render $ renderApplication a 
+    in
+        Application 
+            { a unbox }
+            { s   -> rendered $ a add s             }
+            { i s -> rendered $ a change i s        }
+            { s   -> rendered $ a toggle s          }
+            { s   -> rendered $ a edit s            }
+            { s   -> rendered $ a remove s          }
+            { _   -> rendered $ a completeAll ()    }
+            { _   -> rendered $ a clearCompleted () }
+}

@@ -11,3 +11,4 @@ module Boot.Client
 from Client.Document import *
 from Client.Event import *
 from Client.Event.Mouse import *
+from Client.Event.Key import *

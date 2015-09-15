@@ -1,0 +1,28 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Client.Event.Trigger.Key
+
+from Client.Event import EventTrigger
+
+// Trigger model
+
+model KeyEventTrigger {
+}
+
+// Key trigger Factory
+
+class keyEventTrigger this:KeyEventTrigger {
+    + EventTrigger
+} {    
+    def install d = d
+}
+
+def newKeyEventTrigger : keyEventTrigger = {
+    keyEventTrigger $ KeyEventTrigger
+}

@@ -1,0 +1,23 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+
+module Example.TodoMVC.Models
+
+from Data.Boolean import bool true false
+from Data.Number import number
+from Data.String import string
+
+model Todo {
+    id        : number
+    title     : string
+    completed : bool
+}
+
+def createTodo : number -> string -> Todo = n s -> {
+    Todo n s false
+}

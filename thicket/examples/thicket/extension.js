@@ -6,7 +6,7 @@
  * Licensed under the LGPL2 license.
  */
 
-function bootstrap(thicket) {  
+function extension(thicket) {  
     function thickerExtension(runtime) {
         runtime.native("runtime.execute", 2, function(env){
             var self = env.pop(),                

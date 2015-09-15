@@ -8,22 +8,8 @@
  
 module Client.Event
 
-from Data.String import string
+from Client.Document import dom
 
-type EventType {
-    model MouseOver
-    model MouseOut
-    model MouseDown
-    model MouseUp
-    model MouseClick
-}
-
-class eventType this:EventType {
-    toString : string
-} {
-    def MouseOver.toString  = "onmouseover"
-    def MouseOut.toString   = "onmouseout"
-    def MouseDown.toString  = "onmousedown"
-    def MouseUp.toString    = "onmousesup"
-    def MouseClick.toString = "click"
+model EventTrigger {
+    install : dom -> dom
 }

@@ -6,7 +6,7 @@
  * Licensed under the LGPL2 license.
  */
  
-module Client.Event.Mouse
+module Client.Event.Trigger.Mouse
 
 from Core.Lang.Do import do
 
@@ -15,45 +15,54 @@ from Data.Option import option some none
 
 from Client.Document import dom
 
-from Client.Event import *
+from Client.Event import EventTrigger
+from Client.Event.Mouse import *
 
 // Trigger model
 
 model MouseEventTrigger {
-    onmouseover  : option[(dom -> unit)]
-    onmouseout   : option[(dom -> unit)]
-    onmousedown  : option[(dom -> unit)]
-    onmouseup    : option[(dom -> unit)]
-    onmouseclick : option[(dom -> unit)]
+    over        : option[(dom -> unit)]
+    out         : option[(dom -> unit)]
+    down        : option[(dom -> unit)]
+    up          : option[(dom -> unit)]
+    click       : option[(dom -> unit)]
+    dblclick    : option[(dom -> unit)]
+    contextmenu : option[(dom -> unit)]
 }
 
 // Mouse trigger Factory
 
 class mouseEventTrigger this:MouseEventTrigger {
-    onmouseover  : (dom -> unit) -> mouseEventTrigger
-    onmouseout   : (dom -> unit) -> mouseEventTrigger
-    onmousedown  : (dom -> unit) -> mouseEventTrigger
-    onmouseup    : (dom -> unit) -> mouseEventTrigger
-    onmouseclick : (dom -> unit) -> mouseEventTrigger
-    
-    install      : dom -> dom
+    + EventTrigger
+
+    over        : (dom -> unit) -> mouseEventTrigger
+    out         : (dom -> unit) -> mouseEventTrigger
+    down        : (dom -> unit) -> mouseEventTrigger
+    up          : (dom -> unit) -> mouseEventTrigger
+    click       : (dom -> unit) -> mouseEventTrigger
+    dblclick    : (dom -> unit) -> mouseEventTrigger
+    contextmenu : (dom -> unit) -> mouseEventTrigger
 } {    
-    def onmouseover  f = mouseEventTrigger $ new this with onmouseover = (some f)
-    def onmouseout   f = mouseEventTrigger $ new this with onmouseout = (some f)
-    def onmousedown  f = mouseEventTrigger $ new this with onmousedown = (some f)
-    def onmouseup    f = mouseEventTrigger $ new this with onmouseup = (some f)
-    def onmouseclick f = mouseEventTrigger $ new this with onmouseclick = (some f)
+    def over        f = mouseEventTrigger $ new this with over = (some f)
+    def out         f = mouseEventTrigger $ new this with out = (some f)
+    def down        f = mouseEventTrigger $ new this with down = (some f)
+    def up          f = mouseEventTrigger $ new this with up = (some f)
+    def click       f = mouseEventTrigger $ new this with click = (some f)
+    def dblclick    f = mouseEventTrigger $ new this with dblclick = (some f)
+    def contextmenu f = mouseEventTrigger $ new this with contextmenu = (some f)
     
     def install d =
         do
-        { this onmouseover  map $ d onEvent MouseOver  } ;
-        { this onmouseout   map $ d onEvent MouseOut   } ;
-        { this onmousedown  map $ d onEvent MouseDown  } ;
-        { this onmouseup    map $ d onEvent MouseUp    } ;
-        { this onmouseclick map $ d onEvent MouseClick }
+        { this over        map $ f -> d onMouseEvent MouseOver f} ;
+        { this out         map $ f -> d onMouseEvent MouseOut f} ;
+        { this down        map $ f -> d onMouseEvent MouseDown f} ;
+        { this up          map $ f -> d onMouseEvent MouseUp f} ;
+        { this click       map $ f -> d onMouseEvent MouseClick f} ;
+        { this dblclick    map $ f -> d onMouseEvent MouseDblClick f};
+        { this contextmenu map $ f -> d onMouseEvent ContextMenu f}
         return d      
 }
 
 def newMouseEventTrigger : mouseEventTrigger = {
-    mouseEventTrigger $ MouseEventTrigger none none none none none
+    mouseEventTrigger $ MouseEventTrigger none none none none none none none
 }

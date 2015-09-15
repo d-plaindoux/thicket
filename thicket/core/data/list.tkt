@@ -26,6 +26,10 @@ type List[a] {
     }
 }
 
+/*
+ * Current implementation is not efficient since foldL is not tail recursive 
+ */
+
 class list[a] this:List[a] {
     + Monadic[list a]
 
@@ -60,14 +64,14 @@ class list[a] this:List[a] {
 
     def reverse = list $ self foldL (b a -> Cons a b) Nil
 
-    def (++) l = self foldR (e r -> list $ Cons e r.unbox) l
+    def (++) l = self foldL (r e -> list $ Cons e r.unbox) l
     def (+:) a = list $ Cons a this
     def (:+) a = self ++ $ list $ Cons a Nil
 
-    def map f = self foldR (e r -> let ne = f e in list $ Cons ne r.unbox) $ emptyList
-    def flatmap f = self foldR (e r -> (f e) ++ r) $ list Nil
+    def map f = self foldL (r e -> let ne = f e in list $ Cons ne r.unbox) emptyList
+    def flatmap f = self foldL (r e -> (f e) ++ r) $ list Nil
 
-    def filter p = self foldR (e r -> (p e) fold (list $ Cons e r.unbox) r) $ list Nil
+    def filter p = self foldL (r e -> (p e) fold (list $ Cons e r.unbox) r) emptyList
     def find p = self filter p fold none (a _ -> some a)
 
     def Nil.foldL _ b = b
