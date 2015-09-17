@@ -45,7 +45,8 @@
   },
   "dependencies": {
     "colors": ">= 1.0.3",
-    "yargs": ">= 3.7.2"
+    "yargs": ">= 3.7.2",
+    "jsdom": ">= 4.0.0"
   },
   "keywords": []
 }

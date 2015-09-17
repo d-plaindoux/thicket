@@ -43,18 +43,19 @@ class todoViews this:Application {
 } {
     def statusTodo t = 
         <input type="checkbox" class="toggle"/> map
-        { d -> when t.completed then { d addAttribute "checked" "" } else d }
+        { d -> when t.completed then { d addEmptyAttribute "checked" } else d }
         onMouseEvent MouseClick $ _ -> this toggle t.id
         
     def editTodo t =
-        <li id=("todo_" + t.id) class=(when t.completed then "completed" else "")>
+        <li id=("todo_" + t.id)>
           { <input class="edit" value=t.title autofocus=""/>             
             onKeyEvent KeyPress $ d n -> 
                 when (n == RETURN) 
                 then { d value fold this $ this change t.id } 
                 else this
           }
-        </li>
+        </li> map
+        { d -> when t.completed then { d addAttribute "class" "completed" } else d }
         
     def viewTodo t =
         <li id=("todo_" + t.id) class=(when t.completed then "completed" else "")>
