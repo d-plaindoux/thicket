@@ -204,9 +204,33 @@ trait comparable[a] {
     def (=>) n = n <? self
     def (?>) n = n <= self    
 }
+
+class bool this:Bool {
+    + comparable[bool]
+    fold : [b] b -> b -> b
+} {
+    def True.fold t _ = t
+    def False.fold _ f = f
+    
+    def (==) b = self fold (b fold true false) 
+                           (b fold false true) 
 ```
 
 ## Not yet in the language
+
+### String interpolation
+
+String interpolation unleashes string construction allowing string embedded code.
+
+```
+model Message {
+    id   : number
+    text : string 
+}
+
+def logMessage : Message -> console = m -> 
+    console.log @"${date current}::${m.id} - ${m.text}" 
+```
 
 ### Type of self in traits
 
@@ -231,20 +255,24 @@ to this trait.
 For the moment the type of self is the trait type itself but this approach is not 
 fulfiling. 
 
-### Model type case
+### Model pattern matching
 
-Since model type exists for methods this does not exist yet for model type based.
+Method selection in a class is done using the model selector i.e. it's name. 
+Unfortunately such approach is well adapted when a method must be selected during 
+the lookup stage but the code seggragation is poor. Pattern matchign can offer 
+expressiveness unleashing model pattern definition and matching operation used 
+for inductive computation.
 
 ```
-expression match {
-case Nil       => ...
-case Cons as l => ... // l can be used for extraction
+def adder : list[number] -> number = l -> {
+    l match {
+    case Nil      => 0
+    case Cons i l => adder l + 1
+    }
 }
 ```
 
-The `match` function  can be seen as a standard construction of the language 
-but functional fold mechanism providing decomposition and projection seems to 
-be enougth for the moment.
+Transposition is not so simple because it must 
 
 ## More informations and References
 
