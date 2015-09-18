@@ -1,4 +1,4 @@
-# ![](https://raw.githubusercontent.com/d-plaindoux/thicket/master/doc/thicket.small.logo.png =34x34) Thicket
+# Thicket
 
 [![Build Status](https://travis-ci.org/d-plaindoux/thicket.svg)](https://travis-ci.org/d-plaindoux/thicket) 
 [![Coverage Status](https://coveralls.io/repos/d-plaindoux/thicket/badge.png?branch=master)](https://coveralls.io/r/d-plaindoux/thicket?branch=master) 
