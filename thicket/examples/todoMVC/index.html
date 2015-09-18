@@ -10,25 +10,19 @@
  */
 -->
 <head>
-    <meta charset="utf-8">
-    
+    <meta charset="utf-8">    
     <link rel="stylesheet" type="text/css" href="todo.css">
     <script src="/thicket/build/thicket-lang.min.js"></script>
 
     <script type="text/thicket">
         from Example.TodoMVC.Application import createApplication renderApplication
     
-        let application = renderApplication createApplication in
-            application add "Hello World!" remove 0 // Hugly hack
+        { renderApplication createApplication }
     </script>
     
     <script type="text/javascript">
     function onLoad() {
-        var t0 = new Date();
-        console.log("-----------------------------");    
-        console.log("Boot Thicket " + t0.toDateString());
         require('thicket')('/thicket/site').boot();
-        console.log("Boot done in " + (new Date().getTime() - t0.getTime()) + " ms");
     }
     </script>
 </head>    

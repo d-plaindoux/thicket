@@ -69,7 +69,7 @@ class todoViews this:Application {
         onMouseEvent MouseDblClick $ _ -> this edit t.id
 
     def viewItems = 
-        let r = this.unbox.todos.length in
+        let r = this.todos.length in
             <span id="todo-count">
                 <strong> r " " </strong> 
                 (when (r <? 2) then "item left" else "items left")
@@ -98,7 +98,7 @@ class todoViews this:Application {
         onMouseEvent MouseClick $ _ -> this completeAll ()
     
     def viewFooter = 
-        when this.unbox.todos.empty
+        when this.todos.empty
         then <footer id="footer" class="hidden"/>
         else <footer id="footer">
                 (self viewItems)
@@ -109,8 +109,8 @@ class todoViews this:Application {
     def viewTodoList =
         let todolist = <ul id="todo-list"/> in
             do 
-            { this.unbox.todos map $ combinators.B (todolist addChild) $ t -> 
-                    when (t.id == this.unbox.edit) 
+            { this.todos map $ combinators.B (todolist addChild) $ t -> 
+                    when (t.id == this.edited) 
                     then {self editTodo t}
                     else {self viewTodo t} 
             }
