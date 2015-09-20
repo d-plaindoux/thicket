@@ -267,12 +267,10 @@ for inductive computation.
 def adder : list[number] -> number = l -> {
     l match {
     case Nil      => 0
-    case Cons i l => adder l + 1
+    case Cons i l => adder l + i
     }
 }
 ```
-
-Transposition is not so simple because it must 
 
 ## More informations and References
 
