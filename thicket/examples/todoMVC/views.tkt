@@ -69,7 +69,7 @@ class todoViews this:Application {
         onMouseEvent MouseDblClick $ _ -> this edit t.id
 
     def viewItems = 
-        let r = this.todos.length in
+        let r = this.length in
             <span id="todo-count">
                 <strong> r " " </strong> 
                 (when (r <? 2) then "item left" else "items left")
@@ -77,9 +77,9 @@ class todoViews this:Application {
 
     def viewFilters =
         <ul id="filters">
-            <li> <a> "All" </a> </li>
-            <li> <a> "Active" </a> </li>
-            <li> <a> "Completed" </a> </li>
+            <li> (<a> "All" </a> onMouseEvent MouseClick $ _ -> this filterAll ()) </li>
+            <li> (<a> "Active" </a> onMouseEvent MouseClick $ _ -> this filterActive ()) </li>
+            <li> (<a> "Completed" </a> onMouseEvent MouseClick $ _ -> this filterCompleted ()) </li>
         </ul>
 
     def viewCreate = 
@@ -98,7 +98,7 @@ class todoViews this:Application {
         onMouseEvent MouseClick $ _ -> this completeAll ()
     
     def viewFooter = 
-        when this.todos.empty
+        when (this.length == 0)
         then <footer id="footer" class="hidden"/>
         else <footer id="footer">
                 (self viewItems)

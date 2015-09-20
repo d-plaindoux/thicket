@@ -26,6 +26,14 @@ type Filter {
     model Completed
 }
 
+class filtering this:Filter {
+    apply : list[Todo] -> list[Todo]    
+} {
+    def All.apply l = l
+    def Active.apply l = l filter (t -> t.completed.not)
+    def Completed.apply l = l filter (t -> t.completed)
+}
+
 model ControllerContext {
     filter   : Filter
     edit     : number
@@ -35,6 +43,8 @@ model ControllerContext {
 
 class controller this:ControllerContext {
     edited         : number
+
+    length         : number
     todos          : list[Todo]
 
     add            : string -> controller
@@ -50,8 +60,10 @@ class controller this:ControllerContext {
     clearCompleted : controller
 } {
     def edited = this.edit
+    
+    def length = this.todos.length
 
-    def todos = this.todos
+    def todos = filtering this.filter apply this.todos
     
     def add s = 
         let todos = this.todos +: $ createTodo this.index s in
