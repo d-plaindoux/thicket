@@ -22,23 +22,32 @@ from Example.TodoMVC.Views import render
 
 from System.Console import console
 
-model Application {
+model ApplicationContext {
     edited          : number
     length          : number
     todos           : list[Todo]
+}
 
+model ApplicationAction {
     add             : string -> Application
     change          : number -> string -> Application
     toggle          : number -> Application
     edit            : number -> Application
     remove          : number -> Application
-
     completeAll     : unit   -> Application
     clearCompleted  : unit   -> Application
-    
-    filterAll       : unit   -> Application
-    filterActive    : unit   -> Application
-    filterCompleted : unit   -> Application
+}
+
+model ApplicationFilter {
+    all       : unit   -> Application
+    active    : unit   -> Application
+    completed : unit   -> Application
+}
+
+model Application {
+    context : ApplicationContext
+    action  : ApplicationAction
+    filter  : ApplicationFilter
 }
 
 def createApplication : Application = {
@@ -47,34 +56,46 @@ def createApplication : Application = {
 
 def manageApplication : controller -> Application = a -> { 
     Application 
-        { a.edited }
-        { a.length }
-        { a.todos }
-        { s   -> manageApplication $ a add s            }
-        { i s -> manageApplication $ a change i s       }
-        { s   -> manageApplication $ a toggle s         }
-        { s   -> manageApplication $ a edit s           }
-        { s   -> manageApplication $ a remove s         }
-        { _   -> manageApplication $ a completeAll      }
-        { _   -> manageApplication $ a clearCompleted   }
-        { _   -> manageApplication $ a filter All       }
-        { _   -> manageApplication $ a filter Active    }
-        { _   -> manageApplication $ a filter Completed }
+        (ApplicationContext 
+            { a edited }
+            { a length }
+            { a todos }
+        )
+        (ApplicationAction
+            { s   -> manageApplication $ a add s            }
+            { i s -> manageApplication $ a change i s       }
+            { s   -> manageApplication $ a toggle s         }
+            { s   -> manageApplication $ a edit s           }
+            { s   -> manageApplication $ a remove s         }
+            { _   -> manageApplication $ a completeAll      }
+            { _   -> manageApplication $ a clearCompleted   }
+        )
+        (ApplicationFilter 
+            { _   -> manageApplication $ a filter All       }
+            { _   -> manageApplication $ a filter Active    }
+            { _   -> manageApplication $ a filter Completed }
+        )
 }
 
 def renderApplication : Application -> Application = a -> { 
     render $ Application 
-            { a.edited }
-            { a.length }
-            { a.todos }
-            { s   -> renderApplication $ a add s              }
-            { i s -> renderApplication $ a change i s         }
-            { s   -> renderApplication $ a toggle s           }
-            { s   -> renderApplication $ a edit s             }
-            { s   -> renderApplication $ a remove s           }
-            { _   -> renderApplication $ a completeAll ()     }
-            { _   -> renderApplication $ a clearCompleted ()  }
-            { _   -> renderApplication $ a filterAll ()       }
-            { _   -> renderApplication $ a filterActive ()    }
-            { _   -> renderApplication $ a filterCompleted () }            
+        (ApplicationContext 
+            { a context edited }
+            { a context length }
+            { a context todos }
+        )
+        (ApplicationAction        
+            { s   -> renderApplication $ a action add s              }
+            { i s -> renderApplication $ a action change i s         }
+            { s   -> renderApplication $ a action toggle s           }
+            { s   -> renderApplication $ a action edit s             }
+            { s   -> renderApplication $ a action remove s           }
+            { _   -> renderApplication $ a action completeAll ()     }
+            { _   -> renderApplication $ a action clearCompleted ()  }
+        )
+        (ApplicationFilter
+            { _   -> renderApplication $ a filter all ()       }
+            { _   -> renderApplication $ a filter active ()    }
+            { _   -> renderApplication $ a filter completed () }            
+        )
 }
