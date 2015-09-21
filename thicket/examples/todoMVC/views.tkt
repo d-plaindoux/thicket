@@ -23,7 +23,7 @@ from Data.String import string
 from Data.Number import number
 from Data.Option import *
 
-from Example.TodoMVC.Models import Todo
+from Example.TodoMVC.Models import *
 from Example.TodoMVC.Application import Application
 
 // ------------------------------------------------------------------
@@ -72,14 +72,26 @@ class todoViews this:Application {
         let r = this context length in
             <span id="todo-count">
                 <strong> r " " </strong> 
-                (when (r <? 2) then "item left" else "items left")
+                { when (r <? 2) then "item left" else "items left" }
             </span>
 
     def viewFilters =
         <ul id="filters">
-            <li> (<a> "All" </a> onMouseEvent MouseClick $ _ -> this filter all ()) </li>
-            <li> (<a> "Active" </a> onMouseEvent MouseClick $ _ -> this filter active ()) </li>
-            <li> (<a> "Completed" </a> onMouseEvent MouseClick $ _ -> this filter completed ()) </li>
+            <li>  
+                { <a> "All" </a> map
+                  { d -> when (this.context.filter == all) then { d addAttribute "class" "selected" } else d }
+                  onMouseEvent MouseClick $ _ -> this action filtering all }
+            </li>
+            <li>  
+                { <a> "Active" </a> map
+                  { d -> when (this.context.filter == active) then { d addAttribute "class" "selected" } else d }
+                  onMouseEvent MouseClick $ _ -> this action filtering active }
+            </li>
+            <li>  
+                { <a> "Completed" </a> map
+                  { d -> when (this.context.filter == completed) then { d addAttribute "class" "selected" } else d }
+                  onMouseEvent MouseClick $ _ -> this action filtering completed }
+            </li>
         </ul>
 
     def viewCreate = 

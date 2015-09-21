@@ -21,3 +21,28 @@ model Todo {
 def createTodo : number -> string -> Todo = n s -> {
     Todo n s false
 }
+
+type Filter {
+    model All
+    model Active
+    model Completed
+}
+
+class filter this:Filter {
+    fold : [a] a -> a -> a -> a
+    (==) : filter -> bool
+} {
+    def All.fold       a _ _ = a
+    def Active.fold    _ a _ = a
+    def Completed.fold _ _ a = a
+    
+    def (==) f = 
+        filter this fold 
+            { f fold true false false }
+            { f fold false true false }
+            { f fold false false true }
+}
+
+def all       : filter = { filter All }    
+def active    : filter = { filter Active }    
+def completed : filter = { filter Completed }
