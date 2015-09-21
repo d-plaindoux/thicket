@@ -1,0 +1,9 @@
+type Option [a] {
+    model Some { _ : a }
+}
+
+class option[a] this:Option[a] {
+    fold    : [b] b -> (a -> b) -> b
+} {
+    def Some.fold _ s = s this
+} 
