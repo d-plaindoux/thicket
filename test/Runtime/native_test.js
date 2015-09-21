@@ -1,7 +1,8 @@
 'use strict';
 
 var native = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/runtime/native.js'),
-    runtime = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/runtime/runtime.js')().extendWith(native);
+    runtime = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/runtime/runtime.js')().extendWith(native),
+    $i = runtime.instruction;
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -40,11 +41,11 @@ exports['native'] = {
     };
       
     var code = runtime.delta["console.log"].concat([
-        {CONST:"Hello, World!"},{APPLY:1},
-        {CONST:0},{APPLY:1}
+        [$i.CONST,"Hello, World!"],[$i.APPLY],
+        [$i.CONST,0],[$i.APPLY]
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:0});
+    test.deepEqual(runtime.execute(code), [$i.CONST,0]);
     test.deepEqual(result, "Hello, World!");
     test.done();
       
@@ -55,13 +56,13 @@ exports['native'] = {
     test.expect(1);
     // tests here  
     var code = runtime.delta["generic.=="].concat([
-        {CONST:1},{APPLY:1},
-        {CONST:1},{APPLY:1},
-        {CONST:true},{APPLY:1},
-        {CONST:false},{APPLY:1}
+        [$i.CONST,1],[$i.APPLY],
+        [$i.CONST,1],[$i.APPLY],
+        [$i.CONST,true],[$i.APPLY],
+        [$i.CONST,false],[$i.APPLY]
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:true});
+    test.deepEqual(runtime.execute(code), [$i.CONST,true]);
     test.done();
   },
     
@@ -69,13 +70,13 @@ exports['native'] = {
     test.expect(1);
     // tests here  
     var code = runtime.delta["generic.=="].concat([
-        {CONST:1},{APPLY:1},
-        {CONST:2},{APPLY:1},
-        {CONST:true},{APPLY:1},
-        {CONST:false},{APPLY:1}
+        [$i.CONST,1],[$i.APPLY],
+        [$i.CONST,2],[$i.APPLY],
+        [$i.CONST,true],[$i.APPLY],
+        [$i.CONST,false],[$i.APPLY]
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:false});
+    test.deepEqual(runtime.execute(code), [$i.CONST,false]);
     test.done();
   },
 
@@ -83,13 +84,13 @@ exports['native'] = {
     test.expect(1);
     // tests here  
     var code = runtime.delta["generic.=="].concat([
-        {CONST:"1"},{APPLY:1},
-        {CONST:"1"},{APPLY:1},
-        {CONST:true},{APPLY:1},
-        {CONST:false},{APPLY:1}
+        [$i.CONST,"1"],[$i.APPLY],
+        [$i.CONST,"1"],[$i.APPLY],
+        [$i.CONST,true],[$i.APPLY],
+        [$i.CONST,false],[$i.APPLY]
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:true});
+    test.deepEqual(runtime.execute(code), [$i.CONST,true]);
     test.done();
   },
     
@@ -97,13 +98,13 @@ exports['native'] = {
     test.expect(1);
     // tests here  
     var code = runtime.delta["generic.=="].concat([
-        {CONST:"1"},{APPLY:1},
-        {CONST:"2"},{APPLY:1},
-        {CONST:true},{APPLY:1},
-        {CONST:false},{APPLY:1}
+        [$i.CONST,"1"],[$i.APPLY],
+        [$i.CONST,"2"],[$i.APPLY],
+        [$i.CONST,true],[$i.APPLY],
+        [$i.CONST,false],[$i.APPLY]
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:false});
+    test.deepEqual(runtime.execute(code), [$i.CONST,false]);
     test.done();
   },
    
@@ -111,39 +112,39 @@ exports['native'] = {
     test.expect(1);
     // tests here  
     var code = runtime.delta["generic.<"].concat([
-        {CONST:1},{APPLY:1},
-        {CONST:2},{APPLY:1},
-        {CONST:true},{APPLY:1},
-        {CONST:false},{APPLY:1}
+        [$i.CONST,1],[$i.APPLY],
+        [$i.CONST,2],[$i.APPLY],
+        [$i.CONST,true],[$i.APPLY],
+        [$i.CONST,false],[$i.APPLY]
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:true});
+    test.deepEqual(runtime.execute(code), [$i.CONST,true]);
     test.done();  },
 
   'numbers false <': function(test) {
       test.expect(1);
     // tests here  
     var code = runtime.delta["generic.<"].concat([
-        {CONST:2},{APPLY:1},
-        {CONST:1},{APPLY:1},
-        {CONST:true},{APPLY:1},
-        {CONST:false},{APPLY:1}
+        [$i.CONST,2],[$i.APPLY],
+        [$i.CONST,1],[$i.APPLY],
+        [$i.CONST,true],[$i.APPLY],
+        [$i.CONST,false],[$i.APPLY]
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:false});
+    test.deepEqual(runtime.execute(code), [$i.CONST,false]);
     test.done();  },
     
   'strings true <': function(test) {
     test.expect(1);
     // tests here  
     var code = runtime.delta["generic.<"].concat([
-        {CONST:"1"},{APPLY:1},
-        {CONST:"2"},{APPLY:1},
-        {CONST:true},{APPLY:1},
-        {CONST:false},{APPLY:1}
+        [$i.CONST,"1"],[$i.APPLY],
+        [$i.CONST,"2"],[$i.APPLY],
+        [$i.CONST,true],[$i.APPLY],
+        [$i.CONST,false],[$i.APPLY]
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:true});
+    test.deepEqual(runtime.execute(code), [$i.CONST,true]);
     test.done();  
   },
 
@@ -151,13 +152,13 @@ exports['native'] = {
     test.expect(1);
     // tests here  
     var code = runtime.delta["generic.<"].concat([
-        {CONST:"2"},{APPLY:1},
-        {CONST:"1"},{APPLY:1},
-        {CONST:true},{APPLY:1},
-        {CONST:false},{APPLY:1}
+        [$i.CONST,"2"],[$i.APPLY],
+        [$i.CONST,"1"],[$i.APPLY],
+        [$i.CONST,true],[$i.APPLY],
+        [$i.CONST,false],[$i.APPLY]
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:false});
+    test.deepEqual(runtime.execute(code), [$i.CONST,false]);
     test.done();  
   },
    
@@ -165,11 +166,11 @@ exports['native'] = {
     test.expect(1);
     // tests here  
     var code = runtime.delta["string.+"].concat([
-        {CONST:"4"},{APPLY:1},
-        {CONST:"2"},{APPLY:1}
+        [$i.CONST,"4"],[$i.APPLY],
+        [$i.CONST,"2"],[$i.APPLY]
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:"42"});
+    test.deepEqual(runtime.execute(code), [$i.CONST,"42"]);
     test.done();  
   },
     
@@ -177,12 +178,12 @@ exports['native'] = {
     test.expect(1);
     // tests here  
     var code = runtime.delta["string.toNumber"].concat([
-        {CONST:"4"},{APPLY:1},
-        {CLOSURE:[{ACCESS:1},{RETURN:1}]},{APPLY:1},
-        {CONST:false},{APPLY:1}
+        [$i.CONST,"4"],[$i.APPLY],
+        [$i.CLOSURE,[[$i.ACCESS,1],[$i.RETURN]]],[$i.APPLY],
+        [$i.CONST,false],[$i.APPLY]
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:4});
+    test.deepEqual(runtime.execute(code), [$i.CONST,4]);
     test.done();  
   },
         
@@ -190,12 +191,12 @@ exports['native'] = {
     test.expect(1);
     // tests here  
     var code = runtime.delta["string.toNumber"].concat([
-        {CONST:"m4"},{APPLY:1},
-        {CLOSURE:[{ACCESS:1},{RETURN:1}]},{APPLY:1},
-        {CONST:false},{APPLY:1}
+        [$i.CONST,"m4"],[$i.APPLY],
+        [$i.CLOSURE,[[$i.ACCESS,1],[$i.RETURN]]],[$i.APPLY],
+        [$i.CONST,false],[$i.APPLY]
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:false});
+    test.deepEqual(runtime.execute(code), [$i.CONST,false]);
     test.done();
   },
         
@@ -203,10 +204,10 @@ exports['native'] = {
     test.expect(1);
     // tests here  
     var code = runtime.delta["string.length"].concat([
-        {CONST:"m4"},{APPLY:1}
+        [$i.CONST,"m4"],[$i.APPLY]
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:2});
+    test.deepEqual(runtime.execute(code), [$i.CONST,2]);
     test.done();
   },
         
@@ -214,10 +215,10 @@ exports['native'] = {
     test.expect(1);
     // tests here  
     var code = runtime.delta["string.hash"].concat([
-        {CONST:"4"},{APPLY:1},
+        [$i.CONST,"4"],[$i.APPLY],
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:52});
+    test.deepEqual(runtime.execute(code), [$i.CONST,52]);
     test.done();
   },
     
@@ -225,13 +226,13 @@ exports['native'] = {
     test.expect(1);
     // tests here  
     var code = runtime.delta["string.getAt"].concat([
-        {CONST:"4"},{APPLY:1},
-        {CONST:"0"},{APPLY:1},
-        {CLOSURE:[{ACCESS:1},{RETURN:1}]},{APPLY:1},
-        {CONST:false},{APPLY:1}
+        [$i.CONST,"4"],[$i.APPLY],
+        [$i.CONST,"0"],[$i.APPLY],
+        [$i.CLOSURE,[[$i.ACCESS,1],[$i.RETURN]]],[$i.APPLY],
+        [$i.CONST,false],[$i.APPLY]
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:"4"});
+    test.deepEqual(runtime.execute(code), [$i.CONST,"4"]);
     test.done();  
   },
     
@@ -239,13 +240,13 @@ exports['native'] = {
     test.expect(1);
     // tests here  
     var code = runtime.delta["string.getAt"].concat([
-        {CONST:"4"},{APPLY:1},
-        {CONST:"1"},{APPLY:1},
-        {CLOSURE:[{ACCESS:1},{RETURN:1}]},{APPLY:1},
-        {CONST:false},{APPLY:1}
+        [$i.CONST,"4"],[$i.APPLY],
+        [$i.CONST,"1"],[$i.APPLY],
+        [$i.CLOSURE,[[$i.ACCESS,1],[$i.RETURN]]],[$i.APPLY],
+        [$i.CONST,false],[$i.APPLY]
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:false});
+    test.deepEqual(runtime.execute(code), [$i.CONST,false]);
     test.done();  
   },
  
@@ -253,11 +254,11 @@ exports['native'] = {
     test.expect(1);
     // tests here  
     var code = runtime.delta["number.+"].concat([
-        {CONST:6},{APPLY:1},
-        {CONST:2},{APPLY:1}
+        [$i.CONST,6],[$i.APPLY],
+        [$i.CONST,2],[$i.APPLY]
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:8});
+    test.deepEqual(runtime.execute(code), [$i.CONST,8]);
     test.done();
   },
    
@@ -265,11 +266,11 @@ exports['native'] = {
     test.expect(1);
     // tests here  
     var code = runtime.delta["number.-"].concat([
-        {CONST:6},{APPLY:1},
-        {CONST:2},{APPLY:1}
+        [$i.CONST,6],[$i.APPLY],
+        [$i.CONST,2],[$i.APPLY]
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:4});
+    test.deepEqual(runtime.execute(code), [$i.CONST,4]);
     test.done();
   },
    
@@ -277,11 +278,11 @@ exports['native'] = {
     test.expect(1);
     // tests here  
     var code = runtime.delta["number.*"].concat([
-        {CONST:6},{APPLY:1},
-        {CONST:2},{APPLY:1}
+        [$i.CONST,6],[$i.APPLY],
+        [$i.CONST,2],[$i.APPLY]
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:12});
+    test.deepEqual(runtime.execute(code), [$i.CONST,12]);
     test.done();
   },
    
@@ -289,11 +290,11 @@ exports['native'] = {
     test.expect(1);
     // tests here  
     var code = runtime.delta["number./"].concat([
-        {CONST:6},{APPLY:1},
-        {CONST:2},{APPLY:1}
+        [$i.CONST,6],[$i.APPLY],
+        [$i.CONST,2],[$i.APPLY]
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:3});
+    test.deepEqual(runtime.execute(code), [$i.CONST,3]);
     test.done();
   },
    
@@ -301,11 +302,11 @@ exports['native'] = {
     test.expect(1);
     // tests here  
     var code = runtime.delta["number./"].concat([
-        {CONST:6},{APPLY:1},
-        {CONST:0},{APPLY:1}
+        [$i.CONST,6],[$i.APPLY],
+        [$i.CONST,0],[$i.APPLY]
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:Infinity});
+    test.deepEqual(runtime.execute(code), [$i.CONST,Infinity]);
     test.done();
   },
    
@@ -313,11 +314,11 @@ exports['native'] = {
     test.expect(1);
     // tests here  
     var code = runtime.delta["number.%"].concat([
-        {CONST:6},{APPLY:1},
-        {CONST:2},{APPLY:1}
+        [$i.CONST,6],[$i.APPLY],
+        [$i.CONST,2],[$i.APPLY]
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:0});
+    test.deepEqual(runtime.execute(code), [$i.CONST,0]);
     test.done();
   },
    
@@ -325,8 +326,8 @@ exports['native'] = {
     test.expect(1);
     // tests here  
     var code = runtime.delta["number.%"].concat([
-        {CONST:6},{APPLY:1},
-        {CONST:0},{APPLY:1}
+        [$i.CONST,6],[$i.APPLY],
+        [$i.CONST,0],[$i.APPLY]
     ]);      
       
     test.ok(isNaN(runtime.execute(code).CONST));
@@ -337,11 +338,11 @@ exports['native'] = {
     test.expect(1);
     // tests here  
     var code = runtime.delta["number.<<"].concat([
-        {CONST:6},{APPLY:1},
-        {CONST:2},{APPLY:1}
+        [$i.CONST,6],[$i.APPLY],
+        [$i.CONST,2],[$i.APPLY]
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:6 << 2});
+    test.deepEqual(runtime.execute(code), [$i.CONST,6 << 2]);
     test.done();
   },   
 
@@ -349,10 +350,10 @@ exports['native'] = {
     test.expect(1);
     // tests here  
     var code = runtime.delta["number.toString"].concat([
-        {CONST:4},{APPLY:1}
+        [$i.CONST,4],[$i.APPLY]
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:"4"});
+    test.deepEqual(runtime.execute(code), [$i.CONST,"4"]);
     test.done();
   },
 
@@ -360,10 +361,10 @@ exports['native'] = {
     test.expect(1);
     // tests here  
     var code = runtime.delta["array.new"].concat([
-        {CONST:1},{APPLY:1}
+        [$i.CONST,1],[$i.APPLY]
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:new Array(1)});
+    test.deepEqual(runtime.execute(code), [$i.CONST,new Array(1)]);
     test.done();
   },
 
@@ -371,12 +372,12 @@ exports['native'] = {
     test.expect(1);
     // tests here  
     var code = runtime.delta["array.set"].concat([
-        {CONST:new Array(1)},{APPLY:1},
-        {CONST:0},{APPLY:1},
-        {CONST:1},{APPLY:1}
+        [$i.CONST,new Array(1)],[$i.APPLY],
+        [$i.CONST,0],[$i.APPLY],
+        [$i.CONST,1],[$i.APPLY]
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:[ {CONST:1} ]});
+    test.deepEqual(runtime.execute(code), [$i.CONST,[ [$i.CONST,1] ]]);
     test.done();
   },
 
@@ -384,12 +385,12 @@ exports['native'] = {
     test.expect(1);
     // tests here  
     var code = runtime.delta["array.set"].concat([
-        {CONST:new Array(1)},{APPLY:1},
-        {CONST:1},{APPLY:1},
-        {CONST:1},{APPLY:1}
+        [$i.CONST,new Array(1)],[$i.APPLY],
+        [$i.CONST,1],[$i.APPLY],
+        [$i.CONST,1],[$i.APPLY]
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:new Array(1)});
+    test.deepEqual(runtime.execute(code), [$i.CONST,new Array(1)]);
     test.done();
   },
     
@@ -397,11 +398,11 @@ exports['native'] = {
     test.expect(1);
     // tests here  
     var code = runtime.delta["array.reset"].concat([
-        {CONST:[ {CONST:1} ]},{APPLY:1},
-        {CONST:0},{APPLY:1}
+        [$i.CONST,[ [$i.CONST,1] ]],[$i.APPLY],
+        [$i.CONST,0],[$i.APPLY]
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:new Array(1)});    
+    test.deepEqual(runtime.execute(code), [$i.CONST,new Array(1)]);    
     test.done();
   },
 
@@ -409,11 +410,11 @@ exports['native'] = {
     test.expect(1);
     // tests here  
     var code = runtime.delta["array.reset"].concat([
-        {CONST:[ {CONST:1} ]},{APPLY:1},
-        {CONST:1},{APPLY:1}
+        [$i.CONST,[ [$i.CONST,1] ]],[$i.APPLY],
+        [$i.CONST,1],[$i.APPLY]
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:[ {CONST:1} ]});    
+    test.deepEqual(runtime.execute(code), [$i.CONST,[ [$i.CONST,1] ]]);    
     test.done();
   },
 
@@ -421,13 +422,13 @@ exports['native'] = {
     test.expect(1);
     // tests here  
     var code = runtime.delta["array.get"].concat([
-        {CONST:[ {CONST:1} ]},{APPLY:1},
-        {CONST:0},{APPLY:1},
-        {CLOSURE:[{ACCESS:1},{RETURN:1}]},{APPLY:1},
-        {CONST:false},{APPLY:1}
+        [$i.CONST,[ [$i.CONST,1] ]],[$i.APPLY],
+        [$i.CONST,0],[$i.APPLY],
+        [$i.CLOSURE,[[$i.ACCESS,1],[$i.RETURN]]],[$i.APPLY],
+        [$i.CONST,false],[$i.APPLY]
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:1});    
+    test.deepEqual(runtime.execute(code), [$i.CONST,1]);    
     test.done();
   },
 
@@ -435,13 +436,13 @@ exports['native'] = {
     test.expect(1);
     // tests here  
     var code = runtime.delta["array.get"].concat([
-        {CONST:new Array(1)},{APPLY:1},
-        {CONST:0},{APPLY:1},
-        {CLOSURE:[{ACCESS:1},{RETURN:1}]},{APPLY:1},
-        {CONST:false},{APPLY:1}
+        [$i.CONST,new Array(1)],[$i.APPLY],
+        [$i.CONST,0],[$i.APPLY],
+        [$i.CLOSURE,[[$i.ACCESS,1],[$i.RETURN]]],[$i.APPLY],
+        [$i.CONST,false],[$i.APPLY]
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:false});    
+    test.deepEqual(runtime.execute(code), [$i.CONST,false]);    
     test.done();
   },
 
@@ -449,13 +450,13 @@ exports['native'] = {
     test.expect(1);
     // tests here  
     var code = runtime.delta["array.get"].concat([
-        {CONST:[ {CONST:1} ]},{APPLY:1},
-        {CONST:1},{APPLY:1},
-        {CLOSURE:[{ACCESS:1},{RETURN:1}]},{APPLY:1},
-        {CONST:false},{APPLY:1}
+        [$i.CONST,[ [$i.CONST,1] ]],[$i.APPLY],
+        [$i.CONST,1],[$i.APPLY],
+        [$i.CLOSURE,[[$i.ACCESS,1],[$i.RETURN]]],[$i.APPLY],
+        [$i.CONST,false],[$i.APPLY]
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:false});    
+    test.deepEqual(runtime.execute(code), [$i.CONST,false]);    
     test.done();
   },
 
@@ -463,10 +464,10 @@ exports['native'] = {
     test.expect(1);
     // tests here  
     var code = runtime.delta["array.size"].concat([
-        {CONST:new Array(1)},{APPLY:1}
+        [$i.CONST,new Array(1)],[$i.APPLY]
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:1});    
+    test.deepEqual(runtime.execute(code), [$i.CONST,1]);    
     test.done();
   },
     
@@ -474,10 +475,10 @@ exports['native'] = {
     test.expect(1);
     // tests here  
     var code = runtime.delta["mutable.new"].concat([
-        {CONST:1},{APPLY:1}
+        [$i.CONST,1],[$i.APPLY]
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:{value:{CONST:1}}});
+    test.deepEqual(runtime.execute(code), [$i.CONST,{value:[$i.CONST,1]}]);
     test.done();
   },
     
@@ -485,10 +486,10 @@ exports['native'] = {
     test.expect(1);
     // tests here  
     var code = runtime.delta["mutable.get"].concat([
-        {CONST:{value:{CONST:1}}},{APPLY:1}
+        [$i.CONST,{value:[$i.CONST,1]}],[$i.APPLY]
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:1});
+    test.deepEqual(runtime.execute(code), [$i.CONST,1]);
     test.done();
   },
     
@@ -496,11 +497,11 @@ exports['native'] = {
     test.expect(1);
     // tests here  
     var code = runtime.delta["mutable.set"].concat([
-        {CONST:{value:{CONST:1}}},{APPLY:1},
-        {CONST:2},{APPLY:1}
+        [$i.CONST,{value:[$i.CONST,1]}],[$i.APPLY],
+        [$i.CONST,2],[$i.APPLY]
     ]);      
       
-    test.deepEqual(runtime.execute(code), {CONST:{value:{CONST:2}}});
+    test.deepEqual(runtime.execute(code), [$i.CONST,{value:[$i.CONST,2]}]);
     test.done();
   },
  

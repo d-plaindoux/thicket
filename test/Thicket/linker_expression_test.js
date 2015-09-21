@@ -83,7 +83,7 @@ exports['linker_expression'] = {
 
     test.ok(aLinker.linkExpression(aPackages.main(), expression, list("a"), list()).isSuccess());
     test.deepEqual(expression, 
-                   { '$type': 'IdentExpr', value: 'a' });
+                   { '$t': 'IdentExpr', value: 'a' });
       
     test.done();
   },    
@@ -101,7 +101,7 @@ exports['linker_expression'] = {
       
     test.ok(aLinker.linkExpression("Data.Unit", expression, list(), list()).isSuccess());
     test.deepEqual(expression, 
-                   { '$type': 'IdentExpr', value: 'unit', namespace: 'Data.Unit' });
+                   { '$t': 'IdentExpr', value: 'unit', namespace: 'Data.Unit' });
       
     test.done();
   },    
@@ -120,7 +120,7 @@ exports['linker_expression'] = {
       
     test.ok(aLinker.linkExpression("Data.Explicit", expression, list(), list()).isSuccess());
     test.deepEqual(expression, 
-                   { '$type': 'IdentExpr', value: 'unit', namespace: 'Data.Unit' });
+                   { '$t': 'IdentExpr', value: 'unit', namespace: 'Data.Unit' });
       
     test.done();
   },    

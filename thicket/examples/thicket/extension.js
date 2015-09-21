@@ -7,14 +7,17 @@
  */
 
 function extension(thicket) {  
-    function thickerExtension(runtime) {
+    function thicketExtension(runtime) {
+        
+        var $i = runtime.instruction;
+        
         runtime.native("runtime.execute", 2, function(env){
             var self = env.pop(),                
                 sourceCode = runtime.constant(env.pop());
 
             thicket.manageSourceCode(sourceCode);
 
-            return [ {RESULT:self} ];
+            return [[ $i.RESULT, self ]];
         });
 
         runtime.native("runtime.logger", 3, function(env){
@@ -24,28 +27,16 @@ function extension(thicket) {
 
 
             thicket.toplevel.logAgent = function(s) {                                             
-                runtime.execute([{RESULT:logger},
-                                 {RESULT:string},
-                                 {CONST:s},
-                                 {APPLY:1},
-                                 {APPLY:1}]);
+                runtime.execute([[ $i.RESULT, logger ],
+                                 [ $i.RESULT, string ],
+                                 [ $i.CONST, s ],
+                                 [ $i.APPLY ],
+                                 [ $i.APPLY ]]);
             };
 
-            return [ {RESULT:self} ];
-        });
-
-        runtime.native("dom.getValue", 3, function(env){
-            var node = runtime.constant(env.pop()),
-                aSome = env.pop(),
-                aNone = env.pop();
-
-            if (node.value) {
-                return [ {RESULT:aSome},{CONST:node.value},{APPLY:1} ];
-            } else {
-                return [ {RESULT:aNone} ];
-            }
+            return [[ $i.RESULT, self ]];
         });
     };
 
-    thicket.toplevel.addExtension(thickerExtension);
+    thicket.toplevel.addExtension(thicketExtension);
 }

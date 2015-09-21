@@ -6,7 +6,7 @@
       "name":"unit",
       "definition": 
         {
-          "$type": "Model",
+          "$t": "Model",
           "name": "unit",
           "variables": [],
           "params": []
@@ -16,7 +16,7 @@
       "name":"unit2",
       "definition": 
         {
-          "$type": "Model",
+          "$t": "Model",
           "name": "unit2",
           "variables": [],
           "params": []

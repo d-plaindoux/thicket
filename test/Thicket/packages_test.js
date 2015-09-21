@@ -166,7 +166,7 @@ exports['packages'] = {
       
     test.deepEqual(aPackages.retrieve("Data.Unit").get().findExpression("unit").success(), 
                   { 
-                    '$type': 'Model',
+                    '$t': 'Model',
                     name: 'unit',
                     variables: [],
                     params: []

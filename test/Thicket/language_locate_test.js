@@ -34,20 +34,20 @@ exports['language_locate'] = {
     var aStream = stream("def un : number = 1");
         
     test.deepEqual(language.parser.group('expressionDef').parse(aStream).get().definition,
-                   { '$type': 'Expression',
+                   { '$t': 'Expression',
                       name: 'un',
                       type: 
-                       { '$type': 'TypeVariable',
+                       { '$t': 'TypeVariable',
                          name: 'number',
                          '$location': { filename: undefined, offset: 16, line: 1, character: 17 } },
                       expr: 
-                        { '$type': 'ApplicationExpr',
+                        { '$t': 'ApplicationExpr',
                                 abstraction: 
-                                 { '$type': 'IdentExpr',
+                                 { '$t': 'IdentExpr',
                                    value: 'number',
                                    '$location': { filename: undefined, offset: 18, line: 1, character: 19 } },
                                 argument: 
-                                 { '$type': 'NativeExpr',
+                                 { '$t': 'NativeExpr',
                                    value: 1,
                                    '$location': { filename: undefined, offset: 18, line: 1, character: 19 } },
                                 '$location': { filename: undefined, offset: 18, line: 1, character: 19 } },
@@ -62,25 +62,25 @@ exports['language_locate'] = {
     var aStream = stream("def idNumber : number -> number = s -> s");
         
     test.deepEqual(language.parser.group('expressionDef').parse(aStream).get().definition,
-                   { '$type': 'Expression',
+                   { '$t': 'Expression',
                       name: 'idNumber',
                       type: 
-                       { '$type': 'TypeFunction',
+                       { '$t': 'TypeFunction',
                          argument: 
-                          { '$type': 'TypeVariable',
+                          { '$t': 'TypeVariable',
                             name: 'number',
                             '$location': { filename: undefined, offset: 22, line: 1, character: 23 } },
                          result: 
-                          { '$type': 'TypeVariable',
+                          { '$t': 'TypeVariable',
                             name: 'number',
                             '$location': { filename: undefined, offset: 32, line: 1, character: 33 } },
                          '$location': { filename: undefined, offset: 22, line: 1, character: 23 } },
                       expr: 
-                       { '$type': 'AbstractionExpr',
+                       { '$t': 'AbstractionExpr',
                          param: 's',
                          type: undefined,
                          body: 
-                          { '$type': 'IdentExpr',
+                          { '$t': 'IdentExpr',
                             value: 's',
                             '$location': { filename: undefined, offset: 40, line: 1, character: 41 } },
                          '$location': { filename: undefined, offset: 34, line: 1, character: 35 } },

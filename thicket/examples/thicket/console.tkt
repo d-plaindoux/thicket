@@ -53,10 +53,6 @@ def runtime : (string -> unit) -> runtimeClass = {
     runtimeClass () log 
 }
 
-def domValue : dom -> option[string] = dom -> {
-    internal "dom.getValue" dom (s -> some $ string s) none
-}
-
 def clearLog : option[dom] -> unit = output -> {
     consume $ output map dom::removeChilds
 }        

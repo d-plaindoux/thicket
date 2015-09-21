@@ -47,7 +47,7 @@ exports['linker_type'] = {
 
     test.ok(aLinker.linkType("Data.Unit", aType, list()).isSuccess());
     test.deepEqual(aType,
-                   { '$type': 'TypeVariable', name: 'unit', namespace: 'Data.Unit' });
+                   { '$t': 'TypeVariable', name: 'unit', namespace: 'Data.Unit' });
       
     test.done();
   },      
@@ -66,7 +66,7 @@ exports['linker_type'] = {
 
     test.ok(aLinker.linkType("Data.Implicit", aType, list()).isSuccess());
     test.deepEqual(aType,
-                   { '$type': 'TypeVariable', name: 'unit', namespace: 'Data.Unit' });
+                   { '$t': 'TypeVariable', name: 'unit', namespace: 'Data.Unit' });
       
     test.done();
   },      

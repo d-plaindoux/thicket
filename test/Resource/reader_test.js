@@ -36,27 +36,27 @@ exports['reader'] = {
     var aReader = reader(fsdriver('./test/Resource/samples')); 
         
     test.deepEqual(aReader.specifications("Data.Boolean"), [
-        { '$type': 'Model',
+        { '$t': 'Model',
            name: 'True',
            variables: [],
            params: [],
            parent: 
-        { '$type': 'Model',
+        { '$t': 'Model',
           name: 'Bool',
           variables: [],
           params: [],
           abstract: true } },
-        { '$type': 'Model',
+        { '$t': 'Model',
           name: 'False',
           variables: [],
           params: [],
           parent: 
-        { '$type': 'Model',
+        { '$t': 'Model',
           name: 'Bool',
           variables: [],
           params: [],
           abstract: true } },
-        { '$type': 'Model',
+        { '$t': 'Model',
            name: 'Bool',
            variables: [],
            params: [],

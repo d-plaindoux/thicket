@@ -1,6 +1,7 @@
 'use strict';
 
-var runtime = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/runtime/runtime.js')();  
+var runtime = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/runtime/runtime.js')(),
+    $i = runtime.instruction;
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -30,7 +31,7 @@ exports['runtime_pretty'] = {
   'Number': function(test) {
     test.expect(1);
     // tests here  
-    test.deepEqual(runtime.pretty({"CONST":123}),
+    test.deepEqual(runtime.pretty([$i.CONST,123]),
                    '123');
     test.done();
   },
@@ -38,7 +39,7 @@ exports['runtime_pretty'] = {
   'String': function(test) {
     test.expect(1);
     // tests here  
-    test.deepEqual(runtime.pretty({"CONST":"123"}),
+    test.deepEqual(runtime.pretty([$i.CONST,"123"]),
                    '"123"');
     test.done();
   },

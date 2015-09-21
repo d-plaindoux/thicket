@@ -35,8 +35,8 @@ def startApplication : Components -> unit = component -> {
         {
             component.execute map 
             $ execute -> execute onMouseEvent MouseClick 
-            $ execute -> component.content map 
-            $ content -> domValue content map 
+            $ execute -> component content map 
+            $ content -> content value map 
             $ value   -> runtime run value
         }
         return ()
