@@ -8,12 +8,12 @@
  
 module Data.String
 
-from Data.Boolean import bool true false
+from Data.Boolean import bool,true,false
 from System.Internal import internal
 from Data.Native import native
 from Data.Number import number
-from Data.Option import option none some
-from Data.Comparable import Comparable comparable
+from Data.Option import option,none,some
+from Data.Comparable import Comparable,comparable
 from Data.Hashable import Hashable
 
 class string this:native {

@@ -10,7 +10,7 @@ module Data.Try
 
 from Data.Boolean import bool
 from Data.String import string
-from Data.Option import option some none
+from Data.Option import option,some,none
 from Data.Monadic import Monadic
 
 from Logic.Combinators import combinators

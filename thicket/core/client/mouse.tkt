@@ -11,7 +11,7 @@ module Client.Event.Trigger.Mouse
 from Core.Lang.Do import do
 
 from Data.Unit import unit
-from Data.Option import option some none
+from Data.Option import option,some,none
 
 from Client.Document import dom
 

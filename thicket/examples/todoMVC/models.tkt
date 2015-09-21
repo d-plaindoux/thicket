@@ -8,7 +8,7 @@
 
 module Example.TodoMVC.Models
 
-from Data.Boolean import bool true false
+from Data.Boolean import bool,true,false
 from Data.Number import number
 from Data.String import string
 

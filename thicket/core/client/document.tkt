@@ -8,14 +8,14 @@
 
 module Client.Document
 
-from Client.Event.Mouse import MouseEventType mouseEventType
-from Client.Event.Key import KeyEventType keyEventType
+from Client.Event.Mouse import MouseEventType,mouseEventType
+from Client.Event.Key import KeyEventType,keyEventType
 
 from Data.Native import native
 from System.Internal import internal
 from Data.String import string
-from Data.Number import number number2string
-from Data.Option import option some none
+from Data.Number import number,number2string
+from Data.Option import option,some,none
 
 class dom this:native {
     addEmptyAttribute : string -> dom

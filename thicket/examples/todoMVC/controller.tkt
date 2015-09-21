@@ -15,8 +15,8 @@ from Data.Unit import unit
 from Data.Pair import Pair
 from Data.String import string
 from Data.Number import number
-from Data.List import emptyList list
-from Data.Boolean import bool true false
+from Data.List import emptyList,list
+from Data.Boolean import bool,true,false
 
 from Example.TodoMVC.Models import *
 

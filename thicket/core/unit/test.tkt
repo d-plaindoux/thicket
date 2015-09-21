@@ -12,7 +12,7 @@ from Data.Unit import unit
 from Data.String import string
 
 from Core.Lang.When import when
-from Data.Boolean import bool false
+from Data.Boolean import bool,false
 from Data.Comparable import Comparable 
 from Data.Hashable import Hashable
 

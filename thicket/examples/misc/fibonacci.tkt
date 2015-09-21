@@ -10,7 +10,7 @@ module Example.Fibonacci
  
 from Data.Pair import Pair
 from Data.Number import number
-from Data.Array import array emptyArray
+from Data.Array import array,emptyArray
  
 //
 // Fibonacci suite fast implementation based on memoisation

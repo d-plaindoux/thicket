@@ -11,13 +11,13 @@ module Data.Hashmap
 from Core.Builder.Map import *
 
 from Data.Number import number
-from Data.Boolean import bool true
+from Data.Boolean import bool,true
 from Data.Option import option
 from Data.Pair import Pair
-from Data.List import list emptyList
+from Data.List import list,emptyList
 from Data.Comparable import Comparable
 from Data.Hashable import Hashable
-from Data.Array import array emptyArray
+from Data.Array import array,emptyArray
 from Data.Map import Map
 
 from Standard.Math import math

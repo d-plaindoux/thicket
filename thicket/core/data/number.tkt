@@ -11,13 +11,13 @@ module Data.Number
 from System.Internal import internal
 
 from Data.Native import native
-from Data.Boolean import bool true false
-from Data.Comparable import Comparable comparable
+from Data.Boolean import bool,true,false
+from Data.Comparable import Comparable,comparable
 from Data.Hashable import Hashable
 from Data.String import string
 from Data.Pair import Pair
 
-from Core.Lang.Range import Range foreach
+from Core.Lang.Range import Range,foreach
 
 class number this:native {
     + comparable[number]

@@ -44,7 +44,7 @@ exports['language_module'] = {
   'simple module with explicit imports is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("module Core.Bool from Core.Test import a b model A"),
+    var aStream = stream("module Core.Bool from Core.Test import a,b model A"),
         aModule = ast.module("Core.Bool",[ast.imports("Core.Test",["a","b"])],[ast.entity("A",ast.model("A",[],[]))]);
         
     test.deepEqual(language.parser.group('module').parse(aStream).get(), 

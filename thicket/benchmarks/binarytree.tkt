@@ -13,10 +13,10 @@ from Core.Lang.Do import do
 from Core.Lang.When import when
 
 from Data.Pair import Pair
-from Data.Number import number number2string
+from Data.Number import number,number2string
 from Data.String import string
 from Data.Unit import unit
-from Data.Option import some none option
+from Data.Option import some,none,option
 
 from Standard.Math import math
 

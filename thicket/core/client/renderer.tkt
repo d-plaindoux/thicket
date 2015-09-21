@@ -13,7 +13,7 @@ from Core.Lang.Do import do
 from Data.String import string
 from Data.Option import option
 
-from Client.Document import dom document
+from Client.Document import dom,document
 
 model Renderer {
     (<?) : option[dom] -> Renderer
