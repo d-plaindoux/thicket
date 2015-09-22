@@ -78,17 +78,17 @@ class todoViews this:Application {
     def viewFilters =
         <ul id="filters">
             <li>  
-                { <a> "All" </a> map
+                { <a href="#/"> "All" </a> map
                   { d -> when (this.context.filter == all) then { d addAttribute "class" "selected" } else d }
                   onMouseEvent MouseClick $ _ -> this action filtering all }
             </li>
             <li>  
-                { <a> "Active" </a> map
+                { <a href="#/active"> "Active" </a> map
                   { d -> when (this.context.filter == active) then { d addAttribute "class" "selected" } else d }
                   onMouseEvent MouseClick $ _ -> this action filtering active }
             </li>
             <li>  
-                { <a> "Completed" </a> map
+                { <a href="#/completed"> "Completed" </a> map
                   { d -> when (this.context.filter == completed) then { d addAttribute "class" "selected" } else d }
                   onMouseEvent MouseClick $ _ -> this action filtering completed }
             </li>
@@ -106,7 +106,9 @@ class todoViews this:Application {
         onMouseEvent MouseClick $ _ -> this action clearCompleted ()
         
     def viewToggleAll = 
-        <input id="toggle-all" type="checkbox"/>
+        <input id="toggle-all" type="checkbox"/> map
+        { d -> when this.context.completed then { d addEmptyAttribute "checked" } else d } map
+        { d -> when (this.context.length == 0) then { d addAttribute "class" "hidden"} else d }
         onMouseEvent MouseClick $ _ -> this action completeAll ()
     
     def viewFooter = 

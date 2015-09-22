@@ -24,10 +24,11 @@ from Example.TodoMVC.Views import render
 from System.Console import console
 
 model ApplicationContext {
-    edited : number
-    filter : filter
-    length : number
-    todos  : list[Todo]
+    edited    : number
+    completed : bool
+    filter    : filter
+    length    : number
+    todos     : list[Todo]
 }
 
 model ApplicationAction {
@@ -54,6 +55,7 @@ def manageApplication : controller -> Application = a -> {
     Application 
         (ApplicationContext 
             { a.edited }
+            { a.completed }
             { a.filter }
             { a.length }
             { a.todos }
@@ -74,6 +76,7 @@ def renderedApplication : Application -> Application = a -> {
     render $ Application 
         (ApplicationContext 
             { a.context.edited }
+            { a.context.completed }
             { a.context.filter }
             { a.context.length }
             { a.context.todos  }
