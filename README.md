@@ -123,7 +123,7 @@ then can be referenced as we do in the `Population#addPerson` method.
 
 ```
 def personAdder : population -> dom = this ->
-    <form onSubmit=onSubmit>
+    <form>
         <input type="text" id="firstname"/>
         <input type="text" id="name"/>
         <input type="submit" value="Add"/>
@@ -134,10 +134,10 @@ def personAdder : population -> dom = this ->
         yield this addNew firstname name
 
 def populationView : population -> dom = this ->
-  <div>
-      { for p <- (this <= 100 unbox) yield personView $ person p }
-      { personAdder this }
-   </div>
+    <div>
+        { for p <- (this <= 100 unbox) yield personView $ person p }
+        { personAdder this }
+    </div>
 ```
 
 See current 
