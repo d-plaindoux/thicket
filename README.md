@@ -78,6 +78,7 @@ class person this:Person {
   def firstname = this.firstname
   def name = this.name
   def age = this.age
+  
   def tick = person new this with age=(this.age + 1)
 }
 
@@ -89,7 +90,7 @@ class population this:Population {
   addNew  : string -> string -> population
 } {
   def unbox = this
-  def (<=) age = population for p in this if p <= 100 yield p
+  def (<=) age = population for p <- this if p <= 100 yield p
   def addNew f n = population $ this +: (Person f n 0)
 }
 ```
@@ -103,11 +104,12 @@ approach is  similar to [React](http://facebook.github.io/react/).
 
 ```
 def personView : person -> dom = this -> {
-  <div onClick=this.tick> 
+  <div> 
     <div>this.firstname</div>
     <div>this.name</div>
     <div>this.age</div>
-  </>
+  </div>
+  onMouseEvent MouseClick $ _ -> this.tick
 }
 ```
 
@@ -121,12 +123,15 @@ then can be referenced as we do in the `Population#addPerson` method.
 
 ```
 def personAdder : population -> dom = this ->
-  let onSubmit = this addNew self.firstname self.name in
-      <form onSubmit=onSubmit>
+    <form onSubmit=onSubmit>
         <input type="text" id="firstname"/>
         <input type="text" id="name"/>
         <input type="submit" value="Add"/>
-      </form>
+    </form>
+    onFormEvent OnSubmit $ d ->
+        for firstname <- { document "firstname" find }
+            name      <- { document "name"      find } 
+        yield this addNew firstname name
 
 def populationView : population -> dom = this ->
   <div>
@@ -212,8 +217,8 @@ class bool this:Bool {
     def True.fold t _ = t
     def False.fold _ f = f
     
-    def (==) b = self fold (b fold true false) 
-                           (b fold false true) 
+    def (==) b = self fold b b.not    
+}
 ```
 
 ## Not yet in the language
