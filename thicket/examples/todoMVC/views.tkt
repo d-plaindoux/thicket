@@ -29,24 +29,24 @@ from Example.TodoMVC.Application import Application
 // ------------------------------------------------------------------
 
 class todoViews this:Application {
-    statusTodo          : Todo -> dom
-    editTodo            : Todo -> dom
-    viewTodo            : Todo -> dom
+    todoStatusView      : Todo -> dom
+    todoEditView        : Todo -> dom
+    todoView            : Todo -> dom
     
     viewItems           : dom 
-    viewCreate          : dom
-    viewFilters         : dom
-    viewClearCompleted  : dom
-    viewToggleAll       : dom
-    viewFooter          : dom
-    viewTodoList        : dom
+    createView          : dom
+    filtersView         : dom
+    clearCompletedView  : dom
+    toggleAllView       : dom
+    footerView          : dom
+    todoListView        : dom
 } {
-    def statusTodo t = 
+    def todoStatusView t = 
         <input type="checkbox" class="toggle"/> map
         { d -> when t.completed then { d addEmptyAttribute "checked" } else d }
         onMouseEvent MouseClick $ _ -> this action toggle t.id
         
-    def editTodo t =
+    def todoEditView t =
         <li id=("todo_" + t.id)>
           { <input class="edit" value=t.title autofocus=""/>             
             onKeyEvent KeyPress $ d n -> 
@@ -57,10 +57,10 @@ class todoViews this:Application {
         </li> map
         { d -> when t.completed then { d addAttribute "class" "completed" } else d }
         
-    def viewTodo t =
+    def todoView t =
         <li id=("todo_" + t.id) class=(when t.completed then "completed" else "")>
             <div class="view">  
-                (self statusTodo t)
+                (self todoStatusView t)
                 <label> t.title </label>
                 {<button id=("todo_destroy_" + t.id) class="destroy"/>
                  onMouseEvent MouseClick $ _ -> this action remove t.id}
@@ -75,7 +75,7 @@ class todoViews this:Application {
                 { when (r <? 2) then "item left" else "items left" }
             </span>
 
-    def viewFilters =
+    def filtersView =
         <ul id="filters">
             <li>  
                 { <a href="#/"> "All" </a> map
@@ -94,39 +94,39 @@ class todoViews this:Application {
             </li>
         </ul>
 
-    def viewCreate = 
+    def createView = 
         <input id="new-todo" placeholder="What needs to be done?" autofocus=""/>
         onKeyEvent KeyPress $ d n -> 
             when (n == RETURN) 
             then { d value fold this $ this action add } 
             else this
 
-    def viewClearCompleted =
+    def clearCompletedView =
         <button id="clear-completed"> "Clear completed" </button>            
         onMouseEvent MouseClick $ _ -> this action clearCompleted ()
         
-    def viewToggleAll = 
+    def toggleAllView = 
         <input id="toggle-all" type="checkbox"/> map
         { d -> when this.context.completed then { d addEmptyAttribute "checked" } else d } map
         { d -> when (this.context.length == 0) then { d addAttribute "class" "hidden"} else d }
         onMouseEvent MouseClick $ _ -> this action completeAll ()
     
-    def viewFooter = 
+    def footerView = 
         when (this context length == 0)
         then <footer id="footer" class="hidden"/>
         else <footer id="footer">
                 (self viewItems)
-                (self viewFilters)
-                (self viewClearCompleted)
+                (self filtersView)
+                (self clearCompletedView)
              </footer>
              
-    def viewTodoList =
+    def todoListView =
         let todolist = <ul id="todo-list"/> in
             do 
             { this context todos map $ combinators.B (todolist addChild) $ t -> 
                     when (t.id == this.context.edited) 
-                    then {self editTodo t}
-                    else {self viewTodo t} 
+                    then {self todoEditView t}
+                    else {self todoView t} 
             }
             return todolist
 }
@@ -138,10 +138,10 @@ class todoViews this:Application {
 def renderAll : Application -> Renderer = a -> {
     let todoViews = todoViews a in
         documentRenderer 
-            <~ { todoViews viewCreate    }
-            <~ { todoViews viewTodoList  }
-            <~ { todoViews viewFooter    }
-            <~ { todoViews viewToggleAll }
+            <~ { todoViews createView    }
+            <~ { todoViews todoListView  }
+            <~ { todoViews footerView    }
+            <~ { todoViews toggleAllView }
 }
 
 def render : Application -> Application = application -> {
