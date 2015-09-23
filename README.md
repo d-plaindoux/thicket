@@ -38,6 +38,11 @@ The [Console](https://github.com/d-plaindoux/thicket/tree/master/thicket/example
 for execution [here](http://d.plaindoux.free.fr/thicket/thicket/examples/thicket/console.html) shows how the 
 runtime can be easily extended in order to provide a naive embedded interpret in the web browser.
 
+### Unit testing
+
+The [Test](https://github.com/d-plaindoux/thicket/tree/master/thicket/examples/tests) example available 
+for execution [here](http://d.plaindoux.free.fr/thicket/thicket/examples/test/assertSpecs.html) shows how
+unit testing can be done just changing the logger used for the results display.
 
 ## Language Overview
 
