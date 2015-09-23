@@ -37,20 +37,17 @@
   <script type="text/thicket">
     from Test.Spec import *
   
-    def logger : TestLogger = {
-        TestLogger
-            (s -> do
-                  { document "output" find map $ d -> d addChild <div class="title"> s </div>}
-                  return ())
-            (s -> do
-                  { document "output" find map $ d -> d addChild <div class="success"> s </div>}
-                  return ())
-            (s -> do
-                  { document "output" find map $ d -> d addChild <div class="failure"> s </div> }
-                  return ())
+    def logger : dom -> TestLogger = d -> {
+        let do = f -> do f return () in
+            TestLogger
+                (s -> do $ d addChild <div class="title">   s </div>)
+                (s -> do $ d addChild <div class="success"> s </div>)
+                (s -> do $ d addChild <div class="failure"> s </div>)
     }
 
-    let describe = description logger in
+    for d <- { document "output" find }
+    yield
+    let describe = description $ logger d in
         describe "Assertion tests"
             it "expect true toBe true" {
                 expect true toBe true
@@ -99,22 +96,19 @@
     <div class="sourcecode">
         <b>Source Code</b>
         <pre><code>
-from Test.Spec import *
+    from Test.Spec import *
   
-    def logger : TestLogger = {
-        TestLogger
-            (s -> do
-                  { document "output" find map $ d -> d addChild &lt;div class="title"> s &lt;/div>}
-                  return ())
-            (s -> do
-                  { document "output" find map $ d -> d addChild &lt;div class="success"> s &lt;/div>}
-                  return ())
-            (s -> do
-                  { document "output" find map $ d -> d addChild &lt;div class="failure"> s &lt;/div> }
-                  return ())
+    def logger : dom -> TestLogger = d -> {
+        let do = f -> do f return () in
+            TestLogger
+                (s -> do $ d addChild &lt;div class="title">   s &lt;/div>)
+                (s -> do $ d addChild &lt;div class="success"> s &lt;/div>) 
+                (s -> do $ d addChild &lt;div class="failure"> s &lt;/div>)
     }
 
-    let describe = description logger in
+    for dom &lt;- document "output" find
+    yield
+    let describe = description $ logger dom in
         describe "Assertion tests"
             it "expect true toBe true" {
                 expect true toBe true
