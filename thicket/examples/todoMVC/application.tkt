@@ -28,6 +28,7 @@ model ApplicationContext {
     completed : bool
     filter    : filter
     length    : number
+    todosLeft : number
     todos     : list[Todo]
 }
 
@@ -58,6 +59,7 @@ def manageApplication : controller -> Application = a -> {
             { a.completed }
             { a.filter }
             { a.length }
+            { a.todosLeft }        
             { a.todos }
         )
         (ApplicationAction
@@ -79,6 +81,7 @@ def renderedApplication : Application -> Application = a -> {
             { a.context.completed }
             { a.context.filter }
             { a.context.length }
+            { a.context.todosLeft }                    
             { a.context.todos  }
         )
         (ApplicationAction        

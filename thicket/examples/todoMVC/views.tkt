@@ -69,7 +69,7 @@ class todoViews this:Application {
         onMouseEvent MouseDblClick $ _ -> this action edit t.id
 
     def viewItems = 
-        let r = this context length in
+        let r = this.context.todosLeft in
             <span id="todo-count">
                 <strong> r " " </strong> 
                 { when (r <? 2) then "item left" else "items left" }

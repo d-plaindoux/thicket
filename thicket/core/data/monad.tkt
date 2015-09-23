@@ -13,9 +13,10 @@ model Monad[M a] {
     (>>=)  : [b] M[a] -> (a -> M[b]) -> M[b]
 }
 
-/* Example
+/* Examples
  
- model Unit[a] { _ : a }
- def unitMonad : [a]Monad[Unit a] = { Monad Unit (m f -> f m._) }
-
+ def optionMonad : [a]Monad[option a] = { Monad some option::flatmap } ;;
+ def tryMonad    : [a]Monad[try a]    = { Monad success try::flatmap } ;;
+ def listMonad   : [a]Monad[list a]   = { Monad emptyList.(+:) list::flatmap } ;; 
+ 
 */

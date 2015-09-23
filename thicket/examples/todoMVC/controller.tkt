@@ -22,16 +22,17 @@ from Logic.Combinators import combinators
 from Example.TodoMVC.Models import *
 
 model ControllerContext {
-    edit   : number
-    filter : filter
-    index  : number
-    todos  : list[Todo]
+    edit   : number         // edited item or -1
+    filter : filter         // current filter applied
+    index  : number         // used for generation
+    todos  : list[Todo]     // list of Todo
 }
 
 class controller this:ControllerContext {
     edited         : number    
     filter         : filter
     length         : number
+    todosLeft      : number
     todos          : list[Todo]
 
     completed      : bool
@@ -50,6 +51,10 @@ class controller this:ControllerContext {
     def edited = this.edit
     def filter = this.filter    
     def length = this.todos.length    
+
+    def todosLeft = 
+        this.todos.filter (combinators.B bool::not Todo::completed) length
+        
     def todos = 
         this.filter fold 
             (this.todos)

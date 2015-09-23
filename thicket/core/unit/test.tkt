@@ -11,35 +11,49 @@ module Unit.Test
 from Data.Unit import unit
 from Data.String import string
 
+from Core.Lang.Do import do
 from Core.Lang.When import when
 from Data.Boolean import bool,false
+from Data.Number import number
 from Data.Comparable import Comparable 
-from Data.Hashable import Hashable
+from Data.List import list
 
-model UnitLog {
-    ok : string -> unit
-    ko : string -> unit
+from Unit.Suite import UnitLog, UnitTest
+
+model UnitLogger {
+    success : string -> unit
+    failure : string -> unit
 }
 
 model UnitTest {
-    result : bool
-    logger : UnitLog
+    done   : number
+    logger : UnitLogger
 }
 
-class unitTest this:UnitTest { 
-    unbox       : UnitTest
-    assertTrue  : string -> bool -> unitTest    
-    assertFalse : string -> bool -> unitTest    
-    assertEqual : [a] string -> Comparable[a] -> a -> unitTest
-}{    
-    def unbox = this
-    
-    def assertTrue n b = 
-        when b
-        then { let _ = this logger ok n in self }
-        else { let _ = this logger ko n in unitTest $ new this with result = false }
+model Assert[A] {
+    true      : string -> bool -> A
+    false     : string -> bool -> A
+    contained : [a] string -> Comparable[a] -> list[a] -> A
+    equals    : [a] string -> Comparable[a] -> a -> A
+}
 
-    def assertFalse n b = self assertTrue n b.not
-    
-    def assertEqual n c1 c2 = self assertTrue n (c1 == c2)
+class unitTest this:UnitTest {
+    +Assert[A]
+}{    
+    def true n b = 
+        when b
+        then { 
+            do 
+            { this.logger.success n }
+            return unitTest $ new this with done = (this.done + 1)
+        } 
+        else { 
+            do 
+            { this.logger.failure n }
+            return self
+        }
+
+    def false n b = self.true n b.not
+    def contained n c l = self.false n $ l filter (c ==) empty
+    def equals n c1 c2 = self.true n (c1 == c2)
 }
