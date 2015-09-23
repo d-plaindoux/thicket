@@ -29,41 +29,6 @@ exports['reader'] = {
   setUp: function(done) {
     done();
   },
-
-  'Read specifications': function(test) {
-    test.expect(1);
-    // tests here  
-    var aReader = reader(fsdriver('./test/Resource/samples')); 
-        
-    test.deepEqual(aReader.specifications("Data.Boolean"), [
-        { '$t': 'Model',
-           name: 'True',
-           variables: [],
-           params: [],
-           parent: 
-        { '$t': 'Model',
-          name: 'Bool',
-          variables: [],
-          params: [],
-          abstract: true } },
-        { '$t': 'Model',
-          name: 'False',
-          variables: [],
-          params: [],
-          parent: 
-        { '$t': 'Model',
-          name: 'Bool',
-          variables: [],
-          params: [],
-          abstract: true } },
-        { '$t': 'Model',
-           name: 'Bool',
-           variables: [],
-           params: [],
-           abstract: true }        
-        ]);
-    test.done();
-  },
     
   'Read code': function(test) {
     test.expect(1);

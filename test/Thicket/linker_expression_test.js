@@ -97,7 +97,7 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    aPackages.define(aReader.specifications("Data.Unit"));      
+    aPackages.define(aReader.code("Data.Unit"));      
       
     test.ok(aLinker.linkExpression("Data.Unit", expression, list(), list()).isSuccess());
     test.deepEqual(expression, 
@@ -115,8 +115,8 @@ exports['linker_expression'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    aPackages.define(aReader.specifications("Data.Explicit"));      
-    aPackages.define(aReader.specifications("Data.Unit"));      
+    aPackages.define(aReader.code("Data.Explicit"));      
+    aPackages.define(aReader.code("Data.Unit"));      
       
     test.ok(aLinker.linkExpression("Data.Explicit", expression, list(), list()).isSuccess());
     test.deepEqual(expression, 

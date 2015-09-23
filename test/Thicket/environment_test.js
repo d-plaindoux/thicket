@@ -60,7 +60,7 @@ exports['environment'] = {
         aPackages = packages(option.none()),
         anEnvironment = environment(aPackages);
 
-    aPackages.define(aReader.specifications("Data.Unit"));      
+    aPackages.define(aReader.code("Data.Unit"));      
       
     test.ok(anEnvironment.getType("Data.Unit","unit").isSuccess());
       
@@ -74,7 +74,7 @@ exports['environment'] = {
         aPackages = packages(option.none()),
         anEnvironment = environment(aPackages);
 
-    aPackages.define(aReader.specifications("Data.Number"));      
+    aPackages.define(aReader.code("Data.Number"));      
       
     test.equal(anEnvironment.adapters().size(), 3);
       

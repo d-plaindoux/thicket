@@ -84,7 +84,7 @@ exports['linker_entities'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    aPackages.define(aReader.specifications("Data.Unit"));      
+    aPackages.define(aReader.code("Data.Unit"));      
 
     test.deepEqual(aLinker.linkEntities("Data.Unit", list(entities)).success(),
                    list([ pair('Data.Unit', 'unit') ]));

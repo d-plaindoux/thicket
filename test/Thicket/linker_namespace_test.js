@@ -38,7 +38,7 @@ exports['linker_namespace'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    aPackages.define(aReader.specifications("Data.Unit"));      
+    aPackages.define(aReader.code("Data.Unit"));      
       
     test.equal(aLinker.findTypeNamespace("Data.Unit","unit").success(),"Data.Unit");
       
@@ -52,7 +52,7 @@ exports['linker_namespace'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    aPackages.define(aReader.specifications("Data.Unit"));      
+    aPackages.define(aReader.code("Data.Unit"));      
       
     test.equal(aLinker.findExpressionNamespace("Data.Unit","unit").success(),"Data.Unit");
       
@@ -66,8 +66,8 @@ exports['linker_namespace'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    aPackages.define(aReader.specifications("Data.Explicit"));      
-    aPackages.define(aReader.specifications("Data.Unit"));      
+    aPackages.define(aReader.code("Data.Explicit"));      
+    aPackages.define(aReader.code("Data.Unit"));      
       
     test.equal(aLinker.findTypeNamespace("Data.Explicit","unit").success(),"Data.Unit");
       
@@ -81,8 +81,8 @@ exports['linker_namespace'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    aPackages.define(aReader.specifications("Data.Explicit"));      
-    aPackages.define(aReader.specifications("Data.Unit"));      
+    aPackages.define(aReader.code("Data.Explicit"));      
+    aPackages.define(aReader.code("Data.Unit"));      
       
     test.equal(aLinker.findExpressionNamespace("Data.Explicit","unit").success(),"Data.Unit");
       
@@ -96,8 +96,8 @@ exports['linker_namespace'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    aPackages.define(aReader.specifications("Data.Implicit"));      
-    aPackages.define(aReader.specifications("Data.Unit"));      
+    aPackages.define(aReader.code("Data.Implicit"));      
+    aPackages.define(aReader.code("Data.Unit"));      
       
     test.equal(aLinker.findTypeNamespace("Data.Implicit","unit").success(),"Data.Unit");
       
@@ -111,8 +111,8 @@ exports['linker_namespace'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    aPackages.define(aReader.specifications("Data.Implicit"));      
-    aPackages.define(aReader.specifications("Data.Unit"));      
+    aPackages.define(aReader.code("Data.Implicit"));      
+    aPackages.define(aReader.code("Data.Unit"));      
       
     test.equal(aLinker.findExpressionNamespace("Data.Implicit","unit").success(),"Data.Unit");
       
@@ -126,8 +126,8 @@ exports['linker_namespace'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    aPackages.define(aReader.specifications("Data.Explicit"));      
-    aPackages.define(aReader.specifications("Data.Unit"));      
+    aPackages.define(aReader.code("Data.Explicit"));      
+    aPackages.define(aReader.code("Data.Unit"));      
       
     test.ok(aLinker.findTypeNamespace("Data.Explicit","unit2").isFailure());
       
@@ -141,8 +141,8 @@ exports['linker_namespace'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    aPackages.define(aReader.specifications("Data.Explicit"));      
-    aPackages.define(aReader.specifications("Data.Unit"));      
+    aPackages.define(aReader.code("Data.Explicit"));      
+    aPackages.define(aReader.code("Data.Unit"));      
       
     test.ok(aLinker.findExpressionNamespace("Data.Explicit","unit2").isFailure());
       

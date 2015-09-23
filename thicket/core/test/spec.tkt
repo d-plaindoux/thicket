@@ -1,0 +1,75 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Test.Spec
+
+from Core.Lang.Do import do
+from Core.Lang.When import when
+
+from Data.Unit import unit
+from Data.Pair import Pair
+from Data.String import string
+from Data.Boolean import bool,true,false
+from Data.Comparable import Comparable
+from Data.Collection import Collection
+from Data.Map import Map
+
+model TestLogger {
+    description : string -> unit
+    success     : string -> unit
+    failure     : string -> unit
+}
+
+model TestContext {
+    text   : string
+    status : bool  
+}
+
+model Expect[a] {
+    toBe       : a -> bool
+    toBeIn     : Collection[a] -> bool
+    toBeAKey   : [b] Map[a b] -> bool
+    toBeAValue : [b] Map[b a] -> bool
+}
+
+class expect[a] this:Comparable[a] {
+    +Expect[a]
+    not : Expect[a]
+} {
+    def not = 
+        Expect (a -> self toBe       a not) 
+               (a -> self toBeIn     a not)
+               (a -> self toBeAKey   a not)
+               (a -> self toBeAValue a not)
+               
+    def toBe a = this == a
+    def toBeIn c = c find (e -> this == e) present
+    def toBeAKey m = self toBeIn $ m keys ()
+    def toBeAValue m = self toBeIn $ m values ()
+}
+
+
+
+class descriptionSpecs this:(TestContext,TestLogger) {
+    it : string -> bool -> descriptionSpecs
+} {
+    def it s b =         
+        when b then { 
+            do { this._2.success s} 
+            return self
+        } else {
+            do { this._2.failure s }
+            return $ descriptionSpecs (new this._1 with status=false),this._2
+        }
+}
+
+def description : TestLogger -> string -> descriptionSpecs = l s -> {
+    do 
+    { l.description s }
+    return $ descriptionSpecs (TestContext s true),l
+}

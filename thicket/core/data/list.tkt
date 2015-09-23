@@ -64,7 +64,11 @@ class list[a] this:List[a] {
 
     def reverse = list $ self foldL (b a -> Cons a b) Nil
 
-    def (++) l = self foldL (r e -> list $ Cons e r.unbox) l
+    def (++) l = 
+        self empty fold l $ 
+            l empty fold self $
+                self foldL (r e -> list $ Cons e r.unbox) l
+                
     def (+:) a = list $ Cons a this
     def (:+) a = self ++ $ list $ Cons a Nil
 

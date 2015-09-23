@@ -43,7 +43,7 @@ exports['linker_type'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    aPackages.define(aReader.specifications("Data.Unit"));      
+    aPackages.define(aReader.code("Data.Unit"));      
 
     test.ok(aLinker.linkType("Data.Unit", aType, list()).isSuccess());
     test.deepEqual(aType,
@@ -61,8 +61,8 @@ exports['linker_type'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    aPackages.define(aReader.specifications("Data.Implicit"));      
-    aPackages.define(aReader.specifications("Data.Unit"));      
+    aPackages.define(aReader.code("Data.Implicit"));      
+    aPackages.define(aReader.code("Data.Unit"));      
 
     test.ok(aLinker.linkType("Data.Implicit", aType, list()).isSuccess());
     test.deepEqual(aType,

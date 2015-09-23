@@ -9,10 +9,14 @@
 module Data.Map
 
 from Data.Comparable import Comparable
+from Data.Collection import Collection
 from Data.Option import option
+from Data.Unit import unit
 
 model Map[k e] {
-    find : Comparable[k] -> option[e]
-    add  : Comparable[k] -> e -> Map[k e]
+    find   : Comparable[k] -> option[e]
+    add    : Comparable[k] -> e -> Map[k e]
+    keys   : unit -> Collection[k]
+    values : unit -> Collection[e]
 }
 

@@ -14,8 +14,9 @@ from Data.Number import number
 from Data.Boolean import bool,true
 from Data.Option import option
 from Data.Pair import Pair
-from Data.List import list,emptyList
+from Data.List import list,emptyList,ziplist,list2collection
 from Data.Comparable import Comparable
+from Data.Collection import Collection
 from Data.Hashable import Hashable
 from Data.Array import array,emptyArray
 from Data.Map import Map
@@ -32,31 +33,42 @@ class hashmap[k v] this:array[list[(k,v)]] {
   find   : Comparable[k] -> option[v]
   add    : Comparable[k] -> v -> hashmap[k v]
   remove : Comparable[k] -> hashmap[k v]
+  
+  keys   : Collection[k]
+  values : Collection[v]
 } {
   def unbox = this
   
   def empty = 
-       this foldR (e r -> r and $ e empty) true
+    this foldR (e r -> r and $ e empty) true
 
   def find c = 
-      let index = c hashable hash % this.length in
-      let retrieve = l -> l find (e -> c == e._1) map (e -> e._2) in
+    let index = c hashable hash % this.length in
+    let retrieve = l -> l find (e -> c == e._1) map (e -> e._2) in
           this get index flatmap retrieve
 
   def add c v = 
-      let index = c hashable hash % this.length in
-      let cleanup = l -> l filter (e -> c != e._1) in
-      let entries = this get index fold emptyList cleanup in
+    let index = c hashable hash % this.length in
+    let cleanup = l -> l filter (e -> c != e._1) in
+    let entries = this get index fold emptyList cleanup in
           hashmap $ this set index $ entries +: ((c unbox),v)          
 
   def remove c =
-      let index = c hashable hash % this.length in
-      let cleanup = l -> l filter (e -> c != e._1) in
-      let entries = this get index fold emptyList cleanup in            
-          hashmap $ entries empty fold
+    let index = c hashable hash % this.length in
+    let cleanup = l -> l filter (e -> c != e._1) in
+    let entries = this get index fold emptyList cleanup in            
+        hashmap $ entries empty fold
                         { this reset index }
-                        { this set index entries }                      
-}
+                        { this set index entries } 
+
+  def keys = 
+    let l = this foldR (l r -> l ++ r) emptyList in
+        list2collection $ ziplist (l unbox) unzip _1
+           
+  def values =
+    let l = this foldR (l r -> l ++ r) emptyList in
+        list2collection $ ziplist (l unbox) unzip _2
+}   
 
 /**
  * Factory
@@ -81,5 +93,5 @@ def map2entity : [a b] hashmap[a b] -> MapBuilder[a b hashmap[a b]] = l -> {
 //
 
 def adapter hashmap2map : [k v] hashmap[k v] -> Map[k v] = h -> {
-    Map h.find (c v -> hashmap2map $ h.add c v)
+    Map h.find (c v -> hashmap2map $ h.add c v) (_ -> h.keys) (_ -> h.values)
 }

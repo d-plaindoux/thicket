@@ -57,7 +57,7 @@ exports['linker_package'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    aPackages.define(aReader.specifications("Data.Unit"));      
+    aPackages.define(aReader.code("Data.Unit"));      
     aPackages.define(aPackage);  
       
     test.ok(aLinker.linkPackage(aPackages.retrieve('Test').get()).isSuccess());
@@ -74,7 +74,7 @@ exports['linker_package'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    aPackages.define(aReader.specifications("Data.Unit"));      
+    aPackages.define(aReader.code("Data.Unit"));      
     aPackages.define(aPackage);  
       
     test.ok(aLinker.linkPackage(aPackages.retrieve('Test').get()).isSuccess());
@@ -91,7 +91,7 @@ exports['linker_package'] = {
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
 
-    aPackages.define(aReader.specifications("Data.Unit"));      
+    aPackages.define(aReader.code("Data.Unit"));      
     aPackages.define(aPackage);  
       
     test.ok(aLinker.linkPackage(aPackages.retrieve('Test').get()).isFailure());

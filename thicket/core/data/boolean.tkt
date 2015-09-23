@@ -42,7 +42,6 @@ class bool this:Bool {
     
     (==)     : bool -> bool
     (!=)     : bool -> bool
-
 } {
     def unbox = this
 
@@ -74,8 +73,6 @@ def false : bool = { bool False }
 /**
  * Adapters
  */
-
-def adapter bool2string : bool -> string = bool::toString
 
 def adapter bool2hashable : bool -> Hashable[bool] = this -> {
     Hashable this (this fold 7 13)

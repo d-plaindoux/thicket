@@ -26,9 +26,9 @@ module.exports = function(grunt) {
         thicket_lang: './node_modules/browserify/bin/cmd.js -r ./lib/Thicket/frontend/w3repl.js:thicket -o ./build/thicket-lang.js',
         thicket_runtime: './node_modules/browserify/bin/cmd.js -r ./lib/Thicket/runtime/runtime.js:runtime -o ./build/thicket-runtime.js',
         thicket_site_prepare: 'mkdir site; true',
-        thicket_site: 'find thicket/core -name *.tkt | xargs ./bin/thicketc -i site -o site -v',
-        thicket_examples: 'find thicket/examples -name *.tkt | xargs ./bin/thicketc -i site -o site -v',
-        thicket_benchmarks: 'find thicket/benchmarks -name *.tkt | xargs ./bin/thicketc -i site -o site -v'
+        thicket_site: 'find thicket/core -name *.tkt | xargs ./bin/thicket compile -i site -o site -v',
+        thicket_examples: 'find thicket/examples -name *.tkt | xargs ./bin/thicket compile -i site -o site -v',
+        thicket_benchmarks: 'find thicket/benchmarks -name *.tkt | xargs ./bin/thicket compile -i site -o site -v'
     },
     uglify: {
         options: {
