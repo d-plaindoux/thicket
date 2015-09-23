@@ -38,7 +38,7 @@ model Assert[A] {
 }
 
 class unitTest this:UnitTest {
-    +Assert[A]
+    +Assert[unitTest]
 }{    
     def true n b = 
         when b
