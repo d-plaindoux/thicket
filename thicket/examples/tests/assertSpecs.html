@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+-->
+<head>    
+  <script src="/thicket/build/thicket-lang.min.js"></script>
+  
+  <style>
+  .title {
+      padding: 10px;          
+      background: #123456;
+      color: #FFFFFF;  
+  }
+  .success {
+      padding: 2px;          
+      background: #00FFCC
+  }
+  .failure {
+      padding: 4px;          
+      color: #FFFFFF;
+      background: #FF0000
+  }
+  .sourcecode {
+      padding: 10px;
+      color: #123456;
+      background: #FFFFFF;
+  }
+  </style>
+    
+  <script type="text/thicket">
+    from Test.Spec import *
+  
+    def logger : TestLogger = {
+        TestLogger
+            (s -> do
+                  { document "output" find map $ d -> d addChild <div class="title"> s </div>}
+                  return ())
+            (s -> do
+                  { document "output" find map $ d -> d addChild <div class="success"> s </div>}
+                  return ())
+            (s -> do
+                  { document "output" find map $ d -> d addChild <div class="failure"> s </div> }
+                  return ())
+    }
+
+    let describe = description logger in
+        describe "Assertion tests"
+            it "expect true toBe true" {
+                expect true toBe true
+            }
+            it "expect true not toBe false" {
+                expect true not toBe false
+            }
+            it "expect false toBe false" {
+                expect false toBe false
+            }
+            it "expect 1 not toBe 2" {
+               expect 1 not toBe 2
+            }
+            it "expect 1 toBe -1" {
+               expect 1 toBe -1
+            }
+            it "expect 1 toBe 1" {
+                expect 1 toBe 1
+            }
+            it "expect 1 toBeIn List[1]" {
+                expect 1 toBeIn $ List[1]
+            }
+            it "expect 1 toBeAKey Hashmap[1=>'a']" {
+                expect 1 toBeAKey $ Hashmap[1=>"a"]
+            }
+            it "expect 1 not toBeAKey Hashmap[2=>'a']" {
+                expect 1 not toBeAKey $ Hashmap[2=>"a"]
+            }
+            it "expect 'a' toBeAValue Hashmap[1=>'a']" {
+                expect "a" toBeAValue $ Hashmap[1=>"a"]
+            }
+            it "expect 'b' not toBeAValue Hashmap[2=>'a']" {
+                expect "b" not toBeAValue $ Hashmap[2=>"a"]
+            }  
+  </script>
+    
+    
+  <script>
+    function onLoad() {
+        require('thicket')('/thicket/site').boot();
+    }
+  </script>
+</head>    
+<body onload="onLoad()">
+    <div id="output"></div>
+    <div class="sourcecode">
+        <b>Source Code</b>
+        <pre><code>
+from Test.Spec import *
+  
+    def logger : TestLogger = {
+        TestLogger
+            (s -> do
+                  { document "output" find map $ d -> d addChild &lt;div class="title"> s &lt;/div>}
+                  return ())
+            (s -> do
+                  { document "output" find map $ d -> d addChild &lt;div class="success"> s &lt;/div>}
+                  return ())
+            (s -> do
+                  { document "output" find map $ d -> d addChild &lt;div class="failure"> s &lt;/div> }
+                  return ())
+    }
+
+    let describe = description logger in
+        describe "Assertion tests"
+            it "expect true toBe true" {
+                expect true toBe true
+            }
+            it "expect true not toBe false" {
+                expect true not toBe false
+            }
+            it "expect false toBe false" {
+                expect false toBe false
+            }
+            ...
+        </code></pre>
+    </div>  
+    
+</body>
+</html>
