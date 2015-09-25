@@ -11,7 +11,8 @@ module Example.Test
 import Boot.Core
 import System.Console
 import System.Runtime
-import Test.Spec
+
+from Test.Spec import description, TestLogger, expect
 
 def logger : TestLogger = {
     TestLogger
