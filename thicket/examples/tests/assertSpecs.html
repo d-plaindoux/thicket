@@ -13,42 +13,73 @@
   <script src="/thicket/build/thicket-lang.min.js"></script>
   
   <style>
-  .title {
-      padding: 10px;          
-      background: #123456;
-      color: #FFFFFF;  
-  }
-  .success {
-      padding: 2px;          
-      background: #00FFCC
-  }
-  .failure {
-      padding: 4px;          
-      color: #FFFFFF;
-      background: #FF0000
-  }
-  .sourcecode {
-      padding: 10px;
-      color: #123456;
-      background: #FFFFFF;
-  }
+    @keyframes fadeInAnimation {
+        from {
+            background: #789ABC;
+        }    
+        to {
+            background: #FF0000;
+        }
+    }      
+    @-webkit-keyframes fadeInAnimation {
+        from {
+            background: #789ABC;                
+        }    
+        to {
+            background: #FF0000;
+        }
+    }      
+    .runtime {
+        padding: 10px;        
+        background: #123456;
+        color: #FFFFFF;
+        
+    }
+    .fadeIn {
+        -webkit-animation-name: fadeInAnimation;
+        -webkit-animation-duration: 2s;
+        animation-name: fadeInAnimation;
+        animation-duration: 2s;        
+    }      
+    .header {
+        margin-top: 10px;
+        padding: 10px;          
+        background: #123456;
+        color: #FFFFFF;  
+    }
+    .footer {
+        margin-bottom: 10px;
+        padding: 10px;          
+        background: #456789;
+        color: #FFFFFF;  
+    }
+    .success {
+        padding: 4px;          
+        background: #789ABC;
+        color: #FFFFFF;  
+    }
+    .failure {
+        padding: 4px;          
+        color: #FFFFFF;
+        background: #FF0000;
+    }
+    .sourcecode {
+        padding: 10px;
+        color: #123456;
+        background: #FFFFFF;
+    }
   </style>
     
   <script type="text/thicket">
     from Test.Spec import *
-  
-    def logger : dom -> TestLogger = d -> {
-        let do = f -> do f return () in
-            TestLogger
-                (s -> do $ d addChild <div class="title">   s </div>)
-                (s -> do $ d addChild <div class="success"> s </div>)
-                (s -> do $ d addChild <div class="failure"> s </div>)
-    }
-
+    from Example.Test.Logger import logger
+  </script>
+    
+  <script type="text/thicket">
     for d <- { document "output" find }
     yield
     let describe = description $ logger d in
-        describe "Assertion tests"
+        describe "Simple Assertion tests"
             it "expect true toBe true" {
                 expect true toBe true
             }
@@ -59,14 +90,22 @@
                 expect false toBe false
             }
             it "expect 1 not toBe 2" {
-               expect 1 not toBe 2
+               expect 1 toBe 2
             }
-            it "expect 1 toBe -1" {
-               expect 1 toBe -1
+            it "expect 1 not toBe -1" {
+               expect 1 not toBe -1
             }
             it "expect 1 toBe 1" {
                 expect 1 toBe 1
             }
+            done
+  </script>
+    
+  <script type="text/thicket">
+    for d <- { document "output" find }
+    yield
+    let describe = description $ logger d in
+        describe "Collection Assertion tests"
             it "expect 1 toBeIn List[1]" {
                 expect 1 toBeIn $ List[1]
             }
@@ -82,8 +121,8 @@
             it "expect 'b' not toBeAValue Hashmap[2=>'a']" {
                 expect "b" not toBeAValue $ Hashmap[2=>"a"]
             }  
+            done
   </script>
-    
     
   <script>
     function onLoad() {
@@ -96,16 +135,9 @@
     <div class="sourcecode">
         <b>Source Code</b>
         <pre><code>
-    from Test.Spec import *
+    from Test.Spec import description
+    from Example.Test.Logger import logger
   
-    def logger : dom -> TestLogger = d -> {
-        let do = f -> do f return () in
-            TestLogger
-                (s -> do $ d addChild &lt;div class="title">   s &lt;/div>)
-                (s -> do $ d addChild &lt;div class="success"> s &lt;/div>) 
-                (s -> do $ d addChild &lt;div class="failure"> s &lt;/div>)
-    }
-
     for dom &lt;- document "output" find
     yield
     let describe = description $ logger dom in

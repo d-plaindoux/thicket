@@ -13,6 +13,7 @@ from Core.Lang.When import when
 
 from Data.Unit import unit
 from Data.Pair import Pair
+from Data.Number import number
 from Data.String import string
 from Data.Boolean import bool,true,false
 from Data.Comparable import Comparable
@@ -23,11 +24,13 @@ model TestLogger {
     description : string -> unit
     success     : string -> unit
     failure     : string -> unit
+    terminate   : number -> number -> unit
 }
 
 model TestContext {
-    text   : string
-    status : bool  
+    text    : string
+    success : number
+    failure : number
 }
 
 model Expect[a] {
@@ -53,23 +56,28 @@ class expect[a] this:Comparable[a] {
     def toBeAValue m = self toBeIn $ m values ()
 }
 
-
-
 class descriptionSpecs this:(TestContext,TestLogger) {
-    it : string -> bool -> descriptionSpecs
+    it   : string -> bool -> descriptionSpecs
+    done : unit
 } {
     def it s b =         
         when b then { 
             do { this._2.success s} 
-            return self
+            return $ descriptionSpecs (new this._1 with success=(this._1.success + 1)),this._2
         } else {
             do { this._2.failure s }
-            return $ descriptionSpecs (new this._1 with status=false),this._2
+            return $ descriptionSpecs (new this._1 with failure=(this._1.failure + 1)),this._2
         }
+    
+    def done = 
+        do
+        { this._2.terminate this._1.success this._1.failure }
+        return ()
+        
 }
 
 def description : TestLogger -> string -> descriptionSpecs = l s -> {
     do 
     { l.description s }
-    return $ descriptionSpecs (TestContext s true),l
+    return $ descriptionSpecs (TestContext s 0 0),l
 }

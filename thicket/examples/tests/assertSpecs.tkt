@@ -16,19 +16,22 @@ import Test.Spec
 def logger : TestLogger = {
     TestLogger
         (s -> do
-              { console.log $ "-- " + s }
+              { console.log $ s + ":" }
               return ())
         (s -> do
-              { console.log $ "[OK] " + s }
+              { console.log $ "  " + s }
               return ())
         (s -> do
-              { console.log $ "[KO] " + s };
-              { runtime exit 1}
+              { console.log $ "X " + s }
+              return ())
+        (s f -> do
+              { console.log ("success " + s + " failure " + f) };
+              { console.log "" }
               return ())
 }
 
-let describe = description logger in
-    describe "Assertion tests"
+def simpleAssertions : TestLogger -> unit = l -> {
+    description logger "Simple Assertion tests"
         it "expect true toBe true" {
             expect true toBe true
         }
@@ -39,11 +42,19 @@ let describe = description logger in
             expect false toBe false
         }
         it "expect 1 not toBe 2" {
-	       expect 1 not toBe 2
+           expect 1 not toBe 2
+        }
+        it "expect 1 not toBe -1" {
+           expect 1 not toBe -1
         }
         it "expect 1 toBe 1" {
             expect 1 toBe 1
         }
+        done 
+}
+
+def collectionAssertions : TestLogger -> unit = l -> {
+    description logger "Collection Assertion tests"
         it "expect 1 toBeIn List[1]" {
             expect 1 toBeIn $ List[1]
         }
@@ -58,4 +69,11 @@ let describe = description logger in
         }
         it "expect 'b' not toBeAValue Hashmap[2=>'a']" {
             expect "b" not toBeAValue $ Hashmap[2=>"a"]
-        }
+        }  
+        done        
+}
+
+do 
+{ simpleAssertions logger };
+{ collectionAssertions logger }
+return ()
