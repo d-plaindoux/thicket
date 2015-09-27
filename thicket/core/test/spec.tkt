@@ -9,7 +9,7 @@
 module Test.Spec
 
 import Data
-import Lang
+import Core.Lang
 
 model TestLogger {
     description : string -> unit

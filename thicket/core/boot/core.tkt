@@ -9,7 +9,7 @@
 module Boot.Core
 
 import Data
-import Data.Lang
+import Core.Lang
 
 from Logic.Combinators import *
 from Standard.Math import *
