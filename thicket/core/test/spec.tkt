@@ -8,17 +8,8 @@
  
 module Test.Spec
 
-from Core.Lang.Do import do
-from Core.Lang.When import when
-
-from Data.Unit import unit
-from Data.Pair import Pair
-from Data.Number import number
-from Data.String import string
-from Data.Boolean import bool,true,false
-from Data.Comparable import Comparable
-from Data.Collection import Collection
-from Data.Map import Map
+import Data
+import Lang
 
 model TestLogger {
     description : string -> unit
@@ -44,11 +35,10 @@ class expect[a] this:Comparable[a] {
     +Expect[a]
     not : Expect[a]
 } {
-    def not = 
-        Expect (a -> self toBe       a not) 
-               (a -> self toBeIn     a not)
-               (a -> self toBeAKey   a not)
-               (a -> self toBeAValue a not)
+    def not = Expect (a -> self toBe       a not) 
+              	     (a -> self toBeIn     a not)
+               	     (a -> self toBeAKey   a not)
+               	     (a -> self toBeAValue a not)
                
     def toBe a = this == a
     def toBeIn c = c find (e -> this == e) present
@@ -63,10 +53,12 @@ class descriptionSpecs this:(TestContext,TestLogger) {
     def it s b =         
         when b then { 
             do { this._2.success s} 
-            return $ descriptionSpecs (new this._1 with success=(this._1.success + 1)),this._2
+            return $ descriptionSpecs 
+	    	     (new this._1 with success=(this._1.success + 1)),this._2
         } else {
             do { this._2.failure s }
-            return $ descriptionSpecs (new this._1 with failure=(this._1.failure + 1)),this._2
+            return $ descriptionSpecs 
+	    	     (new this._1 with failure=(this._1.failure + 1)),this._2
         }
     
     def done = 

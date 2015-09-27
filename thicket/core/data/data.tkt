@@ -20,5 +20,8 @@ from Data.Array import *
 from Data.List import *
 from Data.Hashmap import *
 
+from Data.Collection import *
+from Data.Map import *
 from Data.Comparable import *
 from Data.Hashable import *
+

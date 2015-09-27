@@ -8,10 +8,7 @@
  
 module Example.Lambda
 
-from Data.String import *
-from Data.Try import *
-from Data.Pair import *
-from Data.Map import *
+import Data
 
 type LambdaTerm {
     model Constant { value : string }
@@ -26,46 +23,44 @@ type LambdaTerm {
     }
 }    
 
-typedef Env = Map[string Value]
+typedef Environment = Map[string value]
 
 type Value {
     model CstVal { value : string }
     model Closure {
-        abstraction : (string,LambdaTerm)
-        environment : Env
+        abstraction : string,LambdaTerm
+        environment : Environment
     }
 }
 
-class valueClass this:Value {
-    fold   : [b] (string -> b) -> ((string,LambdaTerm) -> Env -> b) -> b
+class value this:Value {
+    fold   : [b] (string -> b) -> ((string,LambdaTerm) -> Environment -> b) -> b
     pretty : string
 } {
     def CstVal.fold s _  = s this.value
     def Closure.fold _ c = c this.abstraction this.environment
-    def pretty = self fold (s -> s) (_ _ -> "<function>")
 }
 
 class interpreter this:LambdaTerm {
-    eval : Env -> try[Value]
+    eval : Environment -> try[value]
 } {
-    def Constant.eval env = 
-        success $ CstVal this.value
+    def Constant.eval env = success $ value $ CstVal this.value
 
     def Variable.eval env = 
-    	env find (string2comparable this.name) fold (failure "Unboud variable") success
+    	env find this.name fold (failure $ "Unbound variable: " + this.name) success
                                        
     def Application.eval env = 
-        let application = interpreter this.abstraction eval env in
-        let parameter   = interpreter this.argument eval env in
-            application flatmap (a -> 
-                parameter flatmap (p ->
-                    valueClass a fold 
-                           (_   -> failure "Type Error")
-                           (a e -> interpreter a._2 eval $ e add a._1 p)
-                )
-            )            
+        for a <- { interpreter this.abstraction eval env }
+            p <- { interpreter this.argument eval env }
+            v <- { a fold (_   -> failure "Type Error") 
+                          (a e -> interpreter a._2 eval $ e add a._1 p) }
+        yield v
+        
+    def Abstraction.eval env = success $ value $ Closure (this.variable,this.body) env    
+}
 
-    def Abstraction.eval env = success $ Closure (this.variable,this.body) env    
+def prettyValue : value -> string = v -> {
+    v fold (s -> s) (_ _ -> "<function>")
 }
 
 // Some definitions
@@ -74,4 +69,4 @@ def lIdent = Abstraction "x" $ Variable "x"
 def lTrue  = Abstraction "x" $ Abstraction "y" $ Variable "x"
 def lFalse = Abstraction "x" $ Abstraction "y" $ Variable "y"
 
-// Example : interpreter (Application lIdent (Constant "A Value")) eval $ hashmap2map newHashmap
+// Example : interpreter (Application lIdent (Constant "A Value")) eval newHashmap
