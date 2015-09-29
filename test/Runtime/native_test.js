@@ -222,6 +222,69 @@ exports['native'] = {
     test.done();
   },
     
+  'string <+': function(test) {
+    test.expect(1);
+    // tests here  
+    var code = runtime.delta["string.<+"].concat([
+        [$i.CONST,"A"],[$i.APPLY],
+        [$i.CONST,1],[$i.APPLY]
+    ]);      
+      
+    test.deepEqual(runtime.execute(code), [$i.CONST,"B"]);
+    test.done();  
+  },
+    
+  'string <+ (2)‡': function(test) {
+    test.expect(1);
+    // tests here  
+    var code = runtime.delta["string.<+"].concat([
+        [$i.CONST,"B"],[$i.APPLY],
+        [$i.CONST,-1],[$i.APPLY]
+    ]);      
+      
+    test.deepEqual(runtime.execute(code), [$i.CONST,"A"]);
+    test.done();  
+  },
+    
+  'string setAt': function(test) {
+    test.expect(1);
+    // tests here  
+    var code = runtime.delta["string.setAt"].concat([
+        [$i.CONST,"A"],[$i.APPLY],
+        [$i.CONST,0],[$i.APPLY],
+        [$i.CONST,"B"],[$i.APPLY]
+    ]);      
+      
+    test.deepEqual(runtime.execute(code), [$i.CONST,"B"]);
+    test.done();  
+  },
+    
+  'string setAt (2)': function(test) {
+    test.expect(1);
+    // tests here  
+    var code = runtime.delta["string.setAt"].concat([
+        [$i.CONST,"ABC"],[$i.APPLY],
+        [$i.CONST,1],[$i.APPLY],
+        [$i.CONST,"D"],[$i.APPLY]
+    ]);      
+      
+    test.deepEqual(runtime.execute(code), [$i.CONST,"ADC"]);
+    test.done();  
+  },
+    
+  'string setAt outofindex': function(test) {
+    test.expect(1);
+    // tests here  
+    var code = runtime.delta["string.setAt"].concat([
+        [$i.CONST,"A"],[$i.APPLY],
+        [$i.CONST,1],[$i.APPLY],
+        [$i.CONST,"B"],[$i.APPLY]
+    ]);      
+      
+    test.deepEqual(runtime.execute(code), [$i.CONST,"A"]);
+    test.done();  
+  },
+         
   'string getAt': function(test) {
     test.expect(1);
     // tests here  
@@ -235,8 +298,8 @@ exports['native'] = {
     test.deepEqual(runtime.execute(code), [$i.CONST,"4"]);
     test.done();  
   },
-    
-  'string getAt outofbound': function(test) {
+
+  'string getAt outofindex': function(test) {
     test.expect(1);
     // tests here  
     var code = runtime.delta["string.getAt"].concat([

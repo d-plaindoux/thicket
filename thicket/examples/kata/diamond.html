@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+-->
+<head>    
+  <script src="/thicket/build/thicket-lang.min.js"></script>
+  
+  <style>
+    @keyframes fadeInAnimation {
+        from {
+            background: #789ABC;
+        }    
+        to {
+            background: #FF0000;
+        }
+    }      
+    @-webkit-keyframes fadeInAnimation {
+        from {
+            background: #789ABC;                
+        }    
+        to {
+            background: #FF0000;
+        }
+    }      
+    .runtime {
+        padding: 10px;        
+        background: #123456;
+        color: #FFFFFF;
+        
+    }
+    .fadeIn {
+        -webkit-animation-name: fadeInAnimation;
+        -webkit-animation-duration: 2s;
+        animation-name: fadeInAnimation;
+        animation-duration: 2s;        
+    }      
+    .header {
+        margin-top: 10px;
+        padding: 10px;          
+        background: #123456;
+        color: #FFFFFF;  
+    }
+    .footer {
+        margin-bottom: 10px;
+        padding: 10px;          
+        background: #456789;
+        color: #FFFFFF;  
+        -webkit-animation-name: fadeInAnimation;
+        -webkit-animation-duration: 1s;
+        animation-name: fadeInAnimation;
+        animation-duration: 1s;        
+    }
+    .success {
+        padding: 4px;          
+        background: #789ABC;
+        color: #FFFFFF;  
+    }
+    .failure {
+        padding: 4px;          
+        color: #FFFFFF;
+        background: #FF0000;
+    }
+    .sourcecode {
+        padding: 10px;
+        color: #123456;
+        background: #FFFFFF;
+    }
+  </style>
+    
+  <script type="text/thicket">
+    import Test.Spec
+    import Example.Diamond
+    import Example.Diamond.Logger
+
+    for d <- { document "output" find }
+    yield
+    let describe = description $ logger d in
+        describe "Diamond Assertions"
+            it "expect 'A' toBe (diamond 1)" {
+                expect "A" toBe (diamond 1)
+            }
+            it "expect ' A \nB B\n A ' toBe (diamond 2)" {
+                expect (" A " + eol + "B B" + eol + " A ") toBe (diamond 2)
+            }
+            it "expect '  A  \n B B \nC   C\n B B \n  A  ' toBe (diamond 3)" {
+                expect ("  A  " + eol + " B B " + eol + "C   C" + eol + " B B " + eol + "  A  ") toBe (diamond 3)
+            }
+            it "expect '   A   \n  B B  \n C   C \nD     D\n C   C \n  B B  \n   A   ' toBe (diamond 4)" {
+                expect ("   A   " + eol + "  B B  " + eol + " C   C " + eol + "D     D" + eol + " C   C " + eol + "  B B  " + eol + "   A   ") toBe (diamond 4)
+            }            
+            done 
+  </script>
+
+  <script>
+    function onLoad() {
+        require('thicket')('/thicket/site').boot();
+    }
+  </script>
+</head>    
+<body onload="onLoad()">
+    <div id="output"></div>
+</body>
+</html>

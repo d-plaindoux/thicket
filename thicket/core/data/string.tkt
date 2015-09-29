@@ -20,7 +20,13 @@ class string this:native {
     + comparable[string]
         
     getAt    : number -> option[string]
-    (+)      : string -> string    
+    setAt    : number -> string -> string
+
+    (<+)     : number -> string
+
+    (+)      : string -> string   
+    (*)      : number -> string    
+    
     length   : number
 
     toNumber : option[number]    
@@ -28,16 +34,20 @@ class string this:native {
     def unbox = self
 
     def getAt n = internal "string.getAt" self n (n -> some $ string n) none
+    def setAt n v = string $ internal "string.setAt" self n v
     def (==) n = internal "generic.==" self n true false
     def (<?) n = internal "generic.<" self n true false
     
+    def (<+) n = string $ internal "string.<+" self n
+    
     def (+) s = string $ internal "string.+" self s
+    def (*) n = 1 to n fold "" (_ r -> self + r)
     
     def toNumber = internal "string.toNumber" self (n -> some $ number n) none
     def length = number $ internal "string.length" self
 }
 
-def eol : string = "\n"
+def eol : string = { "" <+ 0 <+ 10 } // WTF is this constant !
 
 /**
  * Adapters

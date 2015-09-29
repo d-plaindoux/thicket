@@ -1,0 +1,26 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+
+module Example.Diamond.Logger
+
+import Test.Spec
+import Client.Document
+
+def logger : dom -> TestLogger = d -> {
+    let do = f -> do f return () in
+        TestLogger
+            (s   -> do $ d addChild <div class="header">  s </div>)
+            (s   -> do $ d addChild <div class="success"> s </div>)
+            (s   -> do $ d addChild <div class="failure fadeIn"> s </div>)
+            (s f -> do $ d addChild 
+                        <div class="footer"> 
+                            <span> s (s <? 2 fold " success, " " successes, ") </span>
+                            <span> f (f <? 2 fold " failure" " failures") </span>
+                        </div>
+            )
+}

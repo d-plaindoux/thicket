@@ -1,0 +1,34 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+
+module Example.Diamond.Test
+
+import Boot.Core
+import System.Console
+import System.Runtime
+import Test.Spec
+
+import Example.Diamond
+
+def diamondAssertions : TestLogger -> unit = l -> {
+    description l "Diamond Assertions"
+        it "expect 'A'" {
+            expect 'A' toBe (diamond 1)
+        }
+        it "expect ' A \nB B\n A '" {
+            expect (' A ' + eol + 'B B' + eol + ' A ') toBe (diamond 2)
+        }
+        it "expect '  A  \n B B \nC   C\n B B \n  A  '" {
+            expect ('  A  ' + eol + ' B B ' + eol + 'C   C' + eol + ' B B ' + eol + '  A  ') toBe (diamond 3)
+        }
+        done 
+}              
+
+do
+{ diamondAssertions defaultLogger }
+return ()

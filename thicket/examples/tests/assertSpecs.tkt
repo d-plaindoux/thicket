@@ -12,27 +12,10 @@ import Boot.Core
 import System.Console
 import System.Runtime
 
-from Test.Spec import description, TestLogger, expect
-
-def logger : TestLogger = {
-    TestLogger
-        (s -> do
-              { console.log $ s + ":" }
-              return ())
-        (s -> do
-              { console.log $ "  " + s }
-              return ())
-        (s -> do
-              { console.log $ "X " + s }
-              return ())
-        (s f -> do
-              { console.log ("success " + s + " failure " + f) };
-              { console.log "" }
-              return ())
-}
+import Test.Spec
 
 def simpleAssertions : TestLogger -> unit = l -> {
-    description logger "Simple Assertion tests"
+    description l "Simple Assertion tests"
         it "expect true toBe true" {
             expect true toBe true
         }
@@ -55,7 +38,7 @@ def simpleAssertions : TestLogger -> unit = l -> {
 }
 
 def collectionAssertions : TestLogger -> unit = l -> {
-    description logger "Collection Assertion tests"
+    description l "Collection Assertion tests"
         it "expect 1 toBeIn List[1]" {
             expect 1 toBeIn $ List[1]
         }
@@ -75,6 +58,6 @@ def collectionAssertions : TestLogger -> unit = l -> {
 }
 
 do 
-{ simpleAssertions logger };
-{ collectionAssertions logger }
+{ simpleAssertions defaultLogger };
+{ collectionAssertions defaultLogger }
 return ()

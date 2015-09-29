@@ -73,7 +73,9 @@
   <script type="text/thicket">
     from Test.Spec import description, expect
     from Example.Test.Logger import logger
+  </script>    
 
+  <script type="text/thicket">
     for d <- { document "output" find }
     yield
     let describe = description $ logger d in

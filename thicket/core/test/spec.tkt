@@ -10,6 +10,8 @@ module Test.Spec
 
 import Data
 import Core.Lang
+import System.Console
+import System.Runtime
 
 model TestLogger {
     description : string -> unit
@@ -72,4 +74,22 @@ def description : TestLogger -> string -> descriptionSpecs = l s -> {
     do 
     { l.description s }
     return $ descriptionSpecs (TestContext s 0 0),l
+}
+
+def defaultLogger : TestLogger = {
+    TestLogger
+        (s -> do
+              { console.log $ s + ":" }
+              return ())
+        (s -> do
+              { console.log $ "  " + s }
+              return ())
+        (s -> do
+              { console.log $ "X " + s }
+              return ())
+        (s f -> do
+              { console.log ("success " + s + " failure " + f) };
+              { console.log "" };
+              { f ?> 0 fold (runtime exit 1) () }
+              return ())
 }
