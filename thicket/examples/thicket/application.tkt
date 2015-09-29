@@ -8,11 +8,9 @@
 
 module Example.Console.Application
 
-from Core.Lang.Do import do
-from Data.Option import *
-from Data.Unit import unit
-from Client.Document import *
-from Client.Event.Mouse import *
+import Boot.Core
+import Boot.Client
+import System.Console
 
 from Example.Console.Core import *
 
@@ -31,6 +29,18 @@ def startApplication : Components -> unit = component -> {
             component.clear map
             $ clear -> clear onMouseEvent MouseClick 
             $ clear -> logger.clear
+        };
+        {
+            component.content map 
+            $ content -> content onKeyEvent KeyPress $d n -> 
+                when (n == RETURN) 
+                then { do 
+                       { logger.clear };
+                       { content value map $ logger.log };
+                       { content value map $ runtime run }
+                       return () 
+                     }
+                else { () }
         };
         {
             component.execute map 

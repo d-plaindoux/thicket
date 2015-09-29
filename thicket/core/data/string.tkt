@@ -21,8 +21,9 @@ class string this:native {
         
     getAt    : number -> option[string]
     (+)      : string -> string    
-    toNumber : option[number]    
     length   : number
+
+    toNumber : option[number]    
 } {
     def unbox = self
 

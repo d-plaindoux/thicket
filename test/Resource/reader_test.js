@@ -30,6 +30,16 @@ exports['reader'] = {
     done();
   },
     
+  'Read specification': function(test) {
+    test.expect(1);
+    // tests here  
+    var aReader = reader(fsdriver('./test/Resource/samples')); 
+        
+    test.deepEqual(aReader.specification("Data.Boolean"), 
+                   [{"MODEL":["boolean",["_","Boolean"]]}]);
+    test.done();
+  },
+    
   'Read code': function(test) {
     test.expect(1);
     // tests here  
