@@ -17,15 +17,18 @@ import Example.Diamond
 
 def diamondAssertions : TestLogger -> unit = l -> {
     description l "Diamond Assertions"
-        it "expect 'A'" {
-            expect 'A' toBe (diamond 1)
+        it "expect (diamond 1) toBe 'A'" {
+            expect (diamond 1) toBe "A"
         }
-        it "expect ' A \nB B\n A '" {
-            expect (' A ' + eol + 'B B' + eol + ' A ') toBe (diamond 2)
+        it "expect (diamond 2) toBe ' A \nB B\n A '" {
+            expect (diamond 2) toBe (" A " + eol + "B B" + eol + " A ")
         }
-        it "expect '  A  \n B B \nC   C\n B B \n  A  '" {
-            expect ('  A  ' + eol + ' B B ' + eol + 'C   C' + eol + ' B B ' + eol + '  A  ') toBe (diamond 3)
+        it "expect (diamond 3) toBe '  A  \n B B \nC   C\n B B \n  A  ' " {
+            expect (diamond 3) toBe ("  A  " + eol + " B B " + eol + "C   C" + eol + " B B " + eol + "  A  ")
         }
+        it "expect (diamond 4) toBe '   A   \n  B B  \n C   C \nD     D\n C   C \n  B B  \n   A   '" {
+            expect (diamond 4) toBe ("   A   " + eol + "  B B  " + eol + " C   C " + eol + "D     D" + eol + " C   C " + eol + "  B B  " + eol + "   A   ")
+        }            
         done 
 }              
 
