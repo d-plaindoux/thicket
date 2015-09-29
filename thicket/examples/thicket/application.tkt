@@ -21,6 +21,18 @@ model Components {
     clear   : option[dom]
 }
 
+def makeContent : logger -> runtimeClass -> dom -> dom = logger runtime content -> {
+    content onKeyEvent KeyPress $d n -> 
+        when (n == RETURN) 
+        then { do 
+               { content value map $ logger.log };
+               { content value map $ runtime run };
+               { content replace $ makeContent logger runtime $ content clone }
+               return () 
+             }
+        else { () }
+}
+
 def startApplication : Components -> unit = component -> {
     let logger = logger $ component.output unbox in
     let runtime = runtime $ logger.log in
@@ -31,16 +43,7 @@ def startApplication : Components -> unit = component -> {
             $ clear -> logger.clear
         };
         {
-            component.content map 
-            $ content -> content onKeyEvent KeyPress $d n -> 
-                when (n == RETURN) 
-                then { do 
-                       { logger.clear };
-                       { content value map $ logger.log };
-                       { content value map $ runtime run }
-                       return () 
-                     }
-                else { () }
+            component.content map $ makeContent logger runtime
         };
         {
             component.execute map 

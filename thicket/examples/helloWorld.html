@@ -46,12 +46,15 @@
         padding: 10px;
         color: #123456;
         background: #FFFFFF;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+                    0 25px 50px 0 rgba(0, 0, 0, 0.1);
+
     }
   </style>
   
   <script src="/thicket/build/thicket-lang.min.js"></script>
 
-  <script type="text/thicket">
+  <script type="application/thicket">
     documentRenderer <~ <p id="hw" class="fadeIn"> "Hello World!" </p>
   </script>
 

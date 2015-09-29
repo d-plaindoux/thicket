@@ -14,13 +14,13 @@
     <link rel="stylesheet" type="text/css" href="todo.css">
     <script src="/thicket/build/thicket-lang.min.js"></script>
 
-    <script type="text/thicket">
-        from Example.TodoMVC.Application import createApplication,renderedApplication
+    <script type="application/thicket+bin" src="Example.TodoMVC.Application"></script>
     
+    <script type="application/thicket">
         renderedApplication createApplication
     </script>
     
-    <script type="text/javascript">
+    <script type="application/javascript">
     function onLoad() {
         require('thicket')('/thicket/site').boot();
     }

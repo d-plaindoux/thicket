@@ -1,0 +1,67 @@
+@keyframes fadeInAnimation {
+    from {
+        background: #789ABC;
+    }    
+    to {
+        background: #FF0000;
+    }
+}      
+@-webkit-keyframes fadeInAnimation {
+    from {
+        background: #789ABC;                
+    }    
+    to {
+        background: #FF0000;
+    }
+}      
+.runtime {
+    padding: 10px;        
+    background: #123456;
+    color: #FFFFFF;
+
+}
+.fadeIn {
+    -webkit-animation-name: fadeInAnimation;
+    -webkit-animation-duration: 2s;
+    animation-name: fadeInAnimation;
+    animation-duration: 2s;        
+}      
+.header {
+    margin-top: 10px;
+    padding: 10px;          
+    background: #123456;
+    color: #FFFFFF;  
+    border-radius:5px 5px 0px 5px;    
+}
+.footer {
+    margin-bottom: 10px;
+    padding: 10px;          
+    background: #456789;
+    color: #FFFFFF;  
+    -webkit-animation-name: fadeInAnimation;
+    -webkit-animation-duration: 1s;
+    animation-name: fadeInAnimation;
+    animation-duration: 1s;        
+    border-radius:5px 0px 5px 5px;    
+}
+.success {
+    display: block;
+    padding: 10px;          
+    background: #789ABC;
+    color: #FFFFFF;  
+}
+.failure {
+    padding: 10px;          
+    color: #FFFFFF;
+    background: #FF0000;
+}
+.sourcecode {
+    padding: 10px;
+    color: #123456;
+    background: #FFFFFF;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+	            0 25px 50px 0 rgba(0, 0, 0, 0.1);
+}
+pre {
+    margin: 1px 1px 1px 5px
+}

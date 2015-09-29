@@ -10,90 +10,31 @@
  */
 -->
 <head>    
+  <link rel="stylesheet" type="text/css" href="../common/specs.css">
   <script src="/thicket/build/thicket-lang.min.js"></script>
-  
-  <style>
-    @keyframes fadeInAnimation {
-        from {
-            background: #789ABC;
-        }    
-        to {
-            background: #FF0000;
-        }
-    }      
-    @-webkit-keyframes fadeInAnimation {
-        from {
-            background: #789ABC;                
-        }    
-        to {
-            background: #FF0000;
-        }
-    }      
-    .runtime {
-        padding: 10px;        
-        background: #123456;
-        color: #FFFFFF;
-        
-    }
-    .fadeIn {
-        -webkit-animation-name: fadeInAnimation;
-        -webkit-animation-duration: 2s;
-        animation-name: fadeInAnimation;
-        animation-duration: 2s;        
-    }      
-    .header {
-        margin-top: 10px;
-        padding: 10px;          
-        background: #123456;
-        color: #FFFFFF;  
-    }
-    .footer {
-        margin-bottom: 10px;
-        padding: 10px;          
-        background: #456789;
-        color: #FFFFFF;  
-        -webkit-animation-name: fadeInAnimation;
-        -webkit-animation-duration: 1s;
-        animation-name: fadeInAnimation;
-        animation-duration: 1s;        
-    }
-    .success {
-        padding: 4px;          
-        background: #789ABC;
-        color: #FFFFFF;  
-    }
-    .failure {
-        padding: 4px;          
-        color: #FFFFFF;
-        background: #FF0000;
-    }
-    .sourcecode {
-        padding: 10px;
-        color: #123456;
-        background: #FFFFFF;
-    }
-  </style>
     
-  <script type="text/thicket">
-    import Test.Spec
-    import Example.Diamond
-    import Example.Diamond.Logger
+  <script type="application/thicket+bin" src="Test.Spec"></script>
+  <script type="application/thicket+bin" src="Example.Diamond"></script>
+  <script type="application/thicket+bin" src="Example.Test.Logger"></script>
 
+  <script type="application/thicket+bin+main" src="Example.Test.Logger"></script>
+    
+  <script type="application/thicket">
     for d <- { document "output" find }
     yield
     let describe = description $ logger d in
         describe "Diamond Assertions"
-            it "expect (diamond 1) toBe 'A'" {
+            it "expect (diamond 1) toBe \nA" {
                 expect (diamond 1) toBe "A"
             }
-            it "expect (diamond 2) toBe ' A \nB B\n A '" {
-                expect (diamond 2) toBe (" A " + eol + "B B" + eol + " A ")
+            it "expect (diamond 2) toBe \n A \nB B\n A " {
+                expect (diamond 2) toBe " A \nB B\n A "
             }
-            it "expect (diamond 3) toBe '  A  \n B B \nC   C\n B B \n  A  ' " {
-                expect (diamond 3) toBe ("  A  " + eol + " B B " + eol + "C   C" + eol + " B B " + eol + "  A  ")
+            it "expect (diamond 3) toBe \n  A  \n B B \nC   C\n B B \n  A  " {
+                expect (diamond 3) toBe "  A  \n B B \nC   C\n B B \n  A  "
             }
-            it "expect (diamond 4) toBe '   A   \n  B B  \n C   C \nD     D\n C   C \n  B B  \n   A   '" {
-                expect (diamond 4) toBe ("   A   " + eol + "  B B  " + eol + " C   C " + eol + "D     D" + eol + " C   C " + eol + "  B B  " + eol + "   A   ")
+            it "expect (diamond 4) toBe \n   A   \n  B B  \n C   C \nD     D\n C   C \n  B B  \n   A   " {
+                expect (diamond 4) toBe "   A   \n  B B  \n C   C \nD     D\n C   C \n  B B  \n   A   "
             }            
             done 
   </script>

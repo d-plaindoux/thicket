@@ -47,7 +47,7 @@ class string this:native {
     def length = number $ internal "string.length" self
 }
 
-def eol : string = { "" <+ 0 <+ 10 } // WTF is this constant !
+def eol : string = "\n"
 
 /**
  * Adapters

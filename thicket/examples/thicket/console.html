@@ -14,9 +14,9 @@
   <script src="extension.js"></script>
 
   <!-- similar to from Example.Console.Application import * -->
-  <!-- script type="bin/thicket" src="Example.Console.Application"></script -->
+  <!-- script type="application/thicket+bin" src="Example.Console.Application"></script -->
   
-  <script type="text/thicket">
+  <script type="application/thicket">
     from Example.Console.Application import *
     
     def components : Components = {
@@ -40,7 +40,7 @@
 <body onload="onLoad()">
     <h3> Thicket code evaluation </h3>
     <p><b>Source Code</b></p>
-    <textarea id="content" rows="10" cols="80"></textarea>
+    <textarea id="content" rows="10" cols="80" autofocus></textarea>
     <br>
     <button id="execute">Execute</button>
     <button id="clear">Clear</button> 

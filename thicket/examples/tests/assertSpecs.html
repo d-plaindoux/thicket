@@ -10,72 +10,15 @@
  */
 -->
 <head>    
+  <link rel="stylesheet" type="text/css" href="../common/specs.css">
   <script src="/thicket/build/thicket-lang.min.js"></script>
-  
-  <style>
-    @keyframes fadeInAnimation {
-        from {
-            background: #789ABC;
-        }    
-        to {
-            background: #FF0000;
-        }
-    }      
-    @-webkit-keyframes fadeInAnimation {
-        from {
-            background: #789ABC;                
-        }    
-        to {
-            background: #FF0000;
-        }
-    }      
-    .runtime {
-        padding: 10px;        
-        background: #123456;
-        color: #FFFFFF;
-        
-    }
-    .fadeIn {
-        -webkit-animation-name: fadeInAnimation;
-        -webkit-animation-duration: 2s;
-        animation-name: fadeInAnimation;
-        animation-duration: 2s;        
-    }      
-    .header {
-        margin-top: 10px;
-        padding: 10px;          
-        background: #123456;
-        color: #FFFFFF;  
-    }
-    .footer {
-        margin-bottom: 10px;
-        padding: 10px;          
-        background: #456789;
-        color: #FFFFFF;  
-    }
-    .success {
-        padding: 4px;          
-        background: #789ABC;
-        color: #FFFFFF;  
-    }
-    .failure {
-        padding: 4px;          
-        color: #FFFFFF;
-        background: #FF0000;
-    }
-    .sourcecode {
-        padding: 10px;
-        color: #123456;
-        background: #FFFFFF;
-    }
-  </style>
-    
-  <script type="text/thicket">
+
+  <script type="application/thicket">
     from Test.Spec import description, expect
     from Example.Test.Logger import logger
   </script>    
 
-  <script type="text/thicket">
+  <script type="application/thicket">
     for d <- { document "output" find }
     yield
     let describe = description $ logger d in
@@ -101,7 +44,7 @@
             done
   </script>
     
-  <script type="text/thicket">
+  <script type="application/thicket">
     for d <- { document "output" find }
     yield
     let describe = description $ logger d in
