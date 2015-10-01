@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+-->
+<head>    
+  <link rel="stylesheet" type="text/css" href="../common/specs.css">
+  <script src="/thicket/build/thicket-lang.min.js"></script>
+    
+  <script type="application/thicket+bin" src="Test.Spec"></script>
+  <script type="application/thicket+bin" src="Example.Test.Logger"></script>
+    
+  <script type="application/thicket+bin" src="Example.Life.Game.State.Test"></script>
+  <script type="application/thicket+bin" src="Example.Life.Game.Test"></script>
+    
+  <script type="application/thicket">
+    for d <- { document "output" find }
+    yield
+      List[
+        stateAssertions;
+        worldAssertions;
+        neighboursAssertions;
+        rulesAssertionsEmptyBoard;
+        rulesAssertionsFullBoard;
+        rulesAssertionsWhenUnique;
+        rulesAssertions1stLineAliveBoard
+      ] map (r -> r $ logger d)
+  </script>
+
+  <script>
+    function onLoad() {
+        require('thicket')('/thicket/site').boot();
+    }
+  </script>
+</head>    
+<body onload="onLoad()">
+    <div id="output"></div>
+</body>
+</html>

@@ -37,13 +37,9 @@
     padding: 10px;          
     background: #456789;
     color: #FFFFFF;  
-    -webkit-animation-name: fadeInAnimation;
-    -webkit-animation-duration: 1s;
-    animation-name: fadeInAnimation;
-    animation-duration: 1s;        
 }
 .success {
-    display: block;
+    display: none;
     padding: 10px;          
     background: #789ABC;
     color: #FFFFFF;  
