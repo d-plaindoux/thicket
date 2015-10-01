@@ -320,13 +320,13 @@ exports['objcode'] = {
                       [$i.code.PUSH, [ [$i.code.IDENT,'string'],[$i.code.CONST,'A'],[$i.code.APPLY]]],
                       [$i.code.APPLY], 
                       [$i.code.INVOKE,'create'],
-                      [$i.code.INVOKE,'addChild'],
+                      [$i.code.INVOKE,'addChilds'],
                       [$i.code.IDENT,'document'],
                       [$i.code.PUSH, [ [$i.code.IDENT,'string'],[$i.code.CONST,'B'],[$i.code.APPLY]]],
                       [$i.code.APPLY], 
                       [$i.code.INVOKE,'create'],
                       [$i.code.APPLY],
-                      [$i.code.INVOKE,'addChild'],
+                      [$i.code.INVOKE,'addChilds'],
                       [$i.code.PUSH, [ [$i.code.IDENT,'number'],[$i.code.CONST,1],[$i.code.APPLY]]],
                       [$i.code.APPLY]]);
       test.done();

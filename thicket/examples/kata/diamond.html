@@ -47,5 +47,43 @@
 </head>    
 <body onload="onLoad()">
     <div id="output"></div>
+    
+    <div class="sourcecode">
+        <b>Source Code</b>
+        <pre><code>
+    class diamondClass this:string,number {
+        create : number -> string 
+    } {
+        def create c = 
+            let char = 'A' <+ $ this._2 - c in
+            let line = this._1 setAt c char setAt (this._1 length - 1 - c) char in
+                when (c <= 0) 
+                then { line } 
+                else { line + eol + { self create (c - 1) } + eol + line }
+    }
+
+    def diamond : number -> string = n -> {
+        let emptyLine = " " * (2 * n - 1) in 
+            diamondClass (emptyLine,(n - 1)) create (n - 1)
+    }
+        </code></pre>
+    </div>  
+    <div class="sourcecode">
+        <b>Tests Source Code</b>
+        <pre><code>
+    for d <- { document "output" find }
+    yield
+    let describe = description $ logger d in
+        describe "Diamond Assertions"
+            it "expect (diamond 1) toBe \nA" {
+                expect (diamond 1) toBe "A"
+            }
+            it "expect (diamond 2) toBe \n A \nB B\n A " {
+                expect (diamond 2) toBe " A \nB B\n A "
+            }
+            // ...           
+            done 
+        </code></pre>
+    </div>  
 </body>
 </html>

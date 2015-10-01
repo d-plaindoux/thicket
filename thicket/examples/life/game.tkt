@@ -1,0 +1,42 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Example.Life.Game
+
+import Data
+import Lang
+
+import Example.Life.Game.State
+
+model Pos { 
+    x:number 
+    y:number 
+}
+
+def positions : Pos -> list[Pos] = pos -> {
+    for i <- { -1 .. 1 }
+        j <- { -1 .. 1 }
+    if (i != 0) or (j != 0)
+    yield Pos (pos.x + i) (pos.y + j) 
+}
+
+typedef World = Pos -> state
+
+def neighbours : World -> Pos -> number = world pos -> {
+    let alive = p -> world p == alive in
+        positions pos filter alive length
+}   
+
+def next : World -> World = world pos -> {
+    let state = n -> when (n == 3) 
+                     then alive 
+                     else { when (n == 2) 
+                            then { world pos }
+                            else dead } in 
+        state $ neighbours world pos
+}

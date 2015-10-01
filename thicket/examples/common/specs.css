@@ -31,7 +31,6 @@
     padding: 10px;          
     background: #123456;
     color: #FFFFFF;  
-    border-radius:5px 5px 0px 5px;    
 }
 .footer {
     margin-bottom: 10px;
@@ -42,7 +41,6 @@
     -webkit-animation-duration: 1s;
     animation-name: fadeInAnimation;
     animation-duration: 1s;        
-    border-radius:5px 0px 5px 5px;    
 }
 .success {
     display: block;
@@ -63,5 +61,5 @@
 	            0 25px 50px 0 rgba(0, 0, 0, 0.1);
 }
 pre {
-    margin: 1px 1px 1px 5px
+    margin: 1px 1px 1px 1px
 }

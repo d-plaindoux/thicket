@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+-->
+<head>    
+  <style>
+  td {
+      padding: 30px
+  }
+  td[alive] {
+      background: green
+  }
+  </style>
+  <script src="/thicket/build/thicket-lang.min.js"></script>
+
+  <script type="application/thicket">
+    import Example.Life.Board    
+    import Data.Mutable.Ref
+    
+    def world : World = pos -> {
+        when (pos.x % (pos.y + 1) == 0) 
+        then alive
+        else dead
+    }
+    
+    let world = ref world in
+    let size = 5 in
+        do {
+           createWorld size
+        }; 
+        { 
+          renderWorld size world.get 
+        };
+        { 
+          for run <- { document "next" find } 
+          yield run onMouseEvent MouseClick $ _ -> 
+                do {
+                  world.set (next world.get)                
+                } return renderWorld size world.get
+        } return ()
+  </script>
+    
+  <script>
+    function onLoad() {
+        require('thicket')('/thicket/site').boot();
+    }
+  </script>
+</head>    
+<body onload="onLoad()">
+    <table id="board"></table>
+    <br>
+    <button id="next">next</button>
+</body>
+</html>

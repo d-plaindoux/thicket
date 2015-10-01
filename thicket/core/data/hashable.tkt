@@ -12,5 +12,5 @@ from Data.Number import number
 
 model Hashable[k] { 
     unbox : k
-    hash : number
+    hash  : number
 }

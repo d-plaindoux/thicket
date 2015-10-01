@@ -9,7 +9,7 @@
 module Example.Factorial
  
 from Data.Number import number
-from Core.Lang.When import when
+from Lang.When import when
 from Data.Trampoline import *
 
 /**

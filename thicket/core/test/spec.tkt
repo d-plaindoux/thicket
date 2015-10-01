@@ -9,7 +9,7 @@
 module Test.Spec
 
 import Data
-import Core.Lang
+import Lang
 import System.Console
 import System.Runtime
 

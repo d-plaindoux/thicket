@@ -1,0 +1,49 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Example.Life.Board
+
+import Boot.Client
+import Example.Life.Game
+
+def cellId : number -> number -> string = i j -> {
+    "" + i + "," + j
+}
+
+def boardCell : Pos -> option[dom] = pos -> {
+    let id = "" + pos.x + "," + pos.y in
+        document (cellId pos.x pos.y) find
+}
+
+def renderCell : World -> Pos -> unit = world pos -> {
+    let state = world pos in
+        do { 
+          for cell <- { boardCell pos }
+          yield state fold (cell addEmptyAttribute "alive") (cell removeAttribute "alive") 
+        } return ()
+}      
+
+def renderWorld : number -> World -> unit = size world -> {
+    0 to size fold () $ i _ ->
+    0 to size fold () $ j _ ->    
+    do { 
+      renderCell world $ Pos i j 
+    } return ()
+}
+
+def createWorld : number -> option[dom] = size -> {
+    for d <- { document "board" find }
+    yield 
+    d addChilds
+        for i <- (0 .. size) yield 
+        <tr> 
+            for j <- (0 .. size) yield 
+            <td id=(cellId i j)/> 
+        </tr> 
+}
+

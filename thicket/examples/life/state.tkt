@@ -1,0 +1,40 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Example.Life.Game.State
+
+import Data.Comparable
+import Data.Boolean
+
+type State { Alive Dead }
+
+class state this:State {
+    +comparable[state]
+    
+    fold : [b] b -> b -> b
+    hash : number
+} {
+    def Alive.fold a d = a
+    def Dead.fold  a d = d
+    
+    def (==) s = self fold (s fold true false) (s fold false true)
+    def (<?) s = self fold (s fold false true) false
+    
+    def hash = self fold 0 1
+}
+
+def adapter state2hashable : state -> Hashable[state] = s -> {
+    Hashable s s.hash
+}
+
+def adapter state2comparable : state -> Comparable[state] = s -> {
+    Comparable s s.(==) s.(!=) s.(=>) s.(<=) s.(?>) s.(<?) (state2hashable s)
+}
+
+def alive : state = { state Alive }
+def dead  : state = { state Dead  }

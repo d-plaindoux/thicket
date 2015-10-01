@@ -6,10 +6,10 @@
  * Licensed under the LGPL2 license.
  */
 
-module Core.Lang.Range
+module Lang.Range
 
-from Core.Lang.Strict import strict
-from Core.Lang.When import when
+from Lang.Strict import strict
+from Lang.When import when
 from Data.Pair import Pair
 from Data.Number import number
 from Data.Boolean import bool

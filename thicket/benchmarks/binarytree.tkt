@@ -8,9 +8,9 @@
  
 module Benchmarks.BinaryTree
 
-from Core.Lang.Range import foreach
-from Core.Lang.Do import do
-from Core.Lang.When import when
+from Lang.Range import foreach
+from Lang.Do import do
+from Lang.When import when
 
 from Data.Pair import Pair
 from Data.Number import number,number2string

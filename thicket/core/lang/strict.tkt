@@ -6,7 +6,7 @@
  * Licensed under the LGPL2 license.
  */
  
-module Core.Lang.Strict
+module Lang.Strict
 
 /* 
  * Language syntactic extension

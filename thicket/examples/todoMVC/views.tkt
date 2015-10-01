@@ -13,8 +13,8 @@ from Client.Document import *
 from Client.Event.Mouse import *
 from Client.Event.Key import *
 
-from Core.Lang.Do import do
-from Core.Lang.When import when
+from Lang.Do import do
+from Lang.When import when
 
 from Logic.Combinators import combinators
 

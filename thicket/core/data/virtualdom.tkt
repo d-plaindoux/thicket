@@ -1,0 +1,51 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+
+module Data.Dom.Virtual
+
+import Data
+
+type VDomAtt {
+    model CData { _ : string }
+    model MouseTrigger { /* TODO */ }
+    model KeyTrigger { /* TODO */ }
+}
+
+type VDom {
+    model Tag { 
+        name : string
+        attributes : Map[string VDomAtt]
+        content : VDom
+    }    
+    model PCData { _ : string }    
+    model Sequence { head : VDom tail : VDom }
+    model Empty
+}
+
+model Stringify { 
+    toString : string 
+}
+
+class vdomAttPretty this:VDomAtt {
+    +Stringify
+} {
+    def CData.toString = this._
+    def toString       = "<function>"
+}
+
+class vdomPretty this:VDom {
+    +Stringify
+} {
+    def Tag.toString      = "<" + this.name + ">" + 
+                              (vdomPretty this.content toString) + 
+                            "</" + this.name + ">"
+    def PCData.toString   = this._
+    def Sequence.toString = (vdomPretty this.head toString) + 
+                            (vdomPretty this.tail toString)
+    def Empty.toString    = ""
+}

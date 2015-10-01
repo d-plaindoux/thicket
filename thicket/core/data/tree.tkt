@@ -8,7 +8,7 @@
  
 module Data.Tree
  
-from Core.Lang.When import *
+from Lang.When import *
 from Data.Boolean import *
 from Data.Number import *
  

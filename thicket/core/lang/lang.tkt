@@ -6,9 +6,9 @@
  * Licensed under the LGPL2 license.
  */
  
-module Core.Lang
+module Lang
  
-from Core.Lang.When import *
-from Core.Lang.Do import *
-from Core.Lang.Range import *
-from Core.Lang.Strict import *
+from Lang.When import *
+from Lang.Do import *
+from Lang.Range import *
+from Lang.Strict import *

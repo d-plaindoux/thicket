@@ -8,7 +8,7 @@
  
 module Data.Option
 
-from Core.Lang.Strict import strict
+from Lang.Strict import strict
 from Data.Boolean import bool,true,false
 from Logic.Combinators import combinators
 from Data.Try import try,failure,success

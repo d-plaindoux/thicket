@@ -8,8 +8,8 @@
 
 module Example.TodoMVC.Controller
 
-from Core.Lang.When import when
-from Core.Lang.Do import do
+from Lang.When import when
+from Lang.Do import do
 
 from Data.Unit import unit
 from Data.Pair import Pair

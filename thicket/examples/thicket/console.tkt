@@ -8,7 +8,7 @@
 
 module Example.Console.Core
 
-from Core.Lang.Do import do
+from Lang.Do import do
 from Data.Option import *
 from Data.Unit import unit
 from Data.String import string

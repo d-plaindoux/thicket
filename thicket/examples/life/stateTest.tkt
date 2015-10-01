@@ -1,0 +1,35 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+
+module Example.Life.Game.State.Test
+
+import Data
+import Test.Spec
+
+import Example.Life.Game.State
+
+def stateAssertions : TestLogger -> unit = l -> {
+    description l "State Assertions"
+        it "expect alive toBe alive" {
+            expect alive toBe alive
+        }
+        it "expect dead toBe dead" {
+            expect dead toBe dead
+        }
+        it "expect alive not toBe dead" {
+            expect alive not toBe dead
+        }
+        it "expect dead not toBe alive" {
+            expect dead not toBe alive
+        }
+        done 
+}              
+
+do
+{ stateAssertions defaultLogger }
+return ()

@@ -8,7 +8,7 @@
 
 module Example.TodoMVC.Application
 
-from Core.Lang.Do import do
+from Lang.Do import do
 
 from Data.Unit import unit
 from Data.Pair import Pair

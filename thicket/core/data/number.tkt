@@ -16,8 +16,9 @@ from Data.Comparable import Comparable,comparable
 from Data.Hashable import Hashable
 from Data.String import string
 from Data.Pair import Pair
+from Data.List import emptyList,list
 
-from Core.Lang.Range import Range,foreach
+from Lang.Range import Range,foreach
 
 class number this:native {
     + comparable[number]
@@ -46,6 +47,8 @@ class number this:native {
     
     to       : number -> Range
     downto   : number -> Range
+    
+    (..)     : number -> list[number]
     
     toString : string 
 } {
@@ -78,9 +81,11 @@ class number this:native {
     
     def to n = foreach (self,n) step 1
     def downto n = foreach (self,n) step -1
+    
+    def (..) n = n downto self fold emptyList (i l -> l +: i)
 }
 
-def Infinity = 1 / 0
+def Infinity : number = { 1 / 0 }
 
 /**
  * Adapters

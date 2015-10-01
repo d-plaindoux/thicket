@@ -8,7 +8,7 @@
  
 module Data.Array
 
-from Core.Lang.Range import foreach
+from Lang.Range import foreach
 
 from Logic.Combinators import combinators
 

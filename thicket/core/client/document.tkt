@@ -16,6 +16,7 @@ from System.Internal import internal
 from Data.String import string
 from Data.Number import number,number2string
 from Data.Option import option,some,none
+from Data.List import list,List
 
 class dom this:native {
     addEmptyAttribute : string -> dom
@@ -24,6 +25,7 @@ class dom this:native {
     removeAttribute : string -> dom
     
     addChild : dom -> dom
+    addChilds : list[dom] -> dom
     removeChilds : dom
     
     onMouseEvent : [a] MouseEventType -> (dom -> a) -> dom
@@ -45,6 +47,7 @@ class dom this:native {
     def removeAttribute = internal "dom.resetAttribute" self
     
     def addChild = internal "dom.appendChild" self
+    def addChilds l = l foldL dom::addChild self
     def removeChilds = internal "dom.removeChilds" self
 
     def onMouseEvent e f = internal "dom.onMouseEvent" self (mouseEventType e toString) (n -> f $ dom n)
@@ -69,10 +72,22 @@ class document this:string {
     def find = internal "document.elementById" this (e -> some $ dom e) none
 }
 
+def adapter dom2domlist : dom -> list[dom] = s -> {
+    List[s]
+}
+
 def adapter string2dom : string -> dom = s -> {
     dom $ internal "string.toDom" s
 }
 
+def adapter string2domlist : string -> list[dom] = s -> {
+    List[(dom $ internal "string.toDom" s)]
+}
+
 def adapter number2dom : number -> dom = s -> {
     dom $ internal "string.toDom" (number2string s)
+}
+
+def adapter number2domlist : number -> list[dom] = s -> {
+    List[(dom $ internal "string.toDom" $ number2string s)]
 }

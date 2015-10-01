@@ -8,7 +8,7 @@
 
 module Client.Document.Renderer
 
-from Core.Lang.Do import do
+from Lang.Do import do
 
 from Data.String import string
 from Data.Option import option

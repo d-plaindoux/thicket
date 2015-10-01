@@ -1,0 +1,39 @@
+
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Lang.When
+ 
+from Data.Boolean import bool
+ 
+/* 
+ * Language syntactic extension
+ * 
+ *     switch a case v1 => s1 case v2 => s2 default => s3
+ */
+/*
+class switch[a b] this:Comparable[a] {
+    case    : a -> caseBody[b]
+    default : b -> b
+} {
+    def case a = when (this == a) then (
+    def default b = b 
+}
+
+class caseBody[a b] this:Comparable[a] {
+    (=>) : b -> switch[a b] 
+} {
+    def (=>) b = switch this
+}
+
+class defaultBody[b] this:bool {
+    (=>) : b -> b
+} {
+    def (=>) b = 
+}
+*/
