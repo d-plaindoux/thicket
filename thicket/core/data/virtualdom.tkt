@@ -11,20 +11,20 @@ module Data.Dom.Virtual
 import Data
 
 type VDomAtt {
-    model CData { _ : string }
-    model MouseTrigger { /* TODO */ }
-    model KeyTrigger { /* TODO */ }
+    CData { _ : string }
+    MouseTrigger { /* TODO */ }
+    KeyTrigger { /* TODO */ }
 }
 
 type VDom {
-    model Tag { 
+    Tag { 
         name : string
         attributes : Map[string VDomAtt]
         content : VDom
     }    
-    model PCData { _ : string }    
-    model Sequence { head : VDom tail : VDom }
-    model Empty
+    PCData { _ : string }    
+    Sequence { head : VDom tail : VDom }
+    Empty
 }
 
 model Stringify { 

@@ -11,13 +11,13 @@ module Example.Lambda
 import Data
 
 type LambdaTerm {
-    model Constant { value : string }
-    model Variable { name : string  }
-    model Application { 
+    Constant { value : string }
+    Variable { name : string  }
+    Application { 
         abstraction : LambdaTerm 
         argument : LambdaTerm 
     }
-    model Abstraction { 
+    Abstraction { 
         variable : string 
         body : LambdaTerm 
     }
@@ -26,8 +26,8 @@ type LambdaTerm {
 typedef Environment = Map[string value]
 
 type Value {
-    model CstVal { value : string }
-    model Closure {
+    CstVal { value : string }
+    Closure {
         abstraction : string,LambdaTerm
         environment : Environment
     }

@@ -11,8 +11,8 @@ module Data.Trampoline
 from Data.Unit import unit
 
 type Trampoline[A] {
-    model Done { _ : A }
-    model More { _ : unit -> Trampoline[A] }
+    Done { _ : A }
+    More { _ : unit -> Trampoline[A] }
 }
  
 class trampoline[A] this:Trampoline[A] {

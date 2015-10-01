@@ -13,8 +13,8 @@ from Data.Boolean import *
 from Data.Number import *
  
 type Tree[a] {
-    model Empty
-    model Node { depth: number value : a left : Tree[a] right : Tree[a] }    
+    Empty
+    Node { depth: number value : a left : Tree[a] right : Tree[a] }    
 }
  
 class tree[a] this:Tree[a] {

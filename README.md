@@ -134,8 +134,8 @@ def personAdder : population -> dom = this ->
         <input type="submit" value="Add"/>
     </form>
     onFormEvent OnSubmit $ d ->
-        for firstname <- { document "firstname" find }
-            name      <- { document "name"      find } 
+        for firstname <- { d find "firstname" }
+            name      <- { d find "name"      } 
         yield this addNew firstname name
 
 def populationView : population -> dom = this ->
@@ -191,7 +191,7 @@ model Equal[a] {
 )
 
 class number this:native {
-    + Equal[number]
+    +Equal[number]
 } {
     def (==) = ...
 }
@@ -207,7 +207,7 @@ related to the denoted data type.
 
 ```
 trait comparable[a] {
-    + Comparable[a]
+    +Comparable[a]
 } {
     def (!=) n = (self == n) not    
     def (<=) n = (self == n) || (self <? n)
@@ -216,7 +216,7 @@ trait comparable[a] {
 }
 
 class bool this:Bool {
-    + comparable[bool]
+    +comparable[bool]
     fold : [b] b -> b -> b
 } {
     def True.fold t _ = t

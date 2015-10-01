@@ -16,8 +16,8 @@ from Data.String import string
 from Data.Monadic import Monadic
  
 type Option [a] {
-    model Some { _ : a }
-    model None
+    Some { _ : a }
+    None
 }
 
 class option[a] this:Option[a] {

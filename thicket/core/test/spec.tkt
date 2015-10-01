@@ -54,26 +54,26 @@ class descriptionSpecs this:(TestContext,TestLogger) {
 } {
     def it s b =         
         when b then { 
-            do { this._2.success s} 
-            return $ descriptionSpecs 
-	    	     (new this._1 with success=(this._1.success + 1)),this._2
+            do { 
+              this._2.success s
+            } return $ descriptionSpecs (new this._1 with success=(this._1.success + 1)),this._2
         } else {
-            do { this._2.failure s }
-            return $ descriptionSpecs 
-	    	     (new this._1 with failure=(this._1.failure + 1)),this._2
+            do { 
+              this._2.failure s 
+            } return $ descriptionSpecs (new this._1 with failure=(this._1.failure + 1)),this._2
         }
     
     def done = 
-        do
-        { this._2.terminate this._1.success this._1.failure }
-        return ()
+        do { 
+          this._2.terminate this._1.success this._1.failure 
+        } return ()
         
 }
 
 def description : TestLogger -> string -> descriptionSpecs = l s -> {
-    do 
-    { l.description s }
-    return $ descriptionSpecs (TestContext s 0 0),l
+    do { 
+      l.description s 
+    } return $ descriptionSpecs (TestContext s 0 0),l
 }
 
 def defaultLogger : TestLogger = {

@@ -16,8 +16,8 @@ from Data.Monadic import Monadic
 from Logic.Combinators import combinators
 
 type Try[a] {
-    model Success { _ : a }
-    model Failure { _ : string }
+    Success { _ : a }
+    Failure { _ : string }
 }
 
 class try[a] this:Try[a] {  

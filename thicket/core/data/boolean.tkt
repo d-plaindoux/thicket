@@ -13,15 +13,12 @@ from Data.Number import number
 from Data.Comparable import Comparable
 from Data.Hashable import Hashable
 
-/**
+/*
  * Boolean definition as an injective type domain
  * defining two models True and False
  */
 
-type Bool {
-    model True
-    model False
-}
+type Bool { True False }
 
 /** 
  * A boolean class denotation

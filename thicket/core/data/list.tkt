@@ -19,8 +19,8 @@ from Data.Collection import Collection
 from Data.Monadic import Monadic
 
 type List[a] {
-    model Nil
-    model Cons {
+    Nil
+    Cons {
         head : a
         tail : List[a]
     }

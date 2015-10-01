@@ -12,7 +12,7 @@
 <head>    
   <style>
   td {
-      padding: 30px
+      padding: 10px
   }
   td[alive] {
       background: green
@@ -24,14 +24,17 @@
     import Example.Life.Board    
     import Data.Mutable.Ref
     
-    def world : World = pos -> {
-        when (pos.x % (pos.y + 1) == 0) 
-        then alive
-        else dead
+    def model : number -> world -> array[array[ref[state]]] = size world -> {
+        0 to size fold (newArray size) $ i a -> a set i $
+        0 to size fold (newArray size) $ i a -> a set j (world i j)
     }
-    
+            
+    def world : World = pos -> {
+        
+    }
+
     let world = ref world in
-    let size = 5 in
+    let size = 4 in
         do {
            createWorld size
         }; 
@@ -42,7 +45,7 @@
           for run <- { document "next" find } 
           yield run onMouseEvent MouseClick $ _ -> 
                 do {
-                  world.set (next world.get)                
+                  world.set (next world.get)
                 } return renderWorld size world.get
         } return ()
   </script>
@@ -54,7 +57,7 @@
   </script>
 </head>    
 <body onload="onLoad()">
-    <table id="board"></table>
+    <table id="board" border="1"></table>
     <br>
     <button id="next">next</button>
 </body>
