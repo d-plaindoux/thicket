@@ -9,10 +9,11 @@
 module Example.Life.Game.Test
 
 import Data
-import Test.Spec
-import Example.Life.Game
-import System.Console
 
+import Spec
+import Spec.Logger.Console
+
+import Example.Life.Game
 
 def worldAssertions : TestLogger -> unit = l -> {
     let world : World = p -> when (p.x == p.y) then alive else dead in
@@ -23,7 +24,7 @@ def worldAssertions : TestLogger -> unit = l -> {
         it "expect (world $ Pos 1 2) toBe dead" {
             expect (world $ Pos 1 2) toBe dead
         }
-        done 
+    done 
 }                
 
 def neighboursAssertions : TestLogger -> unit = l -> {
@@ -41,7 +42,7 @@ def neighboursAssertions : TestLogger -> unit = l -> {
         it "expect (neighbours world $ Pos 4 1) toBe 0" {
             expect (neighbours world $ Pos 4 1) toBe 0
         }
-        done 
+    done 
 }                
 
 def rulesAssertionsEmptyBoard : TestLogger -> unit = l -> {
@@ -53,7 +54,7 @@ def rulesAssertionsEmptyBoard : TestLogger -> unit = l -> {
         it "expect (next world $ Pos 1 1) toBe dead" {
             expect (next world $ Pos 1 1) toBe dead
         }
-        done 
+    done 
 }                
 
 def rulesAssertionsFullBoard : TestLogger -> unit = l -> {
@@ -65,7 +66,7 @@ def rulesAssertionsFullBoard : TestLogger -> unit = l -> {
         it "expect (next world $ Pos 1 1) toBe dead" {
             expect (next world $ Pos 1 1) toBe dead
         }
-        done 
+    done 
 }                
 
 def rulesAssertionsWhenUnique : TestLogger -> unit = l -> {
@@ -77,7 +78,7 @@ def rulesAssertionsWhenUnique : TestLogger -> unit = l -> {
         it "expect (next world $ Pos 1 1) toBe dead" {
             expect (next world $ Pos 1 1) toBe dead
         }
-        done 
+    done 
 }
 
 def rulesAssertions1stLineAliveBoard : TestLogger -> unit = l -> {
@@ -103,7 +104,7 @@ def rulesAssertions1stLineAliveBoard : TestLogger -> unit = l -> {
         it "expect (next (next world) $ Pos 0 1) toBe alive" {
             expect (next (next world) $ Pos 0 1) toBe alive
         }
-        done 
+    done 
 }                
       
 do {
@@ -112,5 +113,5 @@ List[worldAssertions;
      rulesAssertionsEmptyBoard;
      rulesAssertionsFullBoard;
      rulesAssertionsWhenUnique;
-     rulesAssertions1stLineAliveBoard] map (r -> r defaultLogger)
+     rulesAssertions1stLineAliveBoard] map (r -> r consoleLogger)
 } return ()

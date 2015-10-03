@@ -13,10 +13,7 @@ import Lang
 
 import Example.Life.Game.State
 
-model Pos { 
-    x:number 
-    y:number 
-}
+model Pos { x:number y:number }
 
 def positions : Pos -> list[Pos] = pos -> {
     for i <- { -1 .. 1 }
@@ -29,7 +26,8 @@ typedef World = Pos -> state
 
 def neighbours : World -> Pos -> number = world pos -> {
     let alive = p -> world p == alive in
-        positions pos filter alive length
+        positions pos filter alive length 
+        where 
 }   
 
 def next : World -> World = world pos -> {

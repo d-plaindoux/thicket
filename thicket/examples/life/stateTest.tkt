@@ -9,7 +9,9 @@
 module Example.Life.Game.State.Test
 
 import Data
-import Test.Spec
+
+import Spec
+import Spec.Logger.Console
 
 import Example.Life.Game.State
 
@@ -31,5 +33,5 @@ def stateAssertions : TestLogger -> unit = l -> {
 }              
 
 do
-{ stateAssertions defaultLogger }
+{ stateAssertions consoleLogger }
 return ()

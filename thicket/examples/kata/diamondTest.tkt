@@ -11,7 +11,9 @@ module Example.Diamond.Test
 import Boot.Core
 import System.Console
 import System.Runtime
-import Test.Spec
+
+import Spec
+import Spec.Logger.Console
 
 import Example.Diamond
 
@@ -29,9 +31,9 @@ def diamondAssertions : TestLogger -> unit = l -> {
         it "expect (diamond 4) toBe \n   A   \n  B B  \n C   C \nD     D\n C   C \n  B B  \n   A   " {
             expect (diamond 4) toBe "   A   \n  B B  \n C   C \nD     D\n C   C \n  B B  \n   A   "
         }            
-        done 
+    done 
 }              
 
 do
-{ diamondAssertions defaultLogger }
+{ diamondAssertions consoleLogger }
 return ()

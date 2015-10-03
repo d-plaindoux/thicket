@@ -8,11 +8,13 @@
 
 module Example.Test
 
-import Boot.Core
+import Data
+
 import System.Console
 import System.Runtime
 
-import Test.Spec
+import Spec
+import Spec.Logger.Console
 
 def simpleAssertions : TestLogger -> unit = l -> {
     description l "Simple Assertion tests"
@@ -34,7 +36,7 @@ def simpleAssertions : TestLogger -> unit = l -> {
         it "expect 1 toBe 1" {
             expect 1 toBe 1
         }
-        done 
+    done 
 }
 
 def collectionAssertions : TestLogger -> unit = l -> {
@@ -54,10 +56,12 @@ def collectionAssertions : TestLogger -> unit = l -> {
         it "expect 'b' not toBeAValue Hashmap[2=>'a']" {
             expect "b" not toBeAValue $ Hashmap[2=>"a"]
         }  
-        done        
+    done        
 }
 
-do 
-{ simpleAssertions defaultLogger };
-{ collectionAssertions defaultLogger }
-return ()
+do {
+  List[
+    simpleAssertions;
+    collectionAssertions
+  ] map (r -> r consoleLogger)
+} return ()

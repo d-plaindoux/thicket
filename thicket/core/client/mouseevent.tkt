@@ -12,13 +12,13 @@ from Data.String import string
 from Client.Document import dom
 
 type MouseEventType {
-    model MouseOver
-    model MouseOut 
-    model MouseDown
-    model MouseUp  
-    model MouseClick
-    model MouseDblClick 
-    model ContextMenu
+    MouseOver 
+    MouseOut 
+    MouseDown 
+    MouseUp  
+    MouseClick
+    MouseDblClick
+    ContextMenu
 }
 
 class mouseEventType this:MouseEventType {

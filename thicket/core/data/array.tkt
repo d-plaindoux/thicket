@@ -19,6 +19,7 @@ from Data.Native import native
 from Data.Number import number
 from Data.Option import option,some,none
 from Data.Pair import Pair
+from Standard.Math import math
 
 /*
  * Immutable array version
@@ -64,6 +65,7 @@ class array[a] this:native {
  * Empty array constructor
  */
 
-def emptyArray : [a] number -> array[a] = n -> { 
-    array $ internal "array.new" n
+// @constaint(n {n ?> -1} -> a {a.length == n})
+def emptyArray : [a] number -> array[a] = n -> {     
+    array $ internal "array.new" $ math max 0 n
 }

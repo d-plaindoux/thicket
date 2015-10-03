@@ -13,9 +13,9 @@ from Data.Number import number
 from Client.Document import dom
 
 type KeyEventType {
-    model KeyPress 
-    model KeyDown
-    model KeyUp
+    KeyPress 
+    KeyDown
+    KeyUp
 }
 
 def RETURN = 13

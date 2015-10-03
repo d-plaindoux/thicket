@@ -1,0 +1,36 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Spec.Logger.Console
+
+import Data
+import Lang
+import System.Console
+import System.Runtime
+
+import Spec.Logger
+
+def consoleLogger : TestLogger = {
+    new defaultLogger with
+        description = (s -> do { 
+                console.log $ s + ":" 
+              } return ())
+        success = (s -> do { 
+                console.log $ "  " + s 
+              } return ())
+        failure = (s -> do { 
+                console.log $ "X " + s 
+               } return ())
+        terminate = (s f -> do { 
+                console.log ("success " + s + " failure " + f) 
+              }; { 
+                console.log "" 
+              }; {
+                when (f ?> 0) then (runtime exit 1) else () 
+              } return ())
+}

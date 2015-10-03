@@ -23,18 +23,16 @@
   <script type="application/thicket">
     import Example.Life.Board    
     import Data.Mutable.Ref
-    
-    def model : number -> world -> array[array[ref[state]]] = size world -> {
-        0 to size fold (newArray size) $ i a -> a set i $
-        0 to size fold (newArray size) $ i a -> a set j (world i j)
-    }
             
     def world : World = pos -> {
-        
+        when (pos.x % (pos.y + 1) == 2)
+        then alive
+        else dead
     }
 
+    let next = next in
     let world = ref world in
-    let size = 4 in
+    let size = 10 in
         do {
            createWorld size
         }; 
