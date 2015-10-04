@@ -13,12 +13,11 @@
   <link rel="stylesheet" type="text/css" href="../common/specs.css">
   <script src="/thicket/build/thicket-lang.min.js"></script>
     
-  <script type="application/thicket+bin" src="Spec"></script>
-  <script type="application/thicket+bin" src="Example.Test.Logger"></script>
-
-  <script type="application/thicket+bin" src="Example.Diamond"></script>
-
-    <script type="application/thicket">
+  <script type="application/thicket">
+    import Spec
+    import Example.Test.Logger
+    import Example.Diamond
+  
     for d <- { document "output" find }
     yield
     let describe = description $ logger d in

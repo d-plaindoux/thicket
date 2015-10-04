@@ -24,7 +24,7 @@ module.exports = function(grunt) {
     exec: {
         thicket_prepare: 'mkdir build; true',
         thicket_lang: './node_modules/browserify/bin/cmd.js -r ./lib/Thicket/frontend/w3repl.js:thicket -o ./build/thicket-lang.js',
-        thicket_runtime: './node_modules/browserify/bin/cmd.js -r ./lib/Thicket/runtime/runtime.js:runtime -o ./build/thicket-runtime.js',
+        thicket_exec: './node_modules/browserify/bin/cmd.js -r ./lib/Thicket/frontend/w3exec.js:runtime -o ./build/thicket-exec.js',
         thicket_site_prepare: 'mkdir site; true',
         thicket_site: 'find thicket/core -name *.tkt | xargs ./bin/thicket compile -o site -v',
         thicket_examples: 'find thicket/examples -name *.tkt | xargs ./bin/thicket compile -o site -v',
@@ -38,7 +38,7 @@ module.exports = function(grunt) {
         my_target: {
             files: {
                 './build/thicket-lang.min.js': ['./build/thicket-lang.js'],
-                './build/thicket-runtime.min.js': ['./build/thicket-runtime.js']
+                './build/thicket-exec.min.js': ['./build/thicket-exec.js']
             }
         }
     }      
@@ -59,7 +59,7 @@ module.exports = function(grunt) {
                      ['jshint', 
                       'exec:thicket_prepare', 
                       'exec:thicket_lang', 
-                      'exec:thicket_runtime', 
+                      'exec:thicket_exec', 
                       'uglify']);
     
   grunt.registerTask('default', 

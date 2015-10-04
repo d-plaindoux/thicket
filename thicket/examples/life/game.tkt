@@ -27,7 +27,6 @@ typedef World = Pos -> state
 def neighbours : World -> Pos -> number = world pos -> {
     let alive = p -> world p == alive in
         positions pos filter alive length 
-        where 
 }   
 
 def next : World -> World = world pos -> {
