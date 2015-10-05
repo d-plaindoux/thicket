@@ -59,9 +59,11 @@ def collectionAssertions : TestLogger -> unit = l -> {
     done        
 }
 
-do {
-  List[
-    simpleAssertions;
-    collectionAssertions
-  ] map (r -> r consoleLogger)
-} return ()
+def testSuite : TestLogger -> unit = logger -> {
+    do {
+      List[
+        simpleAssertions;
+        collectionAssertions
+      ] map $ r -> r logger
+    } return ()
+}
