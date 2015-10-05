@@ -1,0 +1,5 @@
+model A
+
+def f : A -> A = e -> e
+
+f A

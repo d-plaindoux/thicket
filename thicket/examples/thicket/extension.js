@@ -26,13 +26,13 @@ function extension(thicket) {
                 logger = env.pop();
 
 
-            thicket.toplevel.logAgent = function(s) {                                             
+            thicket.toplevel.setLogAgent(function(s) {                                             
                 runtime.execute([[ $i.RESULT, logger ],
                                  [ $i.RESULT, string ],
                                  [ $i.CONST, s ],
                                  [ $i.APPLY ],
                                  [ $i.APPLY ]]);
-            };
+            });
 
             return [[ $i.RESULT, self ]];
         });

@@ -1,7 +1,19 @@
-Name:                Data
-Version:             0.1
-Description:         Pervasive Data
-License:             BSD3
-License-file:        LICENSE
-Author:              Don Stewart
-Maintainer:          dons@cse.unsw.edu.au
+{
+  "group": "thicket",
+  "name": "client",
+  "version": "0.1.0",
+  "description": "package providing web client data type",
+  "authors": [{
+    "name": "Didier Plaindoux",
+    "email": "d.plaindoux@free.fr",
+    "url": "d.plaindoux.free.fr"
+  }],
+  "repositories": [{
+    "uri": "https://github.com/thicket-lang/repository"
+  }],
+  "license": {
+      "type": "LGPL2",
+      "url": "https://github.com/d-plaindoux/thicket/blob/master/LICENSE-LGPL2"
+  },
+  "dependencies":[]
+}

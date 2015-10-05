@@ -1,0 +1,8 @@
+model A
+model B
+
+def f : A -> A = e -> e
+
+def adapter b2a : B -> A = _ -> A
+
+f B
