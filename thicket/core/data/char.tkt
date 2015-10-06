@@ -32,7 +32,7 @@ class char this:native {
     def toString = string this
 }
 
-// def eol : char = '\n'
+def eol : char = '\n'
 
 /**
  * Adapters

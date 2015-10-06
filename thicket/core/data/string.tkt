@@ -12,6 +12,7 @@ from Data.Boolean import bool,true,false
 from System.Internal import internal
 from Data.Native import native
 from Data.Number import number
+from Data.Char import char
 from Data.Option import option,none,some
 from Data.Comparable import Comparable,comparable
 from Data.Hashable import Hashable
@@ -19,8 +20,8 @@ from Data.Hashable import Hashable
 class string this:native {
     + comparable[string]
         
-    getAt    : number -> option[string]
-    setAt    : number -> string -> string
+    getAt    : number -> option[char]
+    setAt    : number -> char -> string
 
     (+)      : string -> string   
     (*)      : number -> string    
@@ -31,7 +32,7 @@ class string this:native {
 } {
     def unbox = self
 
-    def getAt n = internal "string.getAt" self n (n -> some $ string n) none
+    def getAt n = internal "string.getAt" self n (n -> some $ char n) none
     def setAt n v = string $ internal "string.setAt" self n v
     def (==) n = internal "generic.==" self n true false
     def (<?) n = internal "generic.<" self n true false
@@ -42,8 +43,6 @@ class string this:native {
     def toNumber = internal "string.toNumber" self (n -> some $ number n) none
     def length = number $ internal "string.length" self
 }
-
-def eol : string = "\n"
 
 /**
  * Adapters
