@@ -114,7 +114,7 @@ exports['language_exprs'] = {
   'simple string expression is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("'123'");
+    var aStream = stream('"123"');
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
                    ast.expr.string("123"), "accept a string");
@@ -166,7 +166,7 @@ exports['language_exprs'] = {
   'application is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("point (1) '2'");
+    var aStream = stream('point (1) "2"');
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
                    ast.expr.application(ast.expr.application(ast.expr.ident("point"), ast.expr.number(1)), ast.expr.string('2')), "accept an application");
@@ -176,7 +176,7 @@ exports['language_exprs'] = {
   'pair is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("1,'2'");
+    var aStream = stream('1,"2"');
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
                    ast.expr.pair(ast.expr.number(1), ast.expr.string('2')), "accept an application");
@@ -186,7 +186,7 @@ exports['language_exprs'] = {
   'application using pair is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("point (1,'2')");
+    var aStream = stream('point (1,"2")');
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
                    ast.expr.application(ast.expr.ident("point"), ast.expr.pair(ast.expr.number(1), ast.expr.string('2'))), "accept an application");
@@ -243,7 +243,7 @@ exports['language_exprs'] = {
   'canonical empty tag with attributes is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("<a n=(f 1) m='4'/>");
+    var aStream = stream('<a n=(f 1) m="4"/>');
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
                    ast.expr.tag("a",[['n',ast.expr.application(ast.expr.ident('f'),ast.expr.number(1))],
@@ -256,7 +256,7 @@ exports['language_exprs'] = {
   'empty tag with attributes is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("<a n=(f 1) m='4'></a>");
+    var aStream = stream('<a n=(f 1) m="4"></a>');
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
                    ast.expr.tag("a",[['n',ast.expr.application(ast.expr.ident('f'),ast.expr.number(1))],
@@ -269,7 +269,7 @@ exports['language_exprs'] = {
   'tag with attributes is accepted': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("<a n=(f 1) m='4'> 123 </a>");
+    var aStream = stream('<a n=(f 1) m="4"> 123 </a>');
         
     test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
                    ast.expr.tag("a",[['n',ast.expr.application(ast.expr.ident('f'),ast.expr.number(1))],
@@ -379,7 +379,7 @@ exports['language_exprs'] = {
   'mutiple model modification': function (test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("new a with b = 1 c = '2'");
+    var aStream = stream('new a with b = 1 c = "2"');
         
     test.deepEqual(language.parser.group('expr').parse(aStream).get(), 
                    ast.expr.newModel(ast.expr.ident("a"),[["b",ast.expr.number(1)],["c",ast.expr.string("2")]]),

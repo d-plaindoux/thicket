@@ -1,5 +1,5 @@
 {
-  "group": "thicket",
+  "domain": "thicket",
   "name": "client",
   "version": "0.1.0",
   "description": "package providing web client data type",

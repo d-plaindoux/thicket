@@ -222,10 +222,10 @@ exports['native'] = {
     test.done();
   },
     
-  'string <+': function(test) {
+  'char +': function(test) {
     test.expect(1);
     // tests here  
-    var code = runtime.delta["string.<+"].concat([
+    var code = runtime.delta["char.+"].concat([
         [$i.CONST,"A"],[$i.APPLY],
         [$i.CONST,1],[$i.APPLY]
     ]);      
@@ -234,10 +234,10 @@ exports['native'] = {
     test.done();  
   },
     
-  'string <+ (2)‡': function(test) {
+  'string + (2)': function(test) {
     test.expect(1);
     // tests here  
-    var code = runtime.delta["string.<+"].concat([
+    var code = runtime.delta["char.+"].concat([
         [$i.CONST,"B"],[$i.APPLY],
         [$i.CONST,-1],[$i.APPLY]
     ]);      

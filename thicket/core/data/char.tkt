@@ -1,0 +1,41 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Data.Char
+
+from System.Internal import internal
+from Data.Native import native
+from Data.Number import number
+from Data.String import string
+from Data.Boolean import true,false
+from Data.Comparable import comparable
+
+class char this:native {
+    + comparable[char]
+
+    (+) : number -> char
+
+    toString : string
+} {
+    def unbox = self
+
+    def (==) n = internal "generic.==" self n true false
+    def (<?) n = internal "generic.<" self n true false
+    
+    def (+) n = char $ internal "char.+" self n
+    
+    def toString = string this
+}
+
+// def eol : char = '\n'
+
+/**
+ * Adapters
+ */
+ 
+def adapter char2string : char -> string = char::toString

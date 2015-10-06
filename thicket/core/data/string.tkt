@@ -22,8 +22,6 @@ class string this:native {
     getAt    : number -> option[string]
     setAt    : number -> string -> string
 
-    (<+)     : number -> string
-
     (+)      : string -> string   
     (*)      : number -> string    
     
@@ -37,8 +35,6 @@ class string this:native {
     def setAt n v = string $ internal "string.setAt" self n v
     def (==) n = internal "generic.==" self n true false
     def (<?) n = internal "generic.<" self n true false
-    
-    def (<+) n = string $ internal "string.<+" self n
     
     def (+) s = string $ internal "string.+" self s
     def (*) n = 1 to n fold "" (_ r -> self + r)

@@ -50,7 +50,7 @@ exports['runtime_execute'] = {
   'String': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("'123'"),
+    var aStream = stream('"123"'),
         expression = language.parser.group('exprs').parse(aStream).get(),
         source = compiler.sentence(expression).success();
     
