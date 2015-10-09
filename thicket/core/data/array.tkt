@@ -45,19 +45,19 @@ class array[a] this:native {
     def length = number $ internal "array.size" self
 
     def map f = 
-        let update = i r -> self get i fold r { a -> r set i $ f a } in
-            foreach 0,(self.length --) step 1 fold (emptyArray self.length) update
+        let update = r i -> self get i fold r { a -> r set i $ f a } in
+            0 to (self.length --) fold (emptyArray self.length) update
             
     def find p = 
         let filter = a -> p a fold (some a) none in
-        let check = i r -> r fold (self get i fold r filter) some in
-            foreach 0,(self.length --) step 1 fold none check
+        let check = r i -> r fold (self get i fold r filter) some in
+            0 to (self.length --) fold none check
             
     def foldL f r = 
-        foreach 0,(self.length --) step 1 fold r (i r -> self get i fold r $ f r)
+        0 to (self.length --) fold r (r i -> self get i fold r $ f r)
 
     def foldR f r = 
-        foreach (self.length --),0 step -1 fold r (i r -> self get i fold r $ combinators.C f r)
+        (self.length --) downto 0 fold r (r i -> self get i fold r $ combinators.C f r)
         
 }
 
@@ -65,7 +65,6 @@ class array[a] this:native {
  * Empty array constructor
  */
 
-// @constaint(n {n ?> -1} -> a {a.length == n})
 def emptyArray : [a] number -> array[a] = n -> {     
     array $ internal "array.new" $ math max 0 n
 }

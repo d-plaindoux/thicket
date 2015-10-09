@@ -33,8 +33,8 @@ def renderCell : World -> Pos -> unit = world pos -> {
 }      
 
 def renderWorld : number -> World -> unit = size world -> {
-    0 to size fold () $ i _ ->
-    0 to size fold () $ j _ ->    
+    0 to size fold () $ _ i ->
+    0 to size fold () $ _ j ->    
     do { 
       renderCell world $ Pos i j 
     } return ()
@@ -42,7 +42,7 @@ def renderWorld : number -> World -> unit = size world -> {
 
 def createWorld : number -> Renderer = size -> {
     documentRenderer <~
-        <table id="board">
+        <table id="board" border=1>
             for i <- (0 .. size) yield 
             <tr> 
                 for j <- (0 .. size) yield 

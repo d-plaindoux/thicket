@@ -69,11 +69,11 @@ def bench : number -> unit = n -> {
         };
         { foreach minDepth,maxDepth step 2 fold
             ()
-            (depth _ -> 
+            (_ depth -> 
                 let iterations = 1 << (maxDepth - depth + minDepth) in
-                let check = foreach 1,iterations step 1 fold
+                let check = 1 to iterations fold
                                     0 
-                                    (i r -> r + 
+                                    (r i -> r + 
                                         (itemCheck $ bottomUpTree i depth) +
                                         (itemCheck $ bottomUpTree (0 - i) depth)) in
                     do 

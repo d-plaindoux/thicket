@@ -77,7 +77,7 @@ class number this:native {
     def to n = foreach (self,n) step 1
     def downto n = foreach (self,n) step -1
     
-    def (..) n = n downto self fold emptyList (i l -> l +: i)
+    def (..) n = n downto self fold emptyList list::(+:)
 }
 
 def Infinity : number = { 1 / 0 }

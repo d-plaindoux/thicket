@@ -20,12 +20,12 @@ from Data.Boolean import bool
 from Data.Unit import unit
 
 model Range {
-    fold   : [b] b -> (number -> b -> b) -> b
+    fold   : [b] b -> (b -> number -> b) -> b
 }
 
 /* 
 class abstractRange this:(number,number) {
-    fold : [b] (number -> number -> bool) -> (number -> number) -> b -> (number -> b -> b) -> b
+    fold : [b] (number -> number -> bool) -> (number -> number) -> b -> (b -> number -> b) -> b
 } {
     def fold pred dep r f =
         when (pred this._1 this._2) 
