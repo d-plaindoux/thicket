@@ -15,7 +15,7 @@ from Data.Try import try,failure,success
 from Data.String import string
 from Data.Monadic import Monadic
  
-type Option [a] {
+type Option[a] {
     Some { _ : a }
     None
 }

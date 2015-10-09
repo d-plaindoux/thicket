@@ -8,7 +8,11 @@
 
 module Lang.Range
 
+from System.Internal import internal
+
 from Lang.Strict import strict
+
+from Data.String import string
 from Lang.When import when
 from Data.Pair import Pair
 from Data.Number import number
@@ -19,6 +23,7 @@ model Range {
     fold   : [b] b -> (number -> b -> b) -> b
 }
 
+/* 
 class abstractRange this:(number,number) {
     fold : [b] (number -> number -> bool) -> (number -> number) -> b -> (number -> b -> b) -> b
 } {
@@ -41,5 +46,13 @@ class stepByRange this:(number,number) {
              then { abstractRange this fold number::(=>) (i +) }
              else { abstractRange this fold number::(<=) (i +) })
 }
+*/
+
+class stepByRange this:(number,number) {
+    step : number -> Range
+} {
+    def step i = Range $ r f -> internal "range.fold" this._1 this._2 i r f number
+}
 
 def foreach : (number,number) -> stepByRange = stepByRange
+

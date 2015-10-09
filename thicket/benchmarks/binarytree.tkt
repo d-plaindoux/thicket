@@ -56,7 +56,7 @@ def itemCheck : TreeNode -> number = this -> {
  * Main program
  */
  
-def bench = n -> {
+def bench : number -> unit = n -> {
     let minDepth = 4 in
     let maxDepth = math.max (minDepth + 2) n in
     let stretchDepth = maxDepth + 1 in
@@ -95,3 +95,5 @@ def bench = n -> {
         }
         return ()
 }
+
+bench 8

@@ -1,0 +1,23 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+
+module Structure.JSon
+
+from Data.String import string
+from Data.Number import number
+from Data.Pair import Pair
+from Data.Collection import Collection
+
+type JSon {
+    JSonNull
+    JSonString { _ : string }
+    JSonNumber { _ : number }
+    JSonArray  { _ : Collection[JSon] }
+    JSonObject { _ : Collection[(string,JSon)] }
+}
+

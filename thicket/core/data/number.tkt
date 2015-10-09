@@ -41,8 +41,6 @@ class number this:native {
     (--)     : number    
     negate   : number
     
-    max      : number -> number
-    min      : number -> number
     hash     : number
     
     to       : number -> Range
@@ -73,10 +71,7 @@ class number this:native {
     def (++) = self + 1
     def (--) = self - 1
     def negate = self * -1
-    
-    def max n = self <? n fold n self
-    def min n = n max self
-    
+
     def toString = string $ internal "number.toString" self
     
     def to n = foreach (self,n) step 1

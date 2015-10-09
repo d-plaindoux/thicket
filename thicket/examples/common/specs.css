@@ -39,7 +39,7 @@
     color: #FFFFFF;  
 }
 .success {
-    // display: none;
+    display: none;
     padding: 10px;          
     background: #789ABC;
     color: #FFFFFF;  
