@@ -127,7 +127,7 @@ definition each `PersonAdder` instance  provides these definitions and
 then can be referenced as we do in the `Population#addPerson` method.
 
 ```
-def personAdder : population -> dom = this ->
+def personAdder : population -> dom = this -> {
     <form>
         <input type="text" id="firstname"/>
         <input type="text" id="name"/>
@@ -137,12 +137,14 @@ def personAdder : population -> dom = this ->
         for firstname <- { d find "firstname" }
             name      <- { d find "name"      } 
         yield this addNew firstname name
+}
 
-def populationView : population -> dom = this ->
+def populationView : population -> dom = population -> {
     <div>
-        { for p <- (this <= 100 unbox) yield personView $ person p }
+        { for p <- (population <= 100 unbox) yield personView $ person p }
         { personAdder this }
     </div>
+}
 ```
 
 See current 
