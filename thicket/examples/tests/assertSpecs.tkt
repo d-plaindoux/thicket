@@ -67,3 +67,5 @@ def testSuite : TestLogger -> unit = logger -> {
       ] map $ r -> r logger
     } return ()
 }
+
+testSuite consoleLogger
