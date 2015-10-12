@@ -38,7 +38,7 @@ class string this:native {
     def (<?) n = internal "generic.<" self n true false
     
     def (+) s = string $ internal "string.+" self s
-    def (*) n = 1 to n fold "" (_ r -> self + r)
+    def (*) n = 1 to n fold "" (r _ -> self + r)
     
     def toNumber = internal "string.toNumber" self (n -> some $ number n) none
     def length = number $ internal "string.length" self

@@ -30,7 +30,7 @@ class abstractRange this:(number,number) {
     def fold pred dep r f =
         when (pred this._1 this._2) 
         then { 
-            let nr = strict (strict f this._1) r in
+            let nr = strict (strict f r) this._1 in
             let nextRange = (dep this._1), this._2 in        
                 abstractRange nextRange fold pred dep nr f
         }
