@@ -14,13 +14,13 @@ import Client.Document
 def logger : dom -> TestLogger = d -> {
     let do = f -> do f return () in
         TestLogger
-            (s   -> do $ d addChild <div class="header">  s </div>)
-            (s   -> do $ d addChild <pre class="success"> s </pre>)
-            (s   -> do $ d addChild <pre class="failure fadeIn"> s </pre>)
-            (s f -> do $ d addChild 
-                        <div class="footer"> 
-                            <span> s (s <? 2 fold " success, " " successes, ") </span>
-                            <span> f (f <? 2 fold " failure" " failures") </span>
-                        </div>
+            (s -> do $ d addChild <div class="header">  s </div>)
+            (s -> do $ d addChild <pre class="success"> s </pre>)
+            (s -> do $ d addChild <pre class="failure fadeIn"> s </pre>)
+            (s -> do $ d addChild 
+                <div class="footer"> 
+                    <span> s._1 (s._1 <? 2 fold " success, " " successes, ") </span>
+                    <span> s._2 (s._2 <? 2 fold " failure" " failures") </span>
+                </div>
             )
 }

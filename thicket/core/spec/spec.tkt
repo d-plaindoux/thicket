@@ -60,7 +60,7 @@ class descriptionSpecs this:(TestContext,TestLogger) {
     
     def done = 
         do { 
-          this._2.terminate this._1.success this._1.failure 
+          this._2.terminate (this._1.success,this._1.failure)
         } return ()
         
 }

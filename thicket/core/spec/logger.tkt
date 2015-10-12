@@ -14,13 +14,10 @@ model TestLogger {
     description : string -> unit
     success     : string -> unit
     failure     : string -> unit
-    terminate   : number -> number -> unit
+    terminate   : (number,number) -> unit
 }
 
-def defaultLogger : TestLogger = {
-    TestLogger 
-        (_ -> ()) 
-        (_ -> ()) 
-        (_ -> ()) 
-        (_ _ -> ())
+def dumbLogger : TestLogger = {
+    let whoop = _ -> () in
+        TestLogger whoop whoop whoop whoop
 }

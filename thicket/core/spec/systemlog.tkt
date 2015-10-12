@@ -16,7 +16,7 @@ import System.Runtime
 import Spec.Logger
 
 def consoleLogger : TestLogger = {
-    new defaultLogger with
+    new dumbLogger with
         description = (s -> do { 
                 console.log $ s + ":" 
               } return ())
@@ -26,11 +26,11 @@ def consoleLogger : TestLogger = {
         failure = (s -> do { 
                 console.log $ "X " + s 
                } return ())
-        terminate = (s f -> do { 
-                console.log ("success " + s + " failure " + f) 
+        terminate = (s -> do { 
+                console.log ("success " + s._1 + " failure " + s._2) 
               }; { 
                 console.log "" 
               }; {
-                when (f ?> 0) then (runtime exit 1) else () 
+                when (s._2 ?> 0) then (runtime exit 1) else () 
               } return ())
 }
