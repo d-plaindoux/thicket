@@ -20,13 +20,14 @@ from Data.Array import array,emptyArray
 def fastfib : array[number] -> number -> (array[number],number) = a n -> {
     n <? 2 fold 
         { a,n }
-        { a get n fold 
-            { let r1 = fastfib a (n - 2) in
-              let r2 = fastfib r1._1 (n - 1) in
-              let r  = r1._2 + r2._2 in 
-                  (r2._1 set n r),r 
-            }
-            { r -> a,r }
+        { a get n map { 
+            r -> a,r 
+          } orElse { 
+            let r1 = fastfib a (n - 1) in
+            let r2 = fastfib r1._1 (n - 2) in
+            let r  = r1._2 + r2._2 in 
+                (r2._1 set n r),r 
+          }
         }
 }
     

@@ -208,6 +208,14 @@ A trait is an abstract component providing behaviors without any constraint
 related to the denoted data type.
 
 ```
+model Comparable[a] {
+    (!=) : a -> bool
+    (<=) : a -> bool
+    (=>) : a -> bool
+    (<?) : a -> bool
+    (?>) : a -> bool
+}
+
 trait comparable[a] {
     +Comparable[a]
 } {
@@ -225,6 +233,7 @@ class bool this:Bool {
     def False.fold _ f = f
     
     def (==) b = self fold b b.not    
+    def (<?) b = self fold false (b fold false true)
 }
 ```
 

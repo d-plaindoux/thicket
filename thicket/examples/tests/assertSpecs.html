@@ -13,12 +13,12 @@
   <link rel="stylesheet" type="text/css" href="../common/specs.css">
   <script src="/thicket/build/thicket-lang.min.js"></script>
 
-  <script type="application/thicket">
+  <script type="text/thicket">
     from Spec import description, expect
     from Example.Test.Logger import logger
   </script>    
 
-  <script type="application/thicket">
+  <script type="text/thicket">
     for d <- { document "output" find }
     yield
     let describe = description $ logger d in
@@ -44,7 +44,7 @@
             done
   </script>
     
-  <script type="application/thicket">
+  <script type="text/thicket">
     for d <- { document "output" find }
     yield
     let describe = description $ logger d in

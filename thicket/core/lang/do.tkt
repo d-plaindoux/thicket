@@ -7,7 +7,7 @@
  */
  
 module Lang.Do
- 
+
 /* 
  * Language syntactic extension
  * 
@@ -16,10 +16,8 @@ module Lang.Do
 
 class do[a] this:a {
     (;) : [b] b -> do[b]
-    and : [b] b -> do[b]
     return : [c] c -> c
 } {
-    def (;) = self and
-    def and = do
+    def (;) = do
     def return c = c
 }

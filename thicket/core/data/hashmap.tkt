@@ -26,16 +26,18 @@ from Standard.Math import math
 typedef Hashmap[k v] = array[list[(k,v)]] 
 
 class hashmap[k v] this:array[list[(k,v)]] {
-  unbox  : Hashmap[k v]
+  unbox   : Hashmap[k v]
  
-  empty  : bool
+  empty   : bool
  
-  find   : Comparable[k] -> option[v]
-  add    : Comparable[k] -> v -> hashmap[k v]
-  remove : Comparable[k] -> hashmap[k v]
+  find    : Comparable[k] -> option[v]
+  add     : Comparable[k] -> v -> hashmap[k v]
+  remove  : Comparable[k] -> hashmap[k v]
   
-  keys   : Collection[k]
-  values : Collection[v]
+  keys    : Collection[k]
+  values  : Collection[v]
+  entries : Collection[(k,v)]
+
 } {
   def unbox = this
   
@@ -68,6 +70,8 @@ class hashmap[k v] this:array[list[(k,v)]] {
   def values =
     let l = this foldR (l r -> l ++ r) emptyList in
         list2collection $ ziplist (l unbox) unzip _2
+        
+  def entries = list2collection $ this foldR (l r -> l ++ r) emptyList
 }   
 
 /**
@@ -93,5 +97,5 @@ def map2entity : [a b] hashmap[a b] -> MapBuilder[a b hashmap[a b]] = l -> {
 //
 
 def adapter hashmap2map : [k v] hashmap[k v] -> Map[k v] = h -> {
-    Map h.find (c v -> hashmap2map $ h.add c v) (_ -> h.keys) (_ -> h.values)
+    Map h.find (c v -> hashmap2map $ h.add c v) (_ -> h.keys) (_ -> h.values) (_ -> h.entries)
 }

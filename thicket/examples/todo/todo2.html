@@ -13,7 +13,7 @@
 <head>
   <link rel="stylesheet" type="text/css" href="todo2.css">
   <script src="/thicket/build/thicket-lang.min.js"></script>
-  <script type="application/thicket">
+  <script type="text/thicket">
     def view : string -> string -> dom = text clazz ->
         <div class=clazz><i> text </i></div> 
     
@@ -26,7 +26,7 @@
     }
     
     def manageTodos : dom -> dom = node -> {
-        1 to 10 fold node (i node -> node addChild $ todo $ "#" + i)
+        1 to 10 fold node (node i -> node addChild $ todo $ "#" + i)
     }
 
     for todo <- {document "todo" find} 

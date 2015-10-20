@@ -1,4 +1,21 @@
-@keyframes fadeInAnimation {
+
+@keyframes fadeAnimation {
+    from {
+        background: #012345;
+    }    
+    to {
+        background: #56789A;
+    }
+}      
+@-webkit-keyframes fadeAnimation {
+    from {
+        background: #012345;                
+    }    
+    to {
+        background: #56789A;
+    }
+}      
+@keyframes errorAnimation {
     from {
         background: #789ABC;
     }    
@@ -6,7 +23,7 @@
         background: #FF0000;
     }
 }      
-@-webkit-keyframes fadeInAnimation {
+@-webkit-keyframes errorAnimation {
     from {
         background: #789ABC;                
     }    
@@ -20,11 +37,17 @@
     color: #FFFFFF;
 
 }
-.fadeIn {
-    -webkit-animation-name: fadeInAnimation;
+.errorFadeIn {
+    -webkit-animation-name: errorAnimation;
     -webkit-animation-duration: 2s;
-    animation-name: fadeInAnimation;
+    animation-name: errorAnimation;
     animation-duration: 2s;        
+}      
+.fadeIn {
+    -webkit-animation-name: fadeAnimation;
+    -webkit-animation-duration: 1s;
+    animation-name: fadeAnimation;
+    animation-duration: 1s;        
 }      
 .header {
     margin-top: 10px;
@@ -35,7 +58,7 @@
 .footer {
     margin-bottom: 10px;
     padding: 10px;          
-    background: #456789;
+    background: #56789A;
     color: #FFFFFF;  
 }
 .success {

@@ -8,12 +8,12 @@
  
 module Data.Option
 
-from Lang.Strict import strict
 from Data.Boolean import bool,true,false
-from Logic.Combinators import combinators
 from Data.Try import try,failure,success
 from Data.String import string
 from Data.Monadic import Monadic
+
+from Logic.Combinators import combinators
  
 type Option[a] {
     Some { _ : a }

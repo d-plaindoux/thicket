@@ -16,9 +16,9 @@ def logger : dom -> TestLogger = d -> {
         TestLogger
             (s -> do $ d addChild <div class="header">  s </div>)
             (s -> do $ d addChild <pre class="success"> s </pre>)
-            (s -> do $ d addChild <pre class="failure fadeIn"> s </pre>)
+            (s -> do $ d addChild <pre class="failure errorFadeIn"> s </pre>)
             (s -> do $ d addChild 
-                <div class="footer"> 
+                <div class="footer fadeIn"> 
                     <span> s._1 (s._1 <? 2 fold " success, " " successes, ") </span>
                     <span> s._2 (s._2 <? 2 fold " failure" " failures") </span>
                 </div>

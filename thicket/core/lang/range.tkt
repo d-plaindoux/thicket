@@ -22,7 +22,7 @@ from Data.Unit import unit
 model Range {
     fold   : [b] b -> (b -> number -> b) -> b
 }
-
+ 
 /* 
 class abstractRange this:(number,number) {
     fold : [b] (number -> number -> bool) -> (number -> number) -> b -> (b -> number -> b) -> b
@@ -30,7 +30,7 @@ class abstractRange this:(number,number) {
     def fold pred dep r f =
         when (pred this._1 this._2) 
         then { 
-            let nr = strict (strict f r) this._1 in
+            let nr = strict (f r) this._1 in
             let nextRange = (dep this._1), this._2 in        
                 abstractRange nextRange fold pred dep nr f
         }

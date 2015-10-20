@@ -8,4 +8,7 @@
  
 module Data.Functor
 
-typedef Functor[F a b] = F[a->b] -> F[a] -> F[b]
+model Functor[F] {
+  create : [A] A -> F[A]
+  map    : [A B] F[A] -> (A -> B) -> F[B]
+}
