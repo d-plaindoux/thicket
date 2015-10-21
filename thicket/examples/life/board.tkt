@@ -1,3 +1,4 @@
+
 /*
  * Thicket
  * https://github.com/d-plaindoux/thicket
@@ -28,13 +29,15 @@ def renderCell : World -> Pos -> unit = world pos -> {
     let state = world pos in
         do { 
           for cell <- { boardCell pos }
-          yield state fold (cell addEmptyAttribute "alive") (cell removeAttribute "alive") 
+          yield state fold 
+                    { cell addEmptyAttribute "alive" }
+                    { cell removeAttribute "alive" }
         } return ()
 }      
 
 def renderWorld : number -> World -> unit = size world -> {
-    0 to size fold () $ _ i ->
-    0 to size fold () $ _ j ->    
+    1 to size fold () $ _ i ->
+    1 to size fold () $ _ j ->    
     do { 
       renderCell world $ Pos i j 
     } return ()
@@ -43,9 +46,9 @@ def renderWorld : number -> World -> unit = size world -> {
 def createWorld : number -> Renderer = size -> {
     documentRenderer <~
         <table id="board" border=1>
-            for i <- (0 .. size) yield 
+            for i <- (1 .. size) yield 
             <tr> 
-                for j <- (0 .. size) yield 
+                for j <- (1 .. size) yield 
                 <td id=(cellId i j)/> 
             </tr> 
         </table>

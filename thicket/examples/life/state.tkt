@@ -19,8 +19,8 @@ class state this:State {
     fold : [b] b -> b -> b
     hash : number
 } {
-    def Alive.fold a d = a
-    def Dead.fold  a d = d
+    def Alive.fold a _ = a
+    def Dead.fold  _ d = d
     
     def (==) s = self fold (s fold true false) (s fold false true)
     def (<?) s = self fold (s fold false true) false

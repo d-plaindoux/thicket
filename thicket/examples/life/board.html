@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <!--
@@ -12,7 +13,7 @@
 <head>    
   <style>
   td {
-      padding: 10px
+      padding: 50px
   }
   td[alive] {
       background: green
@@ -25,14 +26,14 @@
     import Data.Mutable.Ref
             
     def world : World = pos -> {
-        when (pos.x % (pos.y + 1) == 2)
+        when ((pos.x * pos.y) % (pos.y + 1) == 2)
         then alive
         else dead
     }
 
     let next = next in
     let world = ref world in
-    let size = 4 in
+    let size = 5 in
         do {
           createWorld size
         }; 

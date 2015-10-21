@@ -19,8 +19,8 @@ model Combinators {
       
 def combinators : Combinators = {
     Combinators
-        /*I*/ (a -> a)
-        /*K*/ (a b -> a)
+        /*I*/ (x -> x)
+        /*K*/ (x y -> x)
         /*W*/ (x y -> x y y)
         /*C*/ (x y z -> x z y)
         /*B*/ (x y z -> x $ y z)
