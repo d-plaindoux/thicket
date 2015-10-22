@@ -11,13 +11,13 @@
 -->
 <head>    
   <link rel="stylesheet" type="text/css" href="../common/specs.css">
-  <script src="/thicket/build/thicket-exec.min.js"></script>
+  <script src="/thicket/build/thicket-runtime.min.js"></script>
 
-  <script type="bin/thicket" src="Example.Test.Client"></script>    
+  <script type="application/thicket+bin" src="Example.Test.Client"></script>    
     
-  <script>
+  <script type="application/javascript">
     function onLoad() {
-        require('runtime')('/thicket/site').boot();
+        require('thicket')('/thicket/site').boot();
     }
   </script>
 </head>    

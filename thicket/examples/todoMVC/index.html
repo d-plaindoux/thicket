@@ -12,13 +12,9 @@
 <head>
     <meta charset="utf-8">    
     <link rel="stylesheet" type="text/css" href="todo.css">
-    <script src="/thicket/build/thicket-lang.min.js"></script>
-
-    <script type="text/thicket">
-        import Example.TodoMVC.Application
-        
-        renderedApplication createApplication
-    </script>
+    
+    <script src="/thicket/build/thicket-runtime.min.js"></script>
+    <script type="application/thicket+bin" src="Example.TodoMVC.Application"></script>
     
     <script type="application/javascript">
     function onLoad() {

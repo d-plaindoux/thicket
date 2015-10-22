@@ -9,9 +9,6 @@
 module Example.Diamond.Test
 
 import Boot.Core
-import System.Console
-import System.Runtime
-
 import Spec
 import Spec.Logger.Console
 
@@ -34,6 +31,6 @@ def diamondAssertions : TestLogger -> unit = l -> {
     done 
 }              
 
-do
-{ diamondAssertions consoleLogger }
-return ()
+// Main
+
+diamondAssertions consoleLogger

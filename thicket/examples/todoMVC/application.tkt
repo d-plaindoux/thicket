@@ -95,3 +95,7 @@ def renderedApplication : Application -> Application = a -> {
             { f   -> renderedApplication $ a.action filtering f }
         )
 }
+
+// Starter
+
+renderedApplication createApplication
