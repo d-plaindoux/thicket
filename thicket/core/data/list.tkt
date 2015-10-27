@@ -11,12 +11,14 @@ module Data.List
 from Core.Builder.Collection import *
 from Data.Pair import Pair
 from Data.Boolean import bool,true,false
+from Data.Unit import unit
 from Data.Number import number
 from Data.Option import option,none,some
 from Data.Comparable import Comparable
 from Data.Hashable import Hashable
 from Data.Collection import Collection
 from Data.Monadic import Monadic
+from Lang.Do import do
 
 type List[a] {
     Nil
@@ -35,6 +37,8 @@ class list[a] this:List[a] {
 
     unbox   : List[a]
     fold    : [b] b -> (a -> list[a] -> b) -> b
+    
+    each    : [b] (a -> b) -> unit
 
     empty   : bool
     length  : number
@@ -57,6 +61,8 @@ class list[a] this:List[a] {
 
     def Nil.fold n c = n
     def Cons.fold n c = c this.head (list this.tail)
+    
+    def each f = self foldL (r c -> do { f c } return r) ()
 
     def empty = self fold true (_ _ -> false)
 
@@ -136,5 +142,5 @@ def adapter list2collection : [a] list[a] -> Collection[a] = l -> {
 }
                 
 def adapter list2entity : [a] list[a] -> CollectionBuilder[a list[a]] = l -> {
-    CollectionBuilder l (a -> list2entity $ l +: a)
+    CollectionBuilder l (a -> list2entity $ l :+ a)
 }

@@ -11,5 +11,6 @@ module Boot.Core
 import Data
 import Lang
 
-from Logic.Combinators import *
-from Standard.Math import *
+import Logic.Combinators
+import Standard.Math
+import System.Console

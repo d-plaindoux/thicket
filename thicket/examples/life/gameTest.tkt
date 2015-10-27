@@ -113,5 +113,5 @@ List[worldAssertions;
      rulesAssertionsEmptyBoard;
      rulesAssertionsFullBoard;
      rulesAssertionsWhenUnique;
-     rulesAssertions1stLineAliveBoard] map (r -> r consoleLogger)
+     rulesAssertions1stLineAliveBoard] each (r -> r consoleLogger)
 } return ()
