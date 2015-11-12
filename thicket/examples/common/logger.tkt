@@ -8,7 +8,7 @@
 
 module Example.Test.Logger
 
-import Spec
+import Spec.Core
 import Client.Document
 
 def logger : dom -> TestLogger = d -> {

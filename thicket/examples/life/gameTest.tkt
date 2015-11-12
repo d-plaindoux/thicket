@@ -10,7 +10,7 @@ module Example.Life.Game.Test
 
 import Data
 
-import Spec
+import Spec.Core
 import Spec.Logger.Console
 
 import Example.Life.Game

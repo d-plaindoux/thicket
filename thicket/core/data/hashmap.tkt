@@ -78,7 +78,7 @@ class hashmap[k v] this:array[list[(k,v)]] {
  * Factory
  */
 
-def newSizedHashmap : number -> hashmap = n -> {
+def newSizedHashmap : [k v] number -> hashmap[k v] = n -> {
     hashmap $ emptyArray $ math.max 128 n
 }
 

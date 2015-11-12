@@ -1,3 +1,4 @@
+
 /*
  * Thicket
  * https://github.com/d-plaindoux/thicket
@@ -13,7 +14,7 @@ import Data
 import System.Console
 import System.Runtime
 
-import Spec
+import Spec.Core
 import Spec.Logger.Console
 
 def simpleAssertions : TestLogger -> unit = l -> {

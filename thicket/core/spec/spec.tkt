@@ -6,7 +6,7 @@
  * Licensed under the LGPL2 license.
  */
  
-module Spec
+module Spec.Core
 
 import Data
 import Lang

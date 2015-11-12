@@ -10,7 +10,7 @@ module Example.Test.Client
 
 import Data
 
-import Spec
+import Spec.Core
 
 import Example.Test
 import Example.Test.Logger

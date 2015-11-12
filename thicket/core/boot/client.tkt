@@ -8,8 +8,8 @@
 
 module Boot.Client
 
-from Client.Document import *
-from Client.Document.Renderer import *
-from Client.Event import *
-from Client.Event.Mouse import *
-from Client.Event.Key import *
+import Client.Document
+import Client.Document.Renderer
+import Client.Event
+import Client.Event.Mouse
+import Client.Event.Key
