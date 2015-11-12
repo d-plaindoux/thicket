@@ -183,9 +183,9 @@ or [C#](https://msdn.microsoft.com/fr-fr/library/xhbhezf4.aspx).
 
 ### Derivation
 
-Class derivation can help reducing specification by copy. But this derivation is not meant to be used for 
-subtyping since subtyping does not exist in the language. For this purpose the adapter is the preferred 
-solution.
+Class derivation can help reducing specification by copy. But this derivation 
+is not meant to be used for subtyping since subtyping does not exist in the 
+language. For this purpose the adapter is the preferred solution.
 
 ````
 model Equal[a] { 

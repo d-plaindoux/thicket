@@ -12,6 +12,7 @@ from Data.Boolean import bool,true,false
 from Data.Try import try,failure,success
 from Data.String import string
 from Data.Monadic import Monadic
+from Data.Unit import unit
 
 from Logic.Combinators import combinators
  
@@ -23,10 +24,11 @@ type Option[a] {
 class option[a] this:Option[a] {
     with Monadic[option a]
     
-    unbox   : Option[a]
-    fold    : [b] b -> (a -> b) -> b
-    present : bool
-    orElse  : a -> a
+    unbox     : Option[a]
+    fold      : [b] b -> (a -> b) -> b
+    present   : bool
+    ifPresent : (a -> unit) -> unit
+    orElse    : a -> a
 } {
     def unbox = this
     
@@ -34,6 +36,8 @@ class option[a] this:Option[a] {
     def Some.fold _ s = s this._
 
     def present = self fold false (_ -> true)
+    
+    def ifPresent = self fold ()
     
     def map f = self fold none (s -> some $ f s)
     def flatmap f = self fold none f

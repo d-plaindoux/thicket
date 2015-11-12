@@ -8,10 +8,11 @@
  
 module Data.Try
 
-from Data.Boolean import bool
+from Data.Boolean import bool,true,false
 from Data.String import string
 from Data.Option import option,some,none
 from Data.Monadic import Monadic
+from Data.Unit import unit
 
 from Logic.Combinators import combinators
 
@@ -25,6 +26,10 @@ class try[a] this:Try[a] {
 
     unbox       : Try[a]
     fold        : [b] (a -> b) -> (string -> b) -> b
+    
+    success     : bool
+    ifSuccess   : (a -> unit) -> unit
+    
     recoverWith : (string -> a) -> a
 } {
     def unbox = this
@@ -37,6 +42,9 @@ class try[a] this:Try[a] {
 
     def Failure.filter _ = self
     def Success.filter p = p this._ fold self $ failure "Filter fails"
+    
+    def success = self fold (_ -> true) (_ -> false)
+    def ifSuccess f = self fold f (_ -> ())    
 
     def recoverWith = self fold combinators.I
 }
