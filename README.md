@@ -76,7 +76,7 @@ a given model.
 
 ```
 class person this:Person {  
-  + Person
+  with Person
   
   tick: person
 } {
@@ -193,7 +193,7 @@ model Equal[a] {
 )
 
 class number this:native {
-    +Equal[number]
+    with Equal[number]
 } {
     def (==) = ...
 }
