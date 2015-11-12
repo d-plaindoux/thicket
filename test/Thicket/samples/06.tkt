@@ -89,7 +89,7 @@ class list[a] this:List[a] {
 
     def lenght = self foldR (_ r -> 1 + r) 0
 
-    def reverse = list $ self foldL (b a -> Cons a b) Nil
+    // TODO -- def reverse = list $ self foldL (b a -> Cons a b) Nil
 
     def (+:) a = list $ Cons a this
 

@@ -84,9 +84,9 @@ exports['expressions'] = {
       var anExpression = ast.expr.abstraction("a", ast.expr.ident("a"));
       types.reset();
       test.deepEqual(expression.analyse(list(), environment(packages(option.none())), anExpression, ast.type.abstraction(types.newVar(),types.newVar())).success(), 
-                     pair(list(pair("'d", ast.type.variable("'b")),
+                     pair(list(pair("'a", ast.type.variable("'b")),
                                pair("'e", ast.type.variable("'b")),
-                               pair("'a", ast.type.variable("'b"))), 
+                               pair("'d", ast.type.variable("'b"))), 
                           ast.type.abstraction(ast.type.variable("'b"),ast.type.variable("'b"))),
                      "Must be (a -> a)");
       test.done();

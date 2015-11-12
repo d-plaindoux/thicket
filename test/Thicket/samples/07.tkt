@@ -21,7 +21,7 @@ class bool this:Bool {
     def False.(?) _ f = f
     
     def (=>) l = self.not || l
-    def not    = bool $ self ? False True 
+    // TODO -- def not    = bool $ self ? False True 
     def (&&) l = self ? l self
     def (||) l = self ? self l
 }
