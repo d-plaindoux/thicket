@@ -404,7 +404,7 @@ exports['linker_entities'] = {
   'Can Link controller with model derivation': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream('model number model B class a this:number { +B } {  }'),
+    var aStream = stream('model number model B class a this:number { with B } {  }'),
         entities = language.parser.group('entities').parse(aStream).get()[0],
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
@@ -420,7 +420,7 @@ exports['linker_entities'] = {
   'Cannot Link controller with model derivation': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream('model number class a this:number { +Foo } {  }'),
+    var aStream = stream('model number class a this:number { with Foo } {  }'),
         entities = language.parser.group('entities').parse(aStream).get()[0],
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
@@ -529,7 +529,7 @@ exports['linker_entities'] = {
   'Can Link trait derivation': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream('model B trait a { +B } {  }'),
+    var aStream = stream('model B trait a { with B } {  }'),
         entities = language.parser.group('entities').parse(aStream).get()[0],
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
@@ -545,7 +545,7 @@ exports['linker_entities'] = {
   'Cannot Link trait derivation': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream('trait a { +Foo } {  }'),
+    var aStream = stream('trait a { with Foo } {  }'),
         entities = language.parser.group('entities').parse(aStream).get()[0],
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);

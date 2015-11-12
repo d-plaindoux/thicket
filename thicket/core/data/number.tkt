@@ -21,7 +21,7 @@ from Data.List import emptyList,list
 from Lang.Range import Range,foreach
 
 class number this:native {
-    + comparable[number]
+    with comparable[number]
     
     (+)      : number -> number
     (-)      : number -> number

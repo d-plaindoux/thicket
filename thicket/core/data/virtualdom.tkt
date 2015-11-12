@@ -32,14 +32,14 @@ model Stringify {
 }
 
 class vdomAttributePretty this:VDomAttribute {
-    +Stringify
+    with Stringify
 } {
     def CData.toString = this._
     def toString       = "<function>"
 }
 
 class vdomPretty this:VDomNode {
-    +Stringify
+    with Stringify
 } {
     def Tag.toString      = "<" + this.name + ">" + 
                               (vdomPretty this.content toString) + 

@@ -16,7 +16,7 @@ from Data.Boolean import true,false
 from Data.Comparable import comparable
 
 class char this:native {
-    + comparable[char]
+    with comparable[char]
 
     (+) : number -> char
 

@@ -1,3 +1,3 @@
 model A
-trait B { +A +C } {}
-trait C { +B } {}
+trait B { with A with C } {}
+trait C { with B } {}

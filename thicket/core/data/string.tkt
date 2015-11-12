@@ -18,7 +18,7 @@ from Data.Comparable import Comparable,comparable
 from Data.Hashable import Hashable
 
 class string this:native {
-    + comparable[string]
+    with comparable[string]
         
     getAt    : number -> option[char]
     setAt    : number -> char -> string

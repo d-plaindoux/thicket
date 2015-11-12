@@ -7,7 +7,7 @@ class unbox[a] this:a {
 }
 
 class a this:C {
-    + unbox[C]  
+    with unbox[C]  
 } {
     def unbox = this
 }

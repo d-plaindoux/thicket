@@ -27,7 +27,7 @@ model Expect[a] {
 }
 
 class expect[a] this:Comparable[a] {
-    +Expect[a]
+    with Expect[a]
     not : Expect[a]
 } {
     def not = Expect (a -> self toBe       a not) 

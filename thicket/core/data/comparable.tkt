@@ -24,7 +24,7 @@ model Comparable[k] {
 }
 
 trait comparable[k] {
-    + Comparable[k]
+    with Comparable[k]
 } {
     def (!=) n = self == n not
     def (<=) n = self == n || $ self <? n

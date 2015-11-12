@@ -33,7 +33,7 @@ model MouseEventTrigger {
 // Mouse trigger Factory
 
 class mouseEventTrigger this:MouseEventTrigger {
-    + EventTrigger
+    with EventTrigger
 
     over        : (dom -> unit) -> mouseEventTrigger
     out         : (dom -> unit) -> mouseEventTrigger

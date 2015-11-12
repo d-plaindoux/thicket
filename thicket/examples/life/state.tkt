@@ -14,7 +14,7 @@ import Data.Boolean
 type State { Alive Dead }
 
 class state this:State {
-    +comparable[state]
+    with comparable[state]
     
     fold : [b] b -> b -> b
     hash : number

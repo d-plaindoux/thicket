@@ -5,7 +5,7 @@ model Unbox[a] {
 }
 
 class a this:C {
-    + Unbox[C]  
+    with Unbox[C]  
     
     unbox2 : C
 } {

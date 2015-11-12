@@ -38,7 +38,7 @@ def adapter Cons2List : [a] Cons[a] -> List[a] = a -> a
  */
 
 class list[a] this:List[a] {
-    + Monadic[list a]
+    with Monadic[list a]
 
     unbox   : List[a]
     fold    : [b] b -> (a -> list[a] -> b) -> b

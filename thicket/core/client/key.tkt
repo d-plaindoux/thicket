@@ -18,7 +18,7 @@ model KeyEventTrigger {
 // Key trigger Factory
 
 class keyEventTrigger this:KeyEventTrigger {
-    + EventTrigger
+    with EventTrigger
 } {    
     def install d = d
 }

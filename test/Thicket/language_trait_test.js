@@ -141,7 +141,7 @@ exports['language_trait'] = {
   'trait with derivation': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("trait Address { + CityLocation } { }");        
+    var aStream = stream("trait Address { with CityLocation } { }");        
     test.deepEqual(language.parser.group('traitDef').parse(aStream).get().definition, 
                    ast.trait('Address',
                              [],
