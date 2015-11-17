@@ -25,7 +25,6 @@ function extension(thicket) {
                 string = env.pop(),
                 logger = env.pop();
 
-
             thicket.toplevel.setLogAgent(function(s) {                                             
                 runtime.execute([[ $i.RESULT, logger ],
                                  [ $i.RESULT, string ],

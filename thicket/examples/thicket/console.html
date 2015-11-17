@@ -14,7 +14,7 @@
   <script src="extension.js"></script>
 
   <script type="application/thicket">
-    from Example.Console.Application import *
+    import Example.Console.Application
     
     def components : Components = {
         Components 
@@ -24,13 +24,15 @@
             (document "clear"   find)
     }
 
-    startApplication components
+    do { 
+        startApplication components 
+    } return ()
   </script>
     
     
   <script>
     function onLoad() {
-        require('thicket')('/thicket/site').boot().whenReady(extension);
+        require('thicket')('/thicket/site').boot().withExtension(extension);
     }
   </script>
 </head>    
