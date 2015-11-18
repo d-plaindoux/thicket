@@ -217,7 +217,7 @@ model Comparable[a] {
 }
 
 trait comparable[a] {
-    +Comparable[a]
+    with Comparable[a]
 } {
     def (!=) n = (self == n) not    
     def (<=) n = (self == n) || (self <? n)
@@ -226,7 +226,7 @@ trait comparable[a] {
 }
 
 class bool this:Bool {
-    +comparable[bool]
+    with comparable[bool]
     fold : [b] b -> b -> b
 } {
     def True.fold t _ = t
