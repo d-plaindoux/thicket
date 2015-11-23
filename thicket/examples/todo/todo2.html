@@ -36,11 +36,7 @@
     
   <script>
     function onLoad() {
-        var t0 = new Date();
-        console.log("-----------------------------");    
-        console.log("Boot Thicket " + t0.toDateString());
-        require('thicket')('/thicket/site').boot();
-        console.log("Boot done in " + (new Date().getTime() - t0.getTime()) + " ms");
+        require('thicket')(['/thicket/site']).boot();
     }
   </script>
 </head>    
