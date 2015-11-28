@@ -13,6 +13,8 @@
 <head>
   <link rel="stylesheet" type="text/css" href="todo2.css">
   <script src="/thicket/build/thicket-lang.min.js"></script>
+  <script type="application/thicket+package" src="Core"></script>  
+  <script type="application/thicket+package" src="Client"></script>  
   <script type="application/thicket">
     def view : string -> string -> dom = text clazz ->
         <div class=clazz><i> text </i></div> 
