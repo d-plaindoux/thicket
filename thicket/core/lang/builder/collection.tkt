@@ -6,7 +6,7 @@
  * Licensed under the LGPL2 license.
  */
  
-module Core.Builder.Collection
+module Lang.Builder.Collection
   
 /* 
  * Language syntactic extension for collection entity

@@ -1,0 +1,45 @@
+{
+    "name": "Core",
+    "version": "1.0",
+    "description":"Core Data package",
+    "developers": [
+        {
+            "name": "D. Plaindoux",
+            "mail": "d.plaindoux@free.fr"
+        }
+    ],
+    "modules": [
+        "Boot.Core",
+        "Data",
+        "Data.Native",
+        "Data.Unit",
+        "Data.Char",
+        "Data.Number",
+        "Data.String",
+        "Data.Pair",
+        "Data.Boolean",
+        "Data.Option",
+        "Data.Try",
+        "Data.Array",
+        "Data.List",
+        "Data.Hashmap",
+        "Data.Collection",
+        "Data.Map",
+        "Data.Comparable",
+        "Data.Hashable",
+        "Data.Monadic",
+        "Lang",
+        "Lang.When",
+        "Lang.Do",
+        "Lang.Range",
+        "Lang.Strict",
+        "Lang.Builder.Collection",
+        "Lang.Builder.Map",
+        "Logic.Combinators",
+        "Standard.Math",
+        "System.Internal",
+        "System.Console"
+    ],
+    "requires":[
+    ]
+}

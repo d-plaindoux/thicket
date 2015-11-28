@@ -1,0 +1,22 @@
+{
+    "name": "Client",
+    "version": "1.0",
+    "description":"Core Data package",
+    "developers": [
+        {
+            "name": "D. Plaindoux",
+            "mail": "d.plaindoux@free.fr"
+        }
+    ],
+    "modules": [
+        "Boot.Client",
+        "Client.Document",
+        "Client.Document.Renderer",
+        "Client.Event",
+        "Client.Event.Mouse",
+        "Client.Event.Key"
+    ],
+    "requires":[
+        { "Core": "1.0" }
+    ]
+}

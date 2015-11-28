@@ -33,7 +33,10 @@ case $COMMAND in
      ;;
   execute)
      $NODE_EXE $THICKET_HOME/lib/Thicket/frontend/exec.js $@
+     ;;
+  package)
+     $NODE_EXE $THICKET_HOME/lib/Thicket/frontend/pack.js $@
      ;; 
   *)
-     echo "$0 (compile|toplevel|execute) ..."
+     echo "$0 (compile|package|toplevel|execute) ..."
 esac

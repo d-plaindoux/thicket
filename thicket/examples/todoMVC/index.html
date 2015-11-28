@@ -14,12 +14,14 @@
     <link rel="stylesheet" type="text/css" href="todo.css">
     
     <script src="/thicket/build/thicket-runtime.min.js"></script>
+    <script type="application/thicket+package" src="Core"></script>
+    <script type="application/thicket+package" src="Client"></script>
     <script type="application/thicket+bin" src="Example.TodoMVC"></script>
     
     <script type="application/javascript">
     function onLoad() {
         require('thicket')('/thicket/site').boot();
-    }
+    }        
     </script>
 </head>    
 <body onload="onLoad()">

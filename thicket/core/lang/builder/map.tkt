@@ -7,7 +7,7 @@
  * Licensed under the LGPL2 license.
  */
  
-module Core.Builder.Map
+module Lang.Builder.Map
  
 from Data.Comparable import Comparable
 from Data.Pair import Pair

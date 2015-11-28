@@ -8,7 +8,6 @@
 
 module Data.List
 
-from Core.Builder.Collection import *
 from Data.Pair import Pair
 from Data.Boolean import bool,true,false
 from Data.Unit import unit
@@ -19,6 +18,7 @@ from Data.Hashable import Hashable
 from Data.Collection import Collection
 from Data.Monadic import Monadic
 from Lang.Do import do
+from Lang.Builder.Collection import *
 
 type List[a] {
     Nil
