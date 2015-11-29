@@ -28,6 +28,7 @@
         "Data.Comparable",
         "Data.Hashable",
         "Data.Monadic",
+        "Data.Mutable.Ref",
         "Lang",
         "Lang.When",
         "Lang.Do",
@@ -38,7 +39,8 @@
         "Logic.Combinators",
         "Standard.Math",
         "System.Internal",
-        "System.Console"
+        "System.Console",
+        "System.Runtime"        
     ],
     "requires":[
     ]
