@@ -171,12 +171,11 @@ def adapter number2comparable : number -> Comparable[number] = s -> {
 Since subtyping is not a paradigm available in the language the adapter
 is the solution performing automatic data adaptation. These adaptations
 can be ordered explicitely or inferred by the compiler during the type 
-checking stage. Since definitions accessibility is managed using imports
-if such adapters are not imported the related transformations are not
-available.
+checking stage. Adapter accessibility is managed using imports then if 
+such an adapter is not imported the related transformation is not available.
 
-Since adaptation is not transitive all required transformations must be 
-expressed using dedicated adapters.
+Finally daptation is not transitive. For this purpose all required transformations 
+must be expressed using dedicated adapters.
 
 This can be compared to **implicit conversion** mechanism available in 
 [Scala](http://docs.scala-lang.org/overviews/core/implicit-classes.html) 
