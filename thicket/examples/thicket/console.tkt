@@ -52,7 +52,3 @@ def consume : [a] a -> unit = a -> {
 def runtime : (string -> unit) -> runtimeClass = { 
     runtimeClass () log 
 }
-
-def clearLog : option[dom] -> unit = output -> {
-    consume $ output map dom::removeChilds
-}        

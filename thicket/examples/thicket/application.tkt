@@ -17,17 +17,16 @@ from Example.Console.Core import *
 model Components {
     content : option[dom]
     output  : option[dom]
-    execute : option[dom]
-    clear   : option[dom]
 }
 
-def makeContent : logger -> runtimeClass -> dom -> dom = logger runtime content -> {
-    content onKeyEvent KeyPress $d n -> 
-        when (n == RETURN) 
+def makeContent : logger -> runtimeClass -> dom -> dom -> dom = logger runtime content output -> {
+    content onKeyEvent KeyPress $ d n -> 
+        when (n == standardKeys.CR) 
         then { do 
-               { content value map $ logger.log };
+               { output removeChilds };
+               { content value map $ s -> logger.log s };
                { content value map $ runtime run };
-               { content replace $ makeContent logger runtime $ content clone }
+               { content replace $ makeContent logger runtime (content clone) output }
                return () 
              }
         else { () }
@@ -38,19 +37,10 @@ def startApplication : Components -> unit = component -> {
     let runtime = runtime $ logger.log in
         do
         {
-            component.clear map
-            $ clear -> clear onMouseEvent MouseClick 
-            $ clear -> logger.clear
-        };
-        {
-            component.content map $ makeContent logger runtime
-        };
-        {
-            component.execute map 
-            $ execute -> execute onMouseEvent MouseClick 
-            $ execute -> component content map 
-            $ content -> content value map 
-            $ value   -> runtime run value
+           for output   <- component.output
+                content <- component.content
+            yield 
+                makeContent logger runtime content output
         }
         return ()
 }

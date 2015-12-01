@@ -6,18 +6,18 @@
  * Licensed under the LGPL2 license.
  */
 
-module Structure.JSon
+module Format.JSon
 
+from Data.Pair import Pair
 from Data.String import string
 from Data.Number import number
-from Data.Pair import Pair
 from Data.Collection import Collection
 
 type JSon {
-    JSonNull
-    JSonString { _ : string }
-    JSonNumber { _ : number }
-    JSonArray  { _ : Collection[JSon] }
-    JSonObject { _ : Collection[(string,JSon)] }
+    model JSonNull
+    model JSonString { _ : string }
+    model JSonNumber { _ : number }
+    model JSonArray  { _ : Collection[JSon] }
+    model JSonObject { _ : Collection[(string,JSon)] }
 }
 

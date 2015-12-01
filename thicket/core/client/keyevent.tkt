@@ -18,8 +18,6 @@ type KeyEventType {
     KeyUp
 }
 
-def RETURN = 13
-
 class keyEventType this:KeyEventType {
     toString : string
 } {
@@ -27,3 +25,11 @@ class keyEventType this:KeyEventType {
     def KeyDown.toString  = "keydown"
     def KeyUp.toString    = "keypup"
 }
+
+// Constants
+
+model Keys {
+    CR: number
+}
+
+def standardKeys : Keys = { Keys 13 }

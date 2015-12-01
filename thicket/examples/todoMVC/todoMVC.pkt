@@ -1,0 +1,22 @@
+{
+    "name": "Example.TodoMVC",
+    "version": "1.0",
+    "description":"Todo MVC example",
+    "developers": [
+        {
+            "name": "D. Plaindoux",
+            "mail": "d.plaindoux@free.fr"
+        }
+    ],
+    "modules": [
+        "Example.TodoMVC",
+        "Example.TodoMVC.Application",
+        "Example.TodoMVC.Views",
+        "Example.TodoMVC.Controller",
+        "Example.TodoMVC.Models"
+    ],
+    "requires":[
+        { "Core": "1.0" },
+        { "Client": "1.0" }
+    ]
+}

@@ -8,21 +8,46 @@
  
 module Client.Event.Trigger.Key
 
+from Lang.Do import do
+
+from Data.Unit import unit
+from Data.Option import option,some,none
+from Data.Number import number
+
+from Client.Document import dom
+
 from Client.Event import EventTrigger
+from Client.Event.Key import *
 
 // Trigger model
 
 model KeyEventTrigger {
+    press : option[(dom -> number -> unit)] 
+    down  : option[(dom -> number -> unit)]
+    up    : option[(dom -> number -> unit)]
 }
 
 // Key trigger Factory
 
 class keyEventTrigger this:KeyEventTrigger {
     with EventTrigger
-} {    
-    def install d = d
+    
+    press : (dom -> number -> unit) -> keyEventTrigger
+    down  : (dom -> number -> unit) -> keyEventTrigger
+    up    : (dom -> number -> unit) -> keyEventTrigger
+} {   
+    def press f = keyEventTrigger $ new this with press = (some f)
+    def down  f = keyEventTrigger $ new this with down = (some f)
+    def up    f = keyEventTrigger $ new this with up = (some f)
+
+    def install d = 
+        do 
+        {  this press map $ f -> d onKeyEvent KeyPress f};
+        {  this down  map $ f -> d onKeyEvent KeyDown f};
+        {  this up    map $ f -> d onKeyEvent KeyUp f} 
+        return d
 }
 
 def newKeyEventTrigger : keyEventTrigger = {
-    keyEventTrigger $ KeyEventTrigger
+    keyEventTrigger $ KeyEventTrigger none none none
 }

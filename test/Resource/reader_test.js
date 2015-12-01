@@ -49,4 +49,41 @@ exports['reader'] = {
                    [{"MODEL":["boolean",[["_",[{"ACCESS":1}]]]]},{"RETURN":1}]);
     test.done();
   },
+    
+  'Read package': function(test) {
+    test.expect(1);
+    // tests here  
+    var aReader = reader(fsdriver('./test/Resource/samples')); 
+        
+    test.deepEqual(aReader.package("Client").definition, 
+               { name: 'Client',
+                 version: '1.0',
+                 description: 'Client package',
+                 modules: 
+                 [ ],
+                 requires: [ { Core: '1.0' } ] });
+    test.done();
+  },
+      
+  'Read and add package': function(test) {
+    test.expect(1);
+    // tests here  
+    var aReader = reader(fsdriver('./test/Resource/samples')); 
+        
+    aReader.addPackage(aReader.package("Client"));
+      
+    test.ok(aReader.hasPackage("Client"));
+    test.done();
+  },
+    
+  'Read and add required package': function(test) {
+    test.expect(1);
+    // tests here  
+    var aReader = reader(fsdriver('./test/Resource/samples')); 
+        
+    aReader.addPackage(aReader.package("Client"));
+      
+    test.ok(aReader.hasPackage("Core"));
+    test.done();
+  },
 };

@@ -53,11 +53,11 @@ class mouseEventTrigger this:MouseEventTrigger {
     
     def install d =
         do
-        { this over        map $ f -> d onMouseEvent MouseOver f} ;
-        { this out         map $ f -> d onMouseEvent MouseOut f} ;
-        { this down        map $ f -> d onMouseEvent MouseDown f} ;
-        { this up          map $ f -> d onMouseEvent MouseUp f} ;
-        { this click       map $ f -> d onMouseEvent MouseClick f} ;
+        { this over        map $ f -> d onMouseEvent MouseOver f};
+        { this out         map $ f -> d onMouseEvent MouseOut f};
+        { this down        map $ f -> d onMouseEvent MouseDown f};
+        { this up          map $ f -> d onMouseEvent MouseUp f};
+        { this click       map $ f -> d onMouseEvent MouseClick f};
         { this dblclick    map $ f -> d onMouseEvent MouseDblClick f};
         { this contextmenu map $ f -> d onMouseEvent ContextMenu f}
         return d      

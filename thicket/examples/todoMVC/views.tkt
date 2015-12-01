@@ -50,7 +50,7 @@ class todoViews this:Application {
         <li id=("todo_" + t.id)>
           { <input class="edit" value=t.title autofocus=""/>             
             onKeyEvent KeyPress $ d n -> 
-                when (n == RETURN) 
+                when (n == standardKeys.CR) 
                 then { d value fold this $ this action change t.id } 
                 else this
           }
@@ -97,7 +97,7 @@ class todoViews this:Application {
     def createView = 
         <input id="new-todo" placeholder="What needs to be done?" autofocus=""/>
         onKeyEvent KeyPress $ d n -> 
-            when (n == RETURN) 
+            when (n == standardKeys.CR) 
             then { d value fold this $ this action add } 
             else this
 

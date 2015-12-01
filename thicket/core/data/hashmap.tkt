@@ -37,7 +37,6 @@ class hashmap[k v] this:array[list[(k,v)]] {
   keys    : Collection[k]
   values  : Collection[v]
   entries : Collection[(k,v)]
-
 } {
   def unbox = this
   

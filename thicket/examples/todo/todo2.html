@@ -33,9 +33,7 @@
         1 to 10 fold node (node i -> node addChild $ todo $ "#" + i)
     }
 
-    for todo <- {document "todo" find} 
-    yield 
-        manageTodos todo
+    for todo <- {document "todo" find} yield manageTodos todo
   </script>
     
   <script>
@@ -70,7 +68,7 @@
         1 to 10 fold node (i node -> node addChild $ todo $ "#" + i)
     }
 
-    document "todos" find map manageTodos
+    for todo &lt;- {document "todo" find} yield manageTodos todo
     </code></pre>
   </div>
 </body>

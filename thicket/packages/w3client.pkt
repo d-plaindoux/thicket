@@ -1,7 +1,7 @@
 {
     "name": "Client",
     "version": "1.0",
-    "description":"Core Data package",
+    "description":"W3 Client package",
     "developers": [
         {
             "name": "D. Plaindoux",
