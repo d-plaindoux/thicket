@@ -16,7 +16,7 @@
         "Example.TodoMVC.Models"
     ],
     "requires":[
-        { "Core": "1.0" },
-        { "Client": "1.0" }
+        { "Client": "1.0" },
+        { "Core": "1.0" }
     ]
 }

@@ -62,10 +62,6 @@ module.exports = function(grunt) {
                       'exec:thicket_prepare', 
                       'exec:thicket_lang', 
                       'exec:thicket_runtime', 
-                      'exec:thicket_cmd_tktc',                       
-                      'exec:thicket_cmd_pack',                       
-                      'exec:thicket_cmd_exec',                       
-                      'exec:thicket_cmd_repl',                       
                       'uglify']);
     
   grunt.registerTask('default', 
