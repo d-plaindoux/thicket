@@ -1,7 +1,8 @@
 {
     "name": "Example.TodoMVC",
     "version": "1.0",
-    "description":"Todo MVC example",
+    "description": "Todo MVC example",
+    "license": "LGPL2",
     "developers": [
         {
             "name": "D. Plaindoux",
@@ -15,7 +16,7 @@
         "Example.TodoMVC.Controller",
         "Example.TodoMVC.Models"
     ],
-    "requires":[
+    "requires": [
         { "Client": "1.0" },
         { "Core": "1.0" }
     ]

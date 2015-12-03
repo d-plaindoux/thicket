@@ -20,6 +20,7 @@ from Data.List import list,List
 
 class dom this:native {
     addEmptyAttribute : string -> dom
+    addOptionalAttribute : string -> option[string] -> dom
     addAttribute : string -> string -> dom
     findAttribute : string -> option[string]
     removeAttribute : string -> dom
@@ -42,6 +43,7 @@ class dom this:native {
     map : [a] (dom -> a) -> a
 } {
     def addEmptyAttribute n = self addAttribute n ""
+    def addOptionalAttribute name value = value fold self $ self addAttribute name
     def addAttribute = internal "dom.setAttribute" self
     def findAttribute n = internal "dom.getAttribute" self n (e -> some $ string e) none
     def removeAttribute = internal "dom.resetAttribute" self

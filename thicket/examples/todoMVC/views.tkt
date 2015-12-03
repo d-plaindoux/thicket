@@ -42,25 +42,26 @@ class todoViews this:Application {
     todoListView        : dom
 } {
     def todoStatusView t = 
-        <input type="checkbox" class="toggle"/> map
-        { d -> when t.completed then { d addEmptyAttribute "checked" } else d }
+        <input type="checkbox" class="toggle"
+               checked?=(when t.completed then (some "") else none)        
+        />
         onMouseEvent MouseClick $ _ -> this action toggle t.id
         
     def todoEditView t =
-        <li id=("todo_" + t.id)>
+        <li id=("todo_" + t.id)
+            class=(when t.completed then "completed" else "")>
           { <input class="edit" value=t.title autofocus=""/>             
             onKeyEvent KeyPress $ d n -> 
                 when (n == standardKeys.CR) 
                 then { d value fold this $ this action change t.id } 
                 else this
           }
-        </li> map
-        { d -> when t.completed then { d addAttribute "class" "completed" } else d }
+        </li>
         
     def todoView t =
         <li id=("todo_" + t.id) class=(when t.completed then "completed" else "")>
             <div class="view">  
-                (self todoStatusView t)
+                {self todoStatusView t}
                 <label> t.title </label>
                 {<button id=("todo_destroy_" + t.id) class="destroy"/>
                  onMouseEvent MouseClick $ _ -> this action remove t.id}
@@ -78,18 +79,24 @@ class todoViews this:Application {
     def filtersView =
         <ul id="filters">
             <li>  
-                { <a href="#/"> "All" </a> map
-                  { d -> when (this.context.filter == all) then { d addAttribute "class" "selected" } else d }
-                  onMouseEvent MouseClick $ _ -> this action filtering all }
+                { <a href="#/" 
+                     class=(when (this.context.filter == all) then "completed" else "")>
+                     "All" 
+                  </a>
+                   onMouseEvent MouseClick $ _ -> this action filtering all }
             </li>
             <li>  
-                { <a href="#/active"> "Active" </a> map
-                  { d -> when (this.context.filter == active) then { d addAttribute "class" "selected" } else d }
+                { <a href="#/active" 
+                     class=(when (this.context.filter == active) then "selected" else "")> 
+                     "Active" 
+                  </a>
                   onMouseEvent MouseClick $ _ -> this action filtering active }
             </li>
             <li>  
-                { <a href="#/completed"> "Completed" </a> map
-                  { d -> when (this.context.filter == completed) then { d addAttribute "class" "selected" } else d }
+                { <a href="#/completed" 
+                     class=(when (this.context.filter == completed) then "selected" else "")> 
+                    "Completed" 
+                  </a>
                   onMouseEvent MouseClick $ _ -> this action filtering completed }
             </li>
         </ul>
@@ -106,9 +113,10 @@ class todoViews this:Application {
         onMouseEvent MouseClick $ _ -> this action clearCompleted ()
         
     def toggleAllView = 
-        <input id="toggle-all" type="checkbox"/> map
-        { d -> when this.context.completed then { d addEmptyAttribute "checked" } else d } map
-        { d -> when (this.context.length == 0) then { d addAttribute "class" "hidden"} else d }
+        <input id="toggle-all" type="checkbox"
+               checked?=(when this.context.completed then (some "") else none)
+               class=( when (this.context.length == 0) then "hidden" else "")
+        />
         onMouseEvent MouseClick $ _ -> this action completeAll ()
     
     def footerView = 

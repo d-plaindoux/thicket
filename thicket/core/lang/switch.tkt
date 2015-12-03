@@ -16,16 +16,16 @@ from Data.Boolean import bool
  * 
  *     switch a case v1 => s1 case v2 => s2 default => s3
  */
-/*
+/* 
 class switch[a b] this:Comparable[a] {
     case    : a -> caseBody[b]
     default : b -> b
 } {
-    def case a = when (this == a) then (
+    def case a = caseBody (a,self)
     def default b = b 
 }
 
-class caseBody[a b] this:Comparable[a] {
+class caseBody[a b] this:(a,switch[a b]) {
     (=>) : b -> switch[a b] 
 } {
     def (=>) b = switch this
