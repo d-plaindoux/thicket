@@ -21,17 +21,14 @@ from Lang.Do import do
 from Lang.Builder.Collection import *
 
 type List[a] {
-    Nil
-    Cons {
+    model Nil
+    model Cons {
         head : a
         tail : List[a]
     }
 }
 
 // Subtyping simulation using adapters
-
-def adapter Nil2List  : [a] Nil[a] -> List[a] = a -> a
-def adapter Cons2List : [a] Cons[a] -> List[a] = a -> a
 
 /*
  * Current implementation is not efficient since foldL is not tail recursive 

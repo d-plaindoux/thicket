@@ -15,12 +15,10 @@ from Data.Trampoline import *
 /**
  * Factorial computation based on trampoline
  */ 
- 
-def coerce : [a] Trampoline[a] -> Trampoline[a] = a -> a
- 
+
 def trampolineFact : number -> number -> Trampoline[number] = acc n -> {
     when (n <? 2) 
-    then {coerce $ Done acc}
+    then {Done acc}
     else {More $ _ -> trampolineFact (n * acc) (n - 1)}
 }
 
