@@ -43,14 +43,13 @@ class todoViews this:Application {
 } {
     def todoStatusView t = 
         <input type="checkbox" class="toggle"
-               checked?=(when t.completed then (some "") else none)        
-        />
+               checked if t.completed />
         onMouseEvent MouseClick $ _ -> this action toggle t.id
         
     def todoEditView t =
         <li id=("todo_" + t.id)
-            class=(when t.completed then "completed" else "")>
-          { <input class="edit" value=t.title autofocus=""/>             
+            class="completee" if t.completed>
+          { <input class="edit" value=t.title autofocus/>             
             onKeyEvent KeyPress $ d n -> 
                 when (n == standardKeys.CR) 
                 then { d value fold this $ this action change t.id } 
@@ -80,21 +79,21 @@ class todoViews this:Application {
         <ul id="filters">
             <li>  
                 { <a href="#/" 
-                     class=(when (this.context.filter == all) then "completed" else "")>
+                     class="completed" if (this.context.filter == all)>
                      "All" 
                   </a>
                    onMouseEvent MouseClick $ _ -> this action filtering all }
             </li>
             <li>  
                 { <a href="#/active" 
-                     class=(when (this.context.filter == active) then "selected" else "")> 
+                     class="selected" if (this.context.filter == active)> 
                      "Active" 
                   </a>
                   onMouseEvent MouseClick $ _ -> this action filtering active }
             </li>
             <li>  
                 { <a href="#/completed" 
-                     class=(when (this.context.filter == completed) then "selected" else "")> 
+                     class="selected" if (this.context.filter == completed)> 
                     "Completed" 
                   </a>
                   onMouseEvent MouseClick $ _ -> this action filtering completed }
@@ -102,7 +101,7 @@ class todoViews this:Application {
         </ul>
 
     def createView = 
-        <input id="new-todo" placeholder="What needs to be done?" autofocus=""/>
+        <input id="new-todo" placeholder="What needs to be done?" autofocus/>
         onKeyEvent KeyPress $ d n -> 
             when (n == standardKeys.CR) 
             then { d value fold this $ this action add } 
@@ -114,9 +113,8 @@ class todoViews this:Application {
         
     def toggleAllView = 
         <input id="toggle-all" type="checkbox"
-               checked?=(when this.context.completed then (some "") else none)
-               class=( when (this.context.length == 0) then "hidden" else "")
-        />
+               checked if this.context.completed
+               class="hidden" if (this.context.length == 0) />
         onMouseEvent MouseClick $ _ -> this action completeAll ()
     
     def footerView = 

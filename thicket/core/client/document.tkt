@@ -17,6 +17,7 @@ from Data.String import string
 from Data.Number import number,number2string
 from Data.Option import option,some,none
 from Data.List import list,List
+from Data.Boolean import bool
 
 class dom this:native {
     addEmptyAttribute : string -> dom
@@ -29,8 +30,10 @@ class dom this:native {
     addChilds : list[dom] -> dom
     removeChilds : dom
     
+    onCondition : bool -> (dom -> dom) -> dom
+    
     onMouseEvent : [a] MouseEventType -> (dom -> a) -> dom
-    onKeyEvent   : [a] KeyEventType -> (dom -> number -> a) -> dom
+    onKeyEvent : [a] KeyEventType -> (dom -> number -> a) -> dom
 
     find : string -> option[dom]
 
@@ -51,6 +54,8 @@ class dom this:native {
     def addChild = internal "dom.appendChild" self
     def addChilds l = l foldL dom::addChild self
     def removeChilds = internal "dom.removeChilds" self
+
+    def onCondition condition action = condition fold (action self) self
 
     def onMouseEvent e f = internal "dom.onMouseEvent" self (mouseEventType e toString) (n -> f $ dom n)
     def onKeyEvent e f = internal "dom.onKeyEvent" self (keyEventType e toString) (n c -> f (dom n) (number c))
