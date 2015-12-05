@@ -291,6 +291,30 @@ exports['language_exprs'] = {
     test.done();
   },  
     
+  'tag with conditional attribute is accepted': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream('<a n=1 if true> 123 </a>');
+        
+    test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
+                   ast.expr.tag("a",[['n',ast.expr.number(1),false,ast.expr.ident("true")]],
+                                [ast.expr.number(123)]),
+                   "accept a xhtml fragment");
+    test.done();
+  },  
+    
+  'tag with conditional optional attribute is accepted': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream('<a n?=1 if true> 123 </a>');
+        
+    test.deepEqual(language.parser.group('exprs').parse(aStream).get(), 
+                   ast.expr.tag("a",[['n',ast.expr.number(1),true,ast.expr.ident("true")]],
+                                [ast.expr.number(123)]),
+                   "accept a xhtml fragment");
+    test.done();
+  },  
+    
   'not well formed tag': function(test) {
     test.expect(1);
     // tests here  
