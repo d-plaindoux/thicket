@@ -8,17 +8,22 @@
  
 module Data.String
 
-from Data.Boolean import bool,true,false
 from System.Internal import internal
+
+from Data.Boolean import bool,true,false
 from Data.Native import native
 from Data.Number import number
 from Data.Char import char
 from Data.Option import option,none,some
 from Data.Comparable import Comparable,comparable
 from Data.Hashable import Hashable
+from Data.Matcher import Matcher
+
+from Lang.Switch import switch
 
 class string this:native {
     with comparable[string]
+    with Matcher[string]
         
     getAt    : number -> option[char]
     setAt    : number -> char -> string
@@ -42,6 +47,8 @@ class string this:native {
     
     def toNumber = internal "string.toNumber" self (n -> some $ number n) none
     def length = number $ internal "string.length" self
+    
+    def match = switch self
 }
 
 /**

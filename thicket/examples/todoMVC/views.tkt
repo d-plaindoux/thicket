@@ -47,8 +47,8 @@ class todoViews this:Application {
         onMouseEvent MouseClick $ _ -> this action toggle t.id
         
     def todoEditView t =
-        <li id=("todo_" + t.id)
-            class="completee" if t.completed>
+        <li id=("todo_" + t.id) class="completee" if t.completed
+        >
           { <input class="edit" value=t.title autofocus/>             
             onKeyEvent KeyPress $ d n -> 
                 when (n == standardKeys.CR) 
@@ -58,7 +58,7 @@ class todoViews this:Application {
         </li>
         
     def todoView t =
-        <li id=("todo_" + t.id) class=(when t.completed then "completed" else "")>
+        <li id=("todo_" + t.id) class="completed" if t.completed>
             <div class="view">  
                 {self todoStatusView t}
                 <label> t.title </label>

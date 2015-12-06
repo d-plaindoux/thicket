@@ -7,33 +7,68 @@
  * Licensed under the LGPL2 license.
  */
  
-module Lang.When
+module Lang.Switch
  
 from Data.Boolean import bool
+from Data.Comparable import Comparable
  
 /* 
  * Language syntactic extension
  * 
  *     switch a case v1 => s1 case v2 => s2 default => s3
  */
-/* 
-class switch[a b] this:Comparable[a] {
-    case    : a -> caseBody[b]
-    default : b -> b
-} {
-    def case a = caseBody (a,self)
-    def default b = b 
+
+model SwitchModel[a b] {
+    case    : Comparable[a] -> CaseModel[a b]
+    default : CaseDefault[b]
 }
 
-class caseBody[a b] this:(a,switch[a b]) {
-    (=>) : b -> switch[a b] 
-} {
-    def (=>) b = switch this
+model CaseModel[a b] {
+    (=>) : b -> SwitchModel[a b]
 }
 
-class defaultBody[b] this:bool {
+model CaseDefault[b] {
     (=>) : b -> b
-} {
-    def (=>) b = 
 }
-*/
+
+trait switchTrait[a b] {
+    with SwitchModel[a b]
+    toModel : SwitchModel[a b]
+} {
+    def toModel = SwitchModel self.case self.default
+}
+
+trait caseTrait[a b] {
+    with CaseModel[a b]
+    toModel : CaseModel[a b]
+} {
+    def toModel = CaseModel self.(=>)
+}
+
+// ------------------------
+
+class switch[a b] this:a {
+    with switchTrait[a b]
+} {
+    def case a = (a == this) fold (caseTrue (i -> i) toModel) (caseFalse this toModel)
+    def default = CaseDefault (b -> b)
+}
+
+class switchTrue[a b] this:b {
+    with switchTrait[a b]
+} {
+    def case _ = caseTrue (_ -> this) toModel
+    def default = CaseDefault (_ -> this)
+}
+
+class caseTrue[a b] this:(b -> b) {
+    with caseTrait[a b] 
+} {
+    def (=>) b = switchTrue (this b) toModel
+}
+
+class caseFalse[a b] this:a {
+    with caseTrait[a b]
+} {
+    def (=>) _ = switch this toModel
+}

@@ -10,8 +10,11 @@ module Data.Boolean
 
 from Data.String import string
 from Data.Number import number
-from Data.Comparable import Comparable
+from Data.Comparable import Comparable, comparable
 from Data.Hashable import Hashable
+from Data.Matcher import Matcher
+
+from Lang.Switch import switch
 
 /*
  * Boolean definition as an injective type domain
@@ -25,41 +28,36 @@ type Bool { True False }
  */
 
 class bool this:Bool {
+    with comparable[bool]
+    with Matcher[bool]
+    
     unbox    : Bool
     
     fold     : [a] a -> a -> a
     
-    and      : bool -> bool
-    or       : bool -> bool
-    imply    : bool -> bool
     not      : bool
     (&&)     : bool -> bool
     (||)     : bool -> bool
     (=>)     : bool -> bool
     
     toString : string
-    
-    (==)     : bool -> bool
-    (!=)     : bool -> bool
 } {
     def unbox = this
 
     def True.fold  t _ = t
     def False.fold _ f = f
 
-    def and l   = self fold l false
-    def or l    = self fold self l
-    def imply l = self not || l
-    def not     = self fold false true
-    
-    def (&&) = self and
-    def (||) = self or
-    def (=>) = self imply
+    def (&&) l = self fold l false
+    def (||) l = self fold self l
+    def (=>) l = self not || l
+    def not    = self fold false true
     
     def toString = self fold "true" "false"
     
     def (==) b = self fold b (b not)    
-    def (!=) b = (self == b) not
+    def (<?) b = self fold (b not) false
+    
+    def match = switch self
 }
 
 /**
@@ -77,14 +75,6 @@ def adapter bool2hashable : bool -> Hashable[bool] = this -> {
     Hashable this (this fold 7 13)
 }
 
-def adapter bool2comparable : bool -> Comparable[bool] = this -> {
-    Comparable 
-        this 
-        (b -> this fold b b.not) 
-        (b -> this fold b.not b)
-        (b -> this fold b.not b)
-        (b -> this fold b b.not)
-        (b -> this fold b.not b)
-        (b -> this fold b b.not)
-        (bool2hashable this)
+def adapter bool2comparable : bool -> Comparable[bool] = s -> {
+    Comparable s s.(==) s.(!=) s.(=>) s.(<=) s.(?>) s.(<?) (bool2hashable s)
 }

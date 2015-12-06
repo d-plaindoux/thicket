@@ -17,11 +17,14 @@ from Data.Hashable import Hashable
 from Data.String import string
 from Data.Pair import Pair
 from Data.List import emptyList,list
+from Data.Matcher import Matcher
 
+from Lang.Switch import switch
 from Lang.Range import Range,foreach
 
 class number this:native {
     with comparable[number]
+    with Matcher[number]
     
     (+)      : number -> number
     (-)      : number -> number
@@ -78,6 +81,8 @@ class number this:native {
     def downto n = foreach (self,n) step -1
     
     def (..) n = n downto self fold emptyList (l -> l+:)
+    
+    def match = switch self
 }
 
 def Infinity : number = { 1 / 0 }

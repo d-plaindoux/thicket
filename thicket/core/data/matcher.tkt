@@ -6,10 +6,10 @@
  * Licensed under the LGPL2 license.
  */
  
-module Lang
- 
-from Lang.When import *
-from Lang.Do import *
-from Lang.Switch import *
-from Lang.Range import *
-from Lang.Strict import *
+module Data.Matcher
+
+from Lang.Switch import switch
+
+model Matcher[a] {
+    match : [b] switch[a b]
+}

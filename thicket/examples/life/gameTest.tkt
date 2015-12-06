@@ -70,7 +70,7 @@ def rulesAssertionsFullBoard : TestLogger -> unit = l -> {
 }                
 
 def rulesAssertionsWhenUnique : TestLogger -> unit = l -> {
-    let world : World = p -> (p.x == 1) and (p.y == 1) fold alive dead in
+    let world : World = p -> (p.x == 1) && (p.y == 1) fold alive dead in
     description l "Rules Assertions for Single Cell Board"
         it "expect (world $ Pos 1 1) toBe alive" {
             expect (world $ Pos 1 1) toBe alive

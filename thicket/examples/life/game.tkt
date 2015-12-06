@@ -18,7 +18,7 @@ model Pos { x:number y:number }
 def positions : Pos -> list[Pos] = pos -> {
     for i <- { -1 .. 1 }
         j <- { -1 .. 1 }
-    if (i != 0) or (j != 0)
+    if (i != 0) || (j != 0)
     yield Pos (pos.x + i) (pos.y + j) 
 }
 
