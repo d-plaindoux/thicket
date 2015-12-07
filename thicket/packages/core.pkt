@@ -25,12 +25,15 @@
         "Data.Hashmap",
         "Data.Collection",
         "Data.Map",
+        "Data.Additionable",
         "Data.Comparable",
         "Data.Hashable",
+        "Data.Matcher",
         "Data.Monadic",
         "Data.Mutable.Ref",
         "Lang",
         "Lang.When",
+        "Lang.Switch",
         "Lang.Do",
         "Lang.Range",
         "Lang.Strict",
@@ -42,6 +45,9 @@
         "System.Console",
         "System.Runtime"        
     ],
-    "requires":[
+    "extensions": [
+        
+    ],
+    "requires": [
     ]
 }

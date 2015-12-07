@@ -18,6 +18,7 @@ from Data.String import string
 from Data.Pair import Pair
 from Data.List import emptyList,list
 from Data.Matcher import Matcher
+from Data.Additionable import Additionable
 
 from Lang.Switch import switch
 from Lang.Range import Range,foreach
@@ -25,8 +26,8 @@ from Lang.Range import Range,foreach
 class number this:native {
     with comparable[number]
     with Matcher[number]
+    with Additionable[number]
     
-    (+)      : number -> number
     (-)      : number -> number
     (*)      : number -> number
     (/)      : number -> number
@@ -46,8 +47,8 @@ class number this:native {
     
     hash     : number
     
-    to       : number -> Range
-    downto   : number -> Range
+    to       : number -> Range[number]
+    downto   : number -> Range[number]
     
     (..)     : number -> list[number]
     
@@ -73,6 +74,7 @@ class number this:native {
 
     def (++) = self + 1
     def (--) = self - 1
+    
     def negate = self * -1
 
     def toString = string $ internal "number.toString" self

@@ -78,22 +78,19 @@ class todoViews this:Application {
     def filtersView =
         <ul id="filters">
             <li>  
-                { <a href="#/" 
-                     class="completed" if (this.context.filter == all)>
+                { <a href="#/" class="completed" if (this.context.filter == all)>
                      "All" 
                   </a>
-                   onMouseEvent MouseClick $ _ -> this action filtering all }
+                  onMouseEvent MouseClick $ _ -> this action filtering all }
             </li>
             <li>  
-                { <a href="#/active" 
-                     class="selected" if (this.context.filter == active)> 
+                { <a href="#/active" class="selected" if (this.context.filter == active)> 
                      "Active" 
                   </a>
                   onMouseEvent MouseClick $ _ -> this action filtering active }
             </li>
             <li>  
-                { <a href="#/completed" 
-                     class="selected" if (this.context.filter == completed)> 
+                { <a href="#/completed" class="selected" if (this.context.filter == completed)> 
                     "Completed" 
                   </a>
                   onMouseEvent MouseClick $ _ -> this action filtering completed }

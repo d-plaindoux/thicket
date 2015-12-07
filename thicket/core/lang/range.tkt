@@ -19,13 +19,13 @@ from Data.Number import number
 from Data.Boolean import bool
 from Data.Unit import unit
 
-model Range {
-    fold   : [b] b -> (b -> number -> b) -> b
+model Range[a] {
+    fold : [b] b -> (b -> a -> b) -> b
 }
  
 /* 
-class abstractRange this:(number,number) {
-    fold : [b] (number -> number -> bool) -> (number -> number) -> b -> (b -> number -> b) -> b
+class abstractRange[a] this:(Additionable[a],Additionable[a]) {
+    fold : [b] (a -> a -> bool) -> (number -> a) -> b -> (b -> a -> b) -> b
 } {
     def fold pred dep r f =
         when (pred this._1 this._2) 
@@ -49,10 +49,9 @@ class stepByRange this:(number,number) {
 */
 
 class stepByRange this:(number,number) {
-    step : number -> Range
+    step : number -> Range[number]
 } {
     def step i = Range $ r f -> internal "range.fold" this._1 this._2 i r f number
 }
 
 def foreach : (number,number) -> stepByRange = stepByRange
-

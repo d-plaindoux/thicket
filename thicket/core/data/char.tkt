@@ -16,14 +16,14 @@ from Data.Boolean import true,false
 from Data.Comparable import Comparable,comparable
 from Data.Hashable import Hashable
 from Data.Matcher import Matcher
+from Data.Additionable import Additionable
 
 from Lang.Switch import switch
 
 class char this:native {
     with comparable[char]
     with Matcher[char]
-
-    (+) : number -> char
+    with Additionable[char]
 
     toString : string
 } {
