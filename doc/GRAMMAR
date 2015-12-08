@@ -56,7 +56,7 @@ types ::=
 --------------------------------------------------------------------------
 
 methodDef ::= 
-  "def" "adapter"? (ID|"("OP")") (":" generics type)? "=" expr
+  "def" "adapter"? (ID|"(" OPERATOR ")") (":" generics type)? "=" expr
 
 --------------------------------------------------------------------------
 
@@ -71,12 +71,12 @@ traitDef ::=
 --------------------------------------------------------------------------
 
 methodClass ::= 
-  "def" (ID ".")? (ID|"("OP")") ID* "=" expr
+  "def" (ID ".")? (ID|"(" OPERATOR ")") ID* "=" expr
 
 --------------------------------------------------------------------------
 
 methodTrait ::= 
-  "def" (ID|"("OP")") ID* "=" expr
+  "def" (ID|"(OPERATOR)") ID* "=" expr
 
 --------------------------------------------------------------------------
 
@@ -96,23 +96,24 @@ iexpr ::=
 
 sexpr ::= 
   NUMBER
+| CHARACTER
 | STRING
 | type "::" (ID|"("OP")")
 | ID
-| OP
+| OPERATOR
 | "$" exprs 
 | "(" exprs ")"
 | "{" exprs "}"
-| "<" ID attr* ">" exprs "</" ID? ">" 
-| "<" ID attr* "/>"
+| "<" XMLID attr* ">" exprs "</" XMLID? ">" 
+| "<" XMLID attr* "/>"
 | "for" (ID "<-" sexpr)+ ("if" exprs)* "yield" exprs
 | "let" ID (":" generics type)? "=" exprs "in" exprs
-| type "::" ID
+| type "::" (ID|"(" OPERATOR ")")
 | (ID (":" generics type)?)+ -> exprs
 | "new" exprs "with" (ID "=" sexpr)+
             
 attr ::= 
-  ID ("?="|"=") sexpr ("if" sexpr)?
+  XMLID ("?="|"=") sexpr ("if" sexpr)?
 
 --------------------------------------------------------------------------
 
@@ -123,5 +124,25 @@ param ::=
 
 comment ::= 
   "//" line | "/*" line* "*/"
+
+--------------------------------------------------------------------------
+
+keywords = { "adapter", "module","from", "import", 
+             "typedef", "type", "trait", "model", "class", 
+             "def", "let", "in", "if", "for", "yield", "new", "with" }
+
+separator = { ".", "(", ")", "{", "}", ",", "$", 
+              "<", ">", "/>", "</", "<-", "->", 
+              "=", "//", ":", ";;", "::", "$" }
+
+--------------------------------------------------------------------------
+
+OPERATOR = /^([~$#?;:@&!%><=+*/|.^-]|\[|\])([~$#?;:@&!%><=+*/|_.^-]|\[|\])*/ - separator
+ID ::= [a-zA-Z_][a-zA-Z0-9_$]* - keywords
+XMLID ::= [a-zA-Z_][a-zA-Z0-9_$-]*
+NUMBER ::= \d+(.\d+)?([eE]\d+)?
+CHARACTER ::= "'" ([\\][nrft']|[^']) "'"
+STRING ::= '"' ([\\][nrft"]|[^"])* '"'
+
 
 --------------------------------------------------------------------------

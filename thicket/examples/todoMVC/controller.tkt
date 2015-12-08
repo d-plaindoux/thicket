@@ -14,7 +14,7 @@ from Lang.Do import do
 from Data.Unit import unit
 from Data.Pair import Pair
 from Data.String import string
-from Data.Number import number
+from Data.Number import number,(-)
 from Data.List import emptyList,list
 from Data.Boolean import bool,true,false
 from Logic.Combinators import combinators
@@ -67,21 +67,21 @@ class controller this:ControllerContext {
     def add s = 
         let todos = this.todos +: $ createTodo this.index s in
         let index = this.index++ in
-            controller new this with index=index todos=todos edit=-1
+            controller new this with index=index todos=todos edit=(-1)
 
     def change n s =
         let todos = this.todos map $ t -> 
                     when (t.id == n)
                     then new t with title=s
                     else t in                    
-            controller new this with todos=todos edit=-1                        
+            controller new this with todos=todos edit=(-1)                        
 
     def toggle n =
         let todos = this.todos map $ t -> 
                     when (t.id == n)
                     then new t with completed=t.completed.not
                     else t in                    
-            controller new this with todos=todos edit=-1
+            controller new this with todos=todos edit=(-1)
 
     def edit n =
         let edited = this.todos find $ t -> t.id == n in
@@ -91,7 +91,7 @@ class controller this:ControllerContext {
             
     def remove n =
         let todos = this.todos.filter $ t -> t.id != n in
-            controller new this with todos=todos edit=-1
+            controller new this with todos=todos edit=(-1)
 
     def filtering f = 
         controller new this with filter=f
@@ -99,13 +99,13 @@ class controller this:ControllerContext {
     def completeAll =
         let completed = self.completed.not in
         let todos = this.todos map $ t -> new t with completed=completed in
-            controller new this with todos=todos edit=-1
+            controller new this with todos=todos edit=(-1)
             
     def clearCompleted = 
         let todos = this.todos.filter $ t -> t.completed.not in
-            controller new this with todos=todos edit=-1
+            controller new this with todos=todos edit=(-1)
 }
 
 def createController : controller = { 
-    controller $ ControllerContext -1 all 0 emptyList        
+    controller $ ControllerContext (-1) all 0 emptyList        
 }

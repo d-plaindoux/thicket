@@ -16,15 +16,15 @@ from Data.Boolean import true,false
 from Data.Comparable import Comparable,comparable
 from Data.Hashable import Hashable
 from Data.Matcher import Matcher
-from Data.Additionable import Additionable
+from Data.Additionable import additionable
 
 from Lang.Switch import switch
 
 class char this:native {
     with comparable[char]
+    with additionable[char]
     with Matcher[char]
-    with Additionable[char]
-
+    
     toString : string
 } {
     def unbox = self

@@ -18,15 +18,15 @@ from Data.String import string
 from Data.Pair import Pair
 from Data.List import emptyList,list
 from Data.Matcher import Matcher
-from Data.Additionable import Additionable
+from Data.Additionable import additionable
 
 from Lang.Switch import switch
 from Lang.Range import Range,foreach
 
 class number this:native {
     with comparable[number]
+    with additionable[number]
     with Matcher[number]
-    with Additionable[number]
     
     (-)      : number -> number
     (*)      : number -> number
@@ -75,17 +75,20 @@ class number this:native {
     def (++) = self + 1
     def (--) = self - 1
     
-    def negate = self * -1
+    def negate = 0 - self
 
     def toString = string $ internal "number.toString" self
     
     def to n = foreach (self,n) step 1
-    def downto n = foreach (self,n) step -1
+    def downto n = foreach (self,n) step (-1)
     
     def (..) n = n downto self fold emptyList (l -> l+:)
     
     def match = switch self
 }
+
+def (+) : number -> number = a -> a
+def (-) : number -> number = number::negate
 
 def Infinity : number = { 1 / 0 }
 
