@@ -237,8 +237,6 @@ class bool this:Bool {
 }
 ```
 
-## Not yet in the language
-
 ### String interpolation
 
 String interpolation unleashes string construction allowing string embedded code.
@@ -250,8 +248,10 @@ model Message {
 }
 
 def logMessage : Message -> console = m -> 
-    console.log $"${date current}::${m.id} - ${m.text}" 
+    console.log $"${date current}::$m.id - $m.text" 
 ```
+
+## Not yet in the language
 
 ### Type of self in traits
 

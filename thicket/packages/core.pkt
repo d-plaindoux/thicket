@@ -46,7 +46,7 @@
         "System.Runtime"        
     ],
     "extensions": [
-        
+        "extensions/native.js"
     ],
     "requires": [
     ]

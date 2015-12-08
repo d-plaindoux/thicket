@@ -62,10 +62,7 @@ def bench : number -> unit = n -> {
     let stretchDepth = maxDepth + 1 in
     let check = itemCheck $ bottomUpTree 0 stretchDepth in
         do
-        { console.log $ "stretch tree of depth " + 
-                        stretchDepth + 
-                        " check: " + 
-                        check
+        { console.log $ $"stretch tree of depth $stretchDepth check: $check"
         };
         { foreach minDepth,maxDepth step 2 fold
             ()
@@ -77,21 +74,13 @@ def bench : number -> unit = n -> {
                                         (itemCheck $ bottomUpTree i depth) +
                                         (itemCheck $ bottomUpTree (0 - i) depth)) in
                     do 
-                    { console.log $ "do " + 
-                                    (iterations * 2) + 
-                                    " trees of depth " + 
-                                    depth + 
-                                    " check: " + 
-                                    check
+                    { console.log $ $"do $(iterations * 2) trees of depth check: $check"
                     }
                     return ())
         };
         {
             let check = itemCheck $ bottomUpTree 0 maxDepth in
-                console.log $ "long lived tree of depth " + 
-                              stretchDepth + 
-                              " check: " + 
-                              check
+                console.log $ $"long lived tree of depth $stretchDepth check: $check"
         }
         return ()
 }

@@ -421,7 +421,69 @@ exports['language_exprs'] = {
                    ast.expr.newModel(ast.expr.ident("a"),[["b",ast.expr.number(1)],["c",ast.expr.string("2")]]),
                    "Model modification");
     test.done();      
-  }
+  },
     
+  'empty string interpolation': function (test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream(' $""');
+        
+    test.deepEqual(language.parser.group('expr').parse(aStream).get(), 
+                   ast.expr.string(""),
+                   "Empty string interpolation");
+    test.done();      
+  },
+    
+  'simple string interpolation': function (test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream(' $"a" ');
+        
+    test.deepEqual(language.parser.group('expr').parse(aStream).get(), 
+                   ast.expr.application(ast.expr.invoke(ast.expr.string(""),"+"),ast.expr.string("a")),
+                   "Empty string interpolation");
+    test.done();      
+  },
+    
+  'string interpolation with expression': function (test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream(' $"$a" ');
+        
+    test.deepEqual(language.parser.group('expr').parse(aStream).get(), 
+                   ast.expr.application(ast.expr.invoke(ast.expr.string(""),"+"),ast.expr.ident("a")),
+                   "Empty string interpolation");
+    test.done();      
+  },
+    
+  'right string interpolation with expression': function (test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream(' $"> $a" ');
+        
+    test.deepEqual(language.parser.group('expr').parse(aStream).get(), 
+                   ast.expr.application(ast.expr.invoke(ast.expr.application(ast.expr.invoke(ast.expr.string(""),
+                                                                        "+"),
+                                                        ast.expr.string("> ")),
+                                                        "+"),
+                                        ast.expr.ident("a")),                                                                      
+                   "Empty string interpolation");
+    test.done();      
+  },
+      
+  'left string interpolation with expression': function (test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream(' $"$a <" ');
+        
+    test.deepEqual(language.parser.group('expr').parse(aStream).get(), 
+                   ast.expr.application(ast.expr.invoke(ast.expr.application(ast.expr.invoke(ast.expr.string(""),
+                                                                        "+"),
+                                                        ast.expr.ident("a")),
+                                                        "+"),
+                                        ast.expr.string(" <")),                                                                      
+                   "Empty string interpolation");
+    test.done();      
+  }
         
 };
