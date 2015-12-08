@@ -91,9 +91,9 @@ class person this:Person {
 typedef Population = list[Person]
 
 class population this:Population {
-  unbox   : Population
-  (<=)    : number -> population
-  addNew  : string -> string -> population
+  unbox: Population
+  (<=): number -> population
+  addNew: string -> string -> population
 } {
   def unbox = this
   def (<=) age = population for p <- this if p <= 100 yield p
