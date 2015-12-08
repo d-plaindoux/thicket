@@ -276,23 +276,6 @@ to this trait.
 For the moment the type of self is the trait type itself but this approach is not 
 fulfiling. 
 
-### Model pattern matching
-
-Method selection in a class is done using the model selector i.e. it's name. 
-Unfortunately such approach is well adapted when a method must be selected during 
-the lookup stage but the code seggragation is poor. Pattern matchign can offer 
-expressiveness unleashing model pattern definition and matching operation used 
-for inductive computation.
-
-```
-def adder : list[number] -> number = l -> {
-    l match {
-    case Nil      => 0
-    case Cons i l => adder l + i
-    }
-}
-```
-
 ## More informations and References
 
 This language has been inspired  by major projects and frameworks like
