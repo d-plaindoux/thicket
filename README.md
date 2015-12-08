@@ -250,7 +250,7 @@ model Message {
 }
 
 def logMessage : Message -> console = m -> 
-    console.log @"${date current}::${m.id} - ${m.text}" 
+    console.log $"${date current}::${m.id} - ${m.text}" 
 ```
 
 ### Type of self in traits
