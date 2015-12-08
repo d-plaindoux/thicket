@@ -426,7 +426,7 @@ exports['language_exprs'] = {
   'empty string interpolation': function (test) {
     test.expect(1);
     // tests here  
-    var aStream = stream(' $""');
+    var aStream = stream('$""');
         
     test.deepEqual(language.parser.group('expr').parse(aStream).get(), 
                    ast.expr.string(""),
@@ -437,7 +437,7 @@ exports['language_exprs'] = {
   'simple string interpolation': function (test) {
     test.expect(1);
     // tests here  
-    var aStream = stream(' $"a" ');
+    var aStream = stream('$"a"');
         
     test.deepEqual(language.parser.group('expr').parse(aStream).get(), 
                    ast.expr.application(ast.expr.invoke(ast.expr.string(""),"+"),ast.expr.string("a")),
@@ -448,7 +448,7 @@ exports['language_exprs'] = {
   'string interpolation with expression': function (test) {
     test.expect(1);
     // tests here  
-    var aStream = stream(' $"$a" ');
+    var aStream = stream('$"$a"');
         
     test.deepEqual(language.parser.group('expr').parse(aStream).get(), 
                    ast.expr.application(ast.expr.invoke(ast.expr.string(""),"+"),ast.expr.ident("a")),
@@ -459,7 +459,7 @@ exports['language_exprs'] = {
   'right string interpolation with expression': function (test) {
     test.expect(1);
     // tests here  
-    var aStream = stream(' $"> $a" ');
+    var aStream = stream('$"> $a"');
         
     test.deepEqual(language.parser.group('expr').parse(aStream).get(), 
                    ast.expr.application(ast.expr.invoke(ast.expr.application(ast.expr.invoke(ast.expr.string(""),
@@ -474,7 +474,7 @@ exports['language_exprs'] = {
   'left string interpolation with expression': function (test) {
     test.expect(1);
     // tests here  
-    var aStream = stream(' $"$a <" ');
+    var aStream = stream('$"$a <"');
         
     test.deepEqual(language.parser.group('expr').parse(aStream).get(), 
                    ast.expr.application(ast.expr.invoke(ast.expr.application(ast.expr.invoke(ast.expr.string(""),
