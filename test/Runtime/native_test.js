@@ -409,6 +409,42 @@ exports['native'] = {
     test.done();
   },   
 
+  'numbers >>': function(test) {
+    test.expect(1);
+    // tests here  
+    var code = runtime.delta["number.>>"].concat([
+        [$i.CONST,10],[$i.APPLY],
+        [$i.CONST,2],[$i.APPLY]
+    ]);      
+      
+    test.deepEqual(runtime.execute(code), [$i.CONST,10 >> 2]);
+    test.done();
+  },   
+    
+  'numbers |': function(test) {
+    test.expect(1);
+    // tests here  
+    var code = runtime.delta["number.|"].concat([
+        [$i.CONST,10],[$i.APPLY],
+        [$i.CONST,20],[$i.APPLY]
+    ]);      
+      
+    test.deepEqual(runtime.execute(code), [$i.CONST,10 | 20]);
+    test.done();
+  },   
+    
+  'numbers &': function(test) {
+    test.expect(1);
+    // tests here  
+    var code = runtime.delta["number.&"].concat([
+        [$i.CONST,10],[$i.APPLY],
+        [$i.CONST,30],[$i.APPLY]
+    ]);      
+      
+    test.deepEqual(runtime.execute(code), [$i.CONST,10 & 30]);
+    test.done();
+  },   
+
   'number toString': function(test) {
     test.expect(1);
     // tests here  
