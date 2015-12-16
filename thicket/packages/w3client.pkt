@@ -16,6 +16,9 @@
         "Client.Event.Mouse",
         "Client.Event.Key"
     ],
+    "extensions": [
+        "extensions/dom.js"
+    ],    
     "requires":[
         { "Core": "1.0" }
     ]

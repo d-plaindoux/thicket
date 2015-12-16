@@ -28,7 +28,7 @@ def domRenderer : dom -> Renderer = dom -> {
                 for idDom  <- { newDom findAttribute "id" }
                     oldDom <- { dom find idDom }
                 yield 
-                    oldDom replace newDom
+                    oldDom replacedBy newDom
             }
             return documentRenderer 
         }
@@ -42,7 +42,7 @@ def documentRenderer : Renderer = {
                 for idDom  <- { newDom findAttribute "id" }
                     oldDom <- { document idDom find }
                 yield 
-                    oldDom replace newDom
+                    oldDom replacedBy newDom
             }
             return documentRenderer 
         }

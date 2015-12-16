@@ -29,7 +29,7 @@ class keyEventType this:KeyEventType {
 // Constants
 
 model Keys {
-    CR: number
+    CARRIAGE_RETURN : number
 }
 
 def standardKeys : Keys = { Keys 13 }

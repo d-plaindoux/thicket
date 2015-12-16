@@ -24,7 +24,7 @@
     def todo : string -> dom = text -> { 
         (view text "actionable todo")
         onMouseEvent MouseClick { node -> 
-            node replace (view text "actionable done")
+            node replacedBy (view text "actionable done")
             onMouseEvent MouseClick dom::remove
         }
     }
@@ -59,7 +59,7 @@
     def todo : string -> dom = text -> { 
         (view text "actionable todo")
         onEvent MouseClick { node -> 
-            node replace (view text "actionable done")
+            node replacedBy (view text "actionable done")
             onEvent MouseClick dom::remove
         }
     }

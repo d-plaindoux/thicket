@@ -21,12 +21,12 @@ model Components {
 
 def makeContent : logger -> runtimeClass -> dom -> dom -> dom = logger runtime content output -> {
     content onKeyEvent KeyPress $ d n -> 
-        when (n == standardKeys.CR) 
+        when (n == standardKeys.CARRIAGE_RETURN) 
         then { do 
                { output removeChilds };
                { content value map $ s -> logger.log s };
                { content value map $ runtime run };
-               { content replace $ makeContent logger runtime (content clone) output }
+               { content replacedBy $ makeContent logger runtime (content clone) output }
                return () 
              }
         else { () }

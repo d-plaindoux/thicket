@@ -50,12 +50,12 @@ exports['reader'] = {
     test.done();
   },
     
-  'Read package': function(test) {
+  'Read package specification': function(test) {
     test.expect(1);
     // tests here  
     var aReader = reader(fsdriver('./test/Resource/samples')); 
         
-    test.deepEqual(aReader.package("Client").definition, 
+    test.deepEqual(aReader.packageSpecificationAndCode("Client").definition, 
                { name: 'Client',
                  version: '1.0',
                  description: 'Client package',
@@ -65,23 +65,60 @@ exports['reader'] = {
     test.done();
   },
       
-  'Read and add package': function(test) {
+  'Read package code': function(test) {
     test.expect(1);
     // tests here  
     var aReader = reader(fsdriver('./test/Resource/samples')); 
         
-    aReader.addPackage(aReader.package("Client"));
+    test.deepEqual(aReader.packageCode("Client").definition, 
+               { name: 'Client',
+                 version: '1.0',
+                 description: 'Client package',
+                 modules: 
+                 [ ],
+                 requires: [ { Core: '1.0' } ] });
+    test.done();
+  },
+      
+  'Read and add package specification': function(test) {
+    test.expect(1);
+    // tests here  
+    var aReader = reader(fsdriver('./test/Resource/samples')); 
+        
+    aReader.addPackageCode(aReader.packageSpecificationAndCode("Client"));
       
     test.ok(aReader.hasPackage("Client"));
     test.done();
   },
     
-  'Read and add required package': function(test) {
+  'Read and add required package specification': function(test) {
     test.expect(1);
     // tests here  
     var aReader = reader(fsdriver('./test/Resource/samples')); 
         
-    aReader.addPackage(aReader.package("Client"));
+    aReader.addPackageSpecificationAndCode(aReader.packageSpecificationAndCode("Client"));
+      
+    test.ok(aReader.hasPackage("Core"));
+    test.done();
+  },
+      
+  'Read and add package code': function(test) {
+    test.expect(1);
+    // tests here  
+    var aReader = reader(fsdriver('./test/Resource/samples')); 
+        
+    aReader.addPackageCode(aReader.packageCode("Client"));
+      
+    test.ok(aReader.hasPackage("Client"));
+    test.done();
+  },
+    
+  'Read and add required package code': function(test) {
+    test.expect(1);
+    // tests here  
+    var aReader = reader(fsdriver('./test/Resource/samples')); 
+        
+    aReader.addPackageCode(aReader.packageCode("Client"));
       
     test.ok(aReader.hasPackage("Core"));
     test.done();
