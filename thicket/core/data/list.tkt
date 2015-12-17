@@ -67,7 +67,6 @@ class list[a] this:List[a] {
     def each f = self foldL (r c -> do { f c } return r) ()
 
     def empty = self fold true (_ _ -> false)
-
     def length = self foldR (_ r -> r ++) 0
 
     def reverse = list $ self foldL (b a -> Cons a b) Nil
@@ -80,7 +79,7 @@ class list[a] this:List[a] {
     def (+:) a = list $ Cons a this
     def (:+) a = self ++ $ list $ Cons a Nil
 
-    def map f = self foldL (r e -> let ne = f e in list $ Cons ne r.unbox) emptyList
+    def map f = self foldL (r e -> list $ Cons (f e) r.unbox) emptyList
     def flatmap f = self foldL (r e -> (f e) ++ r) $ list Nil
 
     def filter p = self foldL (r e -> (p e) fold (list $ Cons e r.unbox) r) emptyList
@@ -121,7 +120,11 @@ class ziplist[a b] this:List[(a,b)] {
 def emptyList : list = { list Nil }
 
 def List : [a] collectionBuilder[a list[a]] = {
-    collectionBuilder (list2entity emptyList)
+    collectionBuilder (list2builder emptyList)
+}
+                
+def list2builder : [a] list[a] -> CollectionBuilder[a list[a]] = l -> {
+    CollectionBuilder l (a -> list2builder $ l :+ a)
 }
 
 /**
@@ -141,8 +144,4 @@ def adapter list2collection : [a] list[a] -> Collection[a] = l -> {
         (p -> list2collection $ l filter p) 
         (v -> list2collection $ l +: v) 
         (f -> list2collection $ l map f)
-}
-                
-def adapter list2entity : [a] list[a] -> CollectionBuilder[a list[a]] = l -> {
-    CollectionBuilder l (a -> list2entity $ l :+ a)
 }
