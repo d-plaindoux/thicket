@@ -14,6 +14,7 @@ from Data.String import string
 from Data.Option import option
 
 from Client.Document import dom,document
+from System.Console import console
 
 model Renderer {
     (<?) : option[dom] -> Renderer
@@ -28,9 +29,8 @@ def domRenderer : dom -> Renderer = dom -> {
                 for idDom  <- { newDom findAttribute "id" }
                     oldDom <- { dom find idDom }
                 yield 
-                    oldDom replacedBy newDom
-            }
-            return documentRenderer 
+                    oldDom replaceWith newDom
+            } return documentRenderer 
         }
 }
 
@@ -42,8 +42,7 @@ def documentRenderer : Renderer = {
                 for idDom  <- { newDom findAttribute "id" }
                     oldDom <- { document idDom find }
                 yield 
-                    oldDom replacedBy newDom
-            }
-            return documentRenderer 
+                    oldDom replaceWith newDom
+            } return documentRenderer 
         }
 }

@@ -13,19 +13,17 @@
   <link rel="stylesheet" type="text/css" href="../common/specs.css">
   <script src="/thicket/build/thicket-runtime.min.js"></script>
 
-  <script type="application/thicket+package" data-src="Core"></script>    
-  <script type="application/thicket+package" data-src="Client"></script>    
-  <script type="application/thicket+package" data-src="Spec"></script>    
+  <script type="application/thicket+package" data-src="Example.Test"></script>    
     
   <script type="application/thicket+main" data-src="Example.Test.Client"></script>    
     
   <script type="application/javascript">
-    function onLoad() {
+    function bootThicket() {
         require('thicket')('/thicket/site').boot();
     }
   </script>
 </head>    
-<body onload="onLoad()">
+<body onload="bootThicket()">
     <div id="output"></div>
 </body>
 </html>

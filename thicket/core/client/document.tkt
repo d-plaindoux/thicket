@@ -39,7 +39,7 @@ class dom this:native {
 
     clone : dom
     remove : dom
-    replacedBy : dom -> dom
+    replaceWith : dom -> dom
     
     value : option[string]
     
@@ -63,7 +63,7 @@ class dom this:native {
     def find s = internal "dom.elementById" self s (e -> some $ dom e) none
     
     def clone = dom $ internal "dom.clone" self
-    def replacedBy = internal "dom.replace" self
+    def replaceWith = internal "dom.replace" self
     def remove = internal "dom.remove" self  
     
     def value = internal "dom.getValue" self (s -> some $ string s) none

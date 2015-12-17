@@ -148,7 +148,7 @@ def renderAll : Application -> Renderer = a -> {
 }
 
 def render : Application -> Application = application -> {
-    do
-    { renderAll application }
-    return application
+    do { 
+        renderAll application 
+    } return application
 }

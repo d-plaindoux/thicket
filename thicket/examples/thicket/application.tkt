@@ -26,7 +26,7 @@ def makeContent : logger -> runtimeClass -> dom -> dom -> dom = logger runtime c
                { output removeChilds };
                { content value map $ s -> logger.log s };
                { content value map $ runtime run };
-               { content replacedBy $ makeContent logger runtime (content clone) output }
+               { content replaceWith $ makeContent logger runtime (content clone) output }
                return () 
              }
         else { () }

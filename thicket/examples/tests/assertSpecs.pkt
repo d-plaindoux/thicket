@@ -1,0 +1,22 @@
+{
+    "name": "Example.Test",
+    "version": "1.0",
+    "description": "Basic Spec tests",
+    "license": "LGPL2",
+    "developers": [
+        {
+            "name": "D. Plaindoux",
+            "mail": "d.plaindoux@free.fr"
+        }
+    ],
+    "modules": [
+        "Example.Test",
+        "Example.Test.Logger",
+        "Example.Test.Client"
+    ],
+    "requires": [
+        { "Client": "1.0" },
+        { "Core": "1.0" },
+        { "Spec": "1.0" }
+    ]
+}

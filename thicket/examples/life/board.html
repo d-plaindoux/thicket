@@ -21,18 +21,16 @@
   </style>
   <script src="/thicket/build/thicket-runtime.min.js"></script>
 
-  <script type="application/thicket+package" data-src="Core"></script>  
-  <script type="application/thicket+package" data-src="Client"></script>  
-
+  <script type="application/thicket+package" data-src="Example.Life"></script>  
   <script type="application/thicket+main" data-src="Example.Life"></script>    
   
   <script>
-    function onLoad() {
+    function bootThicket() {
         require('thicket')('/thicket/site').boot();
     }
   </script>
 </head>    
-<body onload="onLoad()">
+<body onload="bootThicket()">
     <table id="board" border="1"></table>
     <br>
     <button id="next">next</button>
