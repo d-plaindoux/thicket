@@ -239,9 +239,9 @@ class bool this:Bool {
 
 ### Private behaviors
 
-A trait or a class can be defined with provate behaviors. Such definitions
-are then only avaialble through self. A private class is defined with a type.
-Such method is not meant to be selectable with a specific model type.
+A trait or a class can be defined with provite behaviors. Such definitions
+are then only available when using 'self'. A private behavior is defined with 
+a type in the definition section. 
 
 ```
 trait page {
