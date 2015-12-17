@@ -8,7 +8,6 @@
 
 module Example.TodoMVC.Views
 
-from Client.Document.Renderer import *
 from Client.Document import *
 from Client.Event.Mouse import *
 from Client.Event.Key import *
@@ -29,26 +28,21 @@ from Example.TodoMVC.Application import Application
 // ------------------------------------------------------------------
 
 class todoViews this:Application {
-    todoStatusView      : Todo -> dom
-    todoEditView        : Todo -> dom
-    todoView            : Todo -> dom
-    
-    viewItems           : dom 
-    createView          : dom
-    filtersView         : dom
-    clearCompletedView  : dom
-    toggleAllView       : dom
-    footerView          : dom
-    todoListView        : dom
+    createView    : dom
+    toggleAllView : dom
+    footerView    : dom
+    todoListView  : dom
 } {
-    def todoStatusView t = 
-        <input type="checkbox" class="toggle"
-               checked if t.completed />
+    // 
+    // Private behaviors
+    //
+
+    def todoStatusView : Todo -> dom = t ->
+        <input type="checkbox" class="toggle" checked if t.completed />
         onMouseEvent MouseClick $ _ -> this action toggle t.id
         
-    def todoEditView t =
-        <li id=("todo_" + t.id) class="completee" if t.completed
-        >
+    def todoEditView : Todo -> dom = t ->
+        <li id=("todo_" + t.id) class="completee" if t.completed>
           { <input class="edit" value=t.title autofocus/>             
             onKeyEvent KeyPress $ d n -> 
                 when (n == standardKeys.CARRIAGE_RETURN) 
@@ -57,7 +51,7 @@ class todoViews this:Application {
           }
         </li>
         
-    def todoView t =
+    def todoView : Todo -> dom = t ->
         <li id=("todo_" + t.id) class="completed" if t.completed>
             <div class="view">  
                 {self todoStatusView t}
@@ -68,34 +62,45 @@ class todoViews this:Application {
         </li>
         onMouseEvent MouseDblClick $ _ -> this action edit t.id
 
-    def viewItems = 
+    def viewItems : dom = 
         let r = this.context.todosLeft in
             <span id="todo-count">
                 <strong> r " " </strong> 
                 { when (r <? 2) then "item left" else "items left" }
             </span>
 
-    def filtersView =
+    def filtersView : dom =
         <ul id="filters">
             <li>  
-                { <a href="#/" class="completed" if (this.context.filter == all)>
+                { <a href="#/" 
+                     class="completed" if (this.context.filter == all)>
                      "All" 
                   </a>
                   onMouseEvent MouseClick $ _ -> this action filtering all }
             </li>
             <li>  
-                { <a href="#/active" class="selected" if (this.context.filter == active)> 
-                     "Active" 
+                { <a href="#/active" 
+                    class="selected" if (this.context.filter == active)> 
+                    "Active" 
                   </a>
                   onMouseEvent MouseClick $ _ -> this action filtering active }
             </li>
             <li>  
-                { <a href="#/completed" class="selected" if (this.context.filter == completed)> 
-                    "Completed" 
+                { <a href="#/completed" 
+                     class="selected" if (this.context.filter == completed)> 
+                     "Completed"
                   </a>
                   onMouseEvent MouseClick $ _ -> this action filtering completed }
             </li>
         </ul>
+
+    def clearCompletedView : dom =
+        <button id="clear-completed"> "Clear completed" </button>            
+        onMouseEvent MouseClick $ _ -> this action clearCompleted ()
+        
+    // --------------------------------------------------------------------------
+    // Public methods
+    // --------------------------------------------------------------------------
 
     def createView = 
         <input id="new-todo" placeholder="What needs to be done?" autofocus/>
@@ -104,10 +109,6 @@ class todoViews this:Application {
             then { d value fold this $ this action add } 
             else this
 
-    def clearCompletedView =
-        <button id="clear-completed"> "Clear completed" </button>            
-        onMouseEvent MouseClick $ _ -> this action clearCompleted ()
-        
     def toggleAllView = 
         <input id="toggle-all" type="checkbox"
                checked if this.context.completed
@@ -132,23 +133,4 @@ class todoViews this:Application {
                     else {self todoView t} 
             }
             return todolist
-}
-
-// ------------------------------------------------------------------
-// Rendering function
-// ------------------------------------------------------------------
-
-def renderAll : Application -> Renderer = a -> {
-    let todoViews = todoViews a in
-        documentRenderer 
-            <~ { todoViews createView    }
-            <~ { todoViews todoListView  }
-            <~ { todoViews footerView    }
-            <~ { todoViews toggleAllView }
-}
-
-def render : Application -> Application = application -> {
-    do { 
-        renderAll application 
-    } return application
 }

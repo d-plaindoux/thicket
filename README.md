@@ -237,6 +237,22 @@ class bool this:Bool {
 }
 ```
 
+### Private behaviors
+
+A trait or a class can be defined with provate behaviors. Such definitions
+are then only avaialble through self. A private class is defined with a type.
+Such method is not meant to be selectable with a specific model type.
+
+```
+trait page {
+    create : dom -> dom
+} {
+    def header : dom = <div class="header"> "..." </div>
+    def footer : dom = <div class="footer"> "..." </div>
+    def create d = <body> {self header} d { self footer} </body>
+}
+```
+
 ### String interpolation
 
 String interpolation unleashes string construction allowing string embedded code.

@@ -19,7 +19,7 @@ from Data.Boolean import bool
 
 from Example.TodoMVC.Models import *
 from Example.TodoMVC.Controller import *
-from Example.TodoMVC.Views import render
+from Example.TodoMVC.Renderer import render
 
 from System.Console import console
 
