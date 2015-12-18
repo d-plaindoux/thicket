@@ -212,4 +212,28 @@ exports['language_analyse'] = {
   'test 35': function(test) {
     wrongSampleTest("35.tkt", test);    
   },
+
+  'test 36': function(test) {
+    correctSampleTest("36.tkt", test);    
+  },
+
+  'test 37': function(test) {
+    wrongSampleTest("37.tkt", test);    
+  },
+
+  'test 38': function(test) {
+    correctSampleTest("36.tkt", test);    
+  },
+
+  'test 39': function(test) {
+    wrongSampleTest("37.tkt", test);    
+  },
+
+  'test 40': function(test) {
+    wrongSampleTest("37.tkt", test);    
+  },
+
+  'test 41': function(test) {
+    wrongSampleTest("37.tkt", test);    
+  }
 };

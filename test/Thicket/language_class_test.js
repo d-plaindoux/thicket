@@ -90,6 +90,20 @@ exports['language_class'] = {
     test.done();
   },
         
+  'controller with a private constant behavior is accepted and provided': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("class Address this:Address { } { def number : number = 123 }");        
+    test.deepEqual(language.parser.group('controllerDef').parse(aStream).get().definition, 
+                   ast.controller('Address',
+                                  [],
+                                  ast.param('this',ast.type.variable('Address')), 
+                                  [],
+                                  [ ast.method('number', ast.expr.number(123), null, ast.type.variable("number")) ]) , 
+                   "accept a controller");
+    test.done();
+  },
+        
   'controller with a functional behavior is accepted and provided': function(test) {
     test.expect(1);
     // tests here  

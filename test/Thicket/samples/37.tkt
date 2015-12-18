@@ -1,0 +1,13 @@
+model B
+
+trait A {
+    m : B
+} {
+    def n : B = B
+}
+
+trait C {
+    with A
+} {
+    def m = self n
+}

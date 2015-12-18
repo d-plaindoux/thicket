@@ -76,6 +76,19 @@ exports['language_trait'] = {
     test.done();
   },
         
+  'trait with a private constant behavior is accepted and provided': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("trait Address { } { def number : number = 123 }");        
+    test.deepEqual(language.parser.group('traitDef').parse(aStream).get().definition, 
+                   ast.trait('Address',
+                             [],
+                             [],
+                             [ ast.method('number', ast.expr.number(123), null, ast.type.variable("number")) ]) , 
+                   "accept a trait");
+    test.done();
+  },
+        
   'trait with a functional behavior is accepted and provided': function(test) {
     test.expect(1);
     // tests here  

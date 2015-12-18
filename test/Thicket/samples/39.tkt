@@ -1,0 +1,13 @@
+model B
+
+trait A {
+    m : B
+} {
+    def n : B = B
+}
+
+class C this:unit {
+    with A
+} {
+    def m = self n
+}

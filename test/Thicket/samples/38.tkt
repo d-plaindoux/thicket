@@ -1,0 +1,8 @@
+model B
+
+class A this:unit {
+    m : B
+} {
+    def n : B = B
+    def m = self n
+}
