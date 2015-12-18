@@ -45,15 +45,16 @@
         "System.Console",
         "System.Runtime"        
     ],
-    "extensions": [
-        "native/main/js/common.js",
-        "native/main/js/number.js",
-        "native/main/js/string.js",
-        "native/main/js/character.js",
-        "native/main/js/array.js",        
-        "native/main/js/backend.js",
-        "native/main/js/mutable.js"
-    ],
+    "native": 
+        { "javascript": [
+                "native/main/js/common.js",
+                "native/main/js/number.js",
+                "native/main/js/string.js",
+                "native/main/js/character.js",
+                "native/main/js/array.js",        
+                "native/main/js/backend.js",
+                "native/main/js/mutable.js" ]
+        }
     "requires": [
     ]
 }
