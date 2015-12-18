@@ -13,6 +13,7 @@
         "Example.TodoMVC",
         "Example.TodoMVC.Application",
         "Example.TodoMVC.Views",
+        "Example.TodoMVC.Renderer",
         "Example.TodoMVC.Controller",
         "Example.TodoMVC.Models"
     ],
