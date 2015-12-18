@@ -11,13 +11,10 @@ applied to a  given model or controller and finally a view  denotes an
 extended DOM fragment used for UI management.
 
 Thicket is a  strong typed language based on well known Hindley-Milner
-type system and type inference paradigm. The runtime is based on an
-Krivines' abstract machine. Such machine can therefore be implemented 
-in various languages like Java, Python etc. The Thicket source code 
+type system and type inference paradigm. The Thicket source code 
 is compiled and the resulting objcode is executed by an abstract machine 
-derived from Krivines' machine. For instance the previous example uses 
-data structure like [Option](https://github.com/d-plaindoux/thicket/blob/master/thicket/core/data/option.tkt)
-which is compiled to the [objcode](http://d.plaindoux.free.fr/thicket/site/Data.Option.tkt.o). 
+derived from Krivines' machine. Such abstract machine can therefore be 
+implemented in various languages like Java, Python etc. 
 
 ## Online examples
 
