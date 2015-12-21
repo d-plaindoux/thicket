@@ -12,9 +12,7 @@ from Data.String import string
 from Data.Number import number
 from Data.Comparable import comparable
 from Data.Hashable import hashable
-from Data.Matcher import Matcher
-
-from Lang.Switch import switch
+from Data.Matcher import matcher
 
 /*
  * Boolean definition as an injective type domain
@@ -30,9 +28,7 @@ type Bool { True False }
 class bool this:Bool {
     with comparable[bool]
     with hashable[bool]
-    with Matcher[bool]
-    
-    unbox    : Bool
+    with matcher[bool]
     
     fold     : [a] a -> a -> a
     
@@ -43,7 +39,7 @@ class bool this:Bool {
     
     toString : string
 } {
-    def unbox = this
+    def unbox = self
     
     def hash = self fold 7 13
 
@@ -59,8 +55,6 @@ class bool this:Bool {
     
     def (==) b = self fold b (b not)    
     def (<?) b = self fold (b not) false
-    
-    def match = switch self
 }
 
 /**

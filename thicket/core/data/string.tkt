@@ -17,14 +17,12 @@ from Data.Char import char
 from Data.Option import option,none,some
 from Data.Comparable import comparable
 from Data.Hashable import hashable
-from Data.Matcher import Matcher
-
-from Lang.Switch import switch
+from Data.Matcher import matcher
 
 class string this:native {
     with comparable[string]
     with hashable[string]
-    with Matcher[string]
+    with matcher[string]
         
     getAt    : number -> option[char]
     setAt    : number -> char -> string
@@ -42,8 +40,6 @@ class string this:native {
     def (<?) n = internal "generic.<" self n true false
     
     def hash = number $ internal "string.hash" self
-
-    def match = switch self
 
     def getAt n = internal "string.getAt" self n (n -> some $ char n) none
     def setAt n v = string $ internal "string.setAt" self n v

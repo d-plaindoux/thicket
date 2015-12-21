@@ -9,7 +9,15 @@
 module Data.Matcher
 
 from Lang.Switch import switch
+from Data.Comparable import Comparable
 
 model Matcher[a] {
     match : [b] switch[a b]
+}
+
+trait matcher[a] {
+    with Matcher[a]
+    unbox : a    
+} {
+    def match = switch (self unbox)
 }

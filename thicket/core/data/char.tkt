@@ -28,8 +28,6 @@ class char this:native {
     
     toString : string
 } {
-    def unbox = self
-    
     def hash = self toString hash
 
     def (==) n = internal "generic.==" self n true false

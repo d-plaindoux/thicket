@@ -15,7 +15,6 @@ model Hashable[k] {
 }
 
 model Hash[k] { 
-    unbox : k
     hash  : number
 }
 
