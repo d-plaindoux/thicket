@@ -9,31 +9,26 @@
 module Example.Life.Game.State
 
 import Data.Comparable
+import Data.Hashable
 import Data.Boolean
 
 type State { Alive Dead }
 
 class state this:State {
     with comparable[state]
+    with hashable[state]
     
     fold : [b] b -> b -> b
-    hash : number
-} {
-    def Alive.fold a _ = a
-    def Dead.fold  _ d = d
-    
-    def (==) s = self fold (s fold true false) (s fold false true)
-    def (<?) s = self fold (s fold false true) false
+ } {
+    def unbox = self
     
     def hash = self fold 0 1
-}
 
-def adapter state2hashable : state -> Hashable[state] = s -> {
-    Hashable s s.hash
-}
+    def (==) s = self fold (s fold true false) (s fold false true)
+    def (<?) s = self fold (s fold false true) false
 
-def adapter state2comparable : state -> Comparable[state] = s -> {
-    Comparable s s.(==) s.(!=) s.(=>) s.(<=) s.(?>) s.(<?) (state2hashable s)
+    def Alive.fold a _ = a
+    def Dead.fold  _ d = d
 }
 
 def alive : state = { state Alive }

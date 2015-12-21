@@ -15,7 +15,6 @@ from Data.Pair import Pair
 from Data.List import List,list,emptyList,ziplist,list2collection
 from Data.Comparable import Comparable
 from Data.Collection import Collection
-from Data.Hashable import Hashable
 from Data.Array import array,emptyArray
 from Data.Map import Map
 

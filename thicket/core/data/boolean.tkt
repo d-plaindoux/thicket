@@ -10,8 +10,8 @@ module Data.Boolean
 
 from Data.String import string
 from Data.Number import number
-from Data.Comparable import Comparable, comparable
-from Data.Hashable import Hashable
+from Data.Comparable import comparable
+from Data.Hashable import hashable
 from Data.Matcher import Matcher
 
 from Lang.Switch import switch
@@ -29,6 +29,7 @@ type Bool { True False }
 
 class bool this:Bool {
     with comparable[bool]
+    with hashable[bool]
     with Matcher[bool]
     
     unbox    : Bool
@@ -43,6 +44,8 @@ class bool this:Bool {
     toString : string
 } {
     def unbox = this
+    
+    def hash = self fold 7 13
 
     def True.fold  t _ = t
     def False.fold _ f = f
@@ -66,15 +69,3 @@ class bool this:Bool {
 
 def true  : bool = { bool True  }
 def false : bool = { bool False }
-
-/**
- * Adapters
- */
-
-def adapter bool2hashable : bool -> Hashable[bool] = this -> {
-    Hashable this (this fold 7 13)
-}
-
-def adapter bool2comparable : bool -> Comparable[bool] = s -> {
-    Comparable s s.(==) s.(!=) s.(=>) s.(<=) s.(?>) s.(<?) (bool2hashable s)
-}

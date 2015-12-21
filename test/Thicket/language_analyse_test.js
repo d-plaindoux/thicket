@@ -235,5 +235,13 @@ exports['language_analyse'] = {
 
   'test 41': function(test) {
     wrongSampleTest("37.tkt", test);    
+  },
+
+  'test 42': function(test) {
+    correctSampleTest("36.tkt", test);    
+  },
+
+  'test 43': function(test) {
+    correctSampleTest("36.tkt", test);    
   }
 };

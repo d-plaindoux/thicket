@@ -52,6 +52,8 @@ define  view   facet  in   addition  to   object  (model)   and  class
 
 ### Model
 
+**keywords:** *data denotation*
+
 First information and data are stored in an object. In our approach an
 object is not  meant to have behaviors but only  provides a common and
 simple  way  for  data  structuration and  storage.   It's  the  model
@@ -65,6 +67,8 @@ model Person {
 }
 ```
 ### Class
+
+**keywords:** *behavior - control - denotation*
 
 A  class provides  a  set of  behaviors where  the  internal state  is
 represented by  a model.  For instance  in the  next code  two classes
@@ -99,6 +103,8 @@ class population this:Population {
 ```
 
 ### View using DOM fragment
+
+**keywords:** *templating, UI fragment*
 
 Finally  views can  be  designed  and linked  to  controllers. In  the
 example  we   propose  views  dedicated   to  a  `person`  and   to  a
@@ -153,6 +159,8 @@ for small web and backend applications
 
 ### Adapters
 
+**keywords:** *substitutability, implicit transformation*
+
 Implicit data adaptation can be done in order to reduce boiler plate 
 when dealing with objects. For instance when a `Comparable[number]` is
 required this one can be transparently created from a `number`. 
@@ -165,13 +173,12 @@ def adapter number2comparable : number -> Comparable[number] = s -> {
 // newHashmap add 1 "a" === newHashmap add (number2comparable 1) "a"
 ```
 
-Since subtyping is not a paradigm available in the language the adapter
-is the solution performing automatic data adaptation. These adaptations
-can be ordered explicitely or inferred by the compiler during the type 
-checking stage. Adapter accessibility is managed using imports then if 
-such an adapter is not imported the related transformation is not available.
+These adaptations can be ordered explicitely or inferred by the compiler 
+during the type checking stage. Adapter accessibility is managed using 
+imports then if such an adapter is not imported the related transformation 
+is not available.
 
-Finally daptation is not transitive. For this purpose all required transformations 
+Finally adaptation is not transitive. For this purpose all required transformations 
 must be expressed using dedicated adapters.
 
 This can be compared to **implicit conversion** mechanism available in 
@@ -180,9 +187,11 @@ or [C#](https://msdn.microsoft.com/fr-fr/library/xhbhezf4.aspx).
 
 ### Derivation
 
-Class derivation can help reducing specification by copy. But this derivation 
-is not meant to be used for subtyping since subtyping does not exist in the 
-language. For this purpose the adapter is the preferred solution.
+**keywords:** *classification, reusability, subtype*
+
+Class derivation can help reducing specification based on classification. Such 
+derivation is the main paradigm used for the subtyping relationship and then the
+substitutability principle availability.
 
 ````
 model Equal[a] { 
@@ -196,10 +205,13 @@ class number this:native {
 }
 ```
 
-Derivation can be used for adapters synthesis. In fact each time a derivation is specified the corresponding 
-adapter can be easily generated and therefore used to "simulate" subtyping based on implicit object transformation.
+Then each time a `Equal[number]` parameter is required a number can be proposed for 
+instance. This implies the avaibility of the subtyping type relationship implied by 
+the derivation declaration in the language.
 
 ### Traits
+
+**keywords:** *abstract behavior denotation, derivable, composition*
 
 A trait is an abstract component providing behaviors without any constraint 
 related to the denoted data type.
@@ -236,6 +248,8 @@ class bool this:Bool {
 
 ### Private behaviors
 
+**keywords:** *privacy, behavior protection*
+
 A trait or a class can be defined with provite behaviors. Such definitions
 are then only available when using 'self'. A private behavior is defined with 
 a type in the definition section. 
@@ -251,6 +265,8 @@ trait page {
 ```
 
 ### String interpolation
+
+**keywords:** *string format, injected expression*
 
 String interpolation unleashes string construction allowing string embedded code.
 

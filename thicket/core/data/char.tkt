@@ -11,10 +11,10 @@ module Data.Char
 from System.Internal import internal
 from Data.Native import native
 from Data.Number import number
-from Data.String import string, string2hashable
+from Data.String import string
 from Data.Boolean import true,false
-from Data.Comparable import Comparable,comparable
-from Data.Hashable import Hashable
+from Data.Comparable import comparable
+from Data.Hashable import hashable
 from Data.Matcher import Matcher
 from Data.Additionable import additionable
 
@@ -22,12 +22,15 @@ from Lang.Switch import switch
 
 class char this:native {
     with comparable[char]
+    with hashable[char]
     with additionable[char]
     with Matcher[char]
     
     toString : string
 } {
     def unbox = self
+    
+    def hash = self toString hash
 
     def (==) n = internal "generic.==" self n true false
     def (<?) n = internal "generic.<" self n true false
@@ -46,11 +49,3 @@ def eol : char = '\n'
  */
  
 def adapter char2string : char -> string = char::toString
-
-def adapter char2hashable : char -> Hashable[char] = c -> {
-    Hashable c $ string2hashable (char2string c) hash
-}
-    
-def adapter char2comparable : char -> Comparable[char] = s -> {
-    Comparable s s.(==) s.(!=) s.(=>) s.(<=) s.(?>) s.(<?) (char2hashable s)
-}

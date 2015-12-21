@@ -15,19 +15,22 @@ from Data.Comparable import Comparable
 /* 
  * Language syntactic extension
  * 
- *     switch a case v1 => s1 case v2 => s2 default => s3
+ *     switch a 
+ *     case v1 => s1 
+ *     case v2 => s2 
+ *     otherwise => s3
  */
 
 model SwitchModel[a b] {
-    case    : Comparable[a] -> CaseModel[a b]
-    default : CaseDefault[b]
+    case      : Comparable[a] -> CaseModel[a b]
+    otherwise : CaseOtherwise[b]
 }
 
 model CaseModel[a b] {
     (=>) : b -> SwitchModel[a b]
 }
 
-model CaseDefault[b] {
+model CaseOtherwise[b] {
     (=>) : b -> b
 }
 
@@ -37,7 +40,7 @@ trait switchTrait[a b] {
     with SwitchModel[a b]
     toModel : SwitchModel[a b]
 } {
-    def toModel = SwitchModel self.case self.default
+    def toModel = SwitchModel self.case self.otherwise
 }
 
 trait caseTrait[a b] {
@@ -53,14 +56,14 @@ class switch[a b] this:a {
     with switchTrait[a b]
 } {
     def case a = (a == this) fold (caseTrue (i -> i) toModel) (caseFalse this toModel)
-    def default = CaseDefault (b -> b)
+    def otherwise = CaseOtherwise (b -> b)
 }
 
 class switchTrue[a b] this:b {
     with switchTrait[a b]
 } {
     def case _ = caseTrue (_ -> this) toModel
-    def default = CaseDefault (_ -> this)
+    def otherwise = CaseOtherwise (_ -> this)
 }
 
 class caseTrue[a b] this:(b -> b) {

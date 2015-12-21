@@ -15,14 +15,15 @@ from Data.Native import native
 from Data.Number import number
 from Data.Char import char
 from Data.Option import option,none,some
-from Data.Comparable import Comparable,comparable
-from Data.Hashable import Hashable
+from Data.Comparable import comparable
+from Data.Hashable import hashable
 from Data.Matcher import Matcher
 
 from Lang.Switch import switch
 
 class string this:native {
     with comparable[string]
+    with hashable[string]
     with Matcher[string]
         
     getAt    : number -> option[char]
@@ -33,9 +34,13 @@ class string this:native {
     
     length   : number
 
-    toNumber : option[number]    
+    toNumber : option[number] 
 } {
     def unbox = self
+
+    def match = switch self
+
+    def hash = number $ internal "string.hash" self
 
     def getAt n = internal "string.getAt" self n (n -> some $ char n) none
     def setAt n v = string $ internal "string.setAt" self n v
@@ -48,7 +53,6 @@ class string this:native {
     def toNumber = internal "string.toNumber" self (n -> some $ number n) none
     def length = number $ internal "string.length" self
     
-    def match = switch self
 }
 
 /**
@@ -56,12 +60,3 @@ class string this:native {
  */
 
 def adapter string2number : string -> option[number] = string::toNumber
-
-def adapter string2hashable : string -> Hashable[string] = s -> {
-    Hashable s (number $ internal "string.hash" s)
-}
-    
-def adapter string2comparable : string -> Comparable[string] = s -> { 
-    Comparable s s.(==) s.(!=) s.(=>) s.(<=) s.(?>) s.(<?) (string2hashable s)
-}
-

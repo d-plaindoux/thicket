@@ -12,8 +12,8 @@ from System.Internal import internal
 
 from Data.Native import native
 from Data.Boolean import bool,true,false
-from Data.Comparable import Comparable,comparable
-from Data.Hashable import Hashable
+from Data.Comparable import comparable
+from Data.Hashable import hashable
 from Data.String import string
 from Data.Pair import Pair
 from Data.List import emptyList,list
@@ -25,6 +25,7 @@ from Lang.Range import Range,foreach
 
 class number this:native {
     with comparable[number]
+    with hashable[number]
     with additionable[number]
     with Matcher[number]
     
@@ -55,6 +56,9 @@ class number this:native {
     toString : string 
 } {
     def unbox = self
+    
+    def hash = self
+    
     def (==) n = internal "generic.==" self n true false
     def (<?) n = internal "generic.<" self n true false
     
@@ -97,11 +101,3 @@ def Infinity : number = { 1 / 0 }
  */
 
 def adapter number2string : number -> string = number::toString
-    
-def adapter number2hashable : number -> Hashable[number] = s -> {
-    Hashable s s
-}
-    
-def adapter number2comparable : number -> Comparable[number] = s -> {
-    Comparable s s.(==) s.(!=) s.(=>) s.(<=) s.(?>) s.(<?) (number2hashable s)
-}

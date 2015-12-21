@@ -8,11 +8,12 @@
  
 module Data.Comparable
  
-from Data.Hashable import Hashable
+from Data.Hashable import Hash
 from Data.Boolean import bool
 
 model Comparable[k] {
     unbox    : k    
+
     (==)     : k -> bool 
     (!=)     : k -> bool    
     (=>)     : k -> bool
@@ -20,7 +21,7 @@ model Comparable[k] {
     (?>)     : k -> bool
     (<?)     : k -> bool    
     
-    hashable : Hashable[k]
+    hashable : Hash[k]
 }
 
 trait comparable[k] {
@@ -30,8 +31,4 @@ trait comparable[k] {
     def (<=) n = self == n || $ self <? n
     def (=>) n = self <? n not
     def (?>) n = self <= n not
-}
-
-def adapter comparable2hashable : [a] Comparable[a] -> Hashable[a] = c -> {
-    c hashable
 }

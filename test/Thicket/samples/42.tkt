@@ -1,0 +1,10 @@
+model A
+
+model B[x] 
+
+class C this:A {
+    with B[A]
+} {
+}
+
+def cb : C -> B[A] = i -> i

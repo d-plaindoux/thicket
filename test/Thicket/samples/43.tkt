@@ -1,0 +1,12 @@
+model B[x] 
+
+class C[a] this:a {
+    with B[a]
+} {
+}
+
+def cb : [a] C[a] -> B[a] = i -> i
+
+model A
+
+def cbA : C[A] -> B[A] = i -> i

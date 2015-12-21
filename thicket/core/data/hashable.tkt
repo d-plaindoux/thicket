@@ -10,7 +10,19 @@ module Data.Hashable
  
 from Data.Number import number
 
-model Hashable[k] { 
+model Hashable[k] {
+    hashable : Hash[k]
+}
+
+model Hash[k] { 
     unbox : k
     hash  : number
+}
+
+trait hashable[k] {
+    with Hashable[k]
+    with Hash[k]   
+    hashable : Hash[k] 
+} {
+    def hashable = self
 }
