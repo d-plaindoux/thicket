@@ -26,13 +26,14 @@ from Lang.Range import Range,foreach
 class number this:native {
     with comparable[number]
     with hashable[number]
-    with additionable[number]
     with Matcher[number]
+    with additionable[number]
     
     (-)      : number -> number
     (*)      : number -> number
     (/)      : number -> number
     (%)      : number -> number
+    
     (^)      : number -> number
     (^^)     : number -> number
     
@@ -61,12 +62,15 @@ class number this:native {
     
     def (==) n = internal "generic.==" self n true false
     def (<?) n = internal "generic.<" self n true false
-    
+            
+    def match = switch self
+
     def (+)  n = number $ internal "number.+" self n
     def (-)  n = number $ internal "number.-" self n
     def (*)  n = number $ internal "number.*" self n
     def (/)  n = number $ internal "number./" self n
     def (%)  n = number $ internal "number.%" self n
+    
     def (^)  n = 1 to n fold 1 (_ -> self *)
     def (^^) n = 1 to n fold 1 (_ -> self ^)
     
@@ -80,15 +84,13 @@ class number this:native {
     def (--) = self - 1
     
     def negate = 0 - self
-
-    def toString = string $ internal "number.toString" self
     
     def to n = foreach (self,n) step 1
     def downto n = foreach (self,n) step (-1)
     
     def (..) n = n downto self fold emptyList (l -> l+:)
-    
-    def match = switch self
+
+    def toString = string $ internal "number.toString" self
 }
 
 def (+) : number -> number = a -> a

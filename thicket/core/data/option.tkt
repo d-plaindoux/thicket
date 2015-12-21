@@ -35,16 +35,14 @@ class option[a] this:Option[a] {
     def None.fold n _ = n
     def Some.fold _ s = s this._
 
-    def present = self fold false (_ -> true)
-    
-    def ifPresent = self fold ()
-    
     def map f = self fold none (s -> some $ f s)
     def flatmap f = self fold none f
 
     def None.filter _ = self
     def Some.filter p = p this._ fold self $ option None
 
+    def present = self fold false (_ -> true)    
+    def ifPresent = self fold ()
     def orElse a = self fold a combinators.I
 } 
 
