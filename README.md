@@ -162,8 +162,8 @@ for small web and backend applications
 **keywords:** *substitutability, implicit transformation*
 
 Implicit data adaptation can be done in order to reduce boiler plate 
-when dealing with objects. For instance when a `Comparable[number]` is
-required this one can be transparently created from a `number`. 
+when dealing with objects. For instance when a `string` is required 
+this one can be transparently created from a `number`. 
 
 ```    
 def adapter number2string : number -> string = number::toString
