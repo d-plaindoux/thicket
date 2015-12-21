@@ -166,11 +166,9 @@ when dealing with objects. For instance when a `Comparable[number]` is
 required this one can be transparently created from a `number`. 
 
 ```    
-def adapter number2comparable : number -> Comparable[number] = s -> {
-    Comparable s s.(==) s.(!=) s.(?>) s.(<?) (number2hashable s)
-}
+def adapter number2string : number -> string = number::toString
 
-// newHashmap add 1 "a" === newHashmap add (number2comparable 1) "a"
+// "a" + 1 === "a" + (number2string 1) === "a1"
 ```
 
 These adaptations can be ordered explicitely or inferred by the compiler 
