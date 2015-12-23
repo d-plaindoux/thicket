@@ -16,9 +16,11 @@
         "Client.Event.Mouse",
         "Client.Event.Key"
     ],
-    "extensions": [
-        "extensions/dom.js"
-    ],    
+    "native": { 
+        "javascript": [
+            "native/main/js/dom.js"
+        ]
+    },
     "requires":[
         { "Core": "1.0" }
     ]

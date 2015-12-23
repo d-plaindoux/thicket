@@ -15,7 +15,7 @@ class diamondClass this:string,number {
 } {
     def create c = 
         let char = 'A' + $ this._2 - c in
-        let line = this._1 setAt c char setAt (this._1 length - 1 - c) char in
+        let line = this._1 set c char set (this._1 length - 1 - c) char in
             when (c <= 0) 
             then { line } 
             else { line + eol + { self create (c - 1) } + eol + line }

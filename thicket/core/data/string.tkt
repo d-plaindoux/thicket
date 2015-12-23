@@ -18,14 +18,16 @@ from Data.Option import option,none,some
 from Data.Comparable import comparable
 from Data.Hashable import hashable
 from Data.Matcher import matcher
+from Data.Indexable import Indexable
 
 class string this:native {
     with comparable[string]
     with hashable[string]
     with matcher[string]
+    with Indexable[char string]
         
-    getAt    : number -> option[char]
-    setAt    : number -> char -> string
+    get      : number -> option[char]
+    set      : number -> char -> string
 
     (+)      : string -> string   
     (*)      : number -> string    
@@ -41,8 +43,8 @@ class string this:native {
     
     def hash = number $ internal "string.hash" self
 
-    def getAt n = internal "string.getAt" self n (n -> some $ char n) none
-    def setAt n v = string $ internal "string.setAt" self n v
+    def get n = internal "string.getAt" self n (n -> some $ char n) none
+    def set n v = string $ internal "string.setAt" self n v
     
     def (+) s = string $ internal "string.+" self s
     def (*) n = 1 to n fold "" (r _ -> self + r)

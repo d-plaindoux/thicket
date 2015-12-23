@@ -10,11 +10,15 @@ module Data.Array
 
 from Logic.Combinators import combinators
 
+from Data.Unit import unit
 from Data.String import string
 from Data.Boolean import bool
 from Data.Native import native
 from Data.Number import number
 from Data.Option import option,some,none
+from Data.Indexable import Indexable
+
+from Lang.Do import do
 
 from Standard.Math import math
 
@@ -25,17 +29,19 @@ from System.Internal import internal
  */
 
 class array[a] this:native {
-    set     : number -> a -> array[a]
-    reset   : number -> array[a]
-    get     : number -> option[a]
-    
-    length  : number
-    
-    map     : [b] (a -> b) -> array[b]
-    find    : (a -> bool) -> option[a]
+    with Indexable[a array[a]]
 
-    foldL   : [b] (b -> a -> b) -> b -> b
-    foldR   : [b] (a -> b -> b) -> b -> b
+    reset  : number -> array[a]
+    
+    length : number
+    
+    map    : [b] (a -> b) -> array[b]
+    find   : (a -> bool) -> option[a]
+
+    each   : [b] (a -> b) -> unit
+
+    foldL  : [b] (b -> a -> b) -> b -> b
+    foldR  : [b] (a -> b -> b) -> b -> b
 } {
     def set i a = array $ internal "array.set" self i a
     def reset i = array $ internal "array.reset" self i
@@ -52,6 +58,9 @@ class array[a] this:native {
         let check = r i -> r fold (self get i fold r filter) some in
             0 to (self.length --) fold none check
             
+    def each f = 
+        0 to (self.length --) fold () (r i -> self get i fold r $ a -> do {f a} return r)
+         
     def foldL f r = 
         0 to (self.length --) fold r (r i -> self get i fold r $ f r)
 
