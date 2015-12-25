@@ -29,7 +29,7 @@ module.exports = function(grunt) {
         thicket_site_modules: 'find thicket/core -name *.tkt     | xargs ./bin/thicket compile -o site -v',
         thicket_examples: 'find thicket/examples -name *.tkt     | xargs ./bin/thicket compile -o site -v',
         thicket_benchmarks: 'find thicket/benchmarks -name *.tkt | xargs ./bin/thicket compile -o site -v',
-        thicket_site_packages: 'find thicket -name *.pkt         | xargs ./bin/thicket package -i site -o site -v -s'
+        thicket_site_packages: 'find thicket -name *.pkt         | xargs ./bin/thicket package -i site -o site -v -s -n'
     },
     uglify: {
         options: {

@@ -1,0 +1,23 @@
+{
+    "name": "Thicket.Console",
+    "version": "1.0",
+    "description":"Thicket console engine",
+    "developers": [
+        {
+            "name": "D. Plaindoux",
+            "mail": "d.plaindoux@free.fr"
+        }
+    ],
+    "modules": [
+        "Example.Console.Core",
+        "Example.Console.Application"
+    ],
+    "native" : {
+        "javascript" : [
+            "native/main/js/extension.js"
+        ]
+    },
+    "requires":[
+        { "Core": "1.0" }
+    ]
+}
