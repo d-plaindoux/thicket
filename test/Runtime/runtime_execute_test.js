@@ -284,5 +284,19 @@ exports['runtime_execute'] = {
                    [$i.CONST,1]);
     test.done();
   }, 
+     
+  'Class alteration': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("new 1 with this=2 this this"),
+        expression = language.parser.group('exprs').parse(aStream).get(),
+        source = compiler.sentence(expression).success();
+    
+    runtime.register([$i.CLASS,[ "number", [[ "this" , [[$i.ACCESS,1],[$i.RETURN]]]] ] ]); 
+
+    test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
+                   [$i.CONST,2]);
+    test.done();
+  }, 
 
 };

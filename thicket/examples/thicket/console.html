@@ -11,10 +11,8 @@
 -->
 <head>    
   <script src="/thicket/build/thicket-lang.min.js"></script>
-  <script src="extension.js"></script>
 
-  <script type="application/thicket+package" data-src="Core"></script>  
-  <script type="application/thicket+package" data-src="Client"></script>  
+  <script type="application/thicket+package" data-src="Thicket.Console"></script>  
 
   <script type="application/thicket">
     import Example.Console.Application
@@ -33,7 +31,7 @@
     
   <script>
     function onLoad() {
-        require('thicket')('/thicket/site').boot().withExtension(extension);
+        require('thicket')('/thicket/site').boot();
     }
   </script>
 </head>    
