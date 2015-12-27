@@ -8,6 +8,8 @@
 
 module.exports = function(runtime) {
     
+    'use strict';
+
     var $i = runtime.instruction;
      
     // ------------------------------

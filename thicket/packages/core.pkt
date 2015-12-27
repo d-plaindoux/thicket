@@ -25,6 +25,7 @@
         "Data.Hashmap",
         "Data.Collection",
         "Data.Map",
+        "Data.Indexable",
         "Data.Additionable",
         "Data.Comparable",
         "Data.Hashable",

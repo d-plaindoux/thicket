@@ -6,15 +6,16 @@
  * Licensed under the LGPL2 license.
  */
 
-module.exports = function thicketExtension(runtime) {
+module.exports = function(runtime) {
         
-    var $i = runtime.instruction;
+    var $i = runtime.instruction,
+        $t = runtime.thicket;
 
     runtime.native("runtime.execute", 2, function(env){
         var self = env.pop(),                
             sourceCode = runtime.constant(env.pop());
 
-        thicket.manageSourceCode(sourceCode);
+        $t.manageSourceCode(sourceCode);
 
         return [[ $i.RESULT, self ]];
     });
@@ -24,7 +25,7 @@ module.exports = function thicketExtension(runtime) {
             string = env.pop(),
             logger = env.pop();
 
-        thicket.toplevel.setLogAgent(function(s) {                                             
+        $t.toplevel.setLogAgent(function(s) {                                             
             runtime.execute([[ $i.RESULT, logger ],
                              [ $i.RESULT, string ],
                              [ $i.CONST, s ],

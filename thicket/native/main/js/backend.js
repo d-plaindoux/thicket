@@ -10,6 +10,8 @@
 
 module.exports = function(runtime) {
     
+    'use strict';
+
     // Not used var $i = runtime.instruction; 
 
     runtime.native("runtime.exit", 1, function(env) {

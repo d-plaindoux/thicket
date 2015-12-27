@@ -10,6 +10,8 @@
 
 module.exports = function(runtime) {
     
+    'use strict';
+
     var $i = runtime.instruction; 
 
     runtime.native("string.toDom", 1, function(env) {
