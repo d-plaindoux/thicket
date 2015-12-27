@@ -32,6 +32,7 @@ var fs = require('fs'),
 
 function sampleTest(sample, test, checker) {
     test.expect(4);
+    
     // tests here  
     fs.readFile('./test/Thicket/samples/' + sample, function (err,data) {
         if (err) {
@@ -50,11 +51,13 @@ function sampleTest(sample, test, checker) {
         test.ok(aStream.isEmpty(), "accept a full example");        
     
         var allEntities = entitiesAndSentencies.orElse([[]])[0];
+            // allSentences = entitiesAndSentencies.orElse([[],[]])[1];
         
         aPackages.defineInRoot([],allEntities);
         
         test.ok(linker(aPackages).linkPackageByName(aPackages.main()).isSuccess(), "Linker");             
-        test.ok(checker(entities.analyse(environment(aPackages), allEntities)), "Type");
+        test.ok(checker(entities.analyse(environment(aPackages), allEntities)), "Definitions");
+        // must be reviewed -- test.ok(checker(entities.analyse(environment(aPackages), allSentences)), "Sentences");
 
         test.done();                
     });    
@@ -222,26 +225,30 @@ exports['language_analyse'] = {
   },
 
   'test 38': function(test) {
-    correctSampleTest("36.tkt", test);    
+    correctSampleTest("38.tkt", test);    
   },
 
   'test 39': function(test) {
-    wrongSampleTest("37.tkt", test);    
+    wrongSampleTest("39.tkt", test);    
   },
 
   'test 40': function(test) {
-    wrongSampleTest("37.tkt", test);    
+    wrongSampleTest("40.tkt", test);    
   },
 
   'test 41': function(test) {
-    wrongSampleTest("37.tkt", test);    
+    wrongSampleTest("41.tkt", test);    
   },
 
   'test 42': function(test) {
-    correctSampleTest("36.tkt", test);    
+    correctSampleTest("42.tkt", test);    
   },
 
   'test 43': function(test) {
-    correctSampleTest("36.tkt", test);    
+    correctSampleTest("43.tkt", test);    
+  },
+
+  'test 44': function(test) {
+    correctSampleTest("44.tkt", test);    
   }
 };

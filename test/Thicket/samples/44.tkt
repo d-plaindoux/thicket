@@ -1,0 +1,9 @@
+// BUG in the runtime code execution
+
+model A 
+model B { a : A }
+
+def main = {
+    let b = B A in 
+        new b with a=A
+}

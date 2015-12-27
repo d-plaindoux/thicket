@@ -37,8 +37,8 @@ def startApplication : Components -> unit = component -> {
     let runtime = runtime $ logger.log in
         do
         {
-           for output   <- component.output
-                content <- component.content
+           for output <- component.output
+               content <- component.content
             yield 
                 makeContent logger runtime content output
         }

@@ -1,3 +1,4 @@
+model unit
 model B
 
 class A this:unit {

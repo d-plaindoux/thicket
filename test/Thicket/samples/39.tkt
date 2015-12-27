@@ -1,3 +1,4 @@
+model unit
 model B
 
 trait A {

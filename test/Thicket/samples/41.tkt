@@ -1,9 +1,10 @@
+model C
 model B
 
-class A this:unit {
+class a this:C {
     m : B
 } {
     def n : B = B
 }
 
-A () n
+def main = { a C n }

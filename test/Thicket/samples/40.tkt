@@ -1,8 +1,9 @@
+model C
 model B
 
-class A this:unit {
+class A this:C {
     m : B
 } {
     def n : B = B
-    def m = A () n
+    def m = A C n
 }
