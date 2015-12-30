@@ -41,9 +41,7 @@ class vdomAttributePretty this:VDomAttribute {
 class vdomPretty this:VDomNode {
     with Stringify
 } {
-    def Tag.toString      = "<" + this.name + ">" + 
-                              (vdomPretty this.content toString) + 
-                            "</" + this.name + ">"
+    def Tag.toString      = $"<$(this.name)>$(vdomPretty this.content toString)</$(this.name)>"
     def PCData.toString   = this._
     def Sequence.toString = (vdomPretty this.head toString) + 
                             (vdomPretty this.tail toString)

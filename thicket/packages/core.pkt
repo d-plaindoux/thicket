@@ -31,6 +31,7 @@
         "Data.Hashable",
         "Data.Matcher",
         "Data.Monadic",
+        "Data.Transformable",
         "Data.Mutable.Ref",
         "Lang",
         "Lang.When",

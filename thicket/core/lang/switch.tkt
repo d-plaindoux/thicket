@@ -55,7 +55,7 @@ trait caseTrait[a b] {
 class switch[a b] this:a {
     with switchTrait[a b]
 } {
-    def case a = (a == this) fold (caseTrue (i -> i) toModel) (caseFalse this toModel)
+    def case a = a == this fold (caseTrue (i -> i) toModel) (caseFalse this toModel)
     def otherwise = CaseOtherwise (b -> b)
 }
 

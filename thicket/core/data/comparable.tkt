@@ -8,8 +8,9 @@
  
 module Data.Comparable
  
+from Data.Unit import unit
 from Data.Hashable import Hash
-from Data.Boolean import bool
+from Data.Boolean import bool, true, false
 
 model Comparable[k] {
     unbox    : k    
@@ -32,3 +33,12 @@ trait comparable[k] {
     def (=>) n = self <? n not
     def (?>) n = self <= n not
 }
+
+class any[k] this:unit {
+    with comparable[k]
+}{
+    def (==) n = true
+    def (<?) n = false
+}
+    
+def _ : any = { any () }

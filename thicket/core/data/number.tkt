@@ -93,7 +93,7 @@ class number this:native {
 def (+) : number -> number = a -> a
 def (-) : number -> number = number::negate
 
-def Infinity : number = { 1 / 0 }
+def Infinity : number = {1/0}
 
 /**
  * Adapters

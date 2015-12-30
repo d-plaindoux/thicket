@@ -1,0 +1,37 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Net.Request
+
+from Data.String import string
+from Data.Number import number
+from Data.Map import Map
+from Data.Collection import Collection
+from Data.Try import try
+from Data.Option import option
+from Data.Pair import Pair
+from Data.Transformable import Transformable 
+
+from Net.Protocol import Protocol
+from Net.Resource import URI
+from Net.Externalizable import Externalized
+      
+type Operation[a] { 
+    HEAD
+    GET 
+    POST { data : Transformable[a Externalized] }
+    PUT { data : Transformable[a Externalized] }
+    DELETE 
+    GenericOperation { name : string data : option[Transformable[a Externalized]] }
+}
+
+model Request[a] {
+    uri        : URI
+    header     : Map[string string]
+    operation  : Operation[a]
+}

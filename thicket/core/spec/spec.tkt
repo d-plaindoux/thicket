@@ -30,10 +30,11 @@ class expect[a] this:Comparable[a] {
     with Expect[a]
     not : Expect[a]
 } {
-    def not = Expect (a -> self toBe       a not) 
-              	     (a -> self toBeIn     a not)
-               	     (a -> self toBeAKey   a not)
-               	     (a -> self toBeAValue a not)
+    def not = 
+        new self with toBe = (a -> self toBe a not) 
+                      toBeIn = (a -> self toBeIn a not)
+                      toBeAKey = (a -> self toBeAKey a not)
+                      toBeAValue = (a -> self toBeAValue a not)
                
     def toBe a = this == a
     def toBeIn c = c find (e -> this == e) present
