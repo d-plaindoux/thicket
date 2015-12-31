@@ -5,13 +5,13 @@
 --------------------------------------------------------------------------
 
 module ::= 
-  "module" IDENT ("." IDENT)* import* entity*
+  "module" ID ("." ID)* import* entity*
 
 --------------------------------------------------------------------------
 
 import ::= 
-  "from" IDENT ("." IDENT)* "import" "*"|((ID|"("OP")")("," ID|"("OP")")+)
-| "import" IDENT ("." IDENT)*
+  "from" ID ("." ID)* "import" "*"|((ID|"("OP")")("," ID|"("OP")")+)
+| "import" ID ("." ID)*
 
 --------------------------------------------------------------------------
          
@@ -45,7 +45,7 @@ tparam ::=
   (ID|"("OP")") ":" generics type
     
 type ::= 
-  ID ("from" IDENT ("." IDENT)*)? ("[" types+ "]")?
+  ID ("from" ID ("." ID)*)? ("[" types+ "]")?
 | "(" types ")" 
 
 types ::= 
@@ -101,7 +101,7 @@ sexpr ::=
 | CHARACTER
 | STRING
 | type "::" (ID|"("OP")")
-| ID ("from" IDENT ("." IDENT)*)?
+| ID ("from" ID ("." ID)*)?
 | OPERATOR
 | '$"' (INTERPOLATION | ('$' iexpr))* '"'
 | "$" exprs 
