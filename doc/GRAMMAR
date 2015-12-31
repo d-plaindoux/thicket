@@ -45,7 +45,7 @@ tparam ::=
   (ID|"("OP")") ":" generics type
     
 type ::= 
-  ID ("[" types+ "]")?
+  ID ("from" IDENT ("." IDENT)*)? ("[" types+ "]")?
 | "(" types ")" 
 
 types ::= 
@@ -101,7 +101,7 @@ sexpr ::=
 | CHARACTER
 | STRING
 | type "::" (ID|"("OP")")
-| ID
+| ID ("from" IDENT ("." IDENT)*)?
 | OPERATOR
 | '$"' (INTERPOLATION | ('$' iexpr))* '"'
 | "$" exprs 
