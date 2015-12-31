@@ -258,7 +258,7 @@ trait page {
 } {
     def header : dom = <div class="header"> "..." </div>
     def footer : dom = <div class="footer"> "..." </div>
-    def create d = <body> {self header} d { self footer} </body>
+    def create d = <body> self.header d self.footer </body>
 }
 ```
 
