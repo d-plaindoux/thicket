@@ -317,11 +317,11 @@ model Person {
 class localizedPerson this:Person {
    with Person
    address : option[string]
-   changeAdress : string -> localizedPerson
+   changeAddress : string -> localizedPerson
 } {
    def name = this name
    def address = none
-   def changeAdress s = new self with address=(some s)
+   def changeAddress s = new self with address=(some s)
 }
 ```
 
