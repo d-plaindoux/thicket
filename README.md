@@ -280,8 +280,8 @@ def logMessage : Message -> console = m ->
 
 ### System Evolution
 
-Since side immutability is an important paradgim in the language data mutability replaces
-this features based on object evolution rather than object modification. For this purpose
+Since immutability is an important paradgim in the language data mutability is based on 
+object evolution rather than object modification using side effects. For this purpose
 a dedicated instruction is proposed. The result of such instruction is a new data built 
 using an original and a set of modified attributes or methods. A data can be simple model
 instance but also a class instance. This last perspective allows code mutation.
