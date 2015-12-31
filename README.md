@@ -280,6 +280,8 @@ def logMessage : Message -> console = m ->
 
 ### System Evolution
 
+**keywords:** *immutablity, data evolution/mutation*
+
 Since immutability is an important paradgim in the language data mutability is based on 
 object evolution rather than object modification using side effects. For this purpose
 a dedicated instruction is proposed. The result of such instruction is a new data built 
@@ -315,7 +317,7 @@ model Person {
 class localizedPerson this:Person {
    with Person
    address : option[string]
-   changeAdresss : string -> localizedPerson
+   changeAdress : string -> localizedPerson
 } {
    def name = this name
    def address = none
