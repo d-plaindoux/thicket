@@ -278,6 +278,51 @@ def logMessage : Message -> console = m ->
     console.log $"${date current}::$m.id - $m.text" 
 ```
 
+### System Evolution
+
+Since side immutability is an important paradgim in the language data mutability replaces
+this features based on object evolution rather than object modification. For this purpose
+a dedicated instruction is proposed. The result of such instruction is a new data built 
+using an original and a set of modified attributes or methods. A data can be simple model
+instance but also a class instance. This last perspective allows code mutation.
+
+#### Model Evolution
+
+In the following example the address is defined in the `Person` model. Then changing address 
+can be done but at the model level.
+
+```
+model Person {
+   name : string
+   address : string
+}
+
+def changeAddress : string -> Person -> Person = s p -> {
+   new p with address=s
+}
+```
+
+#### Class Evolution
+
+In the following example the address is defined in the class instead in the `Person` model. 
+Then changing address can be done but at the class level.
+
+```
+model Person {
+   name : string
+}
+
+class localizedPerson this:Person {
+   with Person
+   address : option[string]
+   changeAdresss : string -> localizedPerson
+} {
+   def name = this name
+   def address = none
+   def changeAdress s = new self with address=(some s)
+}
+```
+
 ## Not yet in the language
 
 ### Type of self in traits
