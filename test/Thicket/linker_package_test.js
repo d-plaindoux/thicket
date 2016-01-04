@@ -98,4 +98,106 @@ exports['linker_package'] = {
       
     test.done();
   },  
+
+  'Explicit Type Link Package with a model and an import': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("module Test from Data.Unit import unit model MyUnit { _ : unit from Data.Unit }"),
+        aPackage = language.parser.group('module').parse(aStream).get(),
+        aReader = reader(fsdriver('./test/Thicket/samples')),
+        aPackages = packages(option.none()),
+        aLinker = linker(aPackages);
+
+    aPackages.define(aReader.code("Data.Unit"));      
+    aPackages.define(aPackage);  
+      
+    test.ok(aLinker.linkPackage(aPackages.retrieve('Test').get()).isSuccess());
+      
+    test.done();
+  },          
+
+  'WrongExplicit Type Link Package with a model and an import': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("module Test from Data.Unit import unit model MyUnit { _ : unit from Foo.Bar }"),
+        aPackage = language.parser.group('module').parse(aStream).get(),
+        aReader = reader(fsdriver('./test/Thicket/samples')),
+        aPackages = packages(option.none()),
+        aLinker = linker(aPackages);
+
+    aPackages.define(aReader.code("Data.Unit"));      
+    aPackages.define(aPackage);  
+      
+    test.ok(aLinker.linkPackage(aPackages.retrieve('Test').get()).isFailure());
+      
+    test.done();
+  },    
+
+  'Unit expression Link Package with an import': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("module Test from Data.Unit import unit def myUnit = ()"),
+        aPackage = language.parser.group('module').parse(aStream).get(),
+        aReader = reader(fsdriver('./test/Thicket/samples')),
+        aPackages = packages(option.none()),
+        aLinker = linker(aPackages);
+
+    aPackages.define(aReader.code("Data.Unit"));      
+    aPackages.define(aPackage);  
+      
+    test.ok(aLinker.linkPackage(aPackages.retrieve('Test').get()).isSuccess());
+      
+    test.done();
+  },          
+    
+  'Unit expression Link Package without an import': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("module Test def myUnit = ()"),
+        aPackage = language.parser.group('module').parse(aStream).get(),
+        aReader = reader(fsdriver('./test/Thicket/samples')),
+        aPackages = packages(option.none()),
+        aLinker = linker(aPackages);
+
+    aPackages.define(aReader.code("Data.Unit"));      
+    aPackages.define(aPackage);  
+      
+    test.ok(aLinker.linkPackage(aPackages.retrieve('Test').get()).isFailure());
+      
+    test.done();
+  },          
+    
+  'Explicit Unit expression Link Package with an import': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("module Test from Data.Unit import unit def myUnit = unit from Data.Unit"),
+        aPackage = language.parser.group('module').parse(aStream).get(),
+        aReader = reader(fsdriver('./test/Thicket/samples')),
+        aPackages = packages(option.none()),
+        aLinker = linker(aPackages);
+
+    aPackages.define(aReader.code("Data.Unit"));      
+    aPackages.define(aPackage);  
+      
+    test.ok(aLinker.linkPackage(aPackages.retrieve('Test').get()).isSuccess());
+      
+    test.done();
+  },          
+    
+  'Wrong Explicit Unit expression Link Package with an import': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("module Test from Data.Unit import unit def myUnit = unit from Data.Unit2"),
+        aPackage = language.parser.group('module').parse(aStream).get(),
+        aReader = reader(fsdriver('./test/Thicket/samples')),
+        aPackages = packages(option.none()),
+        aLinker = linker(aPackages);
+
+    aPackages.define(aReader.code("Data.Unit"));      
+    aPackages.define(aPackage);  
+      
+    test.ok(aLinker.linkPackage(aPackages.retrieve('Test').get()).isFailure());
+      
+    test.done();
+  },          
 };
