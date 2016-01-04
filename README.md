@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/d-plaindoux/thicket.svg)](https://travis-ci.org/d-plaindoux/thicket) 
 [![Coverage Status](https://coveralls.io/repos/d-plaindoux/thicket/badge.png?branch=master)](https://coveralls.io/r/d-plaindoux/thicket?branch=master) 
-[![unstable](http://badges.github.io/stability-badges/dist/unstable.svg)](http://github.com/badges/stability-badges)
+[![unstable](http://badges.github.io/stability-badges/dist/stable.svg)](http://github.com/badges/stability-badges)
 
 Thicket is a language based on Model, Controller and View approach. In
 this  approach  a model  denotes  a set  of  data  (atomic or  object)
@@ -258,7 +258,7 @@ trait page {
 } {
     def header : dom = <div class="header"> "..." </div>
     def footer : dom = <div class="footer"> "..." </div>
-    def create d = <body> {self header} d { self footer} </body>
+    def create d = <body> self.header d self.footer </body>
 }
 ```
 
@@ -276,6 +276,53 @@ model Message {
 
 def logMessage : Message -> console = m -> 
     console.log $"${date current}::$m.id - $m.text" 
+```
+
+### System Evolution
+
+**keywords:** *immutablity, data evolution/mutation*
+
+Since immutability is an important paradgim in the language data mutability is based on 
+object evolution rather than object modification using side effects. For this purpose
+a dedicated instruction is proposed. The result of such instruction is a new data built 
+using an original and a set of modified attributes or methods. A data can be simple model
+instance but also a class instance. This last perspective allows code mutation.
+
+#### Model Evolution
+
+In the following example the address is defined in the `Person` model. Then changing address 
+can be done but at the model level.
+
+```
+model Person {
+   name : string
+   address : string
+}
+
+def changeAddress : string -> Person -> Person = s p -> {
+   new p with address=s
+}
+```
+
+#### Class Evolution
+
+In the following example the address is defined in the class instead in the `Person` model. 
+Then changing address can be done but at the class level.
+
+```
+model Person {
+   name : string
+}
+
+class localizedPerson this:Person {
+   with Person
+   address : option[string]
+   changeAddress : string -> localizedPerson
+} {
+   def name = this name
+   def address = none
+   def changeAddress s = new self with address=(some s)
+}
 ```
 
 ## Not yet in the language
