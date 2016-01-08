@@ -333,7 +333,7 @@ Since traits defines partial definitions allowing self usage the related type is
 known when such trait is used in a class.
 
 ```
-trait Set[M a] {
+trait Set[M,a] {
     empty  : bool
     size   : number
     // Etc.    
