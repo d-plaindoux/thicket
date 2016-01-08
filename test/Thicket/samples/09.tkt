@@ -2,16 +2,16 @@ model unit
 model native
 model string { _ : native }
 
-class Function[a b] this:(a -> b) {
+class Function[a,b] this:(a -> b) {
     (<<) : a -> b
-    (@) : [c] Function[b c] -> Function[a c]
+    (@) : [c] Function[b,c] -> Function[a,c]
 } {
     def (<<) a = this a
     def (@) g = Function $ a -> g << (self << a)
 }
 
 class Main this:unit {
-    run : Function[unit unit]
+    run : Function[unit,unit]
     f1  : unit -> string
     f2  : string -> unit
 } {

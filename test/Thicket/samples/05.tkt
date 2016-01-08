@@ -1,4 +1,4 @@
-model Pair[a b] {
+model Pair[a,b] {
     _1 : a
     _2 : b
 }
@@ -14,7 +14,7 @@ model native
 model unit 
 
 class internal this:native {
-    (@) : [a b] string -> a -> b
+    (@) : [a,b] string -> a -> b
 }{
     // Nothing
 }

@@ -63,7 +63,7 @@ exports['language_class'] = {
   'simple controller with generics is accepted and provided': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("class Address [a b] this:Address {}{}");
+    var aStream = stream("class Address [a,b] this:Address {}{}");
         
     test.deepEqual(language.parser.group('controllerDef').parse(aStream).get().definition, 
                    ast.type.forall(["a", "b"], 

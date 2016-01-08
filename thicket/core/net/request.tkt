@@ -24,14 +24,14 @@ from Net.Externalizable import Externalized
 type Operation[a] { 
     HEAD
     GET 
-    POST { data : Transformable[a Externalized] }
-    PUT { data : Transformable[a Externalized] }
+    POST { data : Transformable[a,Externalized] }
+    PUT { data : Transformable[a,Externalized] }
     DELETE 
-    GenericOperation { name : string data : option[Transformable[a Externalized]] }
+    GenericOperation { name : string data : option[Transformable[a,Externalized]] }
 }
 
 model Request[a] {
     uri        : URI
-    header     : Map[string string]
+    header     : Map[string,string]
     operation  : Operation[a]
 }

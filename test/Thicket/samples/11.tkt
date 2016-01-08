@@ -2,8 +2,8 @@
 
 model unit 
 
-typedef ReducingFn[a r] = r -> a -> r
-typedef Transducer[a b] = [r] ReducingFn[a r] -> ReducingFn[b r] 
+typedef ReducingFn[a,r] = r -> a -> r
+typedef Transducer[a,b] = [r] ReducingFn[a,r] -> ReducingFn[b,r] 
 
 model native
 class number this:native {
@@ -19,9 +19,9 @@ model string {
 }
 
 class transducer this:unit {
-    t_dub   : Transducer[number number]
-    t_rep   : [a] Transducer[a a]
-    t_parse : [a] Transducer[Read string]
+    t_dub   : Transducer[number,number]
+    t_rep   : [a] Transducer[a,a]
+    t_parse : [a] Transducer[Read,string]
 } {
     def t_dub   f r b = f r $ 2 * b
     def t_rep   f r b = f (f r b) b

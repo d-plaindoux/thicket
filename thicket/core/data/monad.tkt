@@ -8,15 +8,35 @@
  
 module Data.Monad
 
-model Monad[M a] {
-    return : a -> M[a]
-    (>>=)  : [b] M[a] -> (a -> M[b]) -> M[b]
+trait Functor[F] {
+    map : [A,B] F[A] -> (A -> B) -> F[B]
 }
 
-/* Examples
- 
- def optionMonad : [a]Monad[option a] = { Monad some option::flatmap } ;;
- def tryMonad    : [a]Monad[try a]    = { Monad success try::flatmap } ;;
- def listMonad   : [a]Monad[list a]   = { Monad emptyList.(+:) list::flatmap } ;; 
- 
+trait Applicative[F] {
+    with Functor[F]
+    
+    pure  : [A] A -> F[A]
+    apply : [A,B] F[(A->B)] -> F[A] -> F[B]
+}
+
+trait Monad[F] {
+    with Applicative[F]
+    
+    flatMap : [A,B] F[A] -> (A -> F[B]) -> F[B]
+}
+
+/*
+
+trait Functor[A,F] {
+    map : [B] (A -> B) -> F[B]
+}
+
+typedef R[A] = [B](A,B)
+
+class pairFunctor[A,B] this:(A,B) {
+    with Functor[B,[B]Pair[A B]]
+} {
+    def map f = this._1,(f this._2)
+}
+
 */

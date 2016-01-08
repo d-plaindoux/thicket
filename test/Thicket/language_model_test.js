@@ -64,7 +64,7 @@ exports['language_model'] = {
   'simple model with generics is accepted and provided': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("model Address [a b] {}");
+    var aStream = stream("model Address [a,b] {}");
         
     test.deepEqual(language.parser.group('modelDef').parse(aStream).get().definition, 
                    ast.type.forall(["a","b"], 

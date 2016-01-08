@@ -1,5 +1,5 @@
 model B
-model A[k v] { _1 : k _2 : v }
+model A[k,v] { _1 : k _2 : v }
 
-def newA1 : [k] B -> A[k k] = _ -> A
+def newA1 : [k] B -> A[k,k] = _ -> A
 def newA2 : B -> A = newA1

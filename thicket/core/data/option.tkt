@@ -22,7 +22,7 @@ type Option[a] {
 }
 
 class option[a] this:Option[a] {
-    with Monadic[option a]
+    with Monadic[option,a]
     
     unbox     : Option[a]
     fold      : [b] b -> (a -> b) -> b

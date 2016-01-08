@@ -11,7 +11,7 @@ module Data.Indexable
 from Data.Number import number
 from Data.Option import option
 
-model Indexable[a t] {
+model Indexable[a,t] {
     get : number -> option[a]
     set : number -> a -> t
 }

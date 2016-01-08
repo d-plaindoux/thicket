@@ -8,7 +8,7 @@ model list[a] {
     filter  : (a -> bool) -> list[a]
 }
 
-def flatMap : [a b] list[list[a]] -> (a -> b) -> list[b] =
+def flatMap : [a,b] list[list[a]] -> (a -> b) -> list[b] =
     l f -> 
         for sl <- l 
             a  <- sl 

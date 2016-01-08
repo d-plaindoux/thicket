@@ -38,7 +38,17 @@ exports['language_trait'] = {
             "accept a trait");
     test.done();
   },
+    
+  'simple model without methods is accepted': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("trait Address {}");
         
+    test.ok(language.parser.group('traitDef').parse(aStream).isPresent(), 
+            "accept a trait");
+    test.done();
+  },
+                
   'simple trait is accepted and provided': function(test) {
     test.expect(1);
     // tests here  
@@ -53,7 +63,7 @@ exports['language_trait'] = {
   'simple trait with generics is accepted and provided': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream("trait Address [a b] {}{}");
+    var aStream = stream("trait Address [a,b] {}{}");
         
     test.deepEqual(language.parser.group('traitDef').parse(aStream).get().definition, 
                    ast.type.forall(["a", "b"], 

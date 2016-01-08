@@ -29,7 +29,7 @@ from System.Internal import internal
  */
 
 class array[a] this:native {
-    with Indexable[a array[a]]
+    with Indexable[a,array[a]]
 
     reset  : number -> array[a]
     

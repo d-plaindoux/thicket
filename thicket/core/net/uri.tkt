@@ -20,5 +20,5 @@ model URI {
     host       : string    
     port       : number
     path       : Collection[string]
-    parameters : Map[string string]
+    parameters : Map[string,string]
 }

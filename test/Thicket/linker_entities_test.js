@@ -108,7 +108,7 @@ exports['linker_entities'] = {
   'Link polymorphic typedef': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream('typedef Function[a b] = a -> b'),
+    var aStream = stream('typedef Function[a,b] = a -> b'),
         entities = language.parser.group('entities').parse(aStream).get()[0],
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);
@@ -163,7 +163,7 @@ exports['linker_entities'] = {
   'Link simple typed expression': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream('def apply : [a b] (a -> b) -> a = f a -> f a'),
+    var aStream = stream('def apply : [a,b] (a -> b) -> a = f a -> f a'),
         entities = language.parser.group('entities').parse(aStream).get()[0],
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);

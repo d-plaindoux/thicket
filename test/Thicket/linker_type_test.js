@@ -100,7 +100,20 @@ exports['linker_type'] = {
   'Cannot Link parameter type specialization': function(test) {
     test.expect(1);
     // tests here  
-    var aStream = stream('a[b c]'),
+    var aStream = stream('a[b,c]'),
+        aType = language.parser.group('types').parse(aStream).get(),
+        aPackages = packages(option.none()),
+        aLinker = linker(aPackages);
+
+    test.ok(aLinker.linkType(aPackages.main(), aType, list("a", "b")).isFailure());
+      
+    test.done();
+  },
+    
+  'Cannot Link parameter type pair specialization': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream('a[(b,c)]'),
         aType = language.parser.group('types').parse(aStream).get(),
         aPackages = packages(option.none()),
         aLinker = linker(aPackages);

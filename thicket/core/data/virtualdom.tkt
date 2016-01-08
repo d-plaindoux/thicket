@@ -19,7 +19,7 @@ type VDomAttribute {
 type VDomNode {
     model Tag { 
         name : string
-        attributes : Map[string VDomAttribute]
+        attributes : Map[string,VDomAttribute]
         content : VDomNode
     }    
     model PCData { _ : string }    

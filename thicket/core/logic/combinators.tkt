@@ -10,11 +10,11 @@ module Logic.Combinators
       
 model Combinators {
     I : [a] a -> a 
-    K : [a b] a -> b -> a
-    W : [a b] (a -> a -> b) -> a -> b
-    C : [a b c] (a -> b -> c) -> b -> a -> c
-    B : [a b c] (b -> c) -> (a -> b) -> a -> c
-    S : [a b c] (a -> b -> c) -> (a -> b) -> a -> c 
+    K : [a,b] a -> b -> a
+    W : [a,b] (a -> a -> b) -> a -> b
+    C : [a,b,c] (a -> b -> c) -> b -> a -> c
+    B : [a,b,c] (b -> c) -> (a -> b) -> a -> c
+    S : [a,b,c] (a -> b -> c) -> (a -> b) -> a -> c 
 }
       
 def combinators : Combinators = {

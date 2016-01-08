@@ -24,7 +24,7 @@ class string this:native {
     with comparable[string]
     with hashable[string]
     with matcher[string]
-    with Indexable[char string]
+    with Indexable[char,string]
         
     get      : number -> option[char]
     set      : number -> char -> string

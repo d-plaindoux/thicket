@@ -131,7 +131,7 @@ class ListClass[a] this:List[a] {
 // Pair models
 // --------------------------------------------------------------------
 
-model Pair[a b] {
+model Pair[a,b] {
     _1 : a
     _2 : b
 }
@@ -180,13 +180,13 @@ class OptionClass[a] this:Option[a] {
 // Functor
 
 model Functor[f] {
-    map : [a b] f[a] -> (a -> b) -> f[b]
+    map : [a,b] f[a] -> (a -> b) -> f[b]
 }
 
 // Native types
 
 model native {
-    (@) : [a b] string -> a -> b
+    (@) : [a,b] string -> a -> b
 }
 
 model xml {}

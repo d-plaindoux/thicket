@@ -1,10 +1,10 @@
 model B
-model A[k v]
+model A[k,v]
 
-def newA1 : [k v] B -> A[k v] = _ -> A
-def newA2 : [k v] B -> A[k v] = newA1
+def newA1 : [k,v] B -> A[k,v] = _ -> A
+def newA2 : [k,v] B -> A[k,v] = newA1
 
-def newA3 : [k v] B -> A[k v] = _ -> A
-def newA4 : [k v] B -> A[k v] = newA3
+def newA3 : [k,v] B -> A[k,v] = _ -> A
+def newA4 : [k,v] B -> A[k,v] = newA3
 
-def newA5 : [k] B -> A[k k] = newA3
+def newA5 : [k] B -> A[k,k] = newA3

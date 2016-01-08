@@ -28,7 +28,7 @@ from System.Console import console
  
 model TreeNode {
     item  : number
-    nodes : option[TreeNode,TreeNode]
+    nodes : option[(TreeNode,TreeNode)]
 }
 
 /** 

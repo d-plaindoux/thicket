@@ -10,6 +10,6 @@ module Data.Transformable
 
 from Data.Try import try
 
-model Transformable[a b] {
+model Transformable[a,b] {
     transform : a -> try[b]
 }

@@ -23,7 +23,7 @@ type LambdaTerm {
     }
 }    
 
-typedef Environment = Map[string value]
+typedef Environment = Map[string,value]
 
 type Value {
     CstVal { value : string }

@@ -8,14 +8,16 @@
  
 module Data.Pair 
  
-model Pair[a b] {
+// Note: type (a,b) === Pair[a,b]
+
+model Pair[a,b] {
    _1 : a
    _2 : b
 }
 
-class pair[a b] this:Pair[a b] {
-   unbox : Pair[a b]
-   apply : [c d] (a -> c) -> (b -> d) -> pair[c d]
+class pair[a,b] this:Pair[a,b] {
+   unbox : Pair[a,b]
+   apply : [c,d] (a -> c) -> (b -> d) -> pair[c,d]
 } {
    def unbox = this
    def apply a b = pair $ Pair (a this._1) (b this._2)

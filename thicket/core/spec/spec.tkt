@@ -22,8 +22,8 @@ model TestContext {
 model Expect[a] {
     toBe       : a -> bool
     toBeIn     : Collection[a] -> bool
-    toBeAKey   : [b] Map[a b] -> bool
-    toBeAValue : [b] Map[b a] -> bool
+    toBeAKey   : [b] Map[a,b] -> bool
+    toBeAValue : [b] Map[b,a] -> bool
 }
 
 class expect[a] this:Comparable[a] {

@@ -21,13 +21,13 @@ from Data.Comparable import Comparable
  *     otherwise => s3
  */
 
-model SwitchModel[a b] {
-    case      : Comparable[a] -> CaseModel[a b]
+model SwitchModel[a,b] {
+    case      : Comparable[a] -> CaseModel[a,b]
     otherwise : CaseOtherwise[b]
 }
 
-model CaseModel[a b] {
-    (=>) : b -> SwitchModel[a b]
+model CaseModel[a,b] {
+    (=>) : b -> SwitchModel[a,b]
 }
 
 model CaseOtherwise[b] {
@@ -36,44 +36,44 @@ model CaseOtherwise[b] {
 
 // ------------------------
 
-trait switchTrait[a b] {
-    with SwitchModel[a b]
-    toModel : SwitchModel[a b]
+trait switchTrait[a,b] {
+    with SwitchModel[a,b]
+    toModel : SwitchModel[a,b]
 } {
     def toModel = SwitchModel self.case self.otherwise
 }
 
-trait caseTrait[a b] {
-    with CaseModel[a b]
-    toModel : CaseModel[a b]
+trait caseTrait[a,b] {
+    with CaseModel[a,b]
+    toModel : CaseModel[a,b]
 } {
     def toModel = CaseModel self.(=>)
 }
 
 // ------------------------
 
-class switch[a b] this:a {
-    with switchTrait[a b]
+class switch[a,b] this:a {
+    with switchTrait[a,b]
 } {
     def case a = a == this fold (caseTrue (i -> i) toModel) (caseFalse this toModel)
     def otherwise = CaseOtherwise (b -> b)
 }
 
-class switchTrue[a b] this:b {
-    with switchTrait[a b]
+class switchTrue[a,b] this:b {
+    with switchTrait[a,b]
 } {
     def case _ = caseTrue (_ -> this) toModel
     def otherwise = CaseOtherwise (_ -> this)
 }
 
-class caseTrue[a b] this:(b -> b) {
-    with caseTrait[a b] 
+class caseTrue[a,b] this:(b -> b) {
+    with caseTrait[a,b] 
 } {
     def (=>) b = switchTrue (this b) toModel
 }
 
-class caseFalse[a b] this:a {
-    with caseTrait[a b]
+class caseFalse[a,b] this:a {
+    with caseTrait[a,b]
 } {
     def (=>) _ = switch this toModel
 }

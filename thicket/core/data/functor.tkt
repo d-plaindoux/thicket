@@ -10,5 +10,5 @@ module Data.Functor
 
 model Functor[F] {
   create : [A] A -> F[A]
-  map    : [A B] F[A] -> (A -> B) -> F[B]
+  map    : [A,B] F[A] -> (A -> B) -> F[B]
 }

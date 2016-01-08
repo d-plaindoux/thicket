@@ -8,15 +8,15 @@
 
 module Data.Either
 
-type Either[a b] {
+type Either[a,b] {
     EitherLeft  { _ : a }
     EitherRight { _ : b }
 }
 
-class either[a b] this:Either[a b] {   
+class either[a,b] this:Either[a,b] {   
     fold : [c] (a -> c) -> (b -> c) -> c
-    map : [c d] (a -> c) -> (b -> d) -> either[c d]
-    flatmap : [c d] (a -> either[c d]) -> (b -> either[c d]) -> either[c d]
+    map : [c,d] (a -> c) -> (b -> d) -> either[c,d]
+    flatmap : [c,d] (a -> either[c,d]) -> (b -> either[c,d]) -> either[c,d]
 } {
     def EitherLeft.fold l _ = l this._
     def EitherRight.fold _ r = r this._

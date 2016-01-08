@@ -20,6 +20,6 @@ class strictClass[a] this:a {
     def fold f = f this
 }
 
-def strict : [a b] (a -> b) -> a -> b = f a -> {
+def strict : [a,b] (a -> b) -> a -> b = f a -> {
     strictClass a fold f
 }

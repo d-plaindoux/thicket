@@ -26,7 +26,7 @@
  type Element {
     model Tag { 
         name       : string 
-        attributes : Map[string Attribute] 
+        attributes : Map[string,Attribute] 
         content    : Element 
     }
     model CData {

@@ -19,6 +19,6 @@ from Net.Response.Status import ResponseStatus
 
 model Response[a] {
     status : ResponseStatus
-    header : Map[string string]
-    data   : Transformable[Externalized a]
+    header : Map[string,string]
+    data   : Transformable[Externalized,a]
 }

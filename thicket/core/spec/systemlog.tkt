@@ -18,18 +18,18 @@ import Spec.Logger
 def consoleLogger : TestLogger = {
     new dumbLogger with
         description = (s -> do { 
-                console.log $ s + ":" 
+                console.log $"$s:" 
               } return ())
         success = (s -> do { 
-                console.log $ "  " + s 
+                console.log $" $s" 
               } return ())
         failure = (s -> do { 
-                console.log $ "X " + s 
+                console.log $"X $s" 
                } return ())
         terminate = (s -> do { 
-                console.log ("success " + s._1 + " failure " + s._2) 
+                console.log $"success $(s._1) failure $(s._2)"
               }; { 
-                console.log "" 
+                console.log "" // newline
               }; {
                 when (s._2 ?> 0) then (runtime exit 1) else () 
               } return ())

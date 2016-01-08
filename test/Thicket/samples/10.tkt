@@ -4,13 +4,13 @@ model bool {
     (?) : [c] c -> c -> c
 }
 
-typedef BiFun[a b] = a -> b
+typedef BiFun[a,b] = a -> b
 
 model native
 class number this:native {
-    (+)  : BiFun[number number]
-    max  : BiFun[number number]
-    (<=) : BiFun[number bool]
+    (+)  : BiFun[number,number]
+    max  : BiFun[number,number]
+    (<=) : BiFun[number,bool]
 }{
     // Nothing
 }

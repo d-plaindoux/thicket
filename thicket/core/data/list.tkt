@@ -35,7 +35,7 @@ type List[a] {
  */
 
 class list[a] this:List[a] {
-    with Monadic[list a]
+    with Monadic[list,a]
 
     unbox   : List[a]
     fold    : [b] b -> (a -> list[a] -> b) -> b
@@ -57,7 +57,7 @@ class list[a] this:List[a] {
     foldL   : [b] (b -> a -> b) -> b -> b
     foldR   : [b] (a -> b -> b) -> b -> b
 
-    zip     : [b] list[b] -> ziplist[a b]
+    zip     : [b] list[b] -> ziplist[a,b]
 } {
     def unbox = this
 
@@ -98,7 +98,7 @@ class list[a] this:List[a] {
             l fold whenNil whenCons
 }
 
-class ziplist[a b] this:List[(a,b)] {
+class ziplist[a,b] this:List[(a,b)] {
     unbox  : List[(a,b)] 
     toList : list[(a,b)] 
     unzip  : list[a],list[b]     
@@ -119,11 +119,11 @@ class ziplist[a b] this:List[(a,b)] {
 
 def emptyList : list = { list Nil }
 
-def List : [a] collectionBuilder[a list[a]] = {
+def List : [a] collectionBuilder[a,list[a]] = {
     collectionBuilder (list2builder emptyList)
 }
                 
-def list2builder : [a] list[a] -> CollectionBuilder[a list[a]] = l -> {
+def list2builder : [a] list[a] -> CollectionBuilder[a,list[a]] = l -> {
     CollectionBuilder l (a -> list2builder $ l :+ a)
 }
 
@@ -131,11 +131,11 @@ def list2builder : [a] list[a] -> CollectionBuilder[a list[a]] = l -> {
  * Adapters
  */
 
-def adapter ziplist2list : [a b] ziplist[a b] -> list[(a,b)] = l -> {
+def adapter ziplist2list : [a,b] ziplist[a,b] -> list[(a,b)] = l -> {
     list $ l unbox
 }
 
-def adapter list2ziplist : [a b] list[(a,b)] -> ziplist[a b] = l -> {
+def adapter list2ziplist : [a,b] list[(a,b)] -> ziplist[a,b] = l -> {
     ziplist $ l unbox
 }
 
