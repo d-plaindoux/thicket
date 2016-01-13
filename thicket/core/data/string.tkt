@@ -2,7 +2,7 @@
  * Thicket
  * https://github.com/d-plaindoux/thicket
  *
- * Copyright (c) 2015 Didier Plaindoux
+ * Copyright (c) 2015-2016 Didier Plaindoux
  * Licensed under the LGPL2 license.
  */
  
@@ -19,6 +19,7 @@ from Data.Comparable import comparable
 from Data.Hashable import hashable
 from Data.Matcher import matcher
 from Data.Indexable import Indexable
+from Data.Array import emptyArray, array
 
 class string this:native {
     with comparable[string]
@@ -35,6 +36,7 @@ class string this:native {
     length   : number
 
     toNumber : option[number] 
+    toChars  : array[char]
 } {
     def unbox = self
 
@@ -52,6 +54,9 @@ class string this:native {
     def length = number $ internal "string.length" self    
     
     def toNumber = internal "string.toNumber" self (n -> some $ number n) none
+    def toChars = 
+        let update = r i -> self get i fold r (r set i) in
+            0 to (self.length --) fold (emptyArray self.length) update
 }
 
 /**

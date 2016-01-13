@@ -342,26 +342,48 @@ trait Set[M a] {
 }
 ```
 
-In this example `self` has the behavior `size` because *it's an implementation* 
-of a `Set`. But what does *implementation* means in the type system. In fact the 
-self type is a type containing `Set` specification i.e. a class with a derivation
-to this trait. 
+In this example `self` has the behavior `size` because *it's an 
+implementation* of a `Set`. But what does *implementation* means in the 
+type system. In fact the self type is a type containing `Set` 
+specification i.e. a class with a derivation to this trait. 
 
-For the moment the type of self is the trait type itself but this approach is not 
-fulfiling. 
+For the moment the type of self is the trait type itself but this approach 
+is not fulfiling. 
+
+## TODO
+
+### Type checker level
+
+#### Consistency
+
+For each class definition check the consistency in order to not accept 
+partial class definition since a class cannot be used as-is in another 
+one using the `with` declaration.
+
+### Code generation level
+
+#### Generated code optimization
+
+The current version of the generated code refers to the module in two
+many levels (module entity, model, class ... and ident). This repetition
+must be build when specifications are loaded (synthetized).
+
+#### Constant pool
+
+Each constant like strings, number etc. must be stored in a constant pool
+`à la JVM`. This also imply a more compact specification file.
 
 ## More informations and References
 
 This language has been inspired  by major projects and frameworks like
-[Purescript](https://github.com/purescript/purescript),
-[AngularJS](https://angularjs.org),
-[React](http://facebook.github.io/react/) ...  In addition the Virtual
-DOM  approach is  also  studied in  order to  provide  a reactive  and
-efficient DOM management process.
+[Purescript](https://github.com/purescript/purescript) and
+[React](http://facebook.github.io/react/). In addition the Virtual DOM
+approach is also studied in order to provide a reactive and efficient 
+DOM management process.
 
 ## License
 
-Copyright (C)2015 D. Plaindoux.
+Copyright (C)2015-2016 D. Plaindoux.
 
 This program is  free software; you can redistribute  it and/or modify
 it  under the  terms  of  the GNU  Lesser  General  Public License  as

@@ -2,7 +2,7 @@
  * Thicket
  * https://github.com/d-plaindoux/thicket
  *
- * Copyright (c) 2015 Didier Plaindoux
+ * Copyright (c) 2015-2016 Didier Plaindoux
  * Licensed under the LGPL2 license.
  */
  
@@ -16,7 +16,7 @@ trait Applicative[F] {
     with Functor[F]
     
     pure  : [A] A -> F[A]
-    apply : [A,B] F[(A->B)] -> F[A] -> F[B]
+    (<*>) : [A,B] F[(A->B)] -> F[A] -> F[B]
 }
 
 trait Monad[F] {
@@ -27,14 +27,12 @@ trait Monad[F] {
 
 /*
 
-trait Functor[A,F] {
+trait Functor[A,F[_]] {
     map : [B] (A -> B) -> F[B]
 }
 
-typedef R[A] = [B](A,B)
-
 class pairFunctor[A,B] this:(A,B) {
-    with Functor[B,[B]Pair[A B]]
+    with Functor[B,[B]Pair[A,B]]
 } {
     def map f = this._1,(f this._2)
 }
