@@ -64,3 +64,4 @@ class string this:native {
  */
 
 def adapter string2number : string -> option[number] = string::toNumber
+def adapter string2chars : string -> array[char] = string::toChars

@@ -23,12 +23,5 @@ module.exports = function(runtime) {
         return [[ $i.CONST, new XMLHttpRequest() ]];
     });
 
-    runtime.native("xmlhttp.create", 1, function(env){
-        var v1 = runtime.constant(env.pop()),
-            v2 = runtime.constant(env.pop());
-
-        return [[ $i.CONST, new XMLHttpRequest() ]];
-    });
-
 };
  

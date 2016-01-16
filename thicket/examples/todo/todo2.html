@@ -17,22 +17,25 @@
   <script type="application/thicket+package" data-src="Client"></script>  
     
   <script type="application/thicket">
-    def view : string -> string -> dom = text clazz ->
-        <div class=clazz><i> text </i></div> 
+    def view : string -> string -> dom = text classes ->
+        <div class=classes>
+            <i> text </i>
+        </div> 
     
     def todo : string -> dom = text -> { 
-        (view text "actionable todo")
+        view text "actionable todo"
         onMouseEvent MouseClick { node -> 
-            node replaceWith (view text "actionable done")
+            node replaceWith (view $"<DONE> $text" "actionable done")
             onMouseEvent MouseClick dom::remove
         }
     }
     
     def manageTodos : dom -> dom = node -> {
-        1 to 10 fold node (node i -> node addChild $ todo $ "#" + i)
+        1 to 10 fold node (node i -> node addChild $ todo $"Item $i")
     }
 
-    for todo <- {document "todo" find} yield manageTodos todo
+    for todo <- {document "todo" find} 
+    yield manageTodos todo
   </script>
     
   <script>

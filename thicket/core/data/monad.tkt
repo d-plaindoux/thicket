@@ -27,7 +27,7 @@ trait Monad[F] {
 
 /*
 
-trait Functor[A,F[_]] {
+trait Functor[A,F] {
     map : [B] (A -> B) -> F[B]
 }
 
