@@ -23,19 +23,17 @@ from Logic.Combinators import combinators
 from Example.TodoMVC.Models import *
 
 model ControllerContext {
-    edit   : option[number] // Some edited entry or none
+    edited : option[number] // Some edited entry or none
     filter : filter         // current filter applied
-    index  : number         // used for generation
     todos  : list[Todo]     // list of Todo
+    index  : number         // used for generation
 }
 
 class controller this:ControllerContext {
-    edited         : option[number]
-    filter         : filter
+    with ControllerContext
+
     length         : number
     todosLeft      : number
-    todos          : list[Todo]
-
     completed      : bool
 
     add            : string -> controller
@@ -49,7 +47,7 @@ class controller this:ControllerContext {
     
     filtering      : filter -> controller
 } {
-    def edited = this.edit
+    def edited = this.edited
     def filter = this.filter    
     def length = this.todos.length    
 
@@ -68,31 +66,31 @@ class controller this:ControllerContext {
     def add s = 
         let todos = this.todos +: $ createTodo this.index s in
         let index = this.index++ in
-            controller new this with index=index todos=todos edit=none
+            controller new this with index=index todos=todos edited=none
 
     def change n s =
         let todos = this.todos map $ t -> 
                     when (t.id == n)
                     then new t with title=s
                     else t in                    
-            controller new this with todos=todos edit=none                        
+            controller new this with todos=todos edited=none                        
 
     def toggle n =
         let todos = this.todos map $ t -> 
                     when (t.id == n)
                     then new t with completed=t.completed.not
                     else t in                    
-            controller new this with todos=todos edit=none
+            controller new this with todos=todos edited=none
 
     def edit n =
         let edited = this.todos find $ t -> t.id == n in
             when (edited present) 
-            then {controller new this with edit=(some n)}
+            then {controller new this with edited=(some n)}
             else self
             
     def remove n =
         let todos = this.todos.filter $ t -> t.id != n in
-            controller new this with todos=todos edit=none
+            controller new this with todos=todos edited=none
 
     def filtering f = 
         controller new this with filter=f
@@ -100,12 +98,13 @@ class controller this:ControllerContext {
     def completeAll =
         let completed = self.completed.not in
         let todos = this.todos map $ t -> new t with completed=completed in
-            controller new this with todos=todos edit=none            
+            controller new this with todos=todos edited=none  
+            
     def clearCompleted = 
         let todos = this.todos.filter $ t -> t.completed.not in
-            controller new this with todos=todos edit=none
+            controller new this with todos=todos edited=none
 }
 
 def createController : controller = { 
-    controller $ ControllerContext none all 0 emptyList        
+    controller $ ControllerContext none all emptyList 0
 }
