@@ -6,7 +6,7 @@
  * Licensed under the LGPL2 license.
  */
 
-module Example.TodoMVC.Views
+module Example.TodoMVC.Application
 
 from Client.Document import *
 from Client.Event.Mouse import *
@@ -27,8 +27,8 @@ from Data.Boolean import *
 from Example.TodoMVC.Models import *
 from Example.TodoMVC.Controller import controller
 
-class views this:controller {
-    render : views
+class application this:controller {
+    render : application
 } {
     // -----------------------------------------------------------------------------------------------
     // Private behaviors
@@ -36,14 +36,14 @@ class views this:controller {
     
     def todoStatusView : Todo -> dom = t ->
         <input type="checkbox" class="toggle" checked if t.completed />
-        onMouseEvent MouseClick $ _ -> views (this toggle t.id) render
+        onMouseEvent MouseClick $ _ -> application (this toggle t.id) render
         
     def todoEditView : Todo -> dom = t ->
         <li id=("todo_" + t.id) class="completed" if t.completed> $
             <input class="edit" value=t.title autofocus/>             
             onKeyEvent KeyPress $ d n -> 
                 when (n == keys.CARRIAGE_RETURN)
-                then { d value fold self $ s -> views (this change t.id s) render }
+                then { d value fold self $ s -> application (this change t.id s) render }
                 else self
         </li>
         
@@ -53,9 +53,9 @@ class views this:controller {
                 {self todoStatusView t}
                 <label> t.title </label> $
                 <button id=("todo_destroy_" + t.id) class="destroy"/>
-                onMouseEvent MouseClick $ _ -> views (this remove t.id) render
+                onMouseEvent MouseClick $ _ -> application (this remove t.id) render
             </div>
-            onMouseEvent MouseDblClick $ _ -> views (this edit t.id) render
+            onMouseEvent MouseDblClick $ _ -> application (this edit t.id) render
         </li>
 
     def viewItems : dom = 
@@ -71,19 +71,19 @@ class views this:controller {
               <a href="#" class="selected" if (this.filter == all)>
                  "All" 
               </a>
-              onMouseEvent MouseClick $ _ -> views (this filtering all) render
+              onMouseEvent MouseClick $ _ -> application (this filtering all) render
             </li>
             <li> $
               <a href="#" class="selected" if (this.filter == active)> 
                 "Active" 
               </a>
-              onMouseEvent MouseClick $ _ -> views (this filtering active) render
+              onMouseEvent MouseClick $ _ -> application (this filtering active) render
             </li>
             <li> $
               <a href="#" class="selected" if (this.filter == completed)> 
                  "Completed"
               </a>
-              onMouseEvent MouseClick $ _ -> views (this filtering completed) render
+              onMouseEvent MouseClick $ _ -> application (this filtering completed) render
             </li>
         </ul>
 
@@ -91,19 +91,19 @@ class views this:controller {
         <button id="clear-completed"> 
             "Clear completed" 
         </button>            
-        onMouseEvent MouseClick $ _ -> views (this clearCompleted) render
+        onMouseEvent MouseClick $ _ -> application (this clearCompleted) render
         
     def toggleAllView : dom = 
         <input id="toggle-all" type="checkbox"
                checked if this.completed
                class="hidden" if (this.length == 0)/>
-        onMouseEvent MouseClick $ _ -> views (this completeAll) render
+        onMouseEvent MouseClick $ _ -> application (this completeAll) render
     
     def inputTodoView : dom = 
         <input id="new-todo" placeholder="What needs to be done?" autofocus/>
         onKeyEvent KeyPress $ d n -> 
             when (n == keys.CARRIAGE_RETURN)
-            then { d value fold self $ s -> views (this add s) render} 
+            then { d value fold self $ s -> application (this add s) render} 
             else self
              
     def todoListView : dom =

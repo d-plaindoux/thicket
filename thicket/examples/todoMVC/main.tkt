@@ -8,7 +8,7 @@
 
 module Example.TodoMVC
 
-import Example.TodoMVC.Views
+import Example.TodoMVC.Application
 import Example.TodoMVC.Controller
 
-views createController render
+application createController render

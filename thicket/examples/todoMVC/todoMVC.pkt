@@ -11,7 +11,7 @@
     ],
     "modules": [
         "Example.TodoMVC",
-        "Example.TodoMVC.Views",
+        "Example.TodoMVC.Application",
         "Example.TodoMVC.Controller",
         "Example.TodoMVC.Models"
     ],

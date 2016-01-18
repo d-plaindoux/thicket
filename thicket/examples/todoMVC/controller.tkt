@@ -47,19 +47,20 @@ class controller this:ControllerContext {
     
     filtering      : filter -> controller
 } {
+    def index  = this.index
     def edited = this.edited
     def filter = this.filter    
-    def length = this.todos.length    
-
-    def todosLeft = 
-        this.todos.filter (combinators.B bool::not Todo::completed) length
-        
     def todos = 
         this.filter fold 
             (this.todos)
             (this.todos.filter $ t -> t.completed.not)
             (this.todos.filter $ t -> t.completed)
-    
+
+    def length = this.todos.length        
+
+    def todosLeft = 
+        this.todos.filter (combinators.B bool::not Todo::completed) length
+        
     def completed = 
         this.todos foldR (combinators.B bool::(&&) Todo::completed) true
 
