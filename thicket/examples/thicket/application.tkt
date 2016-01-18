@@ -21,7 +21,7 @@ model Components {
 
 def makeContent : logger -> runtimeClass -> dom -> dom -> dom = logger runtime content output -> {
     content onKeyEvent KeyPress $ d n -> 
-        when (n == standardKeys.CARRIAGE_RETURN) 
+        when (n == keys.CARRIAGE_RETURN) 
         then { do 
                { output removeChilds };
                { content value map $ s -> logger.log s };

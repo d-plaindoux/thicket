@@ -57,7 +57,7 @@
         create : number -> string 
     } {
         def create c = 
-            let char = 'A' <+ $ this._2 - c in
+            let char = 'A' + $ this._2 - c in
             let line = this._1 setAt c char setAt (this._1 length - 1 - c) char in
                 when (c <= 0) 
                 then { line } 

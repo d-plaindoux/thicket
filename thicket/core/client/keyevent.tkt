@@ -32,4 +32,4 @@ model Keys {
     CARRIAGE_RETURN : number
 }
 
-def standardKeys : Keys = { Keys 13 }
+def keys : Keys = { Keys 13 }

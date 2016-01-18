@@ -16,7 +16,14 @@ trait Applicative[F] {
     with Functor[F]
     
     pure  : [A] A -> F[A]
-    (<*>) : [A,B] F[(A->B)] -> F[A] -> F[B]
+    (<*>) /*infix left 10*/ : [A,B] F[(A->B)] -> F[A] -> F[B]
+}
+
+trait Alternative[F] {
+    with Applicative[F]
+    
+    empty : [A] F[A]
+    (<|>) : [A] F[A] -> F[A] -> F[A]
 }
 
 trait Monad[F] {

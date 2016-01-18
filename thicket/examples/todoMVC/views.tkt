@@ -21,6 +21,7 @@ from Data.Unit import unit
 from Data.String import string
 from Data.Number import number
 from Data.Option import *
+from Data.Boolean import *
 
 from Example.TodoMVC.Models import *
 from Example.TodoMVC.Application import Application
@@ -31,29 +32,30 @@ class todoViews this:Application {
     footerView    : dom
     todoListView  : dom
 } {
+    // -----------------------------------------------------------------------------------------------
     // Private behaviors
+    // -----------------------------------------------------------------------------------------------
     
     def todoStatusView : Todo -> dom = t ->
         <input type="checkbox" class="toggle" checked if t.completed />
         onMouseEvent MouseClick $ _ -> this action toggle t.id
         
     def todoEditView : Todo -> dom = t ->
-        <li id=("todo_" + t.id) class="completee" if t.completed>
-          { <input class="edit" value=t.title autofocus/>             
+        <li id=("todo_" + t.id) class="completed" if t.completed> $
+            <input class="edit" value=t.title autofocus/>             
             onKeyEvent KeyPress $ d n -> 
-                when (n == standardKeys.CARRIAGE_RETURN) 
+                when (n == keys.CARRIAGE_RETURN)
                 then { d value fold this $ this action change t.id } 
-                else this
-          }
+                else this        
         </li>
         
     def todoView : Todo -> dom = t ->
         <li id=("todo_" + t.id) class="completed" if t.completed>
             <div class="view">  
                 {self todoStatusView t}
-                <label> t.title </label>
-                {<button id=("todo_destroy_" + t.id) class="destroy"/>
-                 onMouseEvent MouseClick $ _ -> this action remove t.id}
+                <label> t.title </label> $
+                <button id=("todo_destroy_" + t.id) class="destroy"/>
+                onMouseEvent MouseClick $ _ -> this action remove t.id
             </div>
         </li>
         onMouseEvent MouseDblClick $ _ -> this action edit t.id
@@ -61,70 +63,70 @@ class todoViews this:Application {
     def viewItems : dom = 
         let r = this.context.todosLeft in
             <span id="todo-count">
-                <strong> r " " </strong> 
-                { when (r <? 2) then "item left" else "items left" }
+                <strong> r " " </strong> $ 
+                when (r <? 2) then "item left" else "items left"
             </span>
 
     def filtersView : dom =
         <ul id="filters">
-            <li>  
-                { <a href="#/" 
-                     class="completed" if (this.context.filter == all)>
-                     "All" 
-                  </a>
-                  onMouseEvent MouseClick $ _ -> this action filtering all }
+            <li> $
+              <a href="#" class="selected" if (this.context.filter == all)>
+                 "All" 
+              </a>
+              onMouseEvent MouseClick $ _ -> this action filtering all
             </li>
-            <li>  
-                { <a href="#/active" 
-                    class="selected" if (this.context.filter == active)> 
-                    "Active" 
-                  </a>
-                  onMouseEvent MouseClick $ _ -> this action filtering active }
+            <li> $
+              <a href="#" class="selected" if (this.context.filter == active)> 
+                "Active" 
+              </a>
+              onMouseEvent MouseClick $ _ -> this action filtering active
             </li>
-            <li>  
-                { <a href="#/completed" 
-                     class="selected" if (this.context.filter == completed)> 
-                     "Completed"
-                  </a>
-                  onMouseEvent MouseClick $ _ -> this action filtering completed }
+            <li> $
+              <a href="#" class="selected" if (this.context.filter == completed)> 
+                 "Completed"
+              </a>
+              onMouseEvent MouseClick $ _ -> this action filtering completed 
             </li>
         </ul>
 
     def clearCompletedView : dom =
-        <button id="clear-completed"> "Clear completed" </button>            
+        <button id="clear-completed"> 
+            "Clear completed" 
+        </button>            
         onMouseEvent MouseClick $ _ -> this action clearCompleted ()
         
+    // -----------------------------------------------------------------------------------------------
     // Public methods
+    // -----------------------------------------------------------------------------------------------
 
     def createView = 
         <input id="new-todo" placeholder="What needs to be done?" autofocus/>
         onKeyEvent KeyPress $ d n -> 
-            when (n == standardKeys.CARRIAGE_RETURN) 
+            when (n == keys.CARRIAGE_RETURN)
             then { d value fold this $ this action add } 
             else this
 
     def toggleAllView = 
         <input id="toggle-all" type="checkbox"
                checked if this.context.completed
-               class="hidden" if (this.context.length == 0) />
+               class="hidden" if (this.context.length == 0)/>
         onMouseEvent MouseClick $ _ -> this action completeAll ()
     
     def footerView = 
-        when (this context length == 0)
-        then <footer id="footer" class="hidden"/>
-        else <footer id="footer">
-                (self viewItems)
-                (self filtersView)
-                (self clearCompletedView)
-             </footer>
+        <footer id="footer" class="hidden" if (this context length == 0)>
+            self.viewItems
+            self.filtersView
+            self.clearCompletedView
+        </footer>
              
     def todoListView =
-        let todolist = <ul id="todo-list"/> in
-            do 
-            { this context todos map $ combinators.B (todolist addChild) $ t -> 
-                    when (t.id == this.context.edited) 
+        let editedTodo = t -> this.context.edited fold false (t.id ==) in
+            <ul id="todo-list">
+                for t <- { this.context.todos }
+                yield {
+                    when (editedTodo t)
                     then {self todoEditView t}
                     else {self todoView t} 
-            }
-            return todolist
+                }
+            </ul>
 }

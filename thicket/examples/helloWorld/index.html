@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015-2016 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+-->  
+<head>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script src="/thicket/build/thicket-lang.min.js"></script>
+    
+  <script type="application/thicket+package" data-src="Client"></script>
+  <script type="application/thicket">
+    documentRenderer <~ <p id="hello-world" class="fadeIn"> "Hello World!" </p>
+  </script>
+
+  <script>
+    function onLoad() {
+        require('thicket')('/thicket/site').boot();
+    }
+  </script>
+</head>    
+    
+<body onload="onLoad()">
+
+    <div class="runtime">
+        <p id="hello-world"></p>
+    </div>
+    
+    <div class="sourcecode">
+        <b>Source Code</b>
+        <pre><code>
+    documentRenderer &lt;~ &lt;p id="hw" class="fadeIn"> "Hello World!" &lt;/p>
+        </code></pre>
+    </div>  
+    
+</body>
+</html>

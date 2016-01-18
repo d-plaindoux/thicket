@@ -17,19 +17,20 @@ from Data.String import string
 from Data.Number import number,(-)
 from Data.List import emptyList,list
 from Data.Boolean import bool,true,false
+from Data.Option import option, some, none
 from Logic.Combinators import combinators
 
 from Example.TodoMVC.Models import *
 
 model ControllerContext {
-    edit   : number         // edited item or -1
+    edit   : option[number] // Some edited entry or none
     filter : filter         // current filter applied
     index  : number         // used for generation
     todos  : list[Todo]     // list of Todo
 }
 
 class controller this:ControllerContext {
-    edited         : number    
+    edited         : option[number]
     filter         : filter
     length         : number
     todosLeft      : number
@@ -67,31 +68,31 @@ class controller this:ControllerContext {
     def add s = 
         let todos = this.todos +: $ createTodo this.index s in
         let index = this.index++ in
-            controller new this with index=index todos=todos edit=(-1)
+            controller new this with index=index todos=todos edit=none
 
     def change n s =
         let todos = this.todos map $ t -> 
                     when (t.id == n)
                     then new t with title=s
                     else t in                    
-            controller new this with todos=todos edit=(-1)                        
+            controller new this with todos=todos edit=none                        
 
     def toggle n =
         let todos = this.todos map $ t -> 
                     when (t.id == n)
                     then new t with completed=t.completed.not
                     else t in                    
-            controller new this with todos=todos edit=(-1)
+            controller new this with todos=todos edit=none
 
     def edit n =
         let edited = this.todos find $ t -> t.id == n in
             when (edited present) 
-            then {controller new this with edit=n}
+            then {controller new this with edit=(some n)}
             else self
             
     def remove n =
         let todos = this.todos.filter $ t -> t.id != n in
-            controller new this with todos=todos edit=(-1)
+            controller new this with todos=todos edit=none
 
     def filtering f = 
         controller new this with filter=f
@@ -99,13 +100,12 @@ class controller this:ControllerContext {
     def completeAll =
         let completed = self.completed.not in
         let todos = this.todos map $ t -> new t with completed=completed in
-            controller new this with todos=todos edit=(-1)
-            
+            controller new this with todos=todos edit=none            
     def clearCompleted = 
         let todos = this.todos.filter $ t -> t.completed.not in
-            controller new this with todos=todos edit=(-1)
+            controller new this with todos=todos edit=none
 }
 
 def createController : controller = { 
-    controller $ ControllerContext (-1) all 0 emptyList        
+    controller $ ControllerContext none all 0 emptyList        
 }

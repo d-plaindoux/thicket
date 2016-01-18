@@ -92,7 +92,7 @@ def adapter string2domlist : string -> list[dom] = s -> {
 }
 
 def adapter number2dom : number -> dom = s -> {
-    dom $ internal "string.toDom" (number2string s)
+    dom $ internal "string.toDom" $ number2string s
 }
 
 def adapter number2domlist : number -> list[dom] = s -> {

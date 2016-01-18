@@ -16,6 +16,7 @@ from Data.String import string
 from Data.Number import number
 from Data.List import emptyList,list
 from Data.Boolean import bool
+from Data.Option import option, some ,none
 
 from Example.TodoMVC.Models import *
 from Example.TodoMVC.Controller import *
@@ -24,7 +25,7 @@ from Example.TodoMVC.Renderer import render
 from System.Console import console
 
 model ApplicationContext {
-    edited    : number
+    edited    : option[number]
     completed : bool
     filter    : filter
     length    : number

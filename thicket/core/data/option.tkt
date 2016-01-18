@@ -51,7 +51,7 @@ class option[a] this:Option[a] {
  */
 
 def some : [a] a -> option[a] = e -> { option $ Some e }
-def none : [a] option[a] = { option None }
+def none : option = { option None }
 
 /**
  * Adapters
