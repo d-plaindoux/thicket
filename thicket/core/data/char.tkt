@@ -15,7 +15,7 @@ from Data.String import string
 from Data.Boolean import true,false
 from Data.Comparable import comparable
 from Data.Hashable import hashable
-from Data.Matcher import Matcher
+from Data.Matcher import matcher
 from Data.Additionable import additionable
 
 from Lang.Switch import switch
@@ -24,9 +24,10 @@ class char this:native {
     with comparable[char]
     with hashable[char]
     with additionable[char]
-    with Matcher[char]
+    with matcher[char]
     
     toString : string
+    toNumber : number
 } {
     def hash = self toString hash
 
@@ -36,14 +37,14 @@ class char this:native {
     def (+) n = char $ internal "char.+" self n
     
     def toString = string this
-    
-    def match = switch self
+    def toNumber = number $ internal "char.toNumber" self
 }
 
 def eol : char = '\n'
 
 /**
- * Adapters
+ * Adapter
  */
  
 def adapter char2string : char -> string = char::toString
+def adapter char2number : char -> number = char::toNumber

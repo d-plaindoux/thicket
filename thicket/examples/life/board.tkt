@@ -17,12 +17,11 @@ def cellId : number -> number -> Pos = i j -> {
 }
 
 def adapter pos2id : Pos -> string = p -> {
-    "." + p.x + "," + p.y
+    $"cell-$(p.x):$(p.y)"
 }
 
 def boardCell : Pos -> option[dom] = pos -> {
-    let id = "" + pos.x + "," + pos.y in
-        document (cellId pos.x pos.y) find
+    document (cellId pos.x pos.y) find
 }
 
 def renderCell : World -> Pos -> unit = world pos -> {

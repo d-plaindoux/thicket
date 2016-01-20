@@ -30,6 +30,8 @@ def neighbours : World -> Pos -> number = world pos -> {
 }   
 
 def next : World -> World = world pos -> {
-    let state = n -> n == 3 fold alive $ n == 2 fold { world pos } dead in 
+    let state = n -> n match case 3 => alive 
+                             case 2 => { world pos } 
+                             otherwise => dead in 
         state $ neighbours world pos
 }

@@ -23,7 +23,8 @@ model Range[a] {
     fold : [b] b -> (b -> a -> b) -> b
 }
  
-/* 
+/** Native code but too slow 
+ 
 class abstractRange[a] this:(Additionable[a],Additionable[a]) {
     fold : [b] (a -> a -> bool) -> (number -> a) -> b -> (b -> a -> b) -> b
 } {

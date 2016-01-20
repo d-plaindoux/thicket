@@ -32,6 +32,6 @@ let size = 5 in
       yield 
         run onMouseEvent MouseClick $ _ -> 
         do {
-            world.set (next world.get)
+            world.set $ next world.get
         } return renderWorld size world.get
     } return ()

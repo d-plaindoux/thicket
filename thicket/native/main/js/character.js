@@ -24,5 +24,11 @@ module.exports = function(runtime) {
         return [[ $i.CONST, String.fromCharCode(self.charCodeAt(0) + index) ]];
     });
 
+    runtime.native("char.toNumber", 1, function(env){
+        var self = runtime.constant(env.pop());
+        
+        return [[ $i.CONST, self.charCodeAt(0) ]];
+    });
+
 };
  

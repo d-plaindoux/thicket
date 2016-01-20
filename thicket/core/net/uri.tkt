@@ -22,3 +22,19 @@ model URI {
     path       : Collection[string]
     parameters : Map[string,string]
 }
+/*
+class uri this:(Protocol,host,port) {
+    unbox        : URI
+    path         : list[string]
+    parameters   : hashmap[string,string]
+    addpath      : string -> uri
+    addParameter : string -> string -> uri
+} {
+    def unbox = URI this._1 this._2._1 this._2._2 self.path self.parameters
+    def path  = emptyList
+    def parameters = emptyHashmap
+    
+    def addPath s = new self with path=(self.path :+ s)
+    def addParameter n v = new self with parameters=(self.path :+ s)
+}
+*/

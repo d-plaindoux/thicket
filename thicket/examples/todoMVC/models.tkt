@@ -22,11 +22,7 @@ def createTodo : number -> string -> Todo = n s -> {
     Todo n s false
 }
 
-type Filter {
-    model All
-    model Active
-    model Completed
-}
+type Filter { All Active Completed }
 
 class filter this:Filter {
     fold : [a] a -> a -> a -> a
