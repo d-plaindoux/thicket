@@ -32,6 +32,7 @@
         "Data.Matcher",
         "Data.Monadic",
         "Data.Transformable",
+        "Data.Trampoline",
         "Data.Mutable.Ref",
         "Lang",
         "Lang.When",

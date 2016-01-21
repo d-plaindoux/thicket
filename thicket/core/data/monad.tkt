@@ -44,4 +44,5 @@ class pairFunctor[A,B] this:(A,B) {
     def map f = this._1,(f this._2)
 }
 
+
 */

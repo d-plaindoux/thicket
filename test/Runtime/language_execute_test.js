@@ -2,8 +2,7 @@
 
 var fs = require('fs'),
     option = require('../../lib' + (process.env.THICKET_COV || '') + '/Data/option.js'),    
-    toplevel = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/frontend/toplevel.js'),
-    runtime = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/runtime/runtime.js');
+    toplevel = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/frontend/toplevel.js');
 
 
 /*
@@ -38,7 +37,7 @@ function sampleTest(sample, test, checker) {
 
         var source = data.toString(),
             reader = option.none(),
-            aToplevel = toplevel(reader, runtime(reader), false).setLogAgent(function(){});
+            aToplevel = toplevel(reader, false).setLogAgent(function(){});
         
         var result = aToplevel.manageSourceCode(source);
 
