@@ -18,14 +18,15 @@ from Data.Option import option,none,some
 from Data.Comparable import comparable
 from Data.Hashable import hashable
 from Data.Matcher import matcher
-from Data.Indexable import Indexable
+from Data.Sequence import sequence, modifiable
 from Data.Array import emptyArray, array
 
 class string this:native {
     with comparable[string]
     with hashable[string]
     with matcher[string]
-    with Indexable[char,string]
+    with sequence[char]
+    with modifiable[char,string]
         
     get      : number -> option[char]
     set      : number -> char -> string
@@ -33,8 +34,6 @@ class string this:native {
     (+)      : string -> string   
     (*)      : number -> string    
     
-    length   : number
-
     toNumber : option[number] 
     toChars  : array[char]
 } {
@@ -64,4 +63,4 @@ class string this:native {
  */
 
 def adapter string2number : string -> option[number] = string::toNumber
-def adapter string2chars : string -> array[char] = string::toChars
+def adapter string2chars  : string -> array[char] = string::toChars

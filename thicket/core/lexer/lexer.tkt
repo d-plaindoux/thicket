@@ -1,0 +1,64 @@
+module Lexer
+
+from Data.Number import number
+from Data.Char import char
+from Data.String import string
+from Data.Pair import Pair
+from Data.Boolean import true, false, bool
+from Data.Option import option, some, none
+from Data.Sequence import Sequence
+
+from Lang.When import when
+
+model Lexer {
+    offset : number
+    input  : Sequence[char]
+}
+
+class lexer this:Lexer {
+    accept : Sequence[char] -> option[lexer]
+    ended  : bool
+} {
+    //
+    // Private behaviors
+    //
+    
+    def get : number -> option[char] = n ->
+        this.input get (this.offset + n)
+
+    def charIs : char -> number -> option[bool] = c2 i ->
+        for c1 <- { self.get i }
+        yield c1 == c2
+
+    def tokenIs : Sequence[char] -> bool = token ->
+        0 to (token.length-1) 
+        fold true $
+             r i -> 
+                r && $
+                { for c <- { token.get i }
+                      r <- { self.charIs c i }
+                  yield r
+                } fold false (r -> r)
+                    
+    //
+    // Public behaviors
+    //
+
+    def accept token =
+            when (self.tokenIs token) 
+            then { some $ lexer new this with offset=(this.offset+token.length) }
+            else { none }
+            
+    def ended = this.offset == this.input.length
+}
+
+def newLexer : Sequence[char] -> lexer = s -> { 
+    lexer $ Lexer 0 s 
+}
+
+/*
+let l = newLexer "Hello" in
+    for l <- (l accept "He")
+        l <- (l accept "llo")
+    yield l
+*/

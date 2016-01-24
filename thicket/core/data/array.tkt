@@ -16,7 +16,7 @@ from Data.Boolean import bool
 from Data.Native import native
 from Data.Number import number
 from Data.Option import option,some,none
-from Data.Indexable import Indexable
+from Data.Sequence import sequence, modifiable
 
 from Lang.Do import do
 
@@ -29,11 +29,11 @@ from System.Internal import internal
  */
 
 class array[a] this:native {
-    with Indexable[a,array[a]]
+    with sequence[a]
+    with modifiable[a,array[a]]
+    
 
     reset  : number -> array[a]
-    
-    length : number
     
     map    : [b] (a -> b) -> array[b]
     find   : (a -> bool) -> option[a]
