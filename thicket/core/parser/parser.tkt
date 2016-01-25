@@ -1,7 +1,8 @@
 module Parser.Combinator
 
+from Data.Unit import unit
 from Data.String import string
-from Data.Number import number
+from Data.Number import number, (-)
 from Data.Boolean import bool
 from Data.Character import char
 from Data.Pair import Pair
@@ -10,6 +11,8 @@ from Data.Option import option, some, none
 from Data.Sequence import sequence
 from Data.Monadic import Monadic
 from Lang.When import when
+from Lang.Do import do
+from System.Console import console
 
 typedef Parsing[a] = sequence[char] -> number -> option[(a,number)]
 
@@ -28,15 +31,15 @@ trait Parser[a] {
 } {
     def map     f = delegateParser $ s n -> self parse s n map $ r -> (f r._1),r._2
     def flatmap f = delegateParser $ s n -> self parse s n flatmap $ r -> f r._1 parse s r._2
-    def filter  p = delegateParser $ s n -> self parse s n flatmap $ r -> p r._1 fold (some r) none
+    def filter  p = delegateParser $ s n -> self parse s n flatmap $ r -> when (p r._1) then (some r) else none
     
-    def (~)  p = sequenceParser (self,p)
-    def (~>) p = sequenceRightParser (self,p)
-    def (<~) p = sequenceLeftParser (self,p)
-    def (?)    = mayBeOneParser self
-    def (+)    = manyOneParser self
-    def (*)    = mayBeOneParser $ manyOneParser self
-    def (|)  p = choiceParser (self,p)
+    def (~)  p = sequenceParser      self p
+    def (~>) p = sequenceRightParser self p
+    def (<~) p = sequenceLeftParser  self p
+    def (?)    = mayBeOneParser      self
+    def (+)    = manyOneParser       self
+    def (*)    = mayBeOneParser      (manyOneParser self)
+    def (|)  p = choiceParser        self p
 }
 
 class delegateParser[a] this:Parsing[a] {
@@ -45,59 +48,62 @@ class delegateParser[a] this:Parsing[a] {
     def parse s n = this s n
 }
 
-class sequenceParser[a,b] this:Parser[a],Parser[b] {
-    with Parser[(a,b)]
-} {
-    def parse s n =
-        for ra <- { this._1 parse s n     }
-            rb <- { this._2 parse s ra._2 }
+def lambda : Parser[unit] = {
+    delegateParser $ s n -> some ((),n)
+}
+
+def trace : [a] string -> Parser[a] -> Parser[a] = name p -> {
+    delegateParser $ s n ->
+        do {
+            console.log name
+        } return p parse s n
+}
+
+def consume : [a] Parser[a] -> Parser[unit] = p -> {
+    p map $ _ -> ()
+}
+
+// 
+// Combinators
+//
+
+def sequenceParser: [a,b] Parser[a] -> Parser[b] -> Parser[(a,b)] = p1 p2 -> {
+    delegateParser $ s n ->
+        for ra <- { p1 parse s n     }
+            rb <- { p2 parse s ra._2 }
         yield (ra._1,rb._1),rb._2
 }
 
-class sequenceRightParser[a,b] this:Parser[a],Parser[b] {
-    with Parser[b]
-} {
-    def parse s n =
-        sequenceParser this parse s n map (r -> r._1._2,r._2)
+def sequenceLeftParser: [a,b] Parser[a] -> Parser[b] -> Parser[a] = p1 p2 -> {
+    sequenceParser p1 p2 map (r -> r._1)
 }
 
-class sequenceLeftParser[a,b] this:Parser[a],Parser[b] {
-    with Parser[a]
-} {
-    def parse s n =
-        sequenceParser this parse s n map (r -> r._1._1,r._2)
+def sequenceRightParser: [a,b] Parser[a] -> Parser[b] -> Parser[b] = p1 p2 -> {
+    sequenceParser p1 p2 map (r -> r._2)
 }
 
-class mayBeOneParser[a] this:Parser[a] {
-    with Parser[option[a]]
-} {
-    def parse s n =
-        some (this parse s n fold (none,n) $ r -> (some r._1),r._2)
+def choiceParser : [a] Parser[a] -> Parser[a] -> Parser[a] = p1 p2 -> {
+    delegateParser $ s n ->
+        p1 parse s n fold (p2 parse s n) $ r -> some r
 }
-        
-class manyOneParser[a,b] this:Parser[a] {
-    with Parser[list[a]]
-} {
-    def parse s n =
-        this parse s n map 
-        $ r -> manyOneParser this parse s r._2 
+
+def mayBeOneParser: [a] Parser[a] -> Parser[option[a]] = p -> {
+    delegateParser $ s n -> 
+        some (p parse s n fold (none,n) $ r -> (some r._1),r._2)
+}
+
+def manyOneParser: [a] Parser[a] -> Parser[list[a]] = p -> {
+    delegateParser $ s n ->
+        p parse s n map 
+        $ r -> manyOneParser p parse s r._2 
             fold ((emptyList +: r._1),r._2) 
                  (t -> (t._1 +: r._1),t._2)
 }
 
-class choiceParser[a] this:Parser[a],Parser[a] {
-    with Parser[a]
-} {
-    def parse s n =
-        this._1 parse s n fold (this._2 parse s n) $ r -> some r
-}
-
-class characterParser this:char -> bool {
-    with Parser[char]
-} {
-    def parse s n =
+def characterParser : (char -> bool) -> Parser[char] = accept -> {
+    delegateParser $ s n ->
         s get n flatmap
-        $ c -> when (this c)
+        $ c -> when (accept c)
                then { some (c,(n+1)) }
                else none
 }
@@ -119,12 +125,16 @@ def letter : Parser[char] = {
 }
 
 def notChar : char -> Parser[char] = c -> {
-    characterParser (c !=)
+    characterParser (c!=)
 } 
 
 def aChar : char -> Parser[char] = c -> {
-    characterParser (c ==)
+    characterParser (c==)
 } 
+
+def aString : string -> Parser[unit] = s -> {
+    s toList foldR (c p -> consume (aChar c) <~ p) lambda
+}
 
 def charLiteral : Parser[char] = {
     let anyChar = (aChar '\\' ~> $ aChar '\'') | (notChar '\'') in 
@@ -133,11 +143,32 @@ def charLiteral : Parser[char] = {
 
 def stringLiteral : Parser[string] = {
     let anyChar = (aChar '\\' ~> $ aChar '"') | (notChar '"') in 
-        (aChar '"') ~> (anyChar *) <~ (aChar '"') map
+        (aChar '"') ~> (anyChar*) <~ (aChar '"') map
         $ o -> o fold "" $ l -> l foldR (c r -> r + c) ""
 }
 
 def numberLiteral : Parser[number] = {
     digit+ map 
-    $ l -> l foldR (c r -> r + c) "" toNumber fold 0 (r -> r)
+    $ l -> l foldR (c r -> r+c) "" toNumber fold 0 (r -> r)
 }
+
+/* Example : Expressions parser
+
+def expressions : Parser[number] = {
+    expression ~ expressionsOp map (r -> r._2 r._1)
+}
+
+def expressionsOp : Parser[(number -> number)] = {
+    (aChar '+' ~> expressions map $ r e:number -> e+r) 
+  | (aChar '-' ~> expressions map $ r e:number -> e-r) 
+  | (aChar '*' ~> expressions map $ r e:number -> e*r) 
+  | (aChar '/' ~> expressions map $ r e:number -> e/r) 
+  | (lambda                   map $ _ e:number -> e)
+}
+
+def expression : Parser[number] = {
+    ((aChar '(') ~> expressions <~ (aChar ')'))
+  | numberLiteral
+}
+
+*/

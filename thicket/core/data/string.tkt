@@ -19,7 +19,9 @@ from Data.Comparable import comparable
 from Data.Hashable import hashable
 from Data.Matcher import matcher
 from Data.Sequence import sequence, modifiable
+from Data.List import emptyList, list
 from Data.Array import emptyArray, array
+from Lang.When import when
 
 class string this:native {
     with comparable[string]
@@ -36,6 +38,7 @@ class string this:native {
     
     toNumber : option[number] 
     toChars  : array[char]
+    toList   : list[char]
 } {
     def unbox = self
 
@@ -56,6 +59,9 @@ class string this:native {
     def toChars = 
         let update = r i -> self get i fold r (r set i) in
             0 to (self.length --) fold (emptyArray self.length) update
+    def toList = 
+        let update = l i -> self get i fold l (l+:) in
+            (self.length --) to 0 fold emptyList update
 }
 
 /**
@@ -63,4 +69,5 @@ class string this:native {
  */
 
 def adapter string2number : string -> option[number] = string::toNumber
-def adapter string2chars  : string -> array[char] = string::toChars
+def adapter string2array  : string -> array[char]    = string::toChars
+def adapter string2list   : string -> list[char]     = string::toList
