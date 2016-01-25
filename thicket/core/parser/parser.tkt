@@ -29,17 +29,17 @@ trait Parser[a] {
     (*)   : Parser[option[list[a]]]
     (|)   : Parser[a] -> Parser[a]  // No super type allowed
 } {
-    def map     f = parser $ s n -> self parse s n map $ r -> (f r._1),r._2
+    def map     f = parser $ s n -> self parse s n map     $ r -> (f r._1),r._2
     def flatmap f = parser $ s n -> self parse s n flatmap $ r -> f r._1 parse s r._2
-    def filter  p = parser $ s n -> self parse s n flatmap $ r -> when (p r._1) then (some r) else none
+    def filter  p = parser $ s n -> self parse s n flatmap $ r -> p r._1 fold (some r) none
     
-    def (~)  p = sequenceParser      self p
-    def (~>) p = sequenceRightParser self p
-    def (<~) p = sequenceLeftParser  self p
-    def (?)    = mayBeOneParser      self
-    def (+)    = manyOneParser       self
-    def (*)    = mayBeOneParser      (manyOneParser self)
-    def (|)  p = choiceParser        self p
+    def (~)  = sequenceParser      self
+    def (~>) = sequenceRightParser self
+    def (<~) = sequenceLeftParser  self
+    def (?)  = mayBeOneParser      self
+    def (+)  = manyOneParser       self
+    def (*)  = mayBeOneParser      (manyOneParser self)
+    def (|)  = choiceParser        self
 }
 
 class parser[a] this:Parsing[a] {
