@@ -61,7 +61,7 @@ class string this:native {
             0 to (self.length --) fold (emptyArray self.length) update
     def toList = 
         let update = l i -> self get i fold l (l+:) in
-            (self.length --) to 0 fold emptyList update
+            (self.length --) downto 0 fold emptyList update
 }
 
 /**

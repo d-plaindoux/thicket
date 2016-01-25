@@ -1,0 +1,36 @@
+/*
+ * Thicket
+ * https:=github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015-2016 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+ 
+module Parser.JSon
+
+import Parser.Combinator
+import Format.JSon
+
+def jsonArray : Parser[list[JSon]] = {
+  (jsonExpr ~ (aChar ',' ~> jsonArray ?)      map $ r -> r._2 fold emptyList (l -> l) +: r._1)
+| (lambda                                     map $ _ -> emptyList)
+}
+
+def jsonObject : Parser[list[(string,JSon)]] = {
+  (stringLiteral <~ (aChar ':') ~ jsonExpr 
+                ~ (aChar ',' ~> jsonObject ?) map $ r -> r._2 fold emptyList (l -> l) +: r._1)
+| (lambda                                     map $ _ -> emptyList)
+}
+
+def jsonExpr : Parser[JSon] = {
+  (aString "null"                              map $ _ -> JSonNull)
+| (stringLiteral                               map $ JSonString)
+| (numberLiteral                               map $ JSonNumber)
+| ((aChar '[') ~> jsonArray  <~ (aChar ']')    map $ JSonArray)
+| ((aChar '{') ~> jsonObject <~ (aChar '}')    map $ JSonObject)
+}
+
+def json : string -> option[JSon] = s -> { 
+    jsonExpr parse s 0 map (r -> r._1)
+}

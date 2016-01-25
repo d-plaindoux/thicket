@@ -19,10 +19,10 @@ from Lang.When import when
 //
 
 model Sequence[a] {
-    length : number
-    get : number -> option[a]
+    length      : number
+    get         : number -> option[a]
     isDefinedAt : number -> bool
-    indexOf : Comparable[a] -> option[number]
+    indexOf     : Comparable[a] -> option[number]
     lastIndexOf : Comparable[a] -> option[number]
 }
 

@@ -11,13 +11,22 @@ module Format.JSon
 from Data.Pair import Pair
 from Data.String import string
 from Data.Number import number
-from Data.Collection import Collection
+from Data.List import list
 
 type JSon {
     model JSonNull
     model JSonString { _ : string }
     model JSonNumber { _ : number }
-    model JSonArray  { _ : Collection[JSon] }
-    model JSonObject { _ : Collection[(string,JSon)] }
+    model JSonArray  { _ : list[JSon] }
+    model JSonObject { _ : list[(string,JSon)] }
 }
 
+class jsonStringify this:JSon {
+    toString : string
+} {
+    def JSonNull.toString   = "null"
+    def JSonString.toString = "\"" + this._ + "\""
+    def JSonNumber.toString = this._ toString
+    def JSonArray.toString  = "[" + (this._ mkString (j -> jsonStringify j toString) ",") + "]"
+    def JSonObject.toString = "{" + (this._ mkString (j -> "\"" + j._1 + "\":" + $ jsonStringify j._2 toString) ",") + "}"
+}

@@ -12,6 +12,7 @@ from Data.Pair import Pair
 from Data.Boolean import bool,true,false
 from Data.Unit import unit
 from Data.Number import number
+from Data.String import string
 from Data.Option import option,none,some
 from Data.Comparable import Comparable
 from Data.Hashable import Hashable
@@ -58,6 +59,8 @@ class list[a] this:List[a] {
     foldR   : [b] (a -> b -> b) -> b -> b
 
     zip     : [b] list[b] -> ziplist[a,b]
+    
+    mkString : (a -> string) -> string -> string
 } {
     def unbox = this
 
@@ -96,6 +99,10 @@ class list[a] this:List[a] {
         let whenNil = ziplist Nil in
         let whenCons = head tail -> ziplist $ Cons (this.head,head) (list this.tail zip tail unbox) in
             l fold whenNil whenCons
+        
+    def Nil.mkString f s = ""
+    def Cons.mkString f s =
+        f this.head + $ list this.tail empty fold "" $ s + $ list this.tail mkString f s
 }
 
 class ziplist[a,b] this:List[(a,b)] {
