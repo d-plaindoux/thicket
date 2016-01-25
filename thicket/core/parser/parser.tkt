@@ -32,7 +32,7 @@ trait parser[a] {
 } {
     def map     f = delegateParser $ s n -> self parse s n map $ r -> (f r._1),r._2
     def flatmap f = delegateParser $ s n -> self parse s n flatmap $ r -> f r._1 parse s r._2
-    def filter  p = delegateParser $ s n -> self parse s n flatmap $ r -> (p r._1) fold (some r) none
+    def filter  p = delegateParser $ s n -> self parse s n flatmap $ r -> p r._1 fold (some r) none
     
     def (~)  p = sequenceParser (self,p)
     def (~>) p = sequenceRightParser (self,p)
