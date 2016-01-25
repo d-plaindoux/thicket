@@ -1,0 +1,145 @@
+module Parser.Combinator
+
+from Data.String import string
+from Data.Number import number
+from Data.Boolean import bool
+from Data.Character import char
+from Data.Pair import Pair
+from Data.List import list, emptyList
+from Data.Option import option, some, none
+from Data.Sequence import sequence
+from Data.Monadic import Monadic
+from Lang.When import when
+
+typedef Parsing[a] = sequence[char] -> number -> option[(a,number)]
+
+trait Parser[a] {
+    with Monadic[Parser,a]
+    
+    parse : Parsing[a]
+    
+    (~)   : [b] Parser[b] -> Parser[(a,b)] 
+    (~>)  : [b] Parser[b] -> Parser[b] 
+    (<~)  : [b] Parser[b] -> Parser[a] 
+    (+)   : Parser[list[a]]
+    (?)   : Parser[option[a]]
+    (*)   : Parser[option[list[a]]]
+    (|)   : Parser[a] -> Parser[a]  // No super type allowed
+}
+
+trait parser[a] {
+    with Parser[a]
+} {
+    def map     f = delegateParser $ s n -> self parse s n map $ r -> (f r._1),r._2
+    def flatmap f = delegateParser $ s n -> self parse s n flatmap $ r -> f r._1 parse s r._2
+    def filter  p = delegateParser $ s n -> self parse s n flatmap $ r -> (p r._1) fold (some r) none
+    
+    def (~)  p = sequenceParser (self,p)
+    def (~>) p = sequenceRightParser (self,p)
+    def (<~) p = sequenceLeftParser (self,p)
+    def (?)    = mayBeOneParser self
+    def (+)    = manyOneParser self
+    def (*)    = mayBeOneParser $ manyOneParser self
+    def (|)  p = choiceParser (self,p)
+}
+
+class delegateParser[a] this:Parsing[a] {
+    with parser[a]
+} {
+    def parse s n = this s n
+}
+
+class sequenceParser[a,b] this:Parser[a],Parser[b] {
+    with parser[(a,b)]
+} {
+    def parse s n =
+        for ra <- { this._1 parse s n     }
+            rb <- { this._2 parse s ra._2 }
+        yield (ra._1,rb._1),rb._2
+}
+
+class sequenceRightParser[a,b] this:Parser[a],Parser[b] {
+    with parser[b]
+} {
+    def parse s n =
+        sequenceParser this parse s n map (r -> r._1._2,r._2)
+}
+
+class sequenceLeftParser[a,b] this:Parser[a],Parser[b] {
+    with parser[a]
+} {
+    def parse s n =
+        sequenceParser this parse s n map (r -> r._1._1,r._2)
+}
+
+class mayBeOneParser[a] this:Parser[a] {
+    with parser[option[a]]
+} {
+    def parse s n =
+        some (this parse s n fold (none,n) $ r -> (some r._1),r._2)
+}
+        
+class manyOneParser[a,b] this:Parser[a] {
+    with parser[list[a]]
+} {
+    def parse s n =
+        this parse s n map 
+        $ r -> manyOneParser this parse s r._2 
+            fold ((emptyList +: r._1),r._2) 
+                 (t -> (t._1 +: r._1),t._2)
+}
+
+class choiceParser[a] this:Parser[a],Parser[a] {
+    with parser[a]
+} {
+    def parse s n =
+        this._1 parse s n fold (this._2 parse s n) $ r -> some r
+}
+
+class characterParser this:char -> bool {
+    with parser[char]
+} {
+    def parse s n =
+        s get n flatmap
+        $ c -> when (this c)
+               then { some (c,(n+1)) }
+               else none
+}
+
+def digit : Parser[char] = { 
+    characterParser $ c -> ('0' <= c) && (c <= '9') 
+} 
+
+def lowerCase : Parser[char] = { 
+    characterParser $ c -> ('a' <= c) && (c <= 'z') 
+} 
+
+def upperCase : Parser[char] = { 
+    characterParser $ c -> ('A' <= c) && (c <= 'Z') 
+} 
+
+def letter : Parser[char] = {
+    lowerCase | upperCase
+}
+
+def notChar : char -> Parser[char] = c -> {
+    characterParser (c !=)
+} 
+
+def aChar : char -> Parser[char] = c -> {
+    characterParser (c ==)
+} 
+
+def charLiteral : Parser[char] = {
+    (aChar '\'') ~> (notChar '\'') <~ (aChar '\'')
+}
+
+def stringLiteral : Parser[string] = {
+    (aChar '"') ~> (notChar '"' *) <~ (aChar '"') map
+    $ o -> o fold "" $ l -> l foldR (c r -> r + c) ""
+}
+
+def numberLiteral : Parser[number] = {
+    digit+ map 
+    $ l -> l foldR (c r -> r + c) "" toNumber fold 0 (r -> r)
+}

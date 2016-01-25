@@ -10,7 +10,7 @@ module Data
  
 import Data.Native
 import Data.Unit
-import Data.Char
+import Data.Character
 import Data.Number
 import Data.String
 import Data.Pair

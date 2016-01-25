@@ -13,7 +13,7 @@ from System.Internal import internal
 from Data.Boolean import bool,true,false
 from Data.Native import native
 from Data.Number import number
-from Data.Char import char
+from Data.Character import char
 from Data.Option import option,none,some
 from Data.Comparable import comparable
 from Data.Hashable import hashable

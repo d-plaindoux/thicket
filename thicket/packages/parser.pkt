@@ -1,0 +1,17 @@
+{
+    "name": "Parser",
+    "version": "1.0",
+    "description":"Parser combinators",
+    "developers": [
+        {
+            "name": "D. Plaindoux",
+            "mail": "d.plaindoux@free.fr"
+        }
+    ],
+    "modules": [
+        "Parser.Combinator"
+    ],
+    "requires":[
+        { "Core": "1.0" }
+    ]
+}

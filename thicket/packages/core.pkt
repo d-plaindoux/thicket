@@ -13,7 +13,7 @@
         "Data",
         "Data.Native",
         "Data.Unit",
-        "Data.Char",
+        "Data.Character",
         "Data.Number",
         "Data.String",
         "Data.Pair",
