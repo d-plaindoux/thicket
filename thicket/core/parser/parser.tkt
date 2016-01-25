@@ -29,9 +29,9 @@ trait Parser[a] {
     (*)   : Parser[option[list[a]]]
     (|)   : Parser[a] -> Parser[a]  // No super type allowed
 } {
-    def map     f = delegateParser $ s n -> self parse s n map $ r -> (f r._1),r._2
-    def flatmap f = delegateParser $ s n -> self parse s n flatmap $ r -> f r._1 parse s r._2
-    def filter  p = delegateParser $ s n -> self parse s n flatmap $ r -> when (p r._1) then (some r) else none
+    def map     f = parser $ s n -> self parse s n map $ r -> (f r._1),r._2
+    def flatmap f = parser $ s n -> self parse s n flatmap $ r -> f r._1 parse s r._2
+    def filter  p = parser $ s n -> self parse s n flatmap $ r -> when (p r._1) then (some r) else none
     
     def (~)  p = sequenceParser      self p
     def (~>) p = sequenceRightParser self p
@@ -42,18 +42,18 @@ trait Parser[a] {
     def (|)  p = choiceParser        self p
 }
 
-class delegateParser[a] this:Parsing[a] {
+class parser[a] this:Parsing[a] {
     with Parser[a]
 } {
     def parse s n = this s n
 }
 
 def lambda : Parser[unit] = {
-    delegateParser $ s n -> some ((),n)
+    parser $ s n -> some ((),n)
 }
 
 def trace : [a] string -> Parser[a] -> Parser[a] = name p -> {
-    delegateParser $ s n ->
+    parser $ s n ->
         do {
             console.log name
         } return p parse s n
@@ -68,7 +68,7 @@ def consume : [a] Parser[a] -> Parser[unit] = p -> {
 //
 
 def sequenceParser: [a,b] Parser[a] -> Parser[b] -> Parser[(a,b)] = p1 p2 -> {
-    delegateParser $ s n ->
+    parser $ s n ->
         for ra <- { p1 parse s n     }
             rb <- { p2 parse s ra._2 }
         yield (ra._1,rb._1),rb._2
@@ -83,25 +83,25 @@ def sequenceRightParser: [a,b] Parser[a] -> Parser[b] -> Parser[b] = p1 p2 -> {
 }
 
 def choiceParser : [a] Parser[a] -> Parser[a] -> Parser[a] = p1 p2 -> {
-    delegateParser $ s n ->
-        p1 parse s n fold (p2 parse s n) $ r -> some r
+    parser $ s n ->
+        p1 parse s n fold (p2 parse s n) some
 }
 
 def mayBeOneParser: [a] Parser[a] -> Parser[option[a]] = p -> {
-    delegateParser $ s n -> 
+    parser $ s n -> 
         some (p parse s n fold (none,n) $ r -> (some r._1),r._2)
 }
 
 def manyOneParser: [a] Parser[a] -> Parser[list[a]] = p -> {
-    delegateParser $ s n ->
+    parser $ s n ->
         p parse s n map 
         $ r -> manyOneParser p parse s r._2 
-            fold ((emptyList +: r._1),r._2) 
-                 (t -> (t._1 +: r._1),t._2)
+               fold ((emptyList +: r._1),r._2) 
+                     (t -> (t._1 +: r._1),t._2)
 }
 
 def characterParser : (char -> bool) -> Parser[char] = accept -> {
-    delegateParser $ s n ->
+    parser $ s n ->
         s get n flatmap
         $ c -> when (accept c)
                then { some (c,(n+1)) }
