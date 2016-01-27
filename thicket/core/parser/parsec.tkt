@@ -31,16 +31,29 @@ type Reply[a] {
 //
 
 class response[a] this:Response[a] {
+    with Monadic[Response,a]
+    
     fold : [b] (Reply[a] -> b) -> (Reply[a] -> b) -> b
 } {
+    def Consumed.map f = Consumed $ reply this._ map f
+    def Empty.map    f = Empty    $ reply this._ map f
+    
+    // def Consumed.flatmap f = Consumed $ reply this._ map f
+    // def Empty.flatmap    f = Empty $ reply this._ map f
+
     def Consumed.fold c _ = c this._
     def Empty.fold    _ e = e this._
 }
 
 class reply[a] this:Reply[a] {
+    with Monadic[Reply,a]
+
     fold : [b] (a -> sequence[char] -> number -> b) -> b -> b
 } {
-    def Ok.fold o _    = o this.value this.input this.offset
+    def Ok.map    f = Ok (f this.value) this.input this.offset
+    def Error.map _ = Error
+    
+    def Ok.fold    o _ = o this.value this.input this.offset
     def Error.fold _ e = e
 }
 
@@ -49,12 +62,17 @@ class reply[a] this:Reply[a] {
 //
 
 trait Parser[a] {
+    with Monadic[Parser,a]
+    
     parse : sequence[char] -> number -> Response[a]
-    (>>=) : [b] (a -> Parser[b]) -> Parser[b]
-    (<*>) : [b] Parser[(a -> b)] -> Parser[b]
+
     (<|>) : Parser[a] -> Parser[a]
+    (<*>) : [b] Parser[(a -> b)] -> Parser[b]
 } {
-    def (>>=) = bind self
+    def map     f = parser $ s n -> response (self parse s n) map     f
+    // def flatmap f = parser $ s n -> response (self parse s n) flatmap f
+    def filter  p = parser $ s n -> response (self parse s n) filter  p
+
     def (<|>) = choice self
 }
 
@@ -100,22 +118,6 @@ def letter : Parser[char] = {
 
 def digit : Parser[char] = {
     satisfy (c -> '0' <= c && $ c <= '9')
-}
-
-def bind : [a,b] Parser[a] -> (a -> Parser[b]) -> Parser[b] = p f -> {
-    parser $ input index ->
-        response (p parse input index) fold
-            (r -> reply r fold 
-                (a input index -> response (f a parse input index) fold
-                    Consumed
-                    Consumed
-                )
-                (Consumed Error)
-            )
-            (r -> reply r fold 
-                (a-> f a parse)
-                (Empty Error)
-            )
 }
 
 def choice : [a] Parser[a] -> Parser[a] -> Parser[a] = p q -> {
