@@ -22,12 +22,12 @@ from Lang.When import when
 from Lang.Do import do
 from System.Console import console
 
-typedef Parsing[a] = sequence[char] -> number -> option[(a,number)]
+typedef Parsing[a,b] = sequence[b] -> number -> option[(a,number)]
 
 trait Parser[a] {
     with Monadic[Parser,a]
     
-    parse : Parsing[a]
+    parse : Parsing[a,char]
     
     (~)   : [b] Parser[b] -> Parser[(a,b)] 
     (~>)  : [b] Parser[b] -> Parser[b] 
@@ -50,7 +50,7 @@ trait Parser[a] {
     def (|)  = choiceParser        self
 }
 
-class parser[a] this:Parsing[a] {
+class parser[a] this:Parsing[a,char] {
     with Parser[a]
 } {
     def parse s n = this s n
@@ -114,10 +114,9 @@ def manyOneParser: [a] Parser[a] -> Parser[list[a]] = p -> {
 
 def characterParser : (char -> bool) -> Parser[char] = accept -> {
     parser $ s n ->
-        s get n flatmap
-        $ c -> when (accept c)
-               then { some (c,(n+1)) }
-               else none
+        for c <- (s get n)
+        if accept c
+        yield c,(n+1)
 }
 
 def digit : Parser[char] = { 
@@ -144,8 +143,16 @@ def aChar : char -> Parser[char] = c -> {
     characterParser (c==)
 } 
 
-def aString : string -> Parser[unit] = s -> {
-    s toList foldR (c p -> consume (aChar c) <~ p) lambda
+def aString : string -> Parser[unit] = w -> {
+    parser $ s n ->
+        0 to (w.length-1) fold
+            (some $ unit,n) 
+            (r i ->
+                for _  <- r
+                    c1 <- (s get (n+i))
+                    c2 <- (w get i)
+                if c1 == c2
+                yield unit,(n+i))
 }
 
 def charLiteral : Parser[char] = {
