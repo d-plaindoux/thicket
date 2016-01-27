@@ -19,11 +19,12 @@ from Lang.When import when
 //
 
 model Sequence[a] {
-    length      : number
-    get         : number -> option[a]
+    isEmpty     : bool
     isDefinedAt : number -> bool
     indexOf     : Comparable[a] -> option[number]
     lastIndexOf : Comparable[a] -> option[number]
+    length      : number
+    get         : number -> option[a]
 }
 
 model Modifiable[a,t] {
@@ -37,6 +38,8 @@ model Modifiable[a,t] {
 trait sequence[a] {
     with Sequence[a]
 } {
+    def isEmpty = self length == 0
+
     def isDefinedAt i = 
         self get i fold false (_ -> true)
         

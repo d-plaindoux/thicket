@@ -53,7 +53,7 @@ trait Parser[a] {
 class parser[a] this:Parsing[a,char] {
     with Parser[a]
 } {
-    def parse s n = this s n
+    def parse = this
 }
 
 def lazy : [a] Parser[a] -> Parser[a] = p -> {
