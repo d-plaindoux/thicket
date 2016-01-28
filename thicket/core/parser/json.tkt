@@ -15,28 +15,40 @@ from Data.String import string
 from Data.List import list, emptyList
 from Data.Pair import Pair
 from Data.Option import option
-from Parser.Combinator import *
+from Parser.LL import *
 from Format.JSon import *
 
 def jsonArray : Parser[list[JSon]] = {
-  (jsonExpr ~ (aChar ',' ~> jsonArray ?)    map $ r -> r._2 fold emptyList (l -> l) +: r._1)
-| (lambda                                   map $ _ -> emptyList)
+  (jsonExpr ~ (aChar ',' ~> jsonArray ?)    
+        map $ r -> r._2 fold emptyList (l -> l) +: r._1)
+        
+| (return emptyList)
 }
 
 def jsonObject : Parser[list[(string,JSon)]] = {
-  (stringLiteral <~ (aChar ':') ~ jsonExpr ~ 
-  (aChar ',' ~> jsonObject ?)               map $ r -> r._2 fold emptyList (l -> l) +: r._1)
-| (lambda                                   map $ _ -> emptyList)
+  (stringLiteral <~ (aChar ':') ~ jsonExpr ~ (aChar ',' ~> jsonObject ?)    
+  
+        map $ r -> r._2 fold emptyList (l -> l) +: r._1)
+| (return emptyList)
 }
 
 def jsonExpr : Parser[JSon] = {
-  (aString "null"                           map $ _ -> JSonNull)
-| (stringLiteral                            map $ JSonString)
-| (numberLiteral                            map $ JSonNumber)
-| ((aChar '[') ~> jsonArray  <~ (aChar ']') map $ JSonArray)
-| ((aChar '{') ~> jsonObject <~ (aChar '}') map $ JSonObject)
+  (aString "null"                           
+        map $ _ -> JSonNull)
+        
+| (stringLiteral                            
+        map $ JSonString)
+        
+| (numberLiteral                            
+        map $ JSonNumber)
+        
+| ((aChar '[') ~> jsonArray  <~ (aChar ']') 
+        map $ JSonArray)
+        
+| ((aChar '{') ~> jsonObject <~ (aChar '}') 
+        map $ JSonObject)
 }
 
 def decode : string -> option[JSon] = s -> { 
-    jsonExpr parse s 0 map (r -> r._1)
+    jsonExpr parse s 0 toOption
 }

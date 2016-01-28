@@ -12,49 +12,60 @@
   * http://research.microsoft.com/en-us/um/people/daan/download/papers/parsec-paper.pdf
   */
  
-module Parsec.Combinator
+module Parser.LL
  
-import Boot.Core
+from Data.Unit import unit
+from Data.String import string
+from Data.Number import number
+from Data.Boolean import bool, false, true
+from Data.Character import char
+from Data.Pair import Pair
+from Data.List import list, emptyList
+from Data.Option import option, some, none
+from Data.Try import try, success, failure, try2option
+from Data.Sequence import sequence
+from Data.Monadic import Monadic
+from Lang.Do import do
  
 type Response[a] {
-    model Consumed { _: Reply[a] }
-    model Empty    { _: Reply[a] }
+    model Accept { 
+        value:a 
+        input:sequence[char] 
+        offset:number 
+        consumed:bool 
+    }
+    model Error { 
+        offset:number 
+        consumed:bool 
+    }
 }
- 
-type Reply[a] {
-    model Ok { value:a input:sequence[char] offset:number }
-    model Error
-} 
  
 //
 // Fold functionalities
 //
 
 class response[a] this:Response[a] {
-    with Monadic[Response,a]
+    map     : [b] (a -> b) -> response[b]
+    filter  : (a -> bool) -> response[a]
     
-    fold : [b] (Reply[a] -> b) -> (Reply[a] -> b) -> b
+    toOption : option[a]
+    toTry    : try[a]
+    
+    fold : [b] (a -> sequence[char] -> number -> bool -> b) -> (number -> bool -> b) -> b
 } {
-    def Consumed.map f = Consumed $ reply this._ map f
-    def Empty.map    f = Empty    $ reply this._ map f
-    
-    // def Consumed.flatmap f = Consumed $ reply this._ map f
-    // def Empty.flatmap    f = Empty $ reply this._ map f
+    def Accept.map f = response $ Accept (f this.value) this.input this.offset this.consumed
+    def Error.map  f = response $ Error this.offset this.consumed
 
-    def Consumed.fold c _ = c this._
-    def Empty.fold    _ e = e this._
-}
+    def Accept.filter f = f this.value fold self (response $ Error this.offset this.consumed)
+    def Error.filter  f = self
 
-class reply[a] this:Reply[a] {
-    with Monadic[Reply,a]
+    def toOption = try2option $ self toTry
 
-    fold : [b] (a -> sequence[char] -> number -> b) -> b -> b
-} {
-    def Ok.map    f = Ok (f this.value) this.input this.offset
-    def Error.map _ = Error
-    
-    def Ok.fold    o _ = o this.value this.input this.offset
-    def Error.fold _ e = e
+    def Accept.toTry = success this.value
+    def Error.toTry  = failure $"Error at $(this.offset)"
+
+    def Accept.fold c _ = c this.value this.input this.offset this.consumed
+    def Error.fold  _ e = e this.offset this.consumed
 }
 
 //
@@ -64,76 +75,128 @@ class reply[a] this:Reply[a] {
 trait Parser[a] {
     with Monadic[Parser,a]
     
-    parse : sequence[char] -> number -> Response[a]
+    parse : sequence[char] -> number -> response[a]
 
-    (<|>) : Parser[a] -> Parser[a]
-    (<*>) : [b] Parser[(a -> b)] -> Parser[b]
+    (~)   : [b] Parser[b] -> Parser[(a,b)] 
+    (~>)  : [b] Parser[b] -> Parser[b] 
+    (<~)  : [b] Parser[b] -> Parser[a] 
+    (+)   : Parser[list[a]]
+    (?)   : Parser[option[a]]
+    (*)   : Parser[option[list[a]]]
+    (|)   : Parser[a] -> Parser[a]  // No super type allowed
 } {
-    def map     f = parser $ s n -> response (self parse s n) map     f
-    // def flatmap f = parser $ s n -> response (self parse s n) flatmap f
-    def filter  p = parser $ s n -> response (self parse s n) filter  p
+    def flatmap   = bind self 
+    def map     f = parser $ s n -> self parse s n map f
+    def filter  p = parser $ s n -> self parse s n filter p
 
-    def (<|>) = choice self
+    def (~)  p = self flatmap $ a -> p map $ b -> (a,b)
+    def (~>) p = self ~ p map (r -> r._2)
+    def (<~) p = self ~ p map (r -> r._1)
+    def (|)    = choice self
+    def (+)    = self ~ (lazy $ self *) map $ r -> r._2 orElse emptyList +: r._1
+    def (?)    = self map some | (return none)
+    def (*)    = self + ? 
 }
 
-//
-// Parser class definition
-//
-
-class parser[a] this:sequence[char] -> number -> Response[a] {
+class parser[a] this:sequence[char] -> number -> response[a] {
     with Parser[a]
 } {
     def parse = this
+}
+
+def lazy : [a] Parser[a] -> Parser[a] = {
+    do { } return
+}
+
+def bind : [a,b] Parser[a] -> (a -> Parser[b]) -> Parser[b] = p f -> {
+     parser $ input index ->
+        p parse input index fold 
+            (a input index consumed -> f a parse input index fold
+                (a input index consumed' -> 
+                    response $ Accept a input index $ consumed || consumed'
+                )
+                (offset consumed' -> 
+                    response $ Error offset consumed'
+                )
+            )
+            (offset consumed -> 
+                response $ Error offset consumed
+            )        
+}
+
+def choice : [a] Parser[a] -> Parser[a] -> Parser[a] = p q -> {
+    parser $ input index ->
+        p parse input index fold 
+            (a input index consumed -> 
+                response $ Accept a input index consumed
+            )
+            (offset consumed -> q parse input index fold
+                (a input index consumed -> 
+                    response $ Accept a input index consumed
+                )
+                (offset' consumed' -> 
+                    response $ offset <? offset' fold (Error offset' consumed') (Error offset consumed)
+                )
+            )
+}
+
+def return : [a] a -> Parser[a] = a -> {
+    parser $ input index -> 
+        response $ Accept a input index false
+}
+
+def satisfy : (char -> bool) -> Parser[char] = test -> {
+    parser $ input index ->
+        { for c <- { input get index } 
+          if (test c) 
+          yield response $ Accept c input (index++) true
+        } orElse (response $ Error index false) 
 }
 
 //
 // Basic parsers
 //
 
-def return : [a] a -> Parser[a] = a -> {
-    parser $ input index -> 
-        Empty $ Ok a input index
+def aString : string -> Parser[unit] = w -> {
+    w toChars foldR (c p -> aChar c ~> p) (return ())
 }
 
-def satisfy : (char -> bool) -> Parser[char] = test -> {
-    parser $ input index ->
-        input isEmpty fold
-            { 
-               (for c <- { input get index } 
-                if (test c) 
-                yield Consumed (Ok c input $ index++)
-               ) orElse (Empty Error) 
-            }
-            { Empty Error }
+def digit : Parser[char] = { 
+    satisfy $ c -> ('0' <= c) && (c <= '9') 
+} 
 
-}
+def lowerCase : Parser[char] = { 
+    satisfy $ c -> ('a' <= c) && (c <= 'z') 
+} 
 
-def character : char -> Parser[char] = c -> {
-    satisfy (c==)
-}
+def upperCase : Parser[char] = { 
+    satisfy $ c -> ('A' <= c) && (c <= 'Z') 
+} 
 
 def letter : Parser[char] = {
-    satisfy (c -> ('a' <= c && $ c <= 'z') || ('A' <= c && $ c <= 'Z'))
+    lowerCase | upperCase
 }
 
-def digit : Parser[char] = {
-    satisfy (c -> '0' <= c && $ c <= '9')
+def notChar : char -> Parser[char] = c -> {
+    satisfy (c!=)
+} 
+
+def aChar : char -> Parser[char] = c -> {
+    satisfy (c==)
+} 
+
+def charLiteral : Parser[char] = {
+    let anyChar = (aChar '\\' ~> $ aChar '\'') | (notChar '\'') in 
+        (aChar '\'') ~> anyChar <~ (aChar '\'')
 }
 
-def choice : [a] Parser[a] -> Parser[a] -> Parser[a] = p q -> {
-    parser $ input index ->
-        response (p parse input index) fold 
-            Consumed 
-            (r -> reply r fold 
-                (a input index -> 
-                    response (q parse input index) fold
-                        Consumed
-                        (_ -> Empty r)
-                )
-                (q parse input index)
-            )
+def stringLiteral : Parser[string] = {
+    let anyChar = (aChar '\\' ~> $ aChar '"') | (notChar '"') in 
+        (aChar '"') ~> (anyChar*) <~ (aChar '"') map
+        $ o -> o fold "" $ l -> l foldR (c r -> r + c) ""
 }
 
-// 
-// Additional Parsers
-//
+def numberLiteral : Parser[number] = {
+    digit+ map 
+    $ l -> l foldR (c r -> r+c) "" toNumber fold 0 (r -> r)
+}

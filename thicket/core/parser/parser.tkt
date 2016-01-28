@@ -32,22 +32,22 @@ trait Parser[a] {
     (~)   : [b] Parser[b] -> Parser[(a,b)] 
     (~>)  : [b] Parser[b] -> Parser[b] 
     (<~)  : [b] Parser[b] -> Parser[a] 
+    (|)   : Parser[a] -> Parser[a]  // No super type allowed
     (+)   : Parser[list[a]]
     (?)   : Parser[option[a]]
     (*)   : Parser[option[list[a]]]
-    (|)   : Parser[a] -> Parser[a]  // No super type allowed
 } {
     def map     f = parser $ s n -> self parse s n map     $ r -> (f r._1),r._2
     def flatmap f = parser $ s n -> self parse s n flatmap $ r -> f r._1 parse s r._2
     def filter  p = parser $ s n -> self parse s n flatmap $ r -> p r._1 fold (some r) none
     
-    def (~)  = sequenceParser      self
-    def (~>) = sequenceRightParser self
-    def (<~) = sequenceLeftParser  self
-    def (?)  = mayBeOneParser      self
-    def (+)  = manyOneParser       self
-    def (*)  = mayBeOneParser      (manyOneParser self)
-    def (|)  = choiceParser        self
+    def (~)  p = self flatmap $ a -> p map $ b -> (a,b)
+    def (~>) p = self ~ p map (r -> r._2)
+    def (<~) p = self ~ p map (r -> r._1)
+    def (|)    = choiceParser self
+    def (+)    = self ~ (lazy $ self *) map $ r -> r._2 orElse emptyList +: r._1
+    def (?)    = self map some | (return none)
+    def (*)    = self + ?
 }
 
 class parser[a] this:Parsing[a,char] {
@@ -56,60 +56,30 @@ class parser[a] this:Parsing[a,char] {
     def parse = this
 }
 
-def lazy : [a] Parser[a] -> Parser[a] = p -> {
-    parser $ s n -> p parse s n
-}
-
-def lambda : Parser[unit] = {
-    parser $ s n -> some ((),n)
-}
-
-def trace : [a] string -> Parser[a] -> Parser[a] = name p -> {
-    parser $ s n ->
-        do {
-            console.log name
-        } return p parse s n
+def return : [a] a -> Parser[a] = a -> {
+    parser $ s n -> some (a,n)
 }
 
 def consume : [a] Parser[a] -> Parser[unit] = p -> {
     p map $ _ -> ()
 }
 
+def lazy : [a] Parser[a] -> Parser[a] = {
+    do { } return
+}
+
 // 
 // Combinators
 //
 
-def sequenceParser: [a,b] Parser[a] -> Parser[b] -> Parser[(a,b)] = p1 p2 -> {
-    parser $ s n ->
-        for ra <- { p1 parse s n     }
-            rb <- { p2 parse s ra._2 }
-        yield (ra._1,rb._1),rb._2
-}
-
-def sequenceLeftParser: [a,b] Parser[a] -> Parser[b] -> Parser[a] = p1 p2 -> {
-    sequenceParser p1 p2 map (r -> r._1)
-}
-
-def sequenceRightParser: [a,b] Parser[a] -> Parser[b] -> Parser[b] = p1 p2 -> {
-    sequenceParser p1 p2 map (r -> r._2)
-}
-
 def choiceParser : [a] Parser[a] -> Parser[a] -> Parser[a] = p1 p2 -> {
-    parser $ s n ->
+    parser $ s n -> 
         p1 parse s n fold (p2 parse s n) some
 }
 
 def mayBeOneParser: [a] Parser[a] -> Parser[option[a]] = p -> {
     parser $ s n -> 
         some (p parse s n fold (none,n) $ r -> (some r._1),r._2)
-}
-
-def manyOneParser: [a] Parser[a] -> Parser[list[a]] = p -> {
-    parser $ s n ->
-        p parse s n map 
-        $ r -> manyOneParser p parse s r._2 
-               fold ((emptyList +: r._1),r._2) 
-                     (t -> (t._1 +: r._1),t._2)
 }
 
 def characterParser : (char -> bool) -> Parser[char] = accept -> {
@@ -182,7 +152,7 @@ def expressionsOp : Parser[(number -> number)] = {
   | (aChar '-' ~> expressions map $ r e:number -> e-r) 
   | (aChar '*' ~> expressions map $ r e:number -> e*r) 
   | (aChar '/' ~> expressions map $ r e:number -> e/r) 
-  | (lambda                   map $ _ e:number -> e)
+  | (return                       $ e -> e)
 }
 
 def expression : Parser[number] = {
