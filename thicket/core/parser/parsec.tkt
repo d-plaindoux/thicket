@@ -1,6 +1,6 @@
 /*
  * Thicket
- * https:=github.com/d-plaindoux/thicket
+ * https://github.com/d-plaindoux/thicket
  *
  * Copyright (c) 2015-2016 Didier Plaindoux
  * Licensed under the LGPL2 license.
@@ -203,12 +203,12 @@ def charLiteral : Parser[char,char] = {
 def stringLiteral : Parser[string,char] = {
     let anyChar = (aChar '\\' ~> $ aChar '"') | (notChar '"') in 
         (aChar '"') ~> (anyChar*) <~ (aChar '"') map
-        $ o -> o fold "" $ l -> l foldR (c r -> r + c) ""
+        $ o -> o fold "" $ l -> l mkString char::toString ""
 }
 
 def numberLiteral : Parser[number,char] = {
     digit+ map 
-    $ l -> l foldR (c r -> r+c) "" toNumber fold 0 (r -> r)
+    $ l -> l mkString char::toString "" toNumber fold 0 (r -> r)
 }
 
 def aString : string -> Parser[unit,char] = w -> {
