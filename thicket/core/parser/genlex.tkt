@@ -24,7 +24,7 @@ type Token {
     Char    { _ : char   }
 }
 
-class GenLex this: {
+class GenLex keywords:string {
     tokenize : Parser[sequence[Token],char]
 } {
     //
@@ -32,14 +32,18 @@ class GenLex this: {
     //
 
     def space : Parser[char,char] =
-        (aChar '\n') | (aChar '\r') | (aChar '\f') | (aChar ' ')
+        satisfy $ c -> "\n\r\f " indexOf c present
 
     def spaces : Parser[unit,char] =
         self.space* map (_ -> ())
 
+    def keyword : Parser[Token,char] =
+        (satisfy $ c:char -> keywords indexOf c present)+
+        map (l -> Keyword $ l mkString char::toString "")
+
     def ident : Parser[Token,char] =
-        letter ~ (letter | digit | (aChar '_') *) 
-        map (r -> Ident $ r._2 orElse emptyList +: r._1 foldR (c r -> r+c) "")
+        letter ~ (aChar '_' | letter | digit *) 
+        map (r -> Ident $ r._2 orElse emptyList +: r._1 mkString char::toString "")
 
     def string : Parser[Token,char] =
         stringLiteral map String
@@ -50,11 +54,14 @@ class GenLex this: {
     def number : Parser[Token,char] =
         numberLiteral map Number
 
+    def token : Parser[Token,char] =
+        self.ident | self.number | self.string | self.char | self.keyword
+
     //
     // Public behaviors
     //
 
     def tokenize =
-        self.spaces ~> (self.ident | self.number | self.string | self.char <~ self.spaces *) <~ eos
+        self.spaces ~> (self.token <~ self.spaces *) <~ eos
         map (o -> list2sequence $ o orElse emptyList)
 }
