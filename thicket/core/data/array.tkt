@@ -31,7 +31,6 @@ from System.Internal import internal
 class array[a] this:native {
     with sequence[a]
     with modifiable[a,array[a]]
-    
 
     reset  : number -> array[a]
     

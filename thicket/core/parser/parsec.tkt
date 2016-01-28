@@ -26,6 +26,7 @@ from Data.Try import try, success, failure, try2option
 from Data.Sequence import sequence
 from Data.Monadic import Monadic
 from Lang.Do import do
+from System.Console import console
  
 type Response[a,c] {
     model Accept { 
@@ -45,18 +46,20 @@ type Response[a,c] {
 //
 
 class response[a,c] this:Response[a,c] {
-    map     : [b] (a -> b) -> response[b,c]
-    filter  : (a -> bool) -> response[a,c]
+    with Monadic[[a]response[a,c],a]
     
     toOption : option[a]
     toTry    : try[a]
     
     fold : [b] (a -> sequence[c] -> number -> bool -> b) -> (number -> bool -> b) -> b
 } {
-    def Accept.map f = response $ Accept (f this.value) this.input this.offset this.consumed
-    def Reject.map  f = response $ Reject this.offset this.consumed
+    def Accept.map f = accept (f this.value) this.input this.offset this.consumed
+    def Reject.map f = reject this.offset this.consumed
 
-    def Accept.filter f = f this.value fold self (response $ Reject this.offset this.consumed)
+    def Accept.flatmap f = f this.value
+    def Reject.flatmap f = reject this.offset this.consumed
+
+    def Accept.filter f = f this.value fold self $ reject this.offset this.consumed
     def Reject.filter  f = self
 
     def toOption = try2option $ self toTry
@@ -139,24 +142,34 @@ def choice : [a,c] Parser[a,c] -> Parser[a,c] -> Parser[a,c] = p q -> {
 
 def return : [a,c] a -> Parser[a,c] = a -> {
     parser $ input index -> 
-        response $ Accept a input index false
+        accept a input index false
+}
+
+def eos : [c] Parser[unit,c] = {
+    parser $ input index -> 
+        input length == index fold 
+        (accept () input index false)
+        (reject index false)
 }
 
 def satisfy : [a,a] (a -> bool) -> Parser[a,a] = test -> {
     parser $ input index ->
         { for c <- { input get index } 
           if (test c) 
-          yield response $ Accept c input (index++) true
-        } orElse (response $ Reject index false) 
+          yield accept c input (index++) true
+        } orElse (reject index false) 
+}
+
+def try : [a,b] Parser[a,b] -> Parser[a,b] = p -> {
+    parser $ input index -> 
+        p parse input index fold 
+            accept
+            (offset consumed -> reject offset false)
 }
 
 //
 // Basic parsers
 //
-
-def aString : string -> Parser[unit,char] = w -> {
-    w toChars foldR (c p -> aChar c ~> p) (return ())
-}
 
 def digit : Parser[char,char] = { 
     satisfy $ c -> ('0' <= c) && (c <= '9') 
@@ -196,4 +209,8 @@ def stringLiteral : Parser[string,char] = {
 def numberLiteral : Parser[number,char] = {
     digit+ map 
     $ l -> l foldR (c r -> r+c) "" toNumber fold 0 (r -> r)
+}
+
+def aString : string -> Parser[unit,char] = w -> {
+    w toChars foldR (c p -> aChar c ~> p) (return ())
 }

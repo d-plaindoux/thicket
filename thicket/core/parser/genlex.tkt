@@ -1,0 +1,60 @@
+/*
+ * Thicket
+ * https:=github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015-2016 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Parser.Genlex
+
+from Data.Unit import unit
+from Data.String import string
+from Data.Number import number
+from Data.Character import char
+from Data.List import emptyList, list2sequence
+from Data.Sequence import sequence
+from Parser.LL import *
+
+type Token {
+    Keyword { _ : string }
+    Ident   { _ : string }
+    Number  { _ : number }
+    String  { _ : string }
+    Char    { _ : char   }
+}
+
+class GenLex this: {
+    tokenize : Parser[sequence[Token],char]
+} {
+    //
+    // Private behaviors
+    //
+
+    def space : Parser[char,char] =
+        (aChar '\n') | (aChar '\r') | (aChar '\f') | (aChar ' ')
+
+    def spaces : Parser[unit,char] =
+        self.space* map (_ -> ())
+
+    def ident : Parser[Token,char] =
+        letter ~ (letter | digit | (aChar '_') *) 
+        map (r -> Ident $ r._2 orElse emptyList +: r._1 foldR (c r -> r+c) "")
+
+    def string : Parser[Token,char] =
+        stringLiteral map String
+
+    def char : Parser[Token,char] =
+        charLiteral map Char
+    
+    def number : Parser[Token,char] =
+        numberLiteral map Number
+
+    //
+    // Public behaviors
+    //
+
+    def tokenize =
+        self.spaces ~> (self.ident | self.number | self.string | self.char <~ self.spaces *) <~ eos
+        map (o -> list2sequence $ o orElse emptyList)
+}
