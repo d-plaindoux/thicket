@@ -24,18 +24,18 @@ from System.Console import console
 
 typedef Parsing[a,b] = sequence[b] -> number -> option[(a,number)]
 
-trait Parser[a] {
-    with Monadic[Parser,a]
+trait Parser[a,c] {
+    with Monadic[[a]Parser[a,c],a]
     
-    parse : Parsing[a,char]
+    parse : Parsing[a,c]
     
-    (~)   : [b] Parser[b] -> Parser[(a,b)] 
-    (~>)  : [b] Parser[b] -> Parser[b] 
-    (<~)  : [b] Parser[b] -> Parser[a] 
-    (|)   : Parser[a] -> Parser[a]  // No super type allowed
-    (+)   : Parser[list[a]]
-    (?)   : Parser[option[a]]
-    (*)   : Parser[option[list[a]]]
+    (~)   : [b] Parser[b,c] -> Parser[(a,b),c] 
+    (~>)  : [b] Parser[b,c] -> Parser[b,c] 
+    (<~)  : [b] Parser[b,c] -> Parser[a,c] 
+    (|)   : Parser[a,c] -> Parser[a,c]  // No super type allowed
+    (+)   : Parser[list[a],c]
+    (?)   : Parser[option[a],c]
+    (*)   : Parser[option[list[a]],c]
 } {
     def map     f = parser $ s n -> self parse s n map     $ r -> (f r._1),r._2
     def flatmap f = parser $ s n -> self parse s n flatmap $ r -> f r._1 parse s r._2
@@ -50,21 +50,21 @@ trait Parser[a] {
     def (*)    = self + ?
 }
 
-class parser[a] this:Parsing[a,char] {
-    with Parser[a]
+class parser[a,c] this:Parsing[a,c] {
+    with Parser[a,c]
 } {
     def parse = this
 }
 
-def return : [a] a -> Parser[a] = a -> {
+def return : [a,c] a -> Parser[a,c] = a -> {
     parser $ s n -> some (a,n)
 }
 
-def consume : [a] Parser[a] -> Parser[unit] = p -> {
+def consume : [a,c] Parser[a,c] -> Parser[unit,c] = p -> {
     p map $ _ -> ()
 }
 
-def lazy : [a] Parser[a] -> Parser[a] = {
+def lazy : [a,c] Parser[a,c] -> Parser[a,c] = {
     do { } return
 }
 
@@ -72,48 +72,48 @@ def lazy : [a] Parser[a] -> Parser[a] = {
 // Combinators
 //
 
-def choiceParser : [a] Parser[a] -> Parser[a] -> Parser[a] = p1 p2 -> {
+def choiceParser : [a,c] Parser[a,c] -> Parser[a,c] -> Parser[a,c] = p1 p2 -> {
     parser $ s n -> 
         p1 parse s n fold (p2 parse s n) some
 }
 
-def mayBeOneParser: [a] Parser[a] -> Parser[option[a]] = p -> {
+def mayBeOneParser: [a,c] Parser[a,c] -> Parser[option[a],c] = p -> {
     parser $ s n -> 
         some (p parse s n fold (none,n) $ r -> (some r._1),r._2)
 }
 
-def characterParser : (char -> bool) -> Parser[char] = accept -> {
+def satisfyParser : [a] (a -> bool) -> Parser[a,a] = accept -> {
     parser $ s n ->
         for c <- (s get n)
         if accept c
         yield c,(n+1)
 }
 
-def digit : Parser[char] = { 
-    characterParser $ c -> ('0' <= c) && (c <= '9') 
+def digit : Parser[char,char] = { 
+    satisfyParser $ c -> ('0' <= c) && (c <= '9') 
 } 
 
-def lowerCase : Parser[char] = { 
-    characterParser $ c -> ('a' <= c) && (c <= 'z') 
+def lowerCase : Parser[char,char] = { 
+    satisfyParser $ c -> ('a' <= c) && (c <= 'z') 
 } 
 
-def upperCase : Parser[char] = { 
-    characterParser $ c -> ('A' <= c) && (c <= 'Z') 
+def upperCase : Parser[char,char] = { 
+    satisfyParser $ c -> ('A' <= c) && (c <= 'Z') 
 } 
 
-def letter : Parser[char] = {
+def letter : Parser[char,char] = {
     lowerCase | upperCase
 }
 
-def notChar : char -> Parser[char] = c -> {
-    characterParser (c!=)
+def notChar : char -> Parser[char,char] = c -> {
+    satisfyParser (c!=)
 } 
 
-def aChar : char -> Parser[char] = c -> {
-    characterParser (c==)
+def aChar : char -> Parser[char,char] = c -> {
+    satisfyParser (c==)
 } 
 
-def aString : string -> Parser[unit] = w -> {
+def aString : string -> Parser[unit,char] = w -> {
     parser $ s n ->
         0 to (w.length-1) fold
             (some $ unit,n) 
@@ -125,18 +125,18 @@ def aString : string -> Parser[unit] = w -> {
                 yield unit,(n+i))
 }
 
-def charLiteral : Parser[char] = {
+def charLiteral : Parser[char,char] = {
     let anyChar = (aChar '\\' ~> $ aChar '\'') | (notChar '\'') in 
         (aChar '\'') ~> anyChar <~ (aChar '\'')
 }
 
-def stringLiteral : Parser[string] = {
+def stringLiteral : Parser[string,char] = {
     let anyChar = (aChar '\\' ~> $ aChar '"') | (notChar '"') in 
         (aChar '"') ~> (anyChar*) <~ (aChar '"') map
         $ o -> o fold "" $ l -> l foldR (c r -> r + c) ""
 }
 
-def numberLiteral : Parser[number] = {
+def numberLiteral : Parser[number,char] = {
     digit+ map 
     $ l -> l foldR (c r -> r+c) "" toNumber fold 0 (r -> r)
 }

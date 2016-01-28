@@ -18,21 +18,21 @@ from Data.Option import option
 from Parser.LL import *
 from Format.JSon import *
 
-def jsonArray : Parser[list[JSon]] = {
+def jsonArray : Parser[list[JSon],char] = {
   (jsonExpr ~ (aChar ',' ~> jsonArray ?)    
         map $ r -> r._2 fold emptyList (l -> l) +: r._1)
         
 | (return emptyList)
 }
 
-def jsonObject : Parser[list[(string,JSon)]] = {
+def jsonObject : Parser[list[(string,JSon)],char] = {
   (stringLiteral <~ (aChar ':') ~ jsonExpr ~ (aChar ',' ~> jsonObject ?)    
   
         map $ r -> r._2 fold emptyList (l -> l) +: r._1)
 | (return emptyList)
 }
 
-def jsonExpr : Parser[JSon] = {
+def jsonExpr : Parser[JSon,char] = {
   (aString "null"                           
         map $ _ -> JSonNull)
         
