@@ -44,11 +44,10 @@ unit testing can be done just changing the logger used to display the result.
 
 ## Language Overview
 
-The Thicket language  came from research done about  strong [object and
-class   separation](http://d.plaindoux.free.fr/clump/index.html).   In
-addition UI management done using DOM fragment is provided in order to
-define  view   facet  in   addition  to   object  (model)   and  class
-(controller).
+The Thicket language  came from research done about  strong object and
+class   separation. In addition UI management done using DOM fragment 
+is provided in order to define  view   facet  in   addition to object  
+(model)   and  class (controller).
 
 ### Model
 
