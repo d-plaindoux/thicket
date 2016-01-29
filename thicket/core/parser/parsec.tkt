@@ -30,17 +30,17 @@ from System.Console import console
  
 type Response[a,c] {
     model Accept { 
-        value:a 
-        input:sequence[c] 
-        offset:number 
-        consumed:bool 
+        value    : a 
+        input    : sequence[c] 
+        offset   : number 
+        consumed : bool 
     }
     model Reject { 
-        offset:number 
-        consumed:bool 
+        offset   : number 
+        consumed : bool 
     }
 }
- 
+
 //
 // Fold functionalities
 //
@@ -68,7 +68,7 @@ class response[a,c] this:Response[a,c] {
     def Reject.toTry  = failure $"Reject at $(this.offset)"
 
     def Accept.fold c _ = c this.value this.input this.offset this.consumed
-    def Reject.fold  _ e = e this.offset this.consumed
+    def Reject.fold _ e = e this.offset this.consumed
 }
 
 def accept : [a,c] a -> sequence[c] -> number -> bool -> response[a,c] = a s n b -> {
@@ -94,17 +94,47 @@ trait Parser[a,c] {
     (+)   : Parser[list[a],c]
     (?)   : Parser[option[a],c]
     (*)   : Parser[option[list[a]],c]
-    (|)   : Parser[a,c] -> Parser[a,c]  // No super type allowed
+    (|)   : Parser[a,c] -> Parser[a,c]
+    
 } {
-    def flatmap   = bind self 
+    // 
+    // Private behaviors
+    // 
+
+    def lazy : [b] Parser[b,c] -> Parser[b,c] =  do { } return
+
+    def bind : [b] (a -> Parser[b,c]) -> Parser[b,c] = f ->
+         parser $ input index ->
+            self parse input index fold 
+                (a input index consumed -> f a parse input index fold
+                    (a input index consumed' -> 
+                        accept a input index $ consumed || consumed'
+                    )
+                    reject
+                )
+                reject        
+
+    def choice : Parser[a,c] -> Parser[a,c] = q ->
+        parser $ input index ->
+            self parse input index fold 
+                accept
+                (offset consumed -> 
+                    consumed fold { reject offset consumed } { q parse input index }
+                )
+                
+    // 
+    // Public behaviors
+    // 
+
+    def flatmap   = self bind
     def map     f = parser $ s n -> self parse s n map f
     def filter  p = parser $ s n -> self parse s n filter p
 
     def (~)  p = self flatmap $ a -> p map $ b -> (a,b)
     def (~>) p = self ~ p map (r -> r._2)
     def (<~) p = self ~ p map (r -> r._1)
-    def (|)    = choice self
-    def (+)    = self ~ (lazy $ self *) map $ r -> r._2 orElse emptyList +: r._1
+    def (|)    = self choice
+    def (+)    = self ~ (self.lazy $ self *) map $ r -> r._2 orElse emptyList +: r._1
     def (?)    = self map some | (return none)
     def (*)    = self + ? 
 }
@@ -115,30 +145,9 @@ class parser[a,c] this:sequence[c] -> number -> response[a,c] {
     def parse = this
 }
 
-def lazy : [a,c] Parser[a,c] -> Parser[a,c] = {
-    do { } return
-}
-
-def bind : [a,b,c] Parser[a,c] -> (a -> Parser[b,c]) -> Parser[b,c] = p f -> {
-     parser $ input index ->
-        p parse input index fold 
-            (a input index consumed -> f a parse input index fold
-                (a input index consumed' -> 
-                    accept a input index $ consumed || consumed'
-                )
-                reject
-            )
-            reject        
-}
-
-def choice : [a,c] Parser[a,c] -> Parser[a,c] -> Parser[a,c] = p q -> {
-    parser $ input index ->
-        p parse input index fold 
-            accept
-            (offset consumed -> 
-                consumed fold { reject offset consumed } { q parse input index }
-            )
-}
+//
+// Basic parsers
+//
 
 def return : [a,c] a -> Parser[a,c] = a -> {
     parser $ input index -> 
@@ -166,10 +175,6 @@ def try : [a,b] Parser[a,b] -> Parser[a,b] = p -> {
             accept
             (offset consumed -> reject offset false)
 }
-
-//
-// Basic parsers
-//
 
 def digit : Parser[char,char] = { 
     satisfy $ c -> ('0' <= c) && (c <= '9') 

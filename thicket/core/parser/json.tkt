@@ -14,9 +14,11 @@ from Data.Character import char
 from Data.String import string
 from Data.List import list, emptyList
 from Data.Pair import Pair
-from Data.Option import option
+from Data.Try import try
+from Data.JSon import *
 from Parser.LL import *
-from Format.JSon import *
+
+// Must be replaced by a Parser[...,Token]
 
 def jsonArray : Parser[list[JSon],char] = {
   (jsonExpr ~ (aChar ',' ~> jsonArray ?)    
@@ -26,9 +28,9 @@ def jsonArray : Parser[list[JSon],char] = {
 }
 
 def jsonObject : Parser[list[(string,JSon)],char] = {
-  (stringLiteral <~ (aChar ':') ~ jsonExpr ~ (aChar ',' ~> jsonObject ?)    
-  
+  (stringLiteral <~ (aChar ':') ~ jsonExpr ~ (aChar ',' ~> jsonObject ?)      
         map $ r -> r._2 fold emptyList (l -> l) +: r._1)
+        
 | (return emptyList)
 }
 
@@ -49,6 +51,6 @@ def jsonExpr : Parser[JSon,char] = {
         map $ JSonObject)
 }
 
-def decode : string -> option[JSon] = s -> { 
-    jsonExpr parse s 0 toOption
+def decode : string -> try[JSon] = s -> { 
+    jsonExpr parse s 0 toTry
 }

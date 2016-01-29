@@ -6,7 +6,7 @@
  * Licensed under the LGPL2 license.
  */
 
-module Format.JSon
+module Data.JSon
 
 from Data.Pair import Pair
 from Data.String import string

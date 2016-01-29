@@ -14,18 +14,21 @@ from Data.Number import number
 from Data.Character import char
 from Data.List import emptyList, list2sequence
 from Data.Sequence import sequence
+from Data.Try import try
 from Parser.LL import *
 
-type Token {
-    Keyword { _ : string }
-    Ident   { _ : string }
-    Number  { _ : number }
-    String  { _ : string }
-    Char    { _ : char   }
+model GenlexFactory[a] {
+    keyword : string -> a
+    ident   : string -> a
+    number  : number -> a
+    string  : string -> a 
+    char    : char   -> a
 }
 
-class GenLex keywords:string {
-    tokenize : Parser[sequence[Token],char]
+class genlex keywords:sequence[char] {
+
+    generate : [b] sequence[char] -> GenlexFactory[b] -> try[sequence[b]]
+    
 } {
     //
     // Private behaviors
@@ -37,31 +40,38 @@ class GenLex keywords:string {
     def spaces : Parser[unit,char] =
         self.space* map (_ -> ())
 
-    def keyword : Parser[Token,char] =
+    def keyword : [b] GenlexFactory[b] -> Parser[b,char] = t ->
         (satisfy $ c:char -> keywords indexOf c present)+
-        map (l -> Keyword $ l mkString char::toString "")
+        map (l -> t.keyword $ l mkString char::toString "")
 
-    def ident : Parser[Token,char] =
+    def ident : [b] GenlexFactory[b] -> Parser[b,char] = t ->
         letter ~ (aChar '_' | letter | digit *) 
-        map (r -> Ident $ r._2 orElse emptyList +: r._1 mkString char::toString "")
+        map (r -> t.ident $ r._2 orElse emptyList +: r._1 mkString char::toString "")
 
-    def string : Parser[Token,char] =
-        stringLiteral map String
+    def string : [b] GenlexFactory[b] -> Parser[b,char] = t ->
+        stringLiteral map t.string
 
-    def char : Parser[Token,char] =
-        charLiteral map Char
+    def char : [b] GenlexFactory[b] -> Parser[b,char] = t ->
+        charLiteral map t.char
     
-    def number : Parser[Token,char] =
-        numberLiteral map Number
+    def number : [b] GenlexFactory[b] -> Parser[b,char] = t ->
+        numberLiteral map t.number
 
-    def token : Parser[Token,char] =
-        self.ident | self.number | self.string | self.char | self.keyword
+    def token : [b] GenlexFactory[b] -> Parser[b,char] = t ->
+          (self.ident t)
+        | (self.number t) 
+        | (self.string t) 
+        | (self.char t) 
+        | (self.keyword t)
+
+    def tokens : [b] GenlexFactory[b] -> Parser[sequence[b],char] = t ->
+        self.spaces ~> ((self.token t) <~ self.spaces *) <~ eos
+        map (o -> list2sequence $ o orElse emptyList)
 
     //
     // Public behaviors
     //
 
-    def tokenize =
-        self.spaces ~> (self.token <~ self.spaces *) <~ eos
-        map (o -> list2sequence $ o orElse emptyList)
+    def generate s t = self.tokens t parse s 0 toTry
+
 }

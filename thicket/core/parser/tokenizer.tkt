@@ -1,0 +1,30 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015-2016 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Parser.Tokenizer
+
+from Data.String import string
+from Data.Number import number
+from Data.Character import char
+from Data.Sequence import sequence
+from Data.Try import try
+
+from Parser.Genlex import genlex, GenlexFactory
+
+type Token {
+    Keyword { _ : string }
+    Ident   { _ : string }
+    Number  { _ : number }
+    String  { _ : string }
+    Char    { _ : char   }
+}
+
+def tokenizer : genlex -> sequence[char] -> try[sequence[Token]] = genlex input -> {
+    let factory = GenlexFactory Keyword Ident Number String Char in
+        genlex generate input factory
+}

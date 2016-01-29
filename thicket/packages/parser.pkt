@@ -9,7 +9,10 @@
         }
     ],
     "modules": [
-        "Parser.Combinator"
+        "Parser.LL",
+        "Parser.Genlex",
+        "Data.JSon",
+        "Parser.JSon"
     ],
     "requires":[
         { "Core": "1.0" }
