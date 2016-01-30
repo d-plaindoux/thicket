@@ -12,6 +12,7 @@ from Data.Number import number
 from Data.Boolean import bool, false, true
 from Data.Option import option, some , none
 from Data.Comparable import Comparable
+from Data.List import emptyList, list
 from Lang.When import when
 
 //
@@ -25,6 +26,7 @@ model Sequence[a] {
     lastIndexOf : Comparable[a] -> option[number]
     length      : number
     get         : number -> option[a]
+    toList      : list[a]
 }
 
 model Modifiable[a,t] {
@@ -56,8 +58,13 @@ trait sequence[a] {
 
     def lastIndexOf a = 
         self _indexOf_ a (self.length--) (0==) (i -> i--)
+        
+    def toList = 
+        0 to (self.length--) fold emptyList $ c i -> self get i fold c (c+:)
+        
 }
 
 trait modifiable[a,t] {
     with Modifiable[a,t]
 }
+

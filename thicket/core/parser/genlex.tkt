@@ -12,8 +12,9 @@ from Data.Unit import unit
 from Data.String import string
 from Data.Number import number
 from Data.Character import char
-from Data.List import emptyList, list2sequence
+from Data.List import list, emptyList, list2sequence
 from Data.Sequence import sequence
+from Data.Option import option
 from Data.Try import try
 from Parser.LL import *
 
@@ -25,7 +26,7 @@ model GenlexFactory[a] {
     char    : char   -> a
 }
 
-class genlex keywords:sequence[char] {
+class genlex keywords:option[list[string]] {
 
     generate : [b] sequence[char] -> GenlexFactory[b] -> try[sequence[b]]
     
@@ -41,8 +42,7 @@ class genlex keywords:sequence[char] {
         self.space* map (_ -> ())
 
     def keyword : [b] GenlexFactory[b] -> Parser[b,char] = t ->
-        (satisfy $ c:char -> keywords indexOf c present)+
-        map (l -> t.keyword $ l mkString char::toString "")
+        keywords orElse emptyList foldR (k p -> aString k | p) error map t.keyword
 
     def ident : [b] GenlexFactory[b] -> Parser[b,char] = t ->
         letter ~ (aChar '_' | letter | digit *) 
@@ -58,11 +58,7 @@ class genlex keywords:sequence[char] {
         numberLiteral map t.number
 
     def token : [b] GenlexFactory[b] -> Parser[b,char] = t ->
-          (self.ident t)
-        | (self.number t) 
-        | (self.string t) 
-        | (self.char t) 
-        | (self.keyword t)
+          (self.keyword t) | (self.ident t) | (self.number t) | (self.string t) | (self.char t)
 
     def tokens : [b] GenlexFactory[b] -> Parser[sequence[b],char] = t ->
         self.spaces ~> ((self.token t) <~ self.spaces *) <~ eos

@@ -154,6 +154,10 @@ def return : [a,c] a -> Parser[a,c] = a -> {
         accept a input index false
 }
 
+def error : [a,c] Parser[a,c] = {
+    parser $ input index -> reject index false
+}
+
 def eos : [c] Parser[unit,c] = {
     parser $ input index -> 
         input length == index fold 
@@ -216,6 +220,6 @@ def numberLiteral : Parser[number,char] = {
     $ l -> l mkString char::toString "" toNumber fold 0 (r -> r)
 }
 
-def aString : string -> Parser[unit,char] = w -> {
-    w toChars foldR (c p -> aChar c ~> p) (return ())
+def aString : string -> Parser[string,char] = w -> {
+    w toChars foldR (c p -> aChar c ~> p) (return ()) map (_ -> w)
 }

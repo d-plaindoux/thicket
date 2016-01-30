@@ -21,16 +21,18 @@ type JSon {
     model JSonObject { _ : list[(string,JSon)] }
 }
 
-class jsonClass this:JSon {
+class jsonPrettyPrinter this:JSon {
     toString : string
 } {
     def JSonNull.toString   = "null"
-    def JSonString.toString = "\"" + this._ + "\""
+    def JSonString.toString = $"\"$(this._)\""
     def JSonNumber.toString = this._ toString
-    def JSonArray.toString  = "[" + (this._ mkString encode ",") + "]"
-    def JSonObject.toString = "{" + (this._ mkString (j -> "\"" + j._1 + "\":" + $ encode j._2) ",") + "}"
+    def JSonArray.toString  = $"[$(this._ mkString encode ",")]"
+    def JSonObject.toString = 
+        let pairToString = j -> "\"" + j._1 + "\":" + $ encode j._2 in
+            $"{$(this._ mkString pairToString ",")}"
 }
 
 def encode : JSon -> string = data -> {
-    jsonClass data toString
+    jsonPrettyPrinter data toString
 }
