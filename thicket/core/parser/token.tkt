@@ -1,0 +1,67 @@
+/*
+ * Thicket
+ * https://github.com/d-plaindoux/thicket
+ *
+ * Copyright (c) 2015-2016 Didier Plaindoux
+ * Licensed under the LGPL2 license.
+ */
+ 
+module Parser.Token
+
+from Data.String import string
+from Data.Boolean import false, true
+from Data.Number import number
+from Data.Character import char
+from Data.Sequence import sequence
+from Data.Option import option, some, none
+from Data.Try import try
+
+from Parser.LL import Parser, parser, reject, accept
+
+type Token {
+    Keyword { _ : string }
+    Ident   { _ : string }
+    Number  { _ : number }
+    String  { _ : string }
+    Char    { _ : char   }
+}
+
+class token this:Token {
+    keyword  : option[string]
+    ident    : option[string]
+    number   : option[number]
+    string   : option[string]
+    char     : option[char]
+} {
+    def Keyword.keyword = some this._
+    def keyword = none
+    
+    def Ident.ident = some this._
+    def ident = none
+    
+    def Number.number = some this._
+    def number = none
+    
+    def String.string = some this._
+    def string = none
+    
+    def Char.char = some this._
+    def char = none 
+}
+
+def aLiteral : [a] (Token -> option[a]) -> Parser[a,Token] = projection -> {
+    parser $ input index ->
+        input get index fold 
+            (reject index false)
+            (token -> projection token fold 
+                (reject index true)
+                (value -> accept value input (index++) true)
+            )
+}
+
+def tkKeyword : Parser[string,Token] = { aLiteral $ t -> token t keyword }
+def tkIdent   : Parser[string,Token] = { aLiteral $ t -> token t ident   }
+def tkNumber  : Parser[number,Token] = { aLiteral $ t -> token t number  }
+def tkNumber  : Parser[number,Token] = { aLiteral $ t -> token t number  }
+def tkString  : Parser[string,Token] = { aLiteral $ t -> token t string  }
+def tkChar    : Parser[char,Token]   = { aLiteral $ t -> token t char    }

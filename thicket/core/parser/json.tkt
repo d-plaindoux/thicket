@@ -12,45 +12,46 @@ module Parser.JSon
 from Data.Number import number
 from Data.Character import char
 from Data.String import string
-from Data.List import list, emptyList
+from Data.List import list, emptyList, List
 from Data.Pair import Pair
+from Data.Option import some
 from Data.Try import try
 from Data.JSon import *
+from Data.Sequence import sequence
+
 from Parser.LL import *
+from Parser.Genlex import *
+from Parser.Token import *
+from Parser.Tokenizer import *
 
-// Must be replaced by a Parser[...,Token]
-
-def jsonArray : Parser[list[JSon],char] = {
-  (jsonExpr ~ (aChar ',' ~> jsonArray ?)    
+def jsonArray : Parser[list[JSon],Token] = {
+  (jsonExpr ~ (tkKeyword match ',' ~> jsonArray ?)    
         map $ r -> r._2 fold emptyList (l -> l) +: r._1)
-        
 | (return emptyList)
 }
 
-def jsonObject : Parser[list[(string,JSon)],char] = {
-  (stringLiteral <~ (aChar ':') ~ jsonExpr ~ (aChar ',' ~> jsonObject ?)      
+def jsonObject : Parser[list[(string,JSon)],Token] = {
+  (tkString ~ (tkKeyword match ":" ~> jsonExpr) ~ (tkKeyword match "," ~> jsonObject ?)
         map $ r -> r._2 fold emptyList (l -> l) +: r._1)
-        
 | (return emptyList)
 }
 
-def jsonExpr : Parser[JSon,char] = {
-  (aString "null"                           
-        map $ _ -> JSonNull)
-        
-| (stringLiteral                            
-        map $ JSonString)
-        
-| (numberLiteral                            
-        map $ JSonNumber)
-        
-| ((aChar '[') ~> jsonArray  <~ (aChar ']') 
-        map $ JSonArray)
-        
-| ((aChar '{') ~> jsonObject <~ (aChar '}') 
-        map $ JSonObject)
+def jsonExpr : Parser[JSon,Token] = {
+  (tkString map $ JSonString)        
+| (tkNumber map $ JSonNumber)        
+| (tkKeyword match "[" ~> jsonArray  <~ (tkKeyword match "]") map $ JSonArray)
+| (tkKeyword match "{" ~> jsonObject <~ (tkKeyword match "}") map $ JSonObject)
+| (tkIdent match "null" map $ _ -> JSonNull)       
+}
+
+def tokenize : string -> try[sequence[Token]] = {
+    let keywords = List[":";",";"{";"}";"[";"]"] in
+        tokenize from Parser.Tokenizer $ genlex $ some keywords
 }
 
 def decode : string -> try[JSon] = s -> { 
-    jsonExpr parse s 0 toTry
+    for tokens <- { tokenize s }
+        json   <- { jsonExpr parse tokens 0 toTry }
+    yield json
 }
+

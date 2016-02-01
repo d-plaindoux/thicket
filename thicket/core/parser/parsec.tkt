@@ -25,7 +25,10 @@ from Data.Option import option, some, none
 from Data.Try import try, success, failure, try2option
 from Data.Sequence import sequence
 from Data.Monadic import Monadic
+from Data.Comparable import Comparable
+
 from Lang.Do import do
+
 from System.Console import console
  
 type Response[a,c] {
@@ -48,11 +51,15 @@ type Response[a,c] {
 class response[a,c] this:Response[a,c] {
     with Monadic[[a]response[a,c],a]
     
+    unbox : Response[a,c]
+    
     toOption : option[a]
     toTry    : try[a]
     
     fold : [b] (a -> sequence[c] -> number -> bool -> b) -> (number -> bool -> b) -> b
 } {
+    def unbox = this
+
     def Accept.map f = accept (f this.value) this.input this.offset this.consumed
     def Reject.map f = reject this.offset this.consumed
 
@@ -60,7 +67,7 @@ class response[a,c] this:Response[a,c] {
     def Reject.flatmap f = reject this.offset this.consumed
 
     def Accept.filter f = f this.value fold self $ reject this.offset this.consumed
-    def Reject.filter  f = self
+    def Reject.filter f = reject this.offset false
 
     def toOption = try2option $ self toTry
 
@@ -69,6 +76,13 @@ class response[a,c] this:Response[a,c] {
 
     def Accept.fold c _ = c this.value this.input this.offset this.consumed
     def Reject.fold _ e = e this.offset this.consumed
+}
+
+class responsePrettyPrinter[a,c] this:Response[a,c] {
+    toString : string
+} {
+    def Accept.toString = $"Accepted[$(this.offset),$(this.consumed)]"
+    def Reject.toString = $"Rejected[$(this.offset),$(this.consumed)]"
 }
 
 def accept : [a,c] a -> sequence[c] -> number -> bool -> response[a,c] = a s n b -> {
@@ -85,6 +99,8 @@ def reject : [a,c] number -> bool -> response[a,c] = n b -> {
 
 trait Parser[a,c] {
     with Monadic[[a]Parser[a,c],a]
+    
+    match : Comparable[a] -> Parser[a,c]
     
     parse : sequence[c] -> number -> response[a,c]
 
@@ -129,6 +145,7 @@ trait Parser[a,c] {
     def flatmap   = self bind
     def map     f = parser $ s n -> self parse s n map f
     def filter  p = parser $ s n -> self parse s n filter p
+    def match   v = self filter (v==)
 
     def (~)  p = self flatmap $ a -> p map $ b -> (a,b)
     def (~>) p = self ~ p map (r -> r._2)
@@ -145,6 +162,12 @@ class parser[a,c] this:sequence[c] -> number -> response[a,c] {
     def parse = this
 }
 
+def trace : [a,c] string -> Parser[a,c] -> Parser[a,c] = s -> {
+    do {
+        console.log s
+    } return
+}
+        
 //
 // Basic parsers
 //

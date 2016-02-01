@@ -63,3 +63,9 @@ class bool this:Bool {
 
 def true  : bool = { bool True  }
 def false : bool = { bool False }
+
+/**
+ * Adpaters
+ */
+
+def adapter bool2string : bool -> string = bool::toString

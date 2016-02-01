@@ -60,8 +60,7 @@ trait sequence[a] {
         self _indexOf_ a (self.length--) (0==) (i -> i--)
         
     def toList = 
-        0 to (self.length--) fold emptyList $ c i -> self get i fold c (c+:)
-        
+        (self.length--) downto 0 fold emptyList $ c i -> self get i fold c (c+:)        
 }
 
 trait modifiable[a,t] {

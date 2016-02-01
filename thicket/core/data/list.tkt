@@ -156,5 +156,5 @@ def adapter list2collection : [a] list[a] -> Collection[a] = l -> {
 }
 
 def adapter list2sequence : [a] list[a] -> sequence[a] = l -> {
-    l foldL (r c -> (r._1 set r._2 c),(r._2++)) (emptyArray $ l length),0 _1
+    l foldR (c r -> (r._1 set r._2 c),(r._2++)) (emptyArray $ l length),0 _1
 }

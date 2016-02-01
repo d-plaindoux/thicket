@@ -8,33 +8,14 @@
  
 module Parser.Tokenizer
 
-from Data.String import string
-from Data.Number import number
-from Data.Character import char
+from Data.Character import char 
 from Data.Sequence import sequence
 from Data.Try import try
 
+from Parser.Token import *
 from Parser.Genlex import genlex, GenlexFactory
 
-type Token {
-    Keyword { _ : string }
-    Ident   { _ : string }
-    Number  { _ : number }
-    String  { _ : string }
-    Char    { _ : char   }
-}
-
-class tokenPrettyPrinter this:Token {
-    toString : string
-} {
-    def Keyword.toString = $"Keyword($(this._))"
-    def Ident.toString   = $"Ident($(this._))"
-    def Number.toString  = $"Number($(this._))"
-    def String.toString  = $"String($(this._))"
-    def Char.toString    = $"Char($(this._))"
-}
-
-def tokenizer : genlex -> sequence[char] -> try[sequence[Token]] = genlex input -> {
+def tokenize : genlex -> sequence[char] -> try[sequence[Token]] = genlex input -> {
     let factory = GenlexFactory Keyword Ident Number String Char in
         genlex generate input factory
 }
