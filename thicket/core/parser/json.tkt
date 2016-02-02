@@ -18,7 +18,7 @@ from Data.Pair import Pair
 from Data.Option import some
 from Data.Try import try
 from Data.JSon import *
-from Data.Sequence import sequence
+from Data.Sequence import Sequence
 
 from Parser.LL import *
 from Parser.Genlex import *
@@ -45,7 +45,7 @@ def jsonExpr : Parser[JSon,Token] = {
 | (tkKeyword match "{" ~> jsonObject <~ (tkKeyword match "}") map JSonObject)
 }
 
-def tokenize : string -> try[sequence[Token]] = {
+def tokenize : string -> try[Sequence[Token]] = {
     let keywords = List[":";",";"{";"}";"[";"]";"null"] in
         tokenize from Parser.Tokenizer $ genlex $ some keywords
 }

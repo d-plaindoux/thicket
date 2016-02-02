@@ -19,7 +19,7 @@ from Data.Hashable import Hashable
 from Data.Collection import Collection
 from Data.Monadic import Monadic
 from Data.Array import array, emptyArray
-from Data.Sequence import sequence
+from Data.Sequence import Sequence
 from Lang.Do import do
 from Lang.Builder.Collection import *
 
@@ -155,6 +155,6 @@ def adapter list2collection : [a] list[a] -> Collection[a] = l -> {
         (f -> list2collection $ l map f)
 }
 
-def adapter list2sequence : [a] list[a] -> sequence[a] = l -> {
+def adapter list2sequence : [a] list[a] -> Sequence[a] = l -> {
     l foldR (c r -> (r._1 set r._2 c),(r._2++)) (emptyArray $ l length),0 _1
 }

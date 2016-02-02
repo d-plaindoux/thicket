@@ -13,7 +13,7 @@ from Data.String import string
 from Data.Number import number
 from Data.Character import char
 from Data.List import list, emptyList, list2sequence
-from Data.Sequence import sequence
+from Data.Sequence import Sequence
 from Data.Option import option
 from Data.Try import try
 from Parser.LL import *
@@ -28,7 +28,7 @@ model GenlexFactory[a] {
 
 class genlex keywords:option[list[string]] {
 
-    generate : [b] sequence[char] -> GenlexFactory[b] -> try[sequence[b]]
+    generate : [b] Sequence[char] -> GenlexFactory[b] -> try[Sequence[b]]
     
 } {
     //
@@ -60,7 +60,7 @@ class genlex keywords:option[list[string]] {
     def token : [b] GenlexFactory[b] -> Parser[b,char] = t ->
         (self.keyword t) | (self.ident t) | (self.number t) | (self.string t) | (self.char t)
 
-    def tokens : [b] GenlexFactory[b] -> Parser[sequence[b],char] = t ->
+    def tokens : [b] GenlexFactory[b] -> Parser[Sequence[b],char] = t ->
         self.spaces ~> ((self.token t) <~ self.spaces *) <~ eos
         map (o -> list2sequence $ o orElse emptyList)
 
