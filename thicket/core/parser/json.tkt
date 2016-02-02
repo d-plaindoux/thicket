@@ -9,6 +9,7 @@
  
 module Parser.JSon
 
+from Data.Unit import unit
 from Data.Number import number
 from Data.Character import char
 from Data.String import string
@@ -25,7 +26,7 @@ from Parser.Token import *
 from Parser.Tokenizer import *
 
 def jsonArray : Parser[list[JSon],Token] = {
-  (jsonExpr ~ (tkKeyword match ',' ~> jsonArray ?)    
+  (jsonExpr ~ (tkKeyword match ',' ~> jsonArray ?)
         map $ r -> r._2 fold emptyList (l -> l) +: r._1)
 | (return emptyList)
 }
@@ -37,15 +38,15 @@ def jsonObject : Parser[list[(string,JSon)],Token] = {
 }
 
 def jsonExpr : Parser[JSon,Token] = {
-  (tkString map $ JSonString)        
-| (tkNumber map $ JSonNumber)        
-| (tkKeyword match "[" ~> jsonArray  <~ (tkKeyword match "]") map $ JSonArray)
-| (tkKeyword match "{" ~> jsonObject <~ (tkKeyword match "}") map $ JSonObject)
-| (tkIdent match "null" map $ _ -> JSonNull)       
+  (tkNumber map JSonNumber)        
+| (tkString map JSonString)        
+| (tkKeyword match "null" map $ _ -> JSonNull)       
+| (tkKeyword match "[" ~> jsonArray <~ (tkKeyword match "]") map JSonArray)
+| (tkKeyword match "{" ~> jsonObject <~ (tkKeyword match "}") map JSonObject)
 }
 
 def tokenize : string -> try[sequence[Token]] = {
-    let keywords = List[":";",";"{";"}";"[";"]"] in
+    let keywords = List[":";",";"{";"}";"[";"]";"null"] in
         tokenize from Parser.Tokenizer $ genlex $ some keywords
 }
 

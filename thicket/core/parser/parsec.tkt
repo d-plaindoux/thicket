@@ -23,7 +23,7 @@ from Data.Pair import Pair
 from Data.List import list, emptyList
 from Data.Option import option, some, none
 from Data.Try import try, success, failure, try2option
-from Data.Sequence import sequence
+from Data.Sequence import Sequence
 from Data.Monadic import Monadic
 from Data.Comparable import Comparable
 
@@ -34,7 +34,7 @@ from System.Console import console
 type Response[a,c] {
     model Accept { 
         value    : a 
-        input    : sequence[c] 
+        input    : Sequence[c] 
         offset   : number 
         consumed : bool 
     }
@@ -56,7 +56,7 @@ class response[a,c] this:Response[a,c] {
     toOption : option[a]
     toTry    : try[a]
     
-    fold : [b] (a -> sequence[c] -> number -> bool -> b) -> (number -> bool -> b) -> b
+    fold : [b] (a -> Sequence[c] -> number -> bool -> b) -> (number -> bool -> b) -> b
 } {
     def unbox = this
 
@@ -66,13 +66,13 @@ class response[a,c] this:Response[a,c] {
     def Accept.flatmap f = f this.value
     def Reject.flatmap f = reject this.offset this.consumed
 
-    def Accept.filter f = f this.value fold self $ reject this.offset this.consumed
+    def Accept.filter f = f this.value fold self $ reject this.offset false
     def Reject.filter f = reject this.offset false
 
     def toOption = try2option $ self toTry
 
     def Accept.toTry = success this.value
-    def Reject.toTry  = failure $"Reject at $(this.offset)"
+    def Reject.toTry = failure $ responsePrettyPrinter this toString
 
     def Accept.fold c _ = c this.value this.input this.offset this.consumed
     def Reject.fold _ e = e this.offset this.consumed
@@ -85,7 +85,7 @@ class responsePrettyPrinter[a,c] this:Response[a,c] {
     def Reject.toString = $"Rejected[$(this.offset),$(this.consumed)]"
 }
 
-def accept : [a,c] a -> sequence[c] -> number -> bool -> response[a,c] = a s n b -> {
+def accept : [a,c] a -> Sequence[c] -> number -> bool -> response[a,c] = a s n b -> {
     response $ Accept a s n b
 }
 
@@ -102,7 +102,7 @@ trait Parser[a,c] {
     
     match : Comparable[a] -> Parser[a,c]
     
-    parse : sequence[c] -> number -> response[a,c]
+    parse : Sequence[c] -> number -> response[a,c]
 
     (~)   : [b] Parser[b,c] -> Parser[(a,b),c] 
     (~>)  : [b] Parser[b,c] -> Parser[b,c] 
@@ -156,7 +156,7 @@ trait Parser[a,c] {
     def (*)    = self + ? 
 }
 
-class parser[a,c] this:sequence[c] -> number -> response[a,c] {
+class parser[a,c] this:Sequence[c] -> number -> response[a,c] {
     with Parser[a,c]
 } {
     def parse = this
@@ -244,5 +244,8 @@ def numberLiteral : Parser[number,char] = {
 }
 
 def aString : string -> Parser[string,char] = w -> {
-    w toChars foldR (c p -> aChar c ~> p) (return ()) map (_ -> w)
+    parser $ input offset ->
+        w subStringAt input offset fold
+        (accept w input (w length + offset) true)
+        (reject offset false)
 }

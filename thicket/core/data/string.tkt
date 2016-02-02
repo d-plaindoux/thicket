@@ -14,6 +14,7 @@ from Data.Boolean import bool,true,false
 from Data.Native import native
 from Data.Number import number
 from Data.Character import char
+from Data.Boolean import bool, true, false
 from Data.Option import option,none,some
 from Data.Comparable import comparable
 from Data.Hashable import hashable
@@ -30,11 +31,13 @@ class string this:native {
     with sequence[char]
     with modifiable[char,string]
         
-    get      : number -> option[char]
-    set      : number -> char -> string
+    get : number -> option[char]
+    set : number -> char -> string
 
-    (+)      : string -> string   
-    (*)      : number -> string    
+    (+) : string -> string   
+    (*) : number -> string    
+    
+    subStringAt : sequence[char] -> number -> bool
     
     toNumber : option[number] 
     toChars  : array[char]
@@ -54,7 +57,18 @@ class string this:native {
     def (*) n = 1 to n fold "" (r _ -> self + r)
     
     def length = number $ internal "string.length" self    
-    
+                
+    def subStringAt s offset =
+        0 to (self.length--) fold 
+            (some true)
+            (r i -> 
+                for _  <- r
+                    c1 <- { self get i }
+                    c2 <- { s get $ offset + i }
+                if (c1 == c2)
+                yield true) 
+                orElse false
+        
     def toNumber = internal "string.toNumber" self (n -> some $ number n) none
     def toChars = 
         let update = r i -> self get i fold r (r set i) in

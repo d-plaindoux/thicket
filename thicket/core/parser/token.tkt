@@ -16,6 +16,9 @@ from Data.Sequence import sequence
 from Data.Option import option, some, none
 from Data.Try import try
 
+from Lang.Do import do
+from System.Console import console
+
 from Parser.LL import Parser, parser, reject, accept
 
 type Token {
@@ -49,12 +52,22 @@ class token this:Token {
     def char = none 
 }
 
+class tokenPrettyPrinter this:Token {
+    toString : string
+} {
+    def Keyword.toString = $"Token($(this._))"
+    def Ident.toString   = $"Ident($(this._))"
+    def Number.toString  = $"Number($(this._))"
+    def String.toString  = $"String($(this._))"
+    def Char.toString    = $"Char($(this._))"
+}
+
 def aLiteral : [a] (Token -> option[a]) -> Parser[a,Token] = projection -> {
     parser $ input index ->
         input get index fold 
             (reject index false)
             (token -> projection token fold 
-                (reject index true)
+                (reject index false)
                 (value -> accept value input (index++) true)
             )
 }

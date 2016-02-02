@@ -58,7 +58,7 @@ class genlex keywords:option[list[string]] {
         numberLiteral map t.number
 
     def token : [b] GenlexFactory[b] -> Parser[b,char] = t ->
-          (self.keyword t) | (self.ident t) | (self.number t) | (self.string t) | (self.char t)
+        (self.keyword t) | (self.ident t) | (self.number t) | (self.string t) | (self.char t)
 
     def tokens : [b] GenlexFactory[b] -> Parser[sequence[b],char] = t ->
         self.spaces ~> ((self.token t) <~ self.spaces *) <~ eos
