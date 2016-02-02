@@ -40,13 +40,13 @@ def jsonObject : Parser[list[(string,JSon)],Token] = {
 def jsonExpr : Parser[JSon,Token] = {
   (tkNumber map JSonNumber)        
 | (tkString map JSonString)        
-| (tkKeyword match "null" map $ _ -> JSonNull)       
+| (tkIdent match "null" map $ _ -> JSonNull)       
 | (tkKeyword match "[" ~> jsonArray <~ (tkKeyword match "]") map JSonArray)
 | (tkKeyword match "{" ~> jsonObject <~ (tkKeyword match "}") map JSonObject)
 }
 
 def tokenize : string -> try[Sequence[Token]] = {
-    let keywords = List[":";",";"{";"}";"[";"]";"null"] in
+    let keywords = List[":";",";"{";"}";"[";"]"] in
         tokenize from Parser.Tokenizer $ genlex $ some keywords
 }
 
