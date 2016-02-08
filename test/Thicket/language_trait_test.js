@@ -174,5 +174,47 @@ exports['language_trait'] = {
                    "accept a trait");
     test.done();
   },
+       
+  'trait without method definition': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("trait Address { with CityLocation }");        
+    test.deepEqual(language.parser.group('traitDef').parse(aStream).get().definition, 
+                   ast.trait('Address',
+                             [],
+                             [ ],
+                             [ ],
+                             [ ast.type.variable('CityLocation') ]) , 
+                   "accept a trait");
+    test.done();
+  },
+    
+  'trait with method specification only': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("trait Address { (+) : [a] a -> a }");        
+    test.deepEqual(language.parser.group('traitDef').parse(aStream).get().definition, 
+                   ast.trait('Address',
+                             [],
+                             [ ast.param('+', ast.type.forall(["a"],ast.type.abstraction(ast.type.variable("a"),ast.type.variable("a")))) ],
+                             [ ],
+                             [ ]) , 
+                   "accept a trait");
+    test.done();
+  },
+       
+  'trait without method specification and definition': function(test) {
+    test.expect(1);
+    // tests here  
+    var aStream = stream("trait Address");        
+    test.deepEqual(language.parser.group('traitDef').parse(aStream).get().definition, 
+                   ast.trait('Address',
+                             [],
+                             [ ],
+                             [ ],
+                             [ ]) , 
+                   "accept a trait");
+    test.done();
+  },
 
 };
