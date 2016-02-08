@@ -20,7 +20,7 @@ implemented in various languages like Java, Python etc.
 
 ### Hello World
 
-A simple [Hello world](https://github.com/d-plaindoux/thicket/blob/master/thicket/examples/helloWorld.html) 
+A simple [Hello world](https://github.com/d-plaindoux/thicket/blob/master/thicket/examples/helloWorld/index.html) 
 is available for execution [here](http://d.plaindoux.free.fr/thicket/thicket/examples/helloWorld.html).
 
 ### Todo MVC
@@ -370,7 +370,8 @@ must be build when specifications are loaded (synthetized).
 #### Constant pool
 
 Each constant like strings, number etc. must be stored in a constant pool
-`à la JVM`. This also imply a more compact specification file.
+like in the class representation for the `JVM`. This implies a more compact 
+specification file.
 
 ## More informations and References
 
