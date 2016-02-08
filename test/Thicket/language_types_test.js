@@ -2,6 +2,7 @@
 
 var stream = require('../../lib' + (process.env.THICKET_COV || '') + '/Parser/stream.js'),
     language = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/syntax/language.js')(),
+    ast = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/symbols.js'),
     ast = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/syntax/ast.js');
 
 /*

@@ -4,6 +4,7 @@
 
 var option = require('../../lib' + (process.env.THICKET_COV || '') + '/Data/option.js'),
     fsdriver = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/resource/drivers/fsdriver.js'),
+    symbols = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/symbols.js'),
     reader = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/resource/reader.js'),
     packages = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/data/packages.js');
 
@@ -165,7 +166,7 @@ exports['packages'] = {
       
     test.deepEqual(aPackages.retrieve("Data.Unit").get().findExpression("unit").success(), 
                   { 
-                    '$t': 'Model',
+                    '$t': symbols.Model,
                     name: 'unit',
                     variables: [],
                     params: []

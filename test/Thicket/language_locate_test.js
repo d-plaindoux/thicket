@@ -1,6 +1,7 @@
 'use strict';
 
 var stream = require('../../lib' + (process.env.THICKET_COV || '') + '/Parser/stream.js'),
+    symbols = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/symbols.js'),
     language = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/syntax/language.js')().locate();
 
 /*
@@ -34,20 +35,20 @@ exports['language_locate'] = {
     var aStream = stream("def un : number = 1");
         
     test.deepEqual(language.parser.group('expressionDef').parse(aStream).get().definition,
-                   { '$t': 'Expression',
+                   { '$t': symbols.Expression,
                       name: 'un',
                       type: 
-                       { '$t': 'TypeVariable',
+                       { '$t': symbols.TypeVariable,
                          name: 'number',
                          '$location': { filename: undefined, offset: 16, line: 1, character: 17 } },
                       expr: 
-                        { '$t': 'ApplicationExpr',
+                        { '$t': symbols.ApplicationExpr,
                                 abstraction: 
-                                 { '$t': 'IdentExpr',
+                                 { '$t': symbols.IdentExpr,
                                    value: 'number',
                                    '$location': { filename: undefined, offset: 18, line: 1, character: 19 } },
                                 argument: 
-                                 { '$t': 'NativeExpr',
+                                 { '$t': symbols.NativeExpr,
                                    value: 1,
                                    '$location': { filename: undefined, offset: 18, line: 1, character: 19 } },
                                 '$location': { filename: undefined, offset: 18, line: 1, character: 19 } },
@@ -62,25 +63,25 @@ exports['language_locate'] = {
     var aStream = stream("def idNumber : number -> number = s -> s");
         
     test.deepEqual(language.parser.group('expressionDef').parse(aStream).get().definition,
-                   { '$t': 'Expression',
+                   { '$t': symbols.Expression,
                       name: 'idNumber',
                       type: 
-                       { '$t': 'TypeFunction',
+                       { '$t': symbols.TypeFunction,
                          argument: 
-                          { '$t': 'TypeVariable',
+                          { '$t': symbols.TypeVariable,
                             name: 'number',
                             '$location': { filename: undefined, offset: 22, line: 1, character: 23 } },
                          result: 
-                          { '$t': 'TypeVariable',
+                          { '$t': symbols.TypeVariable,
                             name: 'number',
                             '$location': { filename: undefined, offset: 32, line: 1, character: 33 } },
                          '$location': { filename: undefined, offset: 22, line: 1, character: 23 } },
                       expr: 
-                       { '$t': 'AbstractionExpr',
+                       { '$t': symbols.AbstractionExpr,
                          param: 's',
                          type: undefined,
                          body: 
-                          { '$t': 'IdentExpr',
+                          { '$t': symbols.IdentExpr,
                             value: 's',
                             '$location': { filename: undefined, offset: 40, line: 1, character: 41 } },
                          '$location': { filename: undefined, offset: 34, line: 1, character: 35 } },

@@ -6,6 +6,7 @@ var stream = require('../../lib' + (process.env.THICKET_COV || '') + '/Parser/st
     option = require('../../lib' + (process.env.THICKET_COV || '') + '/Data/option.js'),
     fsdriver = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/resource/drivers/fsdriver.js'),
     reader = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/resource/reader.js'),
+    symbols = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/symbols.js'),
     packages = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/data/packages.js'),
     linker = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/data/linker.js');
     
@@ -83,7 +84,7 @@ exports['linker_expression'] = {
 
     test.ok(aLinker.linkExpression(aPackages.main(), expression, list("a"), list()).isSuccess());
     test.deepEqual(expression, 
-                   { '$t': 'IdentExpr', value: 'a' });
+                   { '$t': symbols.IdentExpr, value: 'a' });
       
     test.done();
   },    
@@ -101,7 +102,7 @@ exports['linker_expression'] = {
       
     test.ok(aLinker.linkExpression("Data.Unit", expression, list(), list()).isSuccess());
     test.deepEqual(expression, 
-                   { '$t': 'IdentExpr', value: 'unit', namespace: 'Data.Unit' });
+                   { '$t': symbols.IdentExpr, value: 'unit', namespace: 'Data.Unit' });
       
     test.done();
   },    
@@ -120,7 +121,7 @@ exports['linker_expression'] = {
       
     test.ok(aLinker.linkExpression("Data.Explicit", expression, list(), list()).isSuccess());
     test.deepEqual(expression, 
-                   { '$t': 'IdentExpr', value: 'unit', namespace: 'Data.Unit' });
+                   { '$t': symbols.IdentExpr, value: 'unit', namespace: 'Data.Unit' });
       
     test.done();
   },    

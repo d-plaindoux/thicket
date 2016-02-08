@@ -6,6 +6,7 @@ var stream = require('../../lib' + (process.env.THICKET_COV || '') + '/Parser/st
     option = require('../../lib' + (process.env.THICKET_COV || '') + '/Data/option.js'),
     fsdriver = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/resource/drivers/fsdriver.js'),
     reader = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/resource/reader.js'),
+    symbols = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/symbols.js'),
     packages = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/data/packages.js'),
     linker = require('../../lib' + (process.env.THICKET_COV || '') + '/Thicket/compiler/data/linker.js');
     
@@ -47,7 +48,7 @@ exports['linker_type'] = {
 
     test.ok(aLinker.linkType("Data.Unit", aType, list()).isSuccess());
     test.deepEqual(aType,
-                   { '$t': 'TypeVariable', name: 'unit', namespace: 'Data.Unit' });
+                   { '$t': symbols.TypeVariable, name: 'unit', namespace: 'Data.Unit' });
       
     test.done();
   },      
@@ -66,7 +67,7 @@ exports['linker_type'] = {
 
     test.ok(aLinker.linkType("Data.Implicit", aType, list()).isSuccess());
     test.deepEqual(aType,
-                   { '$t': 'TypeVariable', name: 'unit', namespace: 'Data.Unit' });
+                   { '$t': symbols.TypeVariable, name: 'unit', namespace: 'Data.Unit' });
       
     test.done();
   },      
