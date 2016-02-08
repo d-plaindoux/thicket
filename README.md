@@ -20,7 +20,7 @@ implemented in various languages like Java, Python etc.
 
 ### Hello World
 
-A simple [Hello world](https://github.com/d-plaindoux/thicket/blob/master/thicket/examples/helloWorld/helloWorld.html) 
+A simple [Hello world](https://github.com/d-plaindoux/thicket/blob/master/thicket/examples/helloWorld/index.html) 
 is available for execution [here](http://d.plaindoux.free.fr/thicket/thicket/examples/helloWorld.html).
 
 ### Todo MVC
