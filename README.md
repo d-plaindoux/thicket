@@ -370,7 +370,8 @@ must be build when specifications are loaded (synthetized).
 #### Constant pool
 
 Each constant like strings, number etc. must be stored in a constant pool
-`à la JVM`. This also imply a more compact specification file.
+like in the class representation for the `JVM`. This implies a more compact 
+specification file.
 
 ## More informations and References
 
