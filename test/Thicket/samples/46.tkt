@@ -1,0 +1,12 @@
+model C
+
+trait A 
+trait B { with A }
+
+def fold : [a] (a -> C) -> (a -> C) -> C = a b -> C
+
+// Type checker must found the least upper bound existing 
+// between A and B i.e. A for each variable definition
+let _ = fold (x:A -> C) (x:B -> C) in
+let _ = fold (x:B -> C) (x:A -> C) in
+    C
