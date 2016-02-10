@@ -1,0 +1,6 @@
+model A[a]
+
+// /!\ Recursive definition
+// Contractant but rejected
+
+typedef B = A[B]
