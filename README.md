@@ -65,6 +65,15 @@ model Person {
    age: number
 }
 ```
+
+Then using such model creating an instance can be easily done. In fact a
+model defines a generator which is a function named with the model name.
+
+```
+// Person : string -> string -> number -> Person
+Person "John" "Doe" 42
+```
+
 ### Class
 
 **keywords:** *behavior - control - denotation*
