@@ -96,7 +96,20 @@ class person this:Person {
   
   def tick = person new this with age=(this.age + 1)
 }
+```
+Then using such class creating an instance can be easily done. In fact a
+class defines a generator which is a function named with the class name.
 
+```
+// person : Person -> person
+person (Person "John" "Doe" 42)
+```
+
+In addition we can define type in order to increase specification readability
+using typedef capability and reuse this new type definition when defining
+entities.
+
+```
 typedef Population = list[Person]
 
 class population this:Population {
@@ -109,14 +122,6 @@ class population this:Population {
   def addNew f n = population $ this +: (Person f n 0)
 }
 ```
-Then using such class creating an instance can be easily done. In fact a
-class defines a generator which is a function named with the class name.
-
-```
-// person : Person -> person
-person (Person "John" "Doe" 42)
-```
-
 ### View using DOM fragment
 
 **keywords:** *templating, UI fragment*
