@@ -109,6 +109,13 @@ class population this:Population {
   def addNew f n = population $ this +: (Person f n 0)
 }
 ```
+Then using such class creating an instance can be easily done. In fact a
+class defines a generator which is a function named with the class name.
+
+```
+// person : Person -> person
+person (Person "John" "Doe" 42)
+```
 
 ### View using DOM fragment
 
