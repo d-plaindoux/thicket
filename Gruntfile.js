@@ -27,11 +27,6 @@ module.exports = function(grunt) {
         thicket_web_runtime:  './node_modules/browserify/bin/cmd.js -r ./lib/Thicket/frontend/w3exec.js:thicket    -o ./build/thicket-web-runtime.js',
         thicket_core_lang:    './node_modules/browserify/bin/cmd.js -r ./lib/Thicket/frontend/interpret.js:thicket -o ./build/thicket-core-lang.js',
         thicket_core_runtime: './node_modules/browserify/bin/cmd.js -r ./lib/Thicket/frontend/runtime.js:thicket   -o ./build/thicket-core-runtime.js',
-        thicket_site_prepare: 'mkdir obj; mkdir site; true',
-        thicket_site_modules: 'find thicket/core -name *.tkt       | xargs ./bin/thicket compile -o obj -v',
-        thicket_examples:     'find thicket/examples -name *.tkt   | xargs ./bin/thicket compile -i obj -o site -v',
-        thicket_benchmarks:   'find thicket/benchmarks -name *.tkt | xargs ./bin/thicket compile -i obj -o site -v',
-        thicket_site_packages:'find thicket -name *.pkt            | xargs ./bin/thicket package -i thicket/examples/thicket/ -i thicket -i obj -i site -o site -v -s -n'
     },
     uglify: {
         options: {
@@ -53,13 +48,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');  
   grunt.loadNpmTasks('grunt-exec');    
   grunt.loadNpmTasks('grunt-contrib-uglify');  
-    
-  grunt.registerTask('site',    
-                     ['exec:thicket_site_prepare', 
-                      'exec:thicket_site_modules', 
-                      'exec:thicket_examples', 
-                      'exec:thicket_site_packages', 
-                      'exec:thicket_benchmarks']);
     
   grunt.registerTask('package', 
                      ['jshint', 
