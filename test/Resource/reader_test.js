@@ -96,7 +96,7 @@ exports['reader'] = {
     // tests here  
     var aReader = reader(fsdriver('./test/Resource/samples')); 
         
-    aReader.addPackageSpecificationAndCode(aReader.packageSpecificationAndCode("Client"));
+    aReader.addPackageSpecificationAndCode("Client");
       
     test.ok(aReader.hasPackage("Core"));
     test.done();

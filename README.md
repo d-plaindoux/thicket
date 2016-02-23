@@ -25,7 +25,7 @@ is available for execution [here](http://d.plaindoux.free.fr/thicket/thicket/exa
 
 ### Todo MVC
 
-The [TODO](https://github.com/thicket-lang/thicket-examples/tree/master/todoMVC) example available 
+The [TodoMVC](https://github.com/thicket-lang/thicket-examples/tree/master/todoMVC) example available 
 for execution [here](http://d.plaindoux.free.fr/thicket/thicket/examples/todoMVC/index.html) shows a complete
 example based on dom manipulation.
 
