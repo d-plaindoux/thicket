@@ -20,24 +20,24 @@ implemented in various languages like Java, Python etc.
 
 ### Hello World
 
-A simple [Hello world](https://github.com/d-plaindoux/thicket/blob/master/thicket/examples/helloWorld/index.html) 
+A simple [Hello world](https://github.com/thicket-lang/thicket-examples/blob/master/helloWorld/index.html) 
 is available for execution [here](http://d.plaindoux.free.fr/thicket/thicket/examples/helloWorld.html).
 
 ### Todo MVC
 
-The [TODO](https://github.com/d-plaindoux/thicket/tree/master/thicket/examples/todoMVC/) example available 
+The [TODO](https://github.com/thicket-lang/thicket-examples/tree/master/todoMVC) example available 
 for execution [here](http://d.plaindoux.free.fr/thicket/thicket/examples/todoMVC/index.html) shows a complete
 example based on dom manipulation.
 
 ### Thicket Console
 
-The [Console](https://github.com/d-plaindoux/thicket/tree/master/thicket/examples/thicket) example available 
+The [Console](https://github.com/thicket-lang/thicket-examples/tree/master/thicket) example available 
 for execution [here](http://d.plaindoux.free.fr/thicket/thicket/examples/thicket/console.html) shows how the 
 runtime can be easily extended in order to provide a naive embedded interpret in the web browser.
 
 ### Unit testing
 
-The [Test](https://github.com/d-plaindoux/thicket/tree/master/thicket/examples/tests) example available 
+The [Test](https://github.com/thicket-lang/thicket-examples/tree/master/tests) example available 
 for execution [here](http://d.plaindoux.free.fr/thicket/thicket/examples/tests/assertSpecs.html) and 
 [here](http://d.plaindoux.free.fr/thicket/thicket/examples/tests/assertSpecs.2.html) shows how
 unit testing can be done just changing the logger used to display the result.
