@@ -111,7 +111,7 @@ exports['deBruijn'] = {
                                                         ast.param("this",ast.type.native("a")),
                                                         [],
                                                         [ast.method("unbox", ast.expr.ident("this"))])).success()),
-                    compiler.abstractSyntax("Controller","A",[["unbox",compiler.abstractSyntax("Variable",1)]],[]));
+                    compiler.abstractSyntax("Controller","A",[[null,"unbox",compiler.abstractSyntax("Variable",1)]],[]));
       test.done();
   },
 
@@ -128,7 +128,7 @@ exports['deBruijn'] = {
                                                     ast.param("this",ast.type.native("a")),
                                                     [],
                                                     [ast.method("unbox", ast.expr.ident("this"), ast.type.variable('number'))])).success()),
-                    compiler.abstractSyntax("Controller","A",[["number.unbox",compiler.abstractSyntax("Variable",1)]],[]));
+                    compiler.abstractSyntax("Controller","A",[["number","unbox",compiler.abstractSyntax("Variable",1)]],[]));
       test.done();
   },
      

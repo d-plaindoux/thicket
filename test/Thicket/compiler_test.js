@@ -99,7 +99,7 @@ exports['compiler'] = {
                                                     ast.param("this",ast.type.native("a")),
                                                     [],
                                                     [ast.method("unbox", ast.expr.ident("this"))])).success(),
-                    compiler.abstractSyntax("Controller","A","this",[["unbox",compiler.abstractSyntax("Variable","this")]],[]));
+                    compiler.abstractSyntax("Controller","A","this",[[null,"unbox",compiler.abstractSyntax("Variable","this")]],[]));
       test.done();
   },
     
@@ -114,7 +114,7 @@ exports['compiler'] = {
                                                     ast.param("this",ast.type.native("a")),
                                                     [],
                                                     [ast.method("unbox", ast.expr.ident("b"))])).success(),
-                    compiler.abstractSyntax("Controller","A","this",[["unbox",compiler.abstractSyntax("Ident","b")]],[]));
+                    compiler.abstractSyntax("Controller","A","this",[[null,"unbox",compiler.abstractSyntax("Ident","b")]],[]));
       test.done();
   },
 
@@ -134,7 +134,7 @@ exports['compiler'] = {
                                                                 ast.expr.ident("this"), 
                                                                 ast.namespace(ast.type.variable('number'),aPackages.main()))])
                                     ).success(),
-                    compiler.abstractSyntax("Controller","A","this",[["number.unbox",compiler.abstractSyntax("Variable","this")]],[]));
+                    compiler.abstractSyntax("Controller","A","this",[["number","unbox",compiler.abstractSyntax("Variable","this")]],[]));
       test.done();
   },
 
@@ -158,7 +158,7 @@ exports['compiler'] = {
                                                [],
                                                [],
                                                [ast.method("unbox", ast.expr.ident("self"))])).success(),
-                    compiler.abstractSyntax("Trait","A",[["unbox",compiler.abstractSyntax("Variable","self")]],[]));
+                    compiler.abstractSyntax("Trait","A",[[null,"unbox",compiler.abstractSyntax("Variable","self")]],[]));
       test.done();
   },
     
@@ -172,7 +172,7 @@ exports['compiler'] = {
                                                [],
                                                [],
                                                [ast.method("unbox", ast.expr.ident("b"))])).success(),
-                    compiler.abstractSyntax("Trait","A",[["unbox",compiler.abstractSyntax("Ident","b")]],[]));
+                    compiler.abstractSyntax("Trait","A",[[null,"unbox",compiler.abstractSyntax("Ident","b")]],[]));
       test.done();
   },
 
