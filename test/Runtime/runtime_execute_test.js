@@ -83,7 +83,7 @@ exports['runtime_execute'] = {
         source = compiler.sentence(expression).success();
     
     test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
-                   [$i.ENV,[[[$i.ACCESS,1],[$i.RETURN]],[]]]);
+                   [$i.ENV,[[[$i.ACCESS,1],[$i.GRAB],[$i.RETURN]],[]]]);
     test.done();
   }, 
    
@@ -123,7 +123,7 @@ exports['runtime_execute'] = {
         source = compiler.sentence(expression).success();
     
     test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
-                   [$i.ENV,[[[$i.CLOSURE,[[$i.ACCESS,1], [$i.RETURN]]],[$i.RETURN]],[]]]);
+                   [$i.ENV,[[[$i.CLOSURE,[[$i.ACCESS,1], [$i.GRAB], [$i.RETURN]]], [$i.GRAB], [$i.RETURN]],[]]]);
     test.done();
   }, 
     
@@ -135,7 +135,7 @@ exports['runtime_execute'] = {
         source = compiler.sentence(expression).success();
     
     test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
-                   [$i.ENV,[[[$i.CLOSURE,[[$i.ACCESS,2], [$i.RETURN]]],[$i.RETURN]],[]]]);
+                   [$i.ENV,[[[$i.CLOSURE,[[$i.ACCESS,2], [$i.GRAB], [$i.RETURN]]], [$i.GRAB], [$i.RETURN]],[]]]);
     test.done();
   }, 
    
