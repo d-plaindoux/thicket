@@ -313,5 +313,22 @@ exports['runtime_execute'] = {
                    [$i.CONST,2]);
     test.done();
   }, 
+    
+  'Class alteration using let with debug': function(test) {
+    test.expect(1);
+      
+    runtime.setDebug(true);
+      
+    // tests here  
+    var aStream = stream("let a = 1 in new a with this=2 this this"),
+        expression = language.parser.group('exprs').parse(aStream).get(),
+        source = compiler.sentence(expression).success();
+    
+    runtime.register([$i.CLASS,[ "number", [[ "this" , [[$i.ACCESS,1],[$i.RETURN]]]] ] ]); 
+
+    test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
+                   [$i.CONST,2]);
+    test.done();
+  }, 
 
 };
