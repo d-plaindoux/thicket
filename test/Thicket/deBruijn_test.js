@@ -270,7 +270,7 @@ exports['deBruijn'] = {
       test.deepEqual(deBruijn.indexes(compiler.expression(list(), ast.expr.let("b",ast.namespace(ast.expr.ident("a"),aPackages.main()),ast.expr.ident("b"))).success()),
                      compiler.abstractSyntax("Apply", 
                                       compiler.abstractSyntax("Function",compiler.abstractSyntax("Variable",1)),
-                                      compiler.abstractSyntax('Lazy', compiler.abstractSyntax("Ident",aPackages.main() + ".a"))));
+                                      compiler.abstractSyntax("Ident",aPackages.main() + ".a")));
       test.done();
   },
  

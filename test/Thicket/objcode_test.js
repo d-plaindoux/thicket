@@ -176,7 +176,7 @@ exports['objcode'] = {
       var aPackages = packages(option.none());
 
       test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.entity(environment(aPackages), ast.expression("A",ast.type.native("number"),ast.expr.number(1))).success())),
-                     [ [$i.code.DEFINITION, ['A', [ [$i.code.IDENT,'number'], [$i.code.CONST,1] , [$i.code.APPLY]]]]]);
+                     [ [$i.code.DEFINITION, ['A', [ [$i.code.IDENT,'number'], [$i.code.GRAB], [$i.code.CONST,1] , [$i.code.TAILAPPLY]]]]]);
       test.done();
   },
 
@@ -184,7 +184,7 @@ exports['objcode'] = {
       test.expect(1);
       
       test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(), ast.expr.number(1)).success())),
-                     [ [$i.code.IDENT,'number'], [$i.code.CONST,1] , [$i.code.APPLY]]);
+                     [ [$i.code.IDENT,'number'], [$i.code.GRAB], [$i.code.CONST,1] , [$i.code.APPLY]]);
       test.done();
   },
   
@@ -192,7 +192,7 @@ exports['objcode'] = {
       test.expect(1);
       
       test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(), ast.expr.string("1")).success())),
-                     [ [$i.code.IDENT,'string'], [$i.code.CONST,"1"] , [$i.code.APPLY]]);
+                     [ [$i.code.IDENT,'string'], [$i.code.GRAB], [$i.code.CONST,"1"] , [$i.code.APPLY]]);
       test.done();
   },
 
@@ -209,9 +209,11 @@ exports['objcode'] = {
       
       test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(), ast.expr.pair(ast.expr.number(1),ast.expr.string("1"))).success())),
                      [[$i.code.IDENT,'Pair'],
-                      [$i.code.PUSH, [ [$i.code.IDENT,'number'], [$i.code.CONST,1] , [$i.code.APPLY]]],
+                      [$i.code.GRAB],
+                      [$i.code.PUSH, [ [$i.code.IDENT,'number'], [$i.code.GRAB], [$i.code.CONST,1] , [$i.code.APPLY]]],
                       [$i.code.APPLY],
-                      [$i.code.PUSH, [ [$i.code.IDENT,'string'], [$i.code.CONST,"1"] , [$i.code.APPLY]]],
+                      [$i.code.GRAB],
+                      [$i.code.PUSH, [ [$i.code.IDENT,'string'], [$i.code.GRAB], [$i.code.CONST,"1"] , [$i.code.APPLY]]],
                       [$i.code.APPLY]]);
       test.done();
   },
@@ -236,7 +238,7 @@ exports['objcode'] = {
       test.expect(1);
       
       test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list('b'), ast.expr.abstraction("b", ast.expr.application(ast.expr.ident("a"), ast.expr.ident("b")))).success())),
-                     [[$i.code.CLOSURE,[ [$i.code.IDENT,'a'], [$i.code.ACCESS, 1], [$i.code.TAILAPPLY]]]]);
+                     [[$i.code.CLOSURE,[ [$i.code.IDENT,'a'], [$i.code.GRAB], [$i.code.ACCESS, 1], [$i.code.TAILAPPLY]]]]);
       test.done();
   },
 
@@ -244,15 +246,16 @@ exports['objcode'] = {
       test.expect(1);
       
       test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(), ast.expr.invoke(ast.expr.ident("a"), "b")).success())),
-                     [ [$i.code.IDENT,'a'], [$i.code.INVOKE,'b']]);
+                     [ [$i.code.IDENT,'a'], [$i.code.GRAB],[$i.code.INVOKE,'b']]);
       test.done();
   },
 
   'Apply/Invoke expression': function (test) {
       test.expect(1);
       
-      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(), ast.expr.application(ast.expr.ident("a"), ast.expr.ident("b"))).success())),
-                     [ [$i.code.IDENT,'a'], [$i.code.INVOKE,'b']]);
+      test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(), ast.expr.application(ast.expr.ident("a"),
+                                                                                                               ast.expr.ident("b"))).success())),
+                     [[$i.code.IDENT,'a'], [$i.code.GRAB],[$i.code.INVOKE,'b']]);
       test.done();
   },
 
@@ -260,7 +263,12 @@ exports['objcode'] = {
       test.expect(1);
       
       test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(), ast.expr.let("b",ast.namespace(ast.expr.ident("a"),'Main'),ast.expr.ident("b"))).success())),
-                     [[$i.code.CLOSURE,[[$i.code.ACCESS, 1], [$i.code.RETURN]]], [$i.code.PUSH,[[$i.code.IDENT,'Main.a']]],[$i.code.APPLY]]);
+                     [[$i.code.CLOSURE,
+                       [[$i.code.ACCESS, 1], 
+                        [$i.code.RETURN]]],
+                      [$i.code.GRAB],
+                      [$i.code.IDENT,'Main.a'],
+                      [$i.code.APPLY]]);
       test.done();
   },
 
@@ -268,9 +276,12 @@ exports['objcode'] = {
       test.expect(1);
       
       test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(), ast.expr.tag("A",[],[])).success())),
-                     [ [$i.code.IDENT,'document'],
-                       [$i.code.PUSH, [ [$i.code.IDENT,'string'], [$i.code.CONST,'A'], [$i.code.APPLY]]],
-                       [$i.code.APPLY], [$i.code.INVOKE,'create']]);
+                     [[$i.code.IDENT,'document'],
+                      [$i.code.GRAB],
+                      [$i.code.PUSH, [ [$i.code.IDENT,'string'],[$i.code.GRAB],[$i.code.CONST,'A'], [$i.code.APPLY]]],
+                      [$i.code.APPLY], 
+                      [$i.code.GRAB], 
+                      [$i.code.INVOKE,'create']]);
       test.done();
   },
 
@@ -279,13 +290,18 @@ exports['objcode'] = {
       
       test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list('l'), ast.expr.tag("A",[['a',ast.expr.string('b')]],[])).success())),
                      [[$i.code.IDENT,'document'],
-                      [$i.code.PUSH, [ [$i.code.IDENT,'string'],[$i.code.CONST,'A'],[$i.code.APPLY]]],
-                      [$i.code.APPLY], 
-                      [$i.code.INVOKE,'create'],
-                      [$i.code.INVOKE,'addAttribute'],
-                      [$i.code.PUSH, [ [$i.code.IDENT,'string'],[$i.code.CONST,'a'],[$i.code.APPLY]]],
+                      [$i.code.GRAB],
+                      [$i.code.PUSH, [ [$i.code.IDENT,'string'],[$i.code.GRAB],[$i.code.CONST,'A'],[$i.code.APPLY]]],
                       [$i.code.APPLY],
-                      [$i.code.PUSH, [ [$i.code.IDENT,'string'],[$i.code.CONST,'b'],[$i.code.APPLY]]],
+                      [$i.code.GRAB],
+                      [$i.code.INVOKE,'create'],
+                      [$i.code.GRAB],
+                      [$i.code.INVOKE,'addAttribute'],
+                      [$i.code.GRAB],
+                      [$i.code.PUSH, [ [$i.code.IDENT,'string'],[$i.code.GRAB],[$i.code.CONST,'a'],[$i.code.APPLY]]],
+                      [$i.code.APPLY],
+                      [$i.code.GRAB],
+                      [$i.code.PUSH, [ [$i.code.IDENT,'string'],[$i.code.GRAB],[$i.code.CONST,'b'],[$i.code.APPLY]]],
                       [$i.code.APPLY]]);
       test.done();
   },
@@ -295,18 +311,26 @@ exports['objcode'] = {
       
       test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list('l'), ast.expr.tag("A",[['a',ast.expr.string('b')],['b',ast.expr.number(1)]],[])).success())),
                      [[$i.code.IDENT,'document'],
-                      [$i.code.PUSH, [ [$i.code.IDENT,'string'],[$i.code.CONST,'A'],[$i.code.APPLY]]],
+                      [$i.code.GRAB],
+                      [$i.code.PUSH, [ [$i.code.IDENT,'string'],[$i.code.GRAB],[$i.code.CONST,'A'],[$i.code.APPLY]]],
                       [$i.code.APPLY], 
+                      [$i.code.GRAB],
                       [$i.code.INVOKE,'create'],
+                      [$i.code.GRAB],
                       [$i.code.INVOKE,'addAttribute'],
-                      [$i.code.PUSH, [ [$i.code.IDENT,'string'],[$i.code.CONST,'a'],[$i.code.APPLY]]],
+                      [$i.code.GRAB],
+                      [$i.code.PUSH, [ [$i.code.IDENT,'string'],[$i.code.GRAB],[$i.code.CONST,'a'],[$i.code.APPLY]]],
                       [$i.code.APPLY], 
-                      [$i.code.PUSH, [ [$i.code.IDENT,'string'],[$i.code.CONST,'b'],[$i.code.APPLY]]],
+                      [$i.code.GRAB],
+                      [$i.code.PUSH, [ [$i.code.IDENT,'string'],[$i.code.GRAB],[$i.code.CONST,'b'],[$i.code.APPLY]]],
                       [$i.code.APPLY],
+                      [$i.code.GRAB],
                       [$i.code.INVOKE,'addAttribute'],
-                      [$i.code.PUSH, [ [$i.code.IDENT,'string'],[$i.code.CONST,'b'],[$i.code.APPLY]]],
+                      [$i.code.GRAB],
+                      [$i.code.PUSH, [ [$i.code.IDENT,'string'],[$i.code.GRAB],[$i.code.CONST,'b'],[$i.code.APPLY]]],
                       [$i.code.APPLY], 
-                      [$i.code.PUSH, [ [$i.code.IDENT,'number'],[$i.code.CONST,1],[$i.code.APPLY]]],
+                      [$i.code.GRAB],
+                      [$i.code.PUSH, [ [$i.code.IDENT,'number'],[$i.code.GRAB],[$i.code.CONST,1],[$i.code.APPLY]]],
                       [$i.code.APPLY]]);
 
       test.done();
@@ -317,17 +341,25 @@ exports['objcode'] = {
       
       test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list('l'), ast.expr.tag("A",[],[ast.expr.tag("B",[],[]),ast.expr.number(1)])).success())),
                      [[$i.code.IDENT,'document'],
-                      [$i.code.PUSH, [ [$i.code.IDENT,'string'],[$i.code.CONST,'A'],[$i.code.APPLY]]],
-                      [$i.code.APPLY], 
+                      [$i.code.GRAB],
+                      [$i.code.PUSH, [ [$i.code.IDENT,'string'],[$i.code.GRAB],[$i.code.CONST,'A'],[$i.code.APPLY]]],
+                      [$i.code.APPLY],
+                      [$i.code.GRAB],
                       [$i.code.INVOKE,'create'],
+                      [$i.code.GRAB],
                       [$i.code.INVOKE,'addChilds'],
+                      [$i.code.GRAB],
                       [$i.code.IDENT,'document'],
-                      [$i.code.PUSH, [ [$i.code.IDENT,'string'],[$i.code.CONST,'B'],[$i.code.APPLY]]],
-                      [$i.code.APPLY], 
+                      [$i.code.GRAB],
+                      [$i.code.PUSH, [ [$i.code.IDENT,'string'],[$i.code.GRAB],[$i.code.CONST,'B'],[$i.code.APPLY]]],
+                      [$i.code.APPLY],
+                      [$i.code.GRAB],
                       [$i.code.INVOKE,'create'],
                       [$i.code.APPLY],
+                      [$i.code.GRAB],
                       [$i.code.INVOKE,'addChilds'],
-                      [$i.code.PUSH, [ [$i.code.IDENT,'number'],[$i.code.CONST,1],[$i.code.APPLY]]],
+                      [$i.code.GRAB],
+                      [$i.code.PUSH, [ [$i.code.IDENT,'number'],[$i.code.GRAB],[$i.code.CONST,1],[$i.code.APPLY]]],
                       [$i.code.APPLY]]);
       test.done();
   },
@@ -337,7 +369,7 @@ exports['objcode'] = {
       
       test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(),  
                                                                                   ast.expr.newModel(ast.expr.ident("a"),[["b",ast.expr.ident("b")]])).success())),
-                     [[$i.code.IDENT,'a'],[$i.code.IDENT,'b'],[$i.code.ALTER,'b']]);
+                     [[$i.code.IDENT,'a'],[$i.code.GRAB],[$i.code.IDENT,'b'],[$i.code.GRAB],[$i.code.ALTER,'b']]);
       test.done();
   },
 
@@ -346,7 +378,11 @@ exports['objcode'] = {
       
       test.deepEqual(objcode.generateObjCode(deBruijn.indexes(compiler.expression(list(),  
                                                                                   ast.expr.newModel(ast.expr.ident("a"),[["b",ast.expr.ident("b")],["c",ast.expr.ident("c")]])).success())),
-                     [[$i.code.IDENT,'a'],[$i.code.IDENT,'b'],[$i.code.ALTER,'b'],[$i.code.IDENT,'c'],[$i.code.ALTER,'c']]);
+                     [[$i.code.IDENT,'a'],[$i.code.GRAB],
+                      [$i.code.IDENT,'b'],[$i.code.GRAB],
+                      [$i.code.ALTER,'b'],[$i.code.GRAB],
+                      [$i.code.IDENT,'c'],[$i.code.GRAB],
+                      [$i.code.ALTER,'c']]);
       test.done();
   },
  
