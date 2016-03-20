@@ -83,7 +83,7 @@ exports['runtime_execute'] = {
         source = compiler.sentence(expression).success();
     
     test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
-                   [$i.ENV,[[[$i.ACCESS,1],[$i.RETURN]],[]]]);
+                   [$i.ENV,[[[$i.ACCESS,1],$i.RETURN],[]]]);
     test.done();
   }, 
    
@@ -123,7 +123,7 @@ exports['runtime_execute'] = {
         source = compiler.sentence(expression).success();
     
     test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
-                   [$i.ENV,[[[$i.CLOSURE,[[$i.ACCESS,1], [$i.RETURN]]], [$i.RETURN]],[]]]);
+                   [$i.ENV,[[[$i.CLOSURE,[[$i.ACCESS,1], $i.RETURN]], $i.RETURN],[]]]);
     test.done();
   }, 
     
@@ -135,7 +135,7 @@ exports['runtime_execute'] = {
         source = compiler.sentence(expression).success();
     
     test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
-                   [$i.ENV,[[[$i.CLOSURE,[[$i.ACCESS,2], [$i.RETURN]]], [$i.RETURN]],[]]]);
+                   [$i.ENV,[[[$i.CLOSURE,[[$i.ACCESS,2], $i.RETURN]], $i.RETURN],[]]]);
     test.done();
   }, 
    
@@ -175,10 +175,10 @@ exports['runtime_execute'] = {
         source = compiler.sentence(expression).success();
     
     runtime.register([$i.MODEL,["number", [[ "main" , [[$i.ACCESS,1]]]]]]); 
-    runtime.register([$i.DEFINITION,["f" , [[$i.CLOSURE, [[$i.ACCESS,1], [$i.RETURN]]]]]]);
+    runtime.register([$i.DEFINITION,["f" , [[$i.CLOSURE, [[$i.ACCESS,1], $i.RETURN]]]]]);
 
     test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
-                   [$i.ENV,[[[$i.ACCESS,1], [$i.RETURN]],[]]]);
+                   [$i.ENV,[[[$i.ACCESS,1], $i.RETURN],[]]]);
 //                   [$i.OBJ, [[$i.MODEL,["number",[[[$i.ACCESS,1]]],['main']]],[[$i.CONST,1]]]]);
     test.done();
   }, 
@@ -190,7 +190,7 @@ exports['runtime_execute'] = {
         expression = language.parser.group('exprs').parse(aStream).get(),
         source = compiler.sentence(expression).success();
     
-    runtime.register([$i.MODEL,["number", [[ "value" , [[$i.ACCESS,1],[$i.RETURN]]]]]]); 
+    runtime.register([$i.MODEL,["number", [[ "value" , [[$i.ACCESS,1],$i.RETURN]]]]]); 
 
     test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
                    [$i.CONST,1]);
@@ -204,8 +204,8 @@ exports['runtime_execute'] = {
         expression = language.parser.group('exprs').parse(aStream).get(),
         source = compiler.sentence(expression).success();
     
-    runtime.register([$i.MODEL,["number", [[ "value" , [[$i.ACCESS,1],[$i.RETURN]]]]]]); 
-    runtime.register([$i.MODEL,["A", [[ "att" , [[$i.ACCESS,1],[$i.RETURN]]]]]]); 
+    runtime.register([$i.MODEL,["number", [[ "value" , [[$i.ACCESS,1],$i.RETURN]]]]]); 
+    runtime.register([$i.MODEL,["A", [[ "att" , [[$i.ACCESS,1],$i.RETURN]]]]]); 
 
     test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
                    [$i.CONST,2]);
@@ -219,8 +219,8 @@ exports['runtime_execute'] = {
         expression = language.parser.group('exprs').parse(aStream).get(),
         source = compiler.sentence(expression).success();
     
-    runtime.register([$i.MODEL,["number", [[ "value" , [[$i.ACCESS,1],[$i.RETURN]]]]]]); 
-    runtime.register([$i.MODEL,["A", [[ "_1" , [[$i.ACCESS,1],[$i.RETURN]]],[ "_2" , [[$i.ACCESS,2],[$i.RETURN]]]]]]); 
+    runtime.register([$i.MODEL,["number", [[ "value" , [[$i.ACCESS,1],$i.RETURN]]]]]); 
+    runtime.register([$i.MODEL,["A", [[ "_1" , [[$i.ACCESS,1],$i.RETURN]],[ "_2" , [[$i.ACCESS,2],$i.RETURN]]]]]); 
 
     test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
                    [$i.CONST,3]);
@@ -234,8 +234,8 @@ exports['runtime_execute'] = {
         expression = language.parser.group('exprs').parse(aStream).get(),
         source = compiler.sentence(expression).success();
     
-    runtime.register([$i.MODEL,["number", [[ "value" , [[$i.ACCESS,1],[$i.RETURN]]]]]]); 
-    runtime.register([$i.MODEL,["A", [[ "_1" , [[$i.ACCESS,1],[$i.RETURN]]],[ "_2" , [[$i.ACCESS,2],[$i.RETURN]]]]]]); 
+    runtime.register([$i.MODEL,["number", [[ "value" , [[$i.ACCESS,1],$i.RETURN]]]]]); 
+    runtime.register([$i.MODEL,["A", [[ "_1" , [[$i.ACCESS,1],$i.RETURN]],[ "_2" , [[$i.ACCESS,2],$i.RETURN]]]]]); 
 
     test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
                    [$i.CONST,2]);
@@ -249,8 +249,8 @@ exports['runtime_execute'] = {
         expression = language.parser.group('exprs').parse(aStream).get(),
         source = compiler.sentence(expression).success();
     
-    runtime.register([$i.MODEL,["number", [[ "value" , [[$i.ACCESS,1],[$i.RETURN]]]]]]); 
-    runtime.register([$i.MODEL,["A", [[ "_1" , [[$i.ACCESS,1],[$i.RETURN]]],[ "_2" , [[$i.ACCESS,2],[$i.RETURN]]]]]]); 
+    runtime.register([$i.MODEL,["number", [[ "value" , [[$i.ACCESS,1],$i.RETURN]]]]]); 
+    runtime.register([$i.MODEL,["A", [[ "_1" , [[$i.ACCESS,1],$i.RETURN]],[ "_2" , [[$i.ACCESS,2],$i.RETURN]]]]]); 
 
     test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
                    [$i.CONST,1]);
@@ -264,8 +264,8 @@ exports['runtime_execute'] = {
         expression = language.parser.group('exprs').parse(aStream).get(),
         source = compiler.sentence(expression).success();
     
-    runtime.register([$i.MODEL,["number", [[ "value" , [[$i.ACCESS,1],[$i.RETURN]]]]]]); 
-    runtime.register([$i.MODEL,["A", [[ "_1" , [[$i.ACCESS,1],[$i.RETURN]]],[ "_2" , [[$i.ACCESS,2],[$i.RETURN]]]]]]); 
+    runtime.register([$i.MODEL,["number", [[ "value" , [[$i.ACCESS,1],$i.RETURN]]]]]); 
+    runtime.register([$i.MODEL,["A", [[ "_1" , [[$i.ACCESS,1],$i.RETURN]],[ "_2" , [[$i.ACCESS,2],$i.RETURN]]]]]); 
 
     test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
                    [$i.CONST,3]);
@@ -279,7 +279,7 @@ exports['runtime_execute'] = {
         expression = language.parser.group('exprs').parse(aStream).get(),
         source = compiler.sentence(expression).success();
     
-    runtime.register([$i.CLASS,[ "number", [[ "self" , [[$i.ACCESS,2],[$i.RETURN]]],[ "this" , [[$i.ACCESS,1],[$i.RETURN]]]] ] ]); 
+    runtime.register([$i.CLASS,[ "number", [[ "self" , [[$i.ACCESS,2],$i.RETURN]],[ "this" , [[$i.ACCESS,1],$i.RETURN]]] ] ]); 
 
     test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
                    [$i.CONST,1]);
@@ -293,7 +293,7 @@ exports['runtime_execute'] = {
         expression = language.parser.group('exprs').parse(aStream).get(),
         source = compiler.sentence(expression).success();
     
-    runtime.register([$i.CLASS,[ "number", [[ "this" , [[$i.ACCESS,1],[$i.RETURN]]]] ] ]); 
+    runtime.register([$i.CLASS,[ "number", [[ "this" , [[$i.ACCESS,1],$i.RETURN]]] ] ]); 
 
     test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
                    [$i.CONST,2]);
@@ -307,7 +307,7 @@ exports['runtime_execute'] = {
         expression = language.parser.group('exprs').parse(aStream).get(),
         source = compiler.sentence(expression).success();
     
-    runtime.register([$i.CLASS,[ "number", [[ "this" , [[$i.ACCESS,1],[$i.RETURN]]]] ] ]); 
+    runtime.register([$i.CLASS,[ "number", [[ "this" , [[$i.ACCESS,1],$i.RETURN]]] ] ]); 
 
     test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
                    [$i.CONST,2]);
@@ -324,7 +324,7 @@ exports['runtime_execute'] = {
         expression = language.parser.group('exprs').parse(aStream).get(),
         source = compiler.sentence(expression).success();
     
-    runtime.register([$i.CLASS,[ "number", [[ "this" , [[$i.ACCESS,1],[$i.RETURN]]]] ] ]); 
+    runtime.register([$i.CLASS,[ "number", [[ "this" , [[$i.ACCESS,1],$i.RETURN]]] ] ]); 
 
     test.deepEqual(runtime.execute(objcode.generateObjCode(deBruijn.indexes(source))),
                    [$i.CONST,2]);
