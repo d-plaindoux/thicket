@@ -236,6 +236,7 @@ related to the denoted data type.
 
 ```
 model Comparable[a] {
+    (==) : a -> bool
     (!=) : a -> bool
     (<=) : a -> bool
     (=>) : a -> bool
