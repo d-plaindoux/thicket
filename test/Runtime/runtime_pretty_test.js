@@ -31,16 +31,14 @@ exports['runtime_pretty'] = {
   'Number': function(test) {
     test.expect(1);
     // tests here  
-    test.deepEqual(runtime.pretty([$i.CONST,123]),
-                   '123');
+    test.deepEqual(runtime.pretty([$i.CONST,123]), '123');
     test.done();
   },
 
   'String': function(test) {
     test.expect(1);
     // tests here  
-    test.deepEqual(runtime.pretty([$i.CONST,"123"]),
-                   '"123"');
+    test.deepEqual(runtime.pretty([$i.CONST,"123"]), '"123"');
     test.done();
   },
 
