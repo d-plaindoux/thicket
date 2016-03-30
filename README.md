@@ -42,6 +42,12 @@ for execution [here](http://d.plaindoux.free.fr/thicket/thicket/examples/tests/a
 [here](http://d.plaindoux.free.fr/thicket/thicket/examples/tests/assertSpecs.2.html) shows how
 unit testing can be done just changing the logger used to display the result.
 
+### Additional projects
+
+Some projects are also available in Hyperweb and can be browsed and executed seamlessly. For instance 
+a [naive &lambda;-calculus evaluation](https://hyperweb.space/#!/project/helix-fairy) is available for
+test.
+
 ## Language Overview
 
 The Thicket language  came from research done about  strong object and
