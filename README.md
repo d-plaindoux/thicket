@@ -4,18 +4,10 @@
 [![Coverage Status](https://coveralls.io/repos/d-plaindoux/thicket/badge.png?branch=master)](https://coveralls.io/r/d-plaindoux/thicket?branch=master) 
 [![unstable](http://badges.github.io/stability-badges/dist/stable.svg)](http://github.com/badges/stability-badges)
 
-Thicket is a lazy functional programming language. It has been inspired
-at the beginning by the Model, Controller and View approach. In this  
-approach  a model  denotes  a set  of  data  (atomic or  object)
-federated in  a named  structure. A controller  is a set  of behaviors
-applied to a  given model or controller and finally a view  denotes an 
-extended DOM fragment used for UI management.
+Thicket is a lazy functional programming language. It has been inspired at the beginning by the Model, Controller and View approach. In this  approach  a model  denotes  a set  of  data  (atomic or  object) federated in  a named  structure. A controller  is a set  of behaviors applied to a  given model or controller and finally a view  denotes an extended DOM fragment used for UI management.
 
-Thicket is a  strong typed language based on well known Hindley-Milner
-type system and type inference paradigm. The Thicket source code 
-is compiled and the resulting objcode is executed by an abstract machine 
-derived from Krivines' machine. Such abstract machine can therefore be 
-implemented in various languages like Java, Python etc. 
+Thicket is a  strong typed language based on well known Hindley-Milner type system and type inference paradigm. The Thicket source code 
+is compiled and the resulting objcode is executed by an abstract machine derived from Krivines' machine. Such abstract machine can therefore be implemented in various languages like Java, Python etc. 
 
 ## Online examples
 
