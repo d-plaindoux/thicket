@@ -384,8 +384,8 @@ is not fulfiling.
 #### Consistency
 
 For each class definition check the consistency in order to reject 
-partial class definition since a class cannot be used as-is in another 
-one using the `with` declaration.
+partial class definition since a class cannot abstract. Not used as-is 
+in another one using the `with` declaration.
 
 ### Code generation level
 
