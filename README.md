@@ -4,8 +4,9 @@
 [![Coverage Status](https://coveralls.io/repos/d-plaindoux/thicket/badge.png?branch=master)](https://coveralls.io/r/d-plaindoux/thicket?branch=master) 
 [![unstable](http://badges.github.io/stability-badges/dist/stable.svg)](http://github.com/badges/stability-badges)
 
-Thicket is a language based on Model, Controller and View approach. In
-this  approach  a model  denotes  a set  of  data  (atomic or  object)
+Thicket is a lazy functional programming language. It has been inspired
+at the beginning by the Model, Controller and View approach. In this  
+approach  a model  denotes  a set  of  data  (atomic or  object)
 federated in  a named  structure. A controller  is a set  of behaviors
 applied to a  given model or controller and finally a view  denotes an 
 extended DOM fragment used for UI management.
