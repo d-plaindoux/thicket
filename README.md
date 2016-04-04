@@ -4,17 +4,10 @@
 [![Coverage Status](https://coveralls.io/repos/d-plaindoux/thicket/badge.png?branch=master)](https://coveralls.io/r/d-plaindoux/thicket?branch=master) 
 [![unstable](http://badges.github.io/stability-badges/dist/stable.svg)](http://github.com/badges/stability-badges)
 
-Thicket is a language based on Model, Controller and View approach. In
-this  approach  a model  denotes  a set  of  data  (atomic or  object)
-federated in  a named  structure. A controller  is a set  of behaviors
-applied to a  given model or controller and finally a view  denotes an 
-extended DOM fragment used for UI management.
+Thicket is a lazy functional programming language. It has been inspired at the beginning by the Model, Controller and View approach. In this  approach  a model  denotes  a set  of  data  (atomic or  object) federated in  a named  structure. A controller  is a set  of behaviors applied to a  given model or controller and finally a view  denotes an extended DOM fragment used for UI management.
 
-Thicket is a  strong typed language based on well known Hindley-Milner
-type system and type inference paradigm. The Thicket source code 
-is compiled and the resulting objcode is executed by an abstract machine 
-derived from Krivines' machine. Such abstract machine can therefore be 
-implemented in various languages like Java, Python etc. 
+Thicket is a  strong typed language based on well known Hindley-Milner type system and type inference paradigm. The Thicket source code 
+is compiled and the resulting objcode is executed by an abstract machine derived from Krivines' machine. Such abstract machine can therefore be implemented in various languages like Java, Python etc. 
 
 ## Online examples
 
@@ -41,6 +34,12 @@ The [Test](https://github.com/thicket-lang/thicket-examples/tree/master/tests) e
 for execution [here](http://d.plaindoux.free.fr/thicket/thicket/examples/tests/assertSpecs.html) and 
 [here](http://d.plaindoux.free.fr/thicket/thicket/examples/tests/assertSpecs.2.html) shows how
 unit testing can be done just changing the logger used to display the result.
+
+### Additional projects
+
+Some projects are also available in Hyperweb and can be browsed and executed seamlessly. For instance 
+a [naive &lambda;-calculus evaluation](https://hyperweb.space/#!/project/helix-fairy) is available for
+test.
 
 ## Language Overview
 
@@ -377,9 +376,9 @@ is not fulfiling.
 
 #### Consistency
 
-For each class definition check the consistency in order to not accept 
-partial class definition since a class cannot be used as-is in another 
-one using the `with` declaration.
+For each class definition check the consistency in order to reject 
+partial class definition since a class cannot abstract. Not used as-is 
+in another one using the `with` declaration.
 
 ### Code generation level
 
