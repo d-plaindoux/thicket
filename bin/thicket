@@ -25,6 +25,9 @@ COMMAND=$1
 shift
 
 case $COMMAND in
+  build)
+     exec $RELATIVE/bin/build.sh
+     ;;
   compile)
      node $THICKET_HOME/lib/Thicket/frontend/tktc.js $@
      ;;
