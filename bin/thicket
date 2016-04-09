@@ -12,9 +12,7 @@
 # Set the Thicket home
 # 
 
-RELATIVE=`dirname "$0"`/..
-THICKET_HOME="`cd \"$RELATIVE\" 2>/dev/null && pwd || echo \"$RELATIVE\"`"
-NODE_EXE=node
+BIN_DIRECTORY=`dirname "$0"`/
 
 #
 # Execute the command
@@ -25,24 +23,9 @@ COMMAND=$1
 shift
 
 case $COMMAND in
-  help)
-     
+  build|compile|toplevel|execute|package)
+    exec $BIN_DIRECTORY/thicket_$COMMAND.sh
     ;;
-  build)
-    exec $RELATIVE/bin/build.sh
-    ;;
-  compile)
-    node $THICKET_HOME/lib/Thicket/frontend/tktc.js $@
-    ;;
-  toplevel)
-    $NODE_EXE $THICKET_HOME/lib/Thicket/frontend/repl.js $@
-    ;;
-  execute)
-    $NODE_EXE $THICKET_HOME/lib/Thicket/frontend/exec.js $@
-    ;;
-  package)
-    $NODE_EXE $THICKET_HOME/lib/Thicket/frontend/pack.js $@
-    ;; 
   *)
     echo "$0 (build|compile|package|toplevel|execute) ..."
 esac
