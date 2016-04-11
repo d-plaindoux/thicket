@@ -22,13 +22,7 @@ THICKET_HOME="`cd \"$RELATIVE\" 2>/dev/null && pwd || echo \"$RELATIVE\"`"
 THICKET_SITE=$HOME/.thicket/site
 
 #
-# Set the node binary
-# 
-
-NODE_EXE=node
-
-#
-# Execute the command
+# Execute the command (Do not manage the version rigth now)
 #
 
-$NODE_EXE $THICKET_HOME/lib/Thicket/frontend/exec.js $@ -i $THICKET_SITE -p Core
+cp ./bin/* $THICKET_SITE/.

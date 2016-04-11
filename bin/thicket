@@ -9,7 +9,7 @@
 #
  
 #
-# Set the Thicket home
+# Set the Thicket bin directory
 # 
 
 BIN_DIRECTORY=`dirname "$0"`/

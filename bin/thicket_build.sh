@@ -8,17 +8,23 @@
 # Licensed under the LGPL2 license.
 #
 
+ 
 #
-# Setup thicket compiler home
+# Set the Thicket home
+# 
+
+RELATIVE=`dirname "$0"`/..
+THICKET_HOME="`cd \"$RELATIVE\" 2>/dev/null && pwd || echo \"$RELATIVE\"`"
+
 #
+# Set the Thicket site
+# 
 
-if [ "x$THICKET_HOME" == "x" ]; then
-    echo "THICKET_HOME variable be defined"
-    exit 1
-fi
-
-THICKET=$THICKET_HOME/bin/thicket
 THICKET_SITE=$HOME/.thicket/site
+
+#
+# Standardized directories
+#
 
 SOURCE=src/main/thicket
 NATIVE=src/main/js
@@ -73,7 +79,7 @@ if [ -f "package-test.pkt" ]; then
 fi
 
 #
-# Install (temporary solution indeed)
+# Install binaries (temporary solution indeed)
 #
 
-cp ./bin/* $THICKET_SITE/.
+$THICKET install 
