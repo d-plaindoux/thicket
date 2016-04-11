@@ -23,6 +23,12 @@ THICKET_HOME="`cd \"$RELATIVE\" 2>/dev/null && pwd || echo \"$RELATIVE\"`"
 THICKET_SITE=$HOME/.thicket/site
 
 #
+# Set the Thicket binary
+# 
+
+THICKET=$THICKET_HOME/bin/thicket
+
+#
 # Standardized directories
 #
 
