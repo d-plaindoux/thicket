@@ -23,7 +23,7 @@ COMMAND=$1
 shift
 
 case $COMMAND in
-  build|compile|toplevel|execute|package)
+  compile|toplevel|execute|package|build|install)
     exec $BIN_DIRECTORY/thicket_$COMMAND.sh $@
     ;;
   *)

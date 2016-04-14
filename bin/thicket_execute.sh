@@ -31,4 +31,4 @@ NODE_EXE=node
 # Execute the command
 #
 
-$NODE_EXE $THICKET_HOME/lib/Thicket/frontend/exec.js $@ -i $THICKET_SITE -p Core
+$NODE_EXE $THICKET_HOME/lib/Thicket/frontend/exec.js $@ -i $THICKET_SITE
