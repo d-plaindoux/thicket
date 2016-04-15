@@ -53,7 +53,7 @@ case $1 in
     if [ -f "package-test.pkt" ]; then
         THICKET_TEST=1
     else
-        "[WARN] no test package available"
+        echo "[WARN] no test package available"
     fi
     ;;
     *)
@@ -81,7 +81,7 @@ fi
 #
 
 echo "[INFO] compiling sources"
-$THICKET compile `find src/main/thicket -name *.tkt` -d -v -o obj -i $THICKET_SITE -p ./package.pkt
+$THICKET compile `find src/main/thicket -name *.tkt` -d -o obj -i $THICKET_SITE -p ./package.pkt
 
 if [ $? -ne 0 ]; then
     exit 1
@@ -92,7 +92,7 @@ fi
 # 
 
 echo "[INFO] building package"
-$THICKET package -i obj -i src/main/js -o bin -n -s -v package.pkt
+$THICKET package -i obj -i src/main/js -o bin -n -s -d package.pkt
 
 if [ $? -ne 0 ]; then
     exit 1
@@ -104,7 +104,7 @@ if [ $THICKET_TEST -ne 0 ]; then
     # 
 
     echo "[INFO] compiling test sources"
-    $THICKET compile -i $THICKET_SITE -i bin -p ./package.pkt -p ./package-test.pkt `find src/test/thicket -name *.tkt` -d -o obj
+    $THICKET compile -i $THICKET_SITE -i bin -d -o obj -p ./package.pkt -p ./package-test.pkt `find src/test/thicket -name *.tkt`
 
     if [ $? -ne 0 ]; then
         exit 1
