@@ -187,7 +187,7 @@ exports['linker_entities'] = {
     test.done();
   },
    
-  'Cannot Link abstract type': function(test) {
+  'Can Link abstract type': function(test) {
     test.expect(1);
     // tests here  
     var aStream = stream('type A { model B } def apply : B = B'),
@@ -197,7 +197,7 @@ exports['linker_entities'] = {
     
     aPackages.defineInRoot([], entities);
       
-    test.ok(aLinker.linkEntities(aPackages.main(), list(entities)).isFailure());
+    test.ok(aLinker.linkEntities(aPackages.main(), list(entities)).isSuccess());
       
     test.done();
   },
