@@ -41,11 +41,19 @@ NATIVE=src/main/js
 
 THICKET_CLEAN=0
 THICKET_TEST=0
+THICKET_DEBUG=
+THICKET_VERBOSE=
 
 while [[ $# > 0 ]]
 do
 
 case $1 in
+    -d|--debug)
+    THICKET_DEBUG=-d
+    ;;
+    -v|--verbose)
+    THICKET_VERBOSE=-v
+    ;;
     -c|--clean)
     THICKET_CLEAN=1
     ;;
@@ -81,7 +89,7 @@ fi
 #
 
 echo "[INFO] compiling sources"
-$THICKET compile `find src/main/thicket -name *.tkt` -d -o obj -i $THICKET_SITE -p ./package.pkt
+$THICKET compile `find src/main/thicket -name *.tkt` $THICKET_DEBUG $THICKET_VERBOSE -o obj -i $THICKET_SITE -p ./package.pkt
 
 if [ $? -ne 0 ]; then
     exit 1
@@ -92,7 +100,7 @@ fi
 # 
 
 echo "[INFO] building package"
-$THICKET package -i obj -i src/main/js -o bin -n -s -d package.pkt
+$THICKET package -i obj -i src/main/js -o bin -n -s $THICKET_DEBUG $THICKET_VERBOSE package.pkt
 
 if [ $? -ne 0 ]; then
     exit 1
@@ -104,7 +112,7 @@ if [ $THICKET_TEST -ne 0 ]; then
     # 
 
     echo "[INFO] compiling test sources"
-    $THICKET compile -i $THICKET_SITE -i bin -d -o obj -p ./package.pkt -p ./package-test.pkt `find src/test/thicket -name *.tkt`
+    $THICKET compile -i $THICKET_SITE -i bin $THICKET_DEBUG $THICKET_VERBOSE -o obj -p ./package.pkt -p ./package-test.pkt `find src/test/thicket -name *.tkt`
 
     if [ $? -ne 0 ]; then
         exit 1
