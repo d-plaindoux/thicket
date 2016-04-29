@@ -40,39 +40,62 @@ NATIVE=src/main/js
 #
 
 THICKET_CLEAN=0
+THICKET_COMPILE=0
 THICKET_TEST=0
+THICKET_PACKAGE=0
+THICKET_INSTALL=0
 THICKET_DEBUG=
 THICKET_VERBOSE=
 
+CURRENT=$1
+
 while [[ $# > 0 ]]
 do
-
-case $1 in
-    -d|--debug)
-    THICKET_DEBUG=-d
-    ;;
-    -v|--verbose)
-    THICKET_VERBOSE=-v
-    ;;
-    -c|--clean)
-    THICKET_CLEAN=1
-    ;;
-    -t|--test)
-    if [ -f "package-test.pkt" ]; then
-        THICKET_TEST=1
-    else
-        echo "[WARN] no test package available"
-    fi
-    ;;
-    *)
-    echo "[ERROR] unrecognized key $1"
-    exit 1
-    ;;
-esac
-
-shift # past argument or value
-
+    case $CURRENT in
+        -d|--debug)
+        THICKET_DEBUG=-d
+        shift
+        CURRENT=$1
+        ;;
+        -v|--verbose)
+        THICKET_VERBOSE=-v
+        shift
+        CURRENT=$1
+        ;;
+        install)
+        THICKET_INSTALL=1
+        CURRENT=package
+        ;;
+        package)
+        THICKET_PACKAGE=1
+        CURRENT=test
+        ;;
+        test)
+        if [ -f "package-test.pkt" ]; then
+            THICKET_TEST=1
+        else
+            echo "[WARN] no test package available"
+        fi
+        CURRENT=compile
+        ;;
+        compile)
+        THICKET_COMPILE=1
+        shift
+        CURRENT=$1
+        ;;
+        clean)
+        THICKET_CLEAN=1
+        shift
+        CURRENT=$1
+        ;;
+        *)
+        echo "[ERROR] unrecognized key $1"
+        exit 1
+        ;;
+    esac
 done
+
+THICKET_OPT="$THICKET_DEBUG $THICKET_VERBOSE"
 
 #
 # Clean binaries
@@ -88,31 +111,22 @@ fi
 # Compile main (generic)
 #
 
-echo "[INFO] compiling sources"
-$THICKET compile `find src/main/thicket -name *.tkt` $THICKET_DEBUG $THICKET_VERBOSE -o obj -i $THICKET_SITE -p ./package.pkt
+if [ $THICKET_COMPILE -ne 0 ]; then
+    echo "[INFO] compiling sources"
+    $THICKET compile `find src/main/thicket -name *.tkt` $THICKET_OPT -o obj -i $THICKET_SITE -p ./package.pkt
 
-if [ $? -ne 0 ]; then
-    exit 1
+    if [ $? -ne 0 ]; then
+        exit 1
+    fi
 fi
 
 #
-# Make package (generic)
+# Compile and run tests
 # 
 
-echo "[INFO] building package"
-$THICKET package -i obj -i src/main/js -o bin -n -s $THICKET_DEBUG $THICKET_VERBOSE package.pkt
-
-if [ $? -ne 0 ]; then
-    exit 1
-fi
-
 if [ $THICKET_TEST -ne 0 ]; then
-    #
-    # Compile test 
-    # 
-
     echo "[INFO] compiling test sources"
-    $THICKET compile -i $THICKET_SITE -i bin $THICKET_DEBUG $THICKET_VERBOSE -o obj -p ./package.pkt -p ./package-test.pkt `find src/test/thicket -name *.tkt`
+    $THICKET compile -i $THICKET_SITE -i obj $THICKET_OPT -o obj -p ./package.pkt -p ./package-test.pkt `find src/test/thicket -name *.tkt`
 
     if [ $? -ne 0 ]; then
         exit 1
@@ -123,7 +137,20 @@ if [ $THICKET_TEST -ne 0 ]; then
     #
 
     echo "[INFO] execute tests"
-    $THICKET execute -i $THICKET_SITE -i obj -i bin -p ./package.pkt -p ./package-test.pkt Test
+    $THICKET execute -i $THICKET_SITE -i src/main/js -i obj -i bin -p ./package.pkt -p ./package-test.pkt Test
+
+    if [ $? -ne 0 ]; then
+        exit 1
+    fi
+fi
+
+#
+# Make package (generic)
+# 
+
+if [ $THICKET_PACKAGE -ne 0 ]; then
+    echo "[INFO] building package"
+    $THICKET package -i obj -i src/main/js -o bin -n -s $THICKET_OPT package.pkt
 
     if [ $? -ne 0 ]; then
         exit 1
@@ -134,4 +161,6 @@ fi
 # Install binaries (temporary solution indeed)
 #
 
-$THICKET install 
+if [ $THICKET_INSTALL -ne 0 ]; then
+    $THICKET install 
+fi
