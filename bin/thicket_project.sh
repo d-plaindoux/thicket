@@ -49,6 +49,10 @@ THICKET_VERBOSE=
 
 CURRENT=$1
 
+# sub orders: compile test package install
+
+# deploy is missing for the moment
+
 while [[ $# > 0 ]]
 do
     case $CURRENT in
@@ -77,7 +81,6 @@ do
             echo "[WARN] no test package available"
         fi
         CURRENT=compile
-        ;;
         compile)
         THICKET_COMPILE=1
         shift
@@ -158,7 +161,7 @@ if [ $THICKET_PACKAGE -ne 0 ]; then
 fi
 
 #
-# Install binaries (temporary solution indeed)
+# Install binaries
 #
 
 if [ $THICKET_INSTALL -ne 0 ]; then
