@@ -81,6 +81,7 @@ do
             echo "[WARN] no test package available"
         fi
         CURRENT=compile
+        ;;
         compile)
         THICKET_COMPILE=1
         shift
