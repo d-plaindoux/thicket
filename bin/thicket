@@ -27,5 +27,5 @@ case $COMMAND in
     exec $BIN_DIRECTORY/thicket_$COMMAND.sh $@
     ;;
   *)
-    echo "$0 (build|compile|package|toplevel|execute) ..."
+    echo "$0 (project|compile|package|toplevel|execute) ..."
 esac

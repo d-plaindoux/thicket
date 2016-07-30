@@ -66,6 +66,11 @@ do
         shift
         CURRENT=$1
         ;;
+        --skip-tests)
+        THICKET_TEST=0
+        shift
+        CURRENT=$1
+        ;;
         install)
         THICKET_INSTALL=1
         CURRENT=package
@@ -93,7 +98,8 @@ do
         CURRENT=$1
         ;;
         *)
-        echo "[ERROR] unrecognized key $1"
+        COMMAND=$1
+        echo "thicket project (clean|compile|test|package|install) [--skip-tests] [-d|--debug] [-v|--verbose]"
         exit 1
         ;;
     esac
@@ -117,7 +123,7 @@ fi
 
 if [ $THICKET_COMPILE -ne 0 ]; then
     echo "[INFO] compiling sources"
-    $THICKET compile `find src/main/thicket -name *.tkt` $THICKET_OPT -o obj -i $THICKET_SITE -p ./package.pkt
+    $THICKET compile $THICKET_OPT -o obj -i $THICKET_SITE -p ./package.pkt `find src/main/thicket -name *.tkt`
 
     if [ $? -ne 0 ]; then
         exit 1
