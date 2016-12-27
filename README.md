@@ -38,8 +38,7 @@ unit testing can be done just changing the logger used to display the result.
 ### Additional projects
 
 Some projects are also available in Hyperweb and can be browsed and executed seamlessly. For instance 
-a [naive &lambda;-calculus evaluation](https://hyperweb.space/#!/project/helix-fairy) is available for
-test.
+a [naive &lambda;-calculus evaluation](https://helix-fairy.gomix.me) is available for test.
 
 ## Language Overview
 
