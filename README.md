@@ -207,7 +207,7 @@ Class derivation can help reducing specification based on classification. Such
 derivation is the main paradigm used for the subtyping relationship and then the
 substitutability principle availability.
 
-````
+```
 model Equal[a] { 
     (==) : a -> bool
 )
